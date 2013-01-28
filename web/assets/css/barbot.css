@@ -1,0 +1,9 @@
+.ingredients
+{
+  list-style-type: none;
+}
+
+.ingredients > li
+{
+    line-height: 36px!important;
+}
