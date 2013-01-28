@@ -15,7 +15,39 @@
     <link href="assets/css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="assets/css/bootswatch.css" rel="stylesheet">
     <link href="assets/css/barbot.css" rel="stylesheet">
+    
+    <script type="text/template" id="drink_template">
+      <section id="<%= key %>">
+        <div class="page-header">
+          <h2><%= name %></h2>
+        </div>
 
+        <div class="row-fluid">
+          <div class="span4">
+            <div class="row-fluid">
+              <div class="span6">
+                <img src="<%= imagePath %>">
+                <a class="btn btn-danger" href="#">MAKE IT!</a>
+              </div>
+              <div class="span6">
+                <h3>Ingredients</h3>
+                <ul class="ingredients">
+                  <%= ingredients %>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="span8">
+            <h3>Description</h3>
+            <%= description %>
+          </div>
+        </div>
+      </section>
+    </script>
+    
+    <script type="text/template" id="ingredient_template">
+      <li><a href="javascript:void(0);" class="btn btn-info"><%= amount %> oz</a> <b><%= name %></b></li>
+    </script>
   </head>
 
   <body class="preview" data-spy="scroll" data-target=".subnav" data-offset="80">
@@ -42,43 +74,41 @@
     </div>
     <div class="container">
 
-<!-- Masthead
-================================================== -->
-<header class="jumbotron subhead" id="overview">
-  <div class="row">
-    <div class="span6">
-      <h2>Vodka-based drinks:</h2>
-<!--      <p class="lead">Please select a drink:</p>-->
+    <!-- Masthead
+    ================================================== -->
+    <header class="jumbotron subhead" id="overview">
+      <div class="row">
+        <div class="span6">
+          <h2>Vodka-based drinks:</h2>
+        </div>
+      </div>
+      <div class="subnav">
+        <ul class="nav nav-pills" id="drinks-list">
+        </ul>
+      </div>
+    </header>
+
+    <div id="content">
     </div>
-  </div>
-  <div class="subnav">
-    <ul class="nav nav-pills" id="drinks-list">
-    </ul>
-  </div>
-</header>
 
-<div id="content">
-  
-</div>
+    <!-- Footer
+     ================================================== -->
+    <hr>
 
-<!-- Footer
- ================================================== -->
-<hr>
-
-<footer id="footer">
-  <p class="pull-right"><a href="#">Back to top</a></p>
-  Made by 
-  <a target="_blank" href="http://thomaspark.me">Thomas Park</a>. Contact him 
-  <a href="mailto:hello@thomaspark.me">hello@thomaspark.me</a>.<br/>
-  Code licensed under the 
-  <a target="_blank" href="http://www.apache.org/licenses/LICENSE-2.0">Apache License v2.0</a>.<br/>
-  Based on 
-  <a target="_blank" href="http://twitter.github.com/bootstrap/">Bootstrap</a>. Hosted on 
-  <a target="_blank" href="http://pages.github.com/">GitHub</a>. Icons from 
-  <a target="_blank" href="http://glyphicons.com/">Glyphicons</a>. Web fonts from 
-  <a target="_blank" href="http://www.google.com/webfonts">Google</a>.
-</footer>
-</div><!-- /container -->
+    <footer id="footer">
+      <p class="pull-right"><a href="#">Back to top</a></p>
+      Made by 
+      <a target="_blank" href="http://thomaspark.me">Thomas Park</a>. Contact him 
+      <a href="mailto:hello@thomaspark.me">hello@thomaspark.me</a>.<br/>
+      Code licensed under the 
+      <a target="_blank" href="http://www.apache.org/licenses/LICENSE-2.0">Apache License v2.0</a>.<br/>
+      Based on 
+      <a target="_blank" href="http://twitter.github.com/bootstrap/">Bootstrap</a>. Hosted on 
+      <a target="_blank" href="http://pages.github.com/">GitHub</a>. Icons from 
+      <a target="_blank" href="http://glyphicons.com/">Glyphicons</a>. Web fonts from 
+      <a target="_blank" href="http://www.google.com/webfonts">Google</a>.
+    </footer>
+    </div><!-- /container -->
 
     <!-- Le javascript
     ================================================== -->
@@ -90,6 +120,5 @@
     <script src="assets/js/underscore-min.js"></script>
     <script src="assets/js/backbone.js"></script>
     <script src="assets/js/menu.js"></script>
-
   </body>
 </html>
