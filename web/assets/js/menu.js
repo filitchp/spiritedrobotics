@@ -1,29 +1,7 @@
 $(function() 
 {
-  Drink = Backbone.Model.extend(
-  {
-    defaults: {
-        name: "Not Specified",
-        description: "Not Specified",
-        key: "NIL",
-        ingredients: "NIL",
-        imagePath: "NIL"
-    },
-    initialize: function(){
-        //Foo
-    }
-  });
 
-  DrinkList = Backbone.Collection.extend(
-  {
-    model: Drink,
-    initialize: function() {
-      this.fetch();
-    },
-    url: "assets/json/drinks.json"
-  });
-
-  drinks = new DrinkList();
+  drinks = new AllDrinks();
  
   DrinkView = Backbone.View.extend(
   {
@@ -47,5 +25,6 @@ $(function()
   });
 
   view = new DrinkView();
+  drinks.fetch();
 });
 
