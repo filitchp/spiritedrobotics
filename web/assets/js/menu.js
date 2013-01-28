@@ -1,32 +1,7 @@
 $(function() 
 {
-  //-------------------------------------
-  // This model describes a single drink
-  //-------------------------------------
-  Drink = Backbone.Model.extend(
-  {
-    defaults: {
-        name: "Not Specified",
-        description: "Not Specified",
-        key: "NIL",
-        ingredients: "NIL",
-        imagePath: "NIL"
-    },
-    initialize: function(){
-        //Foo
-    }
-  });
-
-  //--------------------------------------------------------
-  // This is a collection of drinks fetched from the server
-  //--------------------------------------------------------
-  DrinkList = Backbone.Collection.extend(
-  {
-    model: Drink,
-    url: "assets/json/drinks.json"
-  });
-
-  drinks = new DrinkList();
+  
+  drinks = new AllDrinks();
   
   //-------------------------------
   // This draws the menu of drinks
