@@ -14,7 +14,7 @@ $(function()
         }
     });
 
-    AllDrinks = Backbone.collection.extend(
+    AllDrinks = Backbone.Collection.extend(
     {
         model: Drink,
         url:"assets/json/drinks.json"
