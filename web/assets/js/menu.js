@@ -5,7 +5,9 @@ $(function()
     defaults: {
         name: "Not Specified",
         description: "Not Specified",
-        key: "NIL"
+        key: "NIL",
+        ingredients: "NIL",
+        imagePath: "NIL"
     },
     initialize: function(){
         //Foo
@@ -14,23 +16,27 @@ $(function()
 
   DrinkList = Backbone.Collection.extend(
   {
-    model: Drink
+    model: Drink,
+    url: "assets/json/drinks.json"
   });
 
-  var drink1 = new Drink({name: "Rum and Coke", description: "Best drink", key:"RC"});
-  var drink2 = new Drink({name: "Rum and Tonic", description: "Second Best drink", key:"RT"});
-  var drink3 = new Drink({name: "Rum and Rum", description: "Really The Best drink", key:"R"});
-
-  drinks = new DrinkList([drink1,drink2,drink3]);
-
+  drinks = new DrinkList();
+ 
   DrinkView = Backbone.View.extend(
   {
     tagName: 'li',
-    initialize: function(){
-      this.render();
+    collection: drinks,
+    initialize: function()
+    {
+      var self = this;
+      this.collection.on({
+          "sync": function(){ self.render() }
+      });
     },
     render: function()
     {
+      alert("rendering");
+      $("#drinks-list").empty();
       this.collection.each(function(value){
         $("#drinks-list").append("<li><a href=\"#" + value.get("key") + "\">" + value.get("name") + "</a></li>");
         console.log('rendered');
@@ -38,6 +44,7 @@ $(function()
     }
   });
 
-  view = new DrinkView({el: 'body', collection: drinks});
-  
+  view = new DrinkView();
+  drinks.fetch();
 });
+
