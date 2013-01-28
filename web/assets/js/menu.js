@@ -35,7 +35,6 @@ $(function()
     },
     render: function()
     {
-      alert("rendering");
       $("#drinks-list").empty();
       this.collection.each(function(value){
         $("#drinks-list").append("<li><a href=\"#" + value.get("key") + "\">" + value.get("name") + "</a></li>");
