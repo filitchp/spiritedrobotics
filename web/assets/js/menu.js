@@ -17,6 +17,9 @@ $(function()
   DrinkList = Backbone.Collection.extend(
   {
     model: Drink,
+    initialize: function() {
+      this.fetch();
+    },
     url: "assets/json/drinks.json"
   });
 
@@ -44,6 +47,5 @@ $(function()
   });
 
   view = new DrinkView();
-  drinks.fetch();
 });
 
