@@ -1,0 +1,55 @@
+State Machine of tower nodes
+
+while (true)
+{
+    action = get_highest_priority_item_from_queue()    
+
+    switch (action)
+    {
+	case HANDLE_PACKET:
+	    // if it's not for me, pass it along. (possibly increment a bit on the packet)
+	    // if it is for me, load action into the priority queue and generate response
+	break;
+	case DRIVE_MOTOR:
+	    // turn on motor (set pwm value) 
+	    // set timer to duration of pour
+	break;
+	case DRIVE_LIGHTS:
+	    // calculate light values
+	    // send light values to lights
+	    // reset light timer (this is optional, can be done in ISR)
+	break;
+	case IDENTIFY:
+	    // send ID packet
+	break;
+    }
+}
+
+
+ISRs
+
+recieve byte ISR()
+{
+    copy_byte_input_buffer()
+    if (end_of_packet)
+	set_packet_recieved_flag()
+}
+
+send_byte_ISR()
+{
+    // send next byte of data
+}
+
+motor_timer_done_ISR()
+{
+    //turn off motor
+    //set pour complete flag
+}
+
+light_timer_ISR()
+{
+    add_drive_light_action_to_queue()
+    // possibly reset light timer here
+}
+
+

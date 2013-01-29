@@ -1,0 +1,47 @@
+Pin Connections for the ATMega328
+
+
+Port B
+
+    Pin
+    0
+    1
+    2	SS	    Currently configured as slave select by SPI. It is not needed, but if left as input, must be tied high with a resistor.
+    3	MOSI	    Connected directly ICP header
+    	Note*	    other connections must go through a 4.7KOhm resistor to prevent interference with the programmer 
+    4	MISO	    Connected directly ICP header
+    	SPI-MISO    Connected through 4.7KOhm resistor to led-strip data input
+    5	SCK	    Connected directly to ICP header
+    	SCK	    Connected through 4.7KOhm resistor to led-strip clock input 
+    6 
+    7
+
+
+Port C
+
+    Pin
+    0
+    1
+    2
+    3
+    4
+    5
+    6	RESET	    This is not configurable. Must be tied high with 4.7 KOhm resistor and debounced with a .1 - 1 uF cap.
+    	RESET	    Connect to ICP header
+	RESET	    Can add button for manual reset (pull pin to ground)
+    7
+
+
+Port D
+
+    Pin
+    0	Rx	    USART Rx
+    1	Tx	    USART Tx
+    2
+    3
+    4	PD4	    Direction pin for motor1
+    5	OC0B	    PWM pin for motor1
+    6	OC0A	    PWM pin for motor2
+    7	PD7	    Direction pin for motor2
+
+

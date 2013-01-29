@@ -1,0 +1,27 @@
+using current light
+
+need connector for lights
+
+
+
+calculate rc values for debouncing 
+	25 ms
+
+pick mcu
+	4.7 Kohm for reset pullup resistor
+
+mcu requirements
+
+2-4 pwm pins (for motors)
+
+2 uarts (for master board communication and for leds)
+
+1 free gpio for button
+2 free gpio for motor enable
+2 free gpio for motor direction (if only 2 pwm)
+
+piezo buzzer if extra gpio
+
+
+
+

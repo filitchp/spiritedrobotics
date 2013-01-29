@@ -1,0 +1,417 @@
+EESchema Schematic File Version 1
+LIBS:power,C:/Users/Ryan/Documents/Barbot/pcb/libraries/myParts,device,transistors,conn,linear,regul,74xx,cmos4000,adc-dac,memory,xilinx,special,microcontrollers,dsp,microchip,analog_switches,motorola,texas,intel,audio,interface,digital-audio,philips,display,cypress,siliconi,atmel,contrib,valves,.\barbot_tower.cache
+EELAYER 23  0
+EELAYER END
+$Descr A4 11700 8267
+Sheet 1 1
+Title ""
+Date "5 nov 2012"
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L ATMEGA324PA-A IC?
+U 1 1 5097486C
+P 4300 5100
+F 0 "IC?" H 3500 6930 50  0000 L B
+F 1 "ATMEGA324PA-A" H 4500 3200 50  0000 L B
+F 2 "TQPF44" H 3650 3250 50  0001 C C
+	1    4300 5100
+	1    0    0    -1  
+$EndComp
+$Comp
+L SPST SW?
+U 1 1 5097285C
+P 1950 4700
+F 0 "SW?" H 1950 4800 70  0000 C C
+F 1 "SPST" H 1950 4600 70  0000 C C
+	1    1950 4700
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_4 P?
+U 1 1 509727D2
+P 800 6700
+F 0 "P?" V 750 6700 50  0000 C C
+F 1 "CONN_4" V 850 6700 50  0000 C C
+	1    800  6700
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	3750 2150 3750 2350
+Wire Wire Line
+	3650 1350 3650 1500
+Wire Wire Line
+	3650 1500 3550 1500
+Wire Wire Line
+	1900 1200 1900 1600
+Wire Wire Line
+	1900 1600 2050 1600
+Wire Wire Line
+	6600 3350 6600 3200
+Wire Wire Line
+	6600 3200 6950 3200
+Wire Wire Line
+	8900 2900 8450 2900
+Connection ~ 5950 1450
+Wire Wire Line
+	5950 2800 6950 2800
+Connection ~ 9100 1600
+Wire Wire Line
+	8450 2700 9100 2700
+Wire Wire Line
+	9100 2700 9100 1250
+Wire Wire Line
+	9100 1250 8850 1250
+Wire Wire Line
+	8450 1450 8300 1450
+Wire Wire Line
+	8450 1250 8300 1250
+Connection ~ 7700 1250
+Wire Wire Line
+	8850 1450 9300 1450
+Wire Wire Line
+	9100 1600 9550 1600
+Wire Wire Line
+	9550 1600 9550 1450
+Connection ~ 10050 1250
+Wire Wire Line
+	9950 1450 10050 1450
+Wire Wire Line
+	10050 1450 10050 1150
+Wire Wire Line
+	9550 1250 9300 1250
+Wire Wire Line
+	9950 1250 10050 1250
+Connection ~ 6950 1450
+Wire Wire Line
+	6950 3000 6600 3000
+Wire Wire Line
+	6600 3000 6600 2150
+Wire Wire Line
+	6600 2150 6950 2150
+Wire Wire Line
+	6950 2150 6950 1250
+Wire Wire Line
+	6950 2700 6750 2700
+Wire Wire Line
+	6750 2700 6750 1250
+Wire Wire Line
+	7600 1250 7700 1250
+Wire Wire Line
+	6500 1450 6950 1450
+Connection ~ 5950 1250
+Wire Wire Line
+	6100 1250 5950 1250
+Wire Wire Line
+	5950 1450 6100 1450
+Wire Wire Line
+	6750 1250 6500 1250
+Wire Wire Line
+	6950 1250 7200 1250
+Wire Wire Line
+	7700 1150 7700 1450
+Wire Wire Line
+	7700 1450 7600 1450
+Connection ~ 7700 1250
+Wire Wire Line
+	7200 1450 7200 1600
+Wire Wire Line
+	7200 1600 6750 1600
+Connection ~ 6750 1600
+Wire Wire Line
+	8300 1450 8300 1100
+Connection ~ 8300 1250
+Wire Wire Line
+	9300 1250 9300 3000
+Wire Wire Line
+	9300 3000 8450 3000
+Connection ~ 9300 1450
+Wire Wire Line
+	5950 1100 5950 2900
+Wire Wire Line
+	5950 2900 6950 2900
+Connection ~ 5950 2800
+Wire Wire Line
+	8450 2800 8900 2800
+Wire Wire Line
+	8900 2800 8900 4200
+Connection ~ 8900 2900
+Wire Wire Line
+	8650 2200 8650 2500
+Wire Wire Line
+	8650 2500 8450 2500
+Wire Wire Line
+	2050 1500 1950 1500
+Wire Wire Line
+	1950 1500 1950 1700
+Wire Wire Line
+	1950 1700 1900 1700
+Wire Wire Line
+	1900 1700 1900 1800
+Wire Wire Line
+	3550 1600 3750 1600
+Wire Wire Line
+	3750 1600 3750 1750
+$Comp
+L GND #PWR?
+U 1 1 509720AD
+P 3750 2350
+F 0 "#PWR?" H 3750 2350 30  0001 C C
+F 1 "GND" H 3750 2280 30  0001 C C
+	1    3750 2350
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C?
+U 1 1 50972084
+P 3750 1950
+F 0 "C?" H 3800 2050 50  0000 L C
+F 1 "0.01uF" H 3800 1850 50  0000 L C
+	1    3750 1950
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3VP #PWR?
+U 1 1 50972056
+P 3650 1350
+F 0 "#PWR?" H 3700 1380 20  0001 C C
+F 1 "+3.3VP" H 3650 1440 30  0000 C C
+	1    3650 1350
+	1    0    0    -1  
+$EndComp
+$Comp
+L +5V #PWR?
+U 1 1 50971F93
+P 1900 1200
+F 0 "#PWR?" H 1900 1290 20  0001 C C
+F 1 "+5V" H 1900 1290 30  0000 C C
+	1    1900 1200
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 50971F8D
+P 1900 1800
+F 0 "#PWR?" H 1900 1800 30  0001 C C
+F 1 "GND" H 1900 1730 30  0001 C C
+	1    1900 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L SPST SW?
+U 1 1 50971AB6
+P 1950 5000
+F 0 "SW?" H 1950 5100 70  0000 C C
+F 1 "SPST" H 1950 4900 70  0000 C C
+	1    1950 5000
+	1    0    0    -1  
+$EndComp
+$Comp
+L NJM2870 J?
+U 1 1 50971807
+P 2800 1500
+F 0 "J?" H 2800 1400 50  0000 C C
+F 1 "NJM2870" H 2800 1600 50  0000 C C
+F 2 "MODULE" H 2800 1500 50  0001 C C
+F 3 "DOCUMENTATION" H 2800 1500 50  0001 C C
+	1    2800 1500
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3VP #PWR?
+U 1 1 509092DC
+P 8650 2200
+F 0 "#PWR?" H 8700 2230 20  0001 C C
+F 1 "+3.3VP" H 8650 2290 30  0000 C C
+	1    8650 2200
+	1    0    0    -1  
+$EndComp
+$Comp
+L +5V #PWR?
+U 1 1 5090921F
+P 6600 3350
+F 0 "#PWR?" H 6600 3440 20  0001 C C
+F 1 "+5V" H 6600 3440 30  0000 C C
+	1    6600 3350
+	1    0    0    1   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 50909124
+P 8900 4200
+F 0 "#PWR?" H 8900 4200 30  0001 C C
+F 1 "GND" H 8900 4130 30  0001 C C
+	1    8900 4200
+	-1   0    0    -1  
+$EndComp
+$Comp
+L DIODE D?
+U 1 1 5088D171
+P 7400 1250
+F 0 "D?" H 7400 1350 40  0000 C C
+F 1 "DIODE" H 7400 1150 40  0000 C C
+	1    7400 1250
+	1    0    0    -1  
+$EndComp
+$Comp
+L DIODE D?
+U 1 1 50909050
+P 8650 1250
+F 0 "D?" H 8650 1350 40  0000 C C
+F 1 "DIODE" H 8650 1150 40  0000 C C
+	1    8650 1250
+	1    0    0    -1  
+$EndComp
+$Comp
+L DIODE D?
+U 1 1 5090904F
+P 8650 1450
+F 0 "D?" H 8650 1550 40  0000 C C
+F 1 "DIODE" H 8650 1350 40  0000 C C
+	1    8650 1450
+	1    0    0    1   
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 5090904E
+P 8300 1100
+F 0 "#PWR?" H 8300 1100 30  0001 C C
+F 1 "GND" H 8300 1030 30  0001 C C
+	1    8300 1100
+	1    0    0    1   
+$EndComp
+$Comp
+L DIODE D?
+U 1 1 50909046
+P 9750 1250
+F 0 "D?" H 9750 1350 40  0000 C C
+F 1 "DIODE" H 9750 1150 40  0000 C C
+	1    9750 1250
+	1    0    0    -1  
+$EndComp
+$Comp
+L DIODE D?
+U 1 1 50909045
+P 9750 1450
+F 0 "D?" H 9750 1550 40  0000 C C
+F 1 "DIODE" H 9750 1350 40  0000 C C
+	1    9750 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L +5V #PWR?
+U 1 1 50909044
+P 10050 1150
+F 0 "#PWR?" H 10050 1240 20  0001 C C
+F 1 "+5V" H 10050 1240 30  0000 C C
+	1    10050 1150
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 50908F53
+P 5950 1100
+F 0 "#PWR?" H 5950 1100 30  0001 C C
+F 1 "GND" H 5950 1030 30  0001 C C
+	1    5950 1100
+	1    0    0    1   
+$EndComp
+$Comp
+L +5V #PWR?
+U 1 1 5088D1C0
+P 7700 1150
+F 0 "#PWR?" H 7700 1240 20  0001 C C
+F 1 "+5V" H 7700 1240 30  0000 C C
+	1    7700 1150
+	1    0    0    -1  
+$EndComp
+$Comp
+L DIODE D?
+U 1 1 5088D172
+P 7400 1450
+F 0 "D?" H 7400 1550 40  0000 C C
+F 1 "DIODE" H 7400 1350 40  0000 C C
+	1    7400 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L DIODE D?
+U 1 1 5088D16D
+P 6300 1450
+F 0 "D?" H 6300 1550 40  0000 C C
+F 1 "DIODE" H 6300 1350 40  0000 C C
+	1    6300 1450
+	1    0    0    1   
+$EndComp
+$Comp
+L DIODE D?
+U 1 1 5088D168
+P 6300 1250
+F 0 "D?" H 6300 1350 40  0000 C C
+F 1 "DIODE" H 6300 1150 40  0000 C C
+	1    6300 1250
+	1    0    0    -1  
+$EndComp
+$Comp
+L AVR-ISP-6 CON?
+U 1 1 5088CA9E
+P 1200 3900
+F 0 "CON?" H 1120 4140 50  0000 C C
+F 1 "AVR-ISP-6" H 960 3670 50  0000 L B
+F 2 "AVR-ISP-6" V 680 3940 50  0001 C C
+	1    1200 3900
+	1    0    0    -1  
+$EndComp
+$Comp
+L RJ12 J?
+U 1 1 5088C87C
+P 1050 2450
+F 0 "J?" H 1250 2950 60  0000 C C
+F 1 "RJ12" H 900 2950 60  0000 C C
+	1    1050 2450
+	1    0    0    -1  
+$EndComp
+$Comp
+L RJ12 J?
+U 1 1 5088C876
+P 1050 1250
+F 0 "J?" H 1250 1750 60  0000 C C
+F 1 "RJ12" H 900 1750 60  0000 C C
+	1    1050 1250
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_2 P?
+U 1 1 5088C840
+P 9200 900
+F 0 "P?" V 9150 900 40  0000 C C
+F 1 "CONN_2" V 9250 900 40  0000 C C
+	1    9200 900 
+	0    1    -1   0   
+$EndComp
+$Comp
+L CONN_2 P?
+U 1 1 5088C820
+P 6850 900
+F 0 "P?" V 6800 900 40  0000 C C
+F 1 "CONN_2" V 6900 900 40  0000 C C
+	1    6850 900 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L SN754410 U?
+U 1 1 50831E09
+P 7700 2850
+F 0 "U?" H 7700 2750 50  0000 C C
+F 1 "SN754410" H 7700 2950 50  0000 C C
+F 2 "MODULE" H 7700 2850 50  0001 C C
+F 3 "DOCUMENTATION" H 7700 2850 50  0001 C C
+	1    7700 2850
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC
