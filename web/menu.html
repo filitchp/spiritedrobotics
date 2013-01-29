@@ -17,36 +17,40 @@
     <link href="assets/css/barbot.css" rel="stylesheet">
     
     <script type="text/template" id="drink_template">
-      <section id="<%= key %>">
-        <div class="page-header">
-          <h2><%= name %></h2>
-        </div>
-
-        <div class="row-fluid">
-          <div class="span4">
-            <div class="row-fluid">
-              <div class="span6">
+    <section id="<%= key %>">
+      <div style="line-height: 30px">
+        <span class="drinktitle"><%= name %></span>
+        <a class="btn btn-large btn-success btn-drink-make pull-right" href="#">MAKE IT!</a>
+      </div>
+      <hr class="drinkbreak">
+      <div class="row-fluid">
+        <div class="span5">
+          <table style="background-color: transparent;" width="100%" cellpadding="12px" cellspacing="0px">
+            <tr>
+              <td style="vertical-align: top;">
                 <img src="<%= imagePath %>">
-                <a class="btn btn-danger" href="#">MAKE IT!</a>
-              </div>
-              <div class="span6">
-                <h3>Ingredients</h3>
+              </td>
+              <td style="vertical-align: top;">
+                <span class="drinksubtitle">Ingredients</span>
                 <ul class="ingredients">
                   <%= ingredients %>
                 </ul>
-              </div>
-            </div>
-          </div>
-          <div class="span8">
-            <h3>Description</h3>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="span7" style="padding: 12px">
+          <div class="drinksubtitle">Description</div>
+          <div class="descriptiontext">
             <%= description %>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
     </script>
     
     <script type="text/template" id="ingredient_template">
-      <li><a href="javascript:void(0);" class="btn btn-info"><%= amount %> oz</a> <b><%= name %></b></li>
+      <li><span class="btn btn-info"><span class="ingrval"><%= amount %> oz</span> | <span class="ingrname"><%= name %></span></span></li>
     </script>
   </head>
 
@@ -64,9 +68,9 @@
           <a class="brand" href="/">Santa Barbot Menu</a>
           <div class="nav-collapse" id="main-menu">
             <ul class="nav" id="main-menu-left">
-              <li><a href="#">Vodka-based</a></li>
-              <li><a href="#">Gin-based</a></li>
-              <li><a href="#">Whiskey-based</a></li>
+              <li><a href="#">Manly drinks</a></li>
+              <li><a href="#">Girly drinks</a></li>
+              <li><a href="#">Dashboard</a></li>
             </ul>
           </div>
         </div>
@@ -79,7 +83,7 @@
     <header class="jumbotron subhead" id="overview">
       <div class="row">
         <div class="span6">
-          <h2>Vodka-based drinks:</h2>
+          <h2>Manly Drinks</h2>
         </div>
       </div>
       <div class="subnav">
@@ -113,7 +117,7 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="assets/js/jquery.1.7.2.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/application.js"></script>
     <script src="assets/js/underscore-min.js"></script>

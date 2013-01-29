@@ -99,7 +99,7 @@
       {
         "key" : "COKE",
         "name" : "Coke",
-        "amount" : "3.0"
+        "amount" : "4.0"
       },
       {
         "key" : "LIMEJUICE",
@@ -109,5 +109,44 @@
     ],
     "description" : "Along with the Mojito and the Daiquiri, the Cuba Libre shares the mystery of its exact origin. The only certainty is that this cocktail was first sipped in Cuba. The year? 1900. 1900 is generally said to be the year that cola first came to Cuba, introduced to the island by American troops. But 'Cuba Libre!' was the battle cry of the Cuba Liberation Army during the war of independence that ended in 1898.",
     "imagePath" : "assets/img/drinks/longisland.png"
+  },
+  {
+    "key" : "PANGALACTIC",
+    "name" : "Pan Galactic Gargle Blaster",
+    "ingredients" :
+    [
+      {
+        "key" : "GIN",
+        "name" : "Gin",
+        "amount" : "1.5"
+      },
+      {
+        "key" : "RUM",
+        "name" : "Rum",
+        "amount" : "1.0"
+      },
+      {
+        "key" : "VODKA",
+        "name" : "Vodka",
+        "amount" : "1.0"
+      },
+      {
+        "key" : "TEQUILA",
+        "name" : "Tequila",
+        "amount" : "1.0"
+      },
+      {
+        "key" : "LIMEJUICE",
+        "name" : "Lime Juice",
+        "amount" : "0.5"
+      },
+      {
+        "key" : "GINGERBEER",
+        "name" : "Ginger Beer",
+        "amount" : "1.5"
+      }
+    ],
+    "description" : "Like having your brains smashed out by a slice of lemon wrapped around a large gold brick.",
+    "imagePath" : "assets/img/drinks/pangalactic.jpg"
   }
 ]
