@@ -1,9 +1,82 @@
+
 .ingredients
 {
   list-style-type: none;
+  margin: 0px;
 }
 
 .ingredients > li
 {
-    line-height: 36px!important;
+  margin: 12px 0px 0px 0px;
+  padding: 0;
+}
+
+.ingrname
+{
+  margin: 10px 0;
+  font-family: 'Oxygen',Arial,sans-serif;
+  font-size: 16px;
+  text-rendering: optimizelegibility;
+}
+
+.ingrval
+{
+  margin: 10px 0;
+  font-family: 'Oswald',Arial,sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  text-rendering: optimizelegibility;
+}
+
+.descriptiontext
+{
+  margin: 10px 0;
+  font-family: 'Oxygen',Arial,sans-serif;
+  font-size: 15px;
+  text-rendering: optimizelegibility;
+}
+
+.drinktitle
+{
+  color: #e36b23;
+  font-family: 'Oswald',Arial,sans-serif;
+  font-weight: 500;
+  font-size: 36px;
+  text-shadow: -2px 2px 0 #612c0c;
+  text-rendering: optimizelegibility;
+  margin-left: 20px;
+}
+
+.drinksubtitle
+{
+  color: #e36b23;
+  font-family: 'Oswald',Arial,sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  text-rendering: optimizelegibility;
+}
+
+.btn-drink-make
+{
+  margin-left: 20px;
+  font-family: 'Oswald',Arial,sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  text-rendering: optimizelegibility;
+  margin-right: 20px;
+  padding: 8px 16px;
+}
+
+hr.drinkbreak
+{
+  margin: 10px 0px 4px;
+  border-bottom: 3px solid #45515F;
+}
+
+.footertext
+{
+  margin: 10px 0;
+  font-family: 'Oxygen',Arial,sans-serif;
+  font-size: 12px;
+  text-rendering: optimizelegibility;
 }

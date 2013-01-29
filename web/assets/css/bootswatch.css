@@ -138,7 +138,7 @@ section {
 }
 
 .icon-rss {
-	background: url(../img/rss-icons.png) no-repeat 0 0;
+	background: url(assets/img/rss-icons.png) no-repeat 0 0;
 	opacity: .65;
 	width: 16px;
 }
