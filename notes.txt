@@ -1,0 +1,75 @@
+Jan 21 2013
+	
+	Done:
+	    
+	    Breadboarded avr,
+		Driving LED strip
+		Driving PWM
+
+
+	ToDo:
+	    
+	    Ron: protocol
+	    Dan: schematic
+	    Ryan: state machine + motor driver on breadboard
+
+
+	    Get cyrstal
+	
+	    Raspi,
+		webserver
+		communication working
+
+	    Board Layout
+
+Nov 18 2012
+
+	Todo:
+
+	figure out motor driving
+		pwm direction or enable
+
+	start prototyping on the avr
+		get powersupply and breadboard header
+
+	Figure out if we want 1 or 2 uarts
+
+	Driving uart with raspberry pi
+		can we directly use the onboard ethernet?
+		
+	Select avr chip (based on requirements)
+		Order a few of the them in a dip package for prototyping
+		
+	Meet Tuesday at 11.
+		Email invite to everyone
+		
+	get everyone on google code group
+		setup email notifications when commits made
+
+	setup irc chatroom.
+
+	Ideas:
+	
+	use single bus with a buffer that can be disabled
+		buffer keep signal strong over long distances
+		enable allows us to determine the order of towers on the network
+	
+	semi-circle tower configuration
+	
+	towers modular
+	
+	sync spray to music / lights (bellagio)
+	
+	lazy susan to move cup into firing range and to customer
+		doesn't have to be full circle. could be single beam with counter weight or multiple beams with cups on end (spokes of tire)
+		spoke could have hole that cup would drop into
+			rubber washer to set height and adjut for different cup sizes
+			
+	cup loader could drop cups on to lazy susan, or uses arm to grab cup and set it on the lazy susan
+	
+	ice machine? relay to control the dispensing of ice?
+		digital scale to measure how much ice?
+		
+	
+	
+
