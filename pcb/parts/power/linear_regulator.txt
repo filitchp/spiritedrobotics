@@ -1,8 +1,0 @@
-NJM2870F33-TE1
-NJR
-
-max input voltage: 14 V
-Output Voltage: 3.3 V
-Output Current: 200 mA
-
-Cost mouser $0.49

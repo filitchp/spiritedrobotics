@@ -1,4 +1,0 @@
-sn754410
-
-quad half h bridge
-1 Amp per channel
