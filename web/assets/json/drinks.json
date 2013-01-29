@@ -1,48 +1,113 @@
-{
-	"DrinkList" : [
-		{
-			"Key" : "RUMCOKE",
-			"Name" : "Rum And Coke",
-			"Ingredients" : [
-				{
-					"Key" : "RUM",
-					"Name" : "Rum",
-					"Amount" : "1.3"
-				},
-				{
-					"Key" : "COKE",
-					"Name" : "Coke",
-					"Amount" : "2.6"
-				}
-			],
-			"Description" : "Mmmm..... Tasty goodness",
-			"ImagePath" : "TODO: set image path"
-		},
-		{
-			"Key" : "RUMANDRUM",
-			"Name" : "Rum On The Rocks",
-			"Ingredients" : [
-				{
-					"Key" : "RUM",
-					"Name" : "Rum",
-					"Amount" : "2.1"
-				}
-			],
-			"Description" : "Not for the faint of liver",
-			"ImagePath" : "TODO: set image path"
-		},
-		{
-			"Key" : "BEST",
-			"Name" : "The Best Drink Ever",
-			"Ingredients" : [
-				{
-					"Key" : "VODKA",
-					"Name" : "Vodka",
-					"Amount" : "6.4"
-				}
-			],
-			"Description" : "The best. drink. ever.",
-			"ImagePath" : "TODO: set image path"
-		}
-	]
-}
+[
+  {
+    "key" : "BLUELAGOON",
+    "name" : "Blue Lagoon",
+    "ingredients" :
+    [
+      {
+        "key" : "VODKA",
+        "name" : "Vodka",
+        "amount" : "2"
+      },
+      {
+        "key" : "BLUECURACAO",
+        "name" : "Blue Curacao",
+        "amount" : "2"
+      },
+      {
+        "key" : "LEMONADE",
+        "name" : "Lemonade",
+        "amount" : "3"
+      }
+    ],
+    "description" : "Blue Lagoon is a popular summer cocktail which is prepared from a mixture of vodka, blue curacao and lemonade. It is said to have been invented in the popular New York bar, Harry’s Bar. It is frequently showcased in various popular cultures by featuring in many movies and sitcoms. The drink is served in a highball glass; on the rocks poured over ice with lemon as the common garnish.",
+    "imagePath" : "assets/img/drinks/bluelagoon.png"
+  },
+  {
+    "key" : "LONGISLAND",
+    "name" : "Long Island Ice Tea",
+    "ingredients" : 
+    [
+      {
+        "key" : "VODKA",
+        "name" : "Vodka",
+        "amount" : "1"
+      },
+      {
+        "key" : "TEQUILA",
+        "name" : "Tequila",
+        "amount" : "1"
+      },
+      {
+        "key" : "GIN",
+        "name" : "Gin",
+        "amount" : "1"
+      },
+      {
+        "key" : "TRIPLESEC",
+        "name" : "Triple Sec",
+        "amount" : "1"
+      },
+      {
+        "key" : "COKE",
+        "name" : "Coca-Cola",
+        "amount" : "0.5"
+      },
+      {
+        "key" : "SWEETNSOUR",
+        "name" : "Sweet n Sour",
+        "amount" : "1.5"
+      }
+    ],
+    "description" : "A cocktail made with vodka, gin, tequila and rum with a dash of lemon; this drink was invented in 1920’s. More popular variants of this cocktail include cola. This drink has a higher alcohol concentration as it contains rum and tequila along with vodka. Outside USA, the Long Island Iced Tea is made with cola and lemon or orange juice without alcohol. This drink is served on the rocks over the ice in a highball glass. The most common garnish accompanying this drink is a lemon wedge. Other variants of this drink involve champagne, whiskey, cranberry juice, peach schnapps and tequila instead of cola.",
+    "imagePath" : "assets/img/drinks/rumandcoke.jpg"
+  },
+  {
+    "key" : "MOSCOWMULE",
+    "name" : "Moscow Mule",
+    "ingredients" :
+    [
+      {
+        "key" : "VODKA",
+        "name" : "Vodka",
+        "amount" : "1.75"
+      },
+      {
+        "key" : "LIMEJUICE",
+        "name" : "Lime Juice",
+        "amount" : "0.5"
+      },
+      {
+        "key" : "GINGERBEER",
+        "name" : "Ginger Beer",
+        "amount" : "3.0"
+      }
+    ],
+    "description" : "Invented in 1941 by John G. Martin, this cocktail is made with vodka, ginger beer and lime. It was a popular drink during 1950s and a big hit among the Hollywood hipsters, who frequented the famous tavern on the Sunset Strip in the United States. The drink is served on the rocks poured over ice in a copper cup. The copper mugs were especially made for this drink and marketed around the country. At that time Vodka was a big craze in the US which made the popularity of this drink to soar more.",
+    "imagePath" : "assets/img/drinks/moscowmule.png"
+  },
+  {
+    "key" : "CUBALIBRE",
+    "name" : "Cuba Libre",
+    "ingredients" :
+    [
+      {
+        "key" : "RUM",
+        "name" : "Rum",
+        "amount" : "2.0"
+      },
+      {
+        "key" : "COKE",
+        "name" : "Coke",
+        "amount" : "3.0"
+      },
+      {
+        "key" : "LIMEJUICE",
+        "name" : "Lime Juice",
+        "amount" : "0.5"
+      }
+    ],
+    "description" : "Along with the Mojito and the Daiquiri, the Cuba Libre shares the mystery of its exact origin. The only certainty is that this cocktail was first sipped in Cuba. The year? 1900. 1900 is generally said to be the year that cola first came to Cuba, introduced to the island by American troops. But 'Cuba Libre!' was the battle cry of the Cuba Liberation Army during the war of independence that ended in 1898.",
+    "imagePath" : "assets/img/drinks/longisland.png"
+  }
+]
