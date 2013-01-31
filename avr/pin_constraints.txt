@@ -20,8 +20,8 @@ Port B
 Port C
 
     Pin
-    0
-    1
+    0			Motor 1 sense voltage (10mA/mV)
+    1			Motor 2 sense voltage (10mA/mV)
     2
     3
     4
