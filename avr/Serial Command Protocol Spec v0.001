@@ -54,6 +54,8 @@ List of Node types and their commands:
 	Report node type
 	Force halt node
 	Do nothing (report error if one exists)
+		-If this command is sent to the general call address, it must be sent with 8 null bytes following the command byte.
+		-If a node has an error, it will set the bit corresponding to its address before sending the message onwards.
 
     Drink Tower
 	Pour drink (enable pump for x ms)
