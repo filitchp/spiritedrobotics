@@ -1,0 +1,36 @@
+(For reference, 0x10 = 1000 0000, bit numbering 7654 3210)
+
+TODO: Determine maximum message length.
+TODO: Create and fill out list of command bytes.
+
+Communication Protocol
+Messages are sent from the Raspberry Pi (hereafter referred to as the “base”) to the first substance dispenser unit (hereafter referred to as a “tower”). 
+That tower will then check if the message’s destination address. If the message is not addressed to the tower which is currently reading it, then that tower will send the message to the next tower. 
+In this way, messages will propagate down the line of towers until either the correct tower picks them up, or they are transmitted back to the base.
+
+The bit 7 of every byte shall be reserved for signaling a header or footer byte.  If this MSB is 1, the byte shall be a header or footer byte. If not, the byte is a payload byte.  
+	1XXX XXXX	(Header or Footer Byte)
+	0XXX XXXX	(Payload Byte)
+
+The type of header byte is determined by bit 6.
+	10XX XXXX (Message Header, Address, X =6 Address Bits)
+	11XX XXXX (Message Footer, Checksum,  X = 6 Checksum Bits)
+
+The message destination address shall be the last 6 bits of the header byte. This allows for up to 62 devices to be connected in the loop, assuming that the base has address 0x3F, and 0x00 is reserved (See device discovery). 
+The address was chosen to be in the first byte of the message so that the tower can quickly decide whether or not it needs to pay attention to the following payload bytes.
+
+	10AA AAAA (A =Address Bits)
+The first payload byte following the header byte is a command byte. This tells the tower how to interpret the payload bytes following it.
+	0XXX XXXX 
+
+The list of specific command bytes is not yet done. (More Discussion with team first about control functionality)
+
+Device Discovery
+	When new devices are connected to the loop, the system must have a way to address them. The address 0x00 is the general call address. Any device will respond to this address as if it were its own address.  
+	The base can send a general call header byte, a ‘reassign address’ command (payload) byte, and a target address (payload) byte.
+	Each tower will respond to the general call address message, and set its own address to the target address from the message. 
+	It will then increment the target address byte of the message by 1 (checking for maximum address, if needed), and send the message onwards. 
+	This design will result in each module in the chain having a different address, and the base knowing exactly how many modules are in the loop. 
+	(When the base receives the message at the end of the loop, it will see what address the last tower tried to assign to the base.)
+
+An additional benefit of this setup is that as long as there is a complete loop in the network, the devices with addresses greater than what the base is aware of will simply pass messages along without interfering. The only possible problem related to addressing I can currently think of is if we put a device with a duplicate address into the chain EARLIER than the one that the base is aware of. 
