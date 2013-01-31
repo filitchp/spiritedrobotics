@@ -2,17 +2,18 @@
 
 TODO: Determine maximum message length.
 TODO: Create and fill out list of command bytes.
+TODO: Come up with algorithm for checksum
 
 Communication Protocol
 Messages are sent from the Raspberry Pi (hereafter referred to as the “base”) to the first substance dispenser unit (hereafter referred to as a “tower”). 
 That tower will then check if the message’s destination address. If the message is not addressed to the tower which is currently reading it, then that tower will send the message to the next tower. 
 In this way, messages will propagate down the line of towers until either the correct tower picks them up, or they are transmitted back to the base.
 
-The bit 7 of every byte shall be reserved for signaling a header or footer byte.  If this MSB is 1, the byte shall be a header or footer byte. If not, the byte is a payload byte.  
+The bit 7 of every byte shall be reserved for signaling the type of byte.  If this MSB is 1, the byte shall be a header or footer byte. If not, the byte is a payload byte.  
 	1XXX XXXX	(Header or Footer Byte)
 	0XXX XXXX	(Payload Byte)
 
-The type of header byte is determined by bit 6.
+Bit 6 determines if the byte is a header or footer.
 	10XX XXXX (Message Header, Address, X =6 Address Bits)
 	11XX XXXX (Message Footer, Checksum,  X = 6 Checksum Bits)
 
@@ -20,10 +21,12 @@ The message destination address shall be the last 6 bits of the header byte. Thi
 The address was chosen to be in the first byte of the message so that the tower can quickly decide whether or not it needs to pay attention to the following payload bytes.
 
 	10AA AAAA (A =Address Bits)
+	1000 0000 (Packet processed by any node regardless of its address)
+	1011 1111 (Address of the base)
+
 The first payload byte following the header byte is a command byte. This tells the tower how to interpret the payload bytes following it.
 	0XXX XXXX 
-
-The list of specific command bytes is not yet done. (More Discussion with team first about control functionality)
+The list of command bytes is displayed below.
 
 Device Discovery
 	When new devices are connected to the loop, the system must have a way to address them. The address 0x00 is the general call address. Any device will respond to this address as if it were its own address.  
@@ -34,3 +37,48 @@ Device Discovery
 	(When the base receives the message at the end of the loop, it will see what address the last tower tried to assign to the base.)
 
 An additional benefit of this setup is that as long as there is a complete loop in the network, the devices with addresses greater than what the base is aware of will simply pass messages along without interfering. The only possible problem related to addressing I can currently think of is if we put a device with a duplicate address into the chain EARLIER than the one that the base is aware of. 
+
+
+List of Node types and their commands:
+
+    Generic
+	Reassign address (and pass the packet along to the next node with the value incremented by one)
+	Report node type
+	Force halt node
+	Do nothing (report error if one exists)
+
+    Drink Tower
+	Pour drink (enable pump for x ms)
+	Run predefined light sequence
+	Report motor current
+
+    Ice Dispensor
+	Dispense ice
+	Run lights (possibly the non addressable ones)
+
+    Lazy Suzan
+	move to next posision
+	report on status of move (so we know when we can start pouring)
+
+    Cup Loader
+	Load another cup
+
+
+List of Error codes nodes can return:
+
+    Generic
+	check sum did not match
+	unknown command
+
+    Drink Tower
+	out of alcohol
+
+    Ice Dispensor
+	out of ice
+
+    Lazy Suzan
+	error during move
+
+    Cup Loader
+	out of cups
+
