@@ -1,4 +1,4 @@
-@import url('http://fonts.googleapis.com/css?family=Oswald|Noticia+Text');
+@import url('http://fonts.googleapis.com/css?family=Oswald|Oxygen');
 /*!
  * Bootstrap v2.2.2
  *
@@ -604,7 +604,7 @@ h5,
 h6 {
   margin: 10px 0;
   font-family: 'Oswald', sans-serif;
-  font-weight: bold;
+  font-weight: 500;
   line-height: 20px;
   color: #e36b23;
   text-rendering: optimizelegibility;
@@ -5261,6 +5261,7 @@ div.subnav {
   background-color: #45515f;
   background-image: none;
   border: none;
+  font-family: 'Oswald',Arial,sans-serif;
 }
 div.subnav .nav > li > a,
 div.subnav .nav > li.active > a {
@@ -5562,11 +5563,11 @@ input,
 button,
 select,
 textarea {
-  font-family: 'Noticia Text', serif;
+  font-family: 'Oxygen',Arial,sans-serif;
 }
 legend {
   border-bottom: none;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Oswald',Arial,sans-serif;
   color: #e36b23;
   text-shadow: -2px 2px 0 #612c0c;
 }
