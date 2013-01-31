@@ -1,15 +1,15 @@
-# Barbot Schematic/PCB
+h1. Barbot Schematic/PCB
 
-## Specification
+h2. Specification
 - SPI bus for LEDs
 - UART routed to full-duplex differential RS-485 bus
 	- Carried on RJ-45 cable
 - All unused processor pins broken out
 - 1 unused/configurable op-amp
 
-# To Do List
+h1. To Do List
 
-## Schematic
+h2. Schematic
 	
 - Diode protection needed for motors
 - Unused pairs of RJ-45 - what do we do with them?  break them out?
@@ -17,18 +17,18 @@
 - More sheets?
 - Frame attributes?
 	
-## Power
+h2. Power
 - 5V from USB port for logic supply?
 - Where are peripherals powered from?
 	- Can the LEDs run off of 6V?
 - Large decoupling cap onboard for motor supply?
 
-## Onboard Peripherals
+h2. Onboard Peripherals
 - Relay(s)?
 - Piezo?
 - General purpose analog inputs -> Liquid level sensor?
 - Need pinout for LED strips
 
-## PCB
+h2. PCB
 - Make rough size estimate
 - Figure out hole sizes for wire holes
