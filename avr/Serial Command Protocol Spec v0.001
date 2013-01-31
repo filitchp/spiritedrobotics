@@ -28,6 +28,14 @@ The first payload byte following the header byte is a command byte. This tells t
 	0XXX XXXX 
 The list of command bytes is displayed below.
 
+General Call Address
+
+	The general call address is 0x00.
+	
+	1000 0000
+
+	Any message addressed to the "general call" address will be forwarded to the next device in the chain after parsing and execution.
+
 Device Discovery
 	When new devices are connected to the loop, the system must have a way to address them. The address 0x00 is the general call address. Any device will respond to this address as if it were its own address.  
 	The base can send a general call header byte, a ‘reassign address’ command (payload) byte, and a target address (payload) byte.
