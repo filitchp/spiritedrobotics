@@ -1,6 +1,6 @@
 Pinlist
 
-Exported from BarBot 2012 Tower.brd at 2/1/2013 8:28:46 PM
+Exported from BarBot 2012 Tower.brd at 2/2/2013 12:18:17 AM
 
 EAGLE Version 6.3.0 Copyright (c) 1988-2012 CadSoft
 
@@ -9,13 +9,7 @@ Part     Pad      Net
 C1       1        GND
          2        PC6/!RESET
 
-C2       1        GND
-         2        PB7/XTAL2
-
-C3       1        GND
-         2        PB6/XTAL1
-
-C4       1        GNDA
+C4       1        GND
          2        +5V/2
 
 C5       1        GND
@@ -24,25 +18,25 @@ C5       1        GND
 D1       A        M1-
          C        +5V/2
 
-D2       A        GNDA
+D2       A        GND
          C        M1-
 
 D3       A        M1+
          C        +5V/2
 
-D4       A        GNDA
+D4       A        GND
          C        M1+
 
 D5       A        M2-
          C        +5V/2
 
-D6       A        GNDA
+D6       A        GND
          C        M2-
 
 D7       A        M2+
          C        +5V/2
 
-D8       A        GNDA
+D8       A        GND
          C        M2+
 
 J1       1        PB4/MISO
@@ -52,8 +46,8 @@ J1       1        PB4/MISO
          5        PC6/!RESET
          6        GND
 
-J2       GND@1    GNDA
-         GND@2    GNDA
+J2       GND@1    GND
+         GND@2    GND
          PWR      +5V/2
 
 JP1      D+                *** unconnected ***
@@ -66,10 +60,7 @@ JP1      D+                *** unconnected ***
 JP2      1        +5V/2
          2        SPI_MISO
          3        SPI_SCK
-         4        GNDA
-
-L1       1        GND
-         2        GNDA
+         4        GND
 
 M1+      1        M1+
 
@@ -85,9 +76,6 @@ PAD2     1        N$3
 
 PAD3     1        N$7
 
-Q1       1        PB6/XTAL1
-         2        PB7/XTAL2
-
 R1       1        PC6/!RESET
          2        +5V
 
@@ -97,10 +85,10 @@ R2       1        N$7
 R3       1        !RS485_TX
          2        RS485_TX
 
-R4       1        GNDA
+R4       1        GND
          2        SENSE_A
 
-R5       1        GNDA
+R5       1        GND
          2        SENSE_B
 
 R6       1        GND
@@ -124,10 +112,20 @@ R11      1        RS485_TX
 R12      1        !RS485_RX
          2        RS485_RX
 
+R13      1        PC4/ADC4/SDA
+         2        +5V
+
+R14      1        PC5/ADC5/SCL
+         2        +5V
+
 S1       1        GND
          2                 *** unconnected ***
          3        PC6/!RESET
          4                 *** unconnected ***
+
+SCL      1        PC5/ADC5/SCL
+
+SDA      1        PC4/ADC4/SDA
 
 TP10     1        N$1
 
@@ -230,4 +228,8 @@ U6       1        +5V
          6        !RS485_TX
          7        !RS485_RX
          8        RS485_RX
+
+Y1       1        PB6/XTAL1
+         2        GND
+         3        PB7/XTAL2
 

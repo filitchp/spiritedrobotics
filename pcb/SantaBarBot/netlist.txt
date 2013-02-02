@@ -1,6 +1,6 @@
 Netlist
 
-Exported from BarBot 2012 Tower.brd at 2/1/2013 8:25:15 PM
+Exported from BarBot 2012 Tower.brd at 2/2/2013 12:18:04 AM
 
 EAGLE Version 6.3.0 Copyright (c) 1988-2012 CadSoft
 
@@ -26,6 +26,8 @@ Net      Part     Pad
          JP1      VBUS
          R1       2
          R11      2
+         R13      2
+         R14      2
          R7       2
          U1       18
          U1       4
@@ -53,13 +55,20 @@ AREF     U1       20
          U5       9
 
 GND      C1       1
-         C2       1
-         C3       1
+         C4       1
          C5       1
+         D2       A
+         D4       A
+         D6       A
+         D8       A
          J1       6
+         J2       GND@1
+         J2       GND@2
          JP1      GND
-         L1       1
+         JP2      4
          R10      1
+         R4       1
+         R5       1
          R6       1
          S1       1
          U1       21
@@ -74,18 +83,7 @@ GND      C1       1
          U5       11
          U6       4
          U6       4
-
-GNDA     C4       1
-         D2       A
-         D4       A
-         D6       A
-         D8       A
-         J2       GND@1
-         J2       GND@2
-         JP2      4
-         L1       2
-         R4       1
-         R5       1
+         Y1       2
 
 M1+      D3       A
          D4       C
@@ -148,13 +146,11 @@ PB5/SCK  J1       3
          R9       1
          U1       17
 
-PB6/XTAL1 C3       2
-         Q1       1
-         U1       7
+PB6/XTAL1 U1       7
+         Y1       1
 
-PB7/XTAL2 C2       2
-         Q1       2
-         U1       8
+PB7/XTAL2 U1       8
+         Y1       3
 
 PC0/ADC0 U1       23
          U5       1
@@ -168,9 +164,13 @@ PC2/ADC2 U1       25
 
 PC3/ADC3 U1       26
 
-PC4/ADC4/SDA U1       27
+PC4/ADC4/SDA R13      1
+         SDA      1
+         U1       27
 
-PC5/ADC5/SCL U1       28
+PC5/ADC5/SCL R14      1
+         SCL      1
+         U1       28
 
 PC6/!RESET C1       2
          J1       5
