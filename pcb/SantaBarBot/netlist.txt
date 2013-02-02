@@ -1,0 +1,230 @@
+Netlist
+
+Exported from BarBot 2012 Tower.brd at 2/1/2013 8:25:15 PM
+
+EAGLE Version 6.3.0 Copyright (c) 1988-2012 CadSoft
+
+Net      Part     Pad
+
+!PD4/XCK/T0 U2       9
+         U3       4
+
+!PD7/AIN1 U2       13
+         U3       6
+
+!RS485_RX R12      1
+         U$1      8
+         U6       7
+
+!RS485_TX R10      2
+         R3       1
+         U$1      2
+         U6       6
+
++5V      C5       2
+         J1       2
+         JP1      VBUS
+         R1       2
+         R11      2
+         R7       2
+         U1       18
+         U1       4
+         U1       6
+         U2       12
+         U3       5
+         U5       4
+         U6       1
+
++5V/2    C4       2
+         D1       C
+         D3       C
+         D5       C
+         D7       C
+         J2       PWR
+         JP2      1
+         U2       6
+
+ADC6     U1       19
+
+ADC7     U1       22
+
+AREF     U1       20
+         U5       8
+         U5       9
+
+GND      C1       1
+         C2       1
+         C3       1
+         C5       1
+         J1       6
+         JP1      GND
+         L1       1
+         R10      1
+         R6       1
+         S1       1
+         U1       21
+         U1       3
+         U1       5
+         U2       1
+         U2       10
+         U2       11
+         U2       20
+         U3       2
+         U3       2
+         U5       11
+         U6       4
+         U6       4
+
+GNDA     C4       1
+         D2       A
+         D4       A
+         D6       A
+         D8       A
+         J2       GND@1
+         J2       GND@2
+         JP2      4
+         L1       2
+         R4       1
+         R5       1
+
+M1+      D3       A
+         D4       C
+         M1+      1
+         U2       4
+
+M1-      D1       A
+         D2       C
+         M1-      1
+         U2       5
+
+M2+      D7       A
+         D8       C
+         M2+      1
+         U2       17
+
+M2-      D5       A
+         D6       C
+         M2-      1
+         U2       16
+
+N$1      TP10     1
+         U$1      3
+
+N$2      TP11     1
+         U$1      4
+
+N$3      PAD2     1
+         R2       2
+         U5       13
+
+N$4      TP12     1
+         U$1      5
+
+N$5      TP13     1
+         U$1      6
+
+N$7      PAD3     1
+         R2       1
+         U5       14
+
+N$10     R6       2
+         R7       1
+         U5       10
+
+PB0/ICP  U1       12
+
+PB1/OC1A U1       13
+
+PB2/SS/OC1B U1       14
+
+PB3/MOSI/OC2 J1       4
+         U1       15
+
+PB4/MISO J1       1
+         R8       1
+         U1       16
+
+PB5/SCK  J1       3
+         R9       1
+         U1       17
+
+PB6/XTAL1 C3       2
+         Q1       1
+         U1       7
+
+PB7/XTAL2 C2       2
+         Q1       2
+         U1       8
+
+PC0/ADC0 U1       23
+         U5       1
+         U5       2
+
+PC1/ADC1 U1       24
+         U5       6
+         U5       7
+
+PC2/ADC2 U1       25
+
+PC3/ADC3 U1       26
+
+PC4/ADC4/SDA U1       27
+
+PC5/ADC5/SCL U1       28
+
+PC6/!RESET C1       2
+         J1       5
+         R1       1
+         S1       3
+         U1       29
+
+PD0/RXD  U1       30
+         U6       2
+
+PD1/TXD  U1       31
+         U6       3
+
+PD2/INT0 U1       32
+
+PD3/INT1 U1       1
+
+PD4/XCK/T0 U1       2
+         U2       7
+         U3       3
+
+PD5/T1   U1       9
+         U2       8
+
+PD6/AIN0 U1       10
+         U2       14
+
+PD7/AIN1 U1       11
+         U2       15
+         U3       1
+
+RS485_RX R12      2
+         U$1      7
+         U6       8
+
+RS485_TX R11      1
+         R3       2
+         U$1      1
+         U6       5
+
+SENSE_A  R4       2
+         U2       2
+         U5       3
+
+SENSE_B  R5       2
+         U2       19
+         U5       5
+
+SPI_MISO JP2      2
+         R8       2
+
+SPI_SCK  JP2      3
+         R9       2
+
+TP1      PAD1     1
+         U5       12
+

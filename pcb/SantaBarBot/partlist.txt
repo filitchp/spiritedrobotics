@@ -1,0 +1,59 @@
+Partlist
+
+Exported from BarBot 2012 Tower.brd at 2/1/2013 8:25:22 PM
+
+EAGLE Version 6.3.0 Copyright (c) 1988-2012 CadSoft
+
+Assembly variant: 
+
+Part     Value                 Package         Library                    Position (inch)       Orientation
+
+C1       100n                  C2012           rcl                        (0.35 1.06)           R180
+C2       22pF                  C0603           rcl                        (1.33 0.98)           R0
+C3       22pF                  C0603           rcl                        (1.19 0.98)           R180
+C4       100n                  C2012           rcl                        (1.095 2.755)         R180
+C5       100n                  C2012           rcl                        (0.85 2.755)          R180
+D1                             SMB             diode                      (1.5 2.51)            R90
+D2                             SMB             diode                      (1.7 2.51)            R270
+D3                             SMB             diode                      (1.5 2.23)            R270
+D4                             SMB             diode                      (1.7 2.23)            R90
+D5                             SMB             diode                      (0.61 2.5)            R90
+D6                             SMB             diode                      (0.4 2.5)             R270
+D7                             SMB             diode                      (0.61 2.22)           R270
+D8                             SMB             diode                      (0.4 2.22)            R90
+J1       AVR_SPI_PRG_62X3_LOCK 2X3_LOCK        SparkFun-Connectors        (1.68 1.25)           R270
+J2       POWER_JACKSLT         POWER_JACK_SLOT SparkFun-Connectors        (1.65 -0.1)           R0
+JP1      USB-B                 USB-B-PTH       SparkFun-Connectors        (0.4 0.4)             R90
+JP2                            1X04            pinhead                    (1.92 1.69)           R90
+L1                             0805            wuerth-elektronik          (0.145 1.86)          R90
+M1+                            3,81/1,4        wirepad                    (1.9 2.24)            R0
+M1-                            3,81/1,4        wirepad                    (1.9 2.5)             R0
+M2+                            3,81/1,4        wirepad                    (0.21 2.23)           R0
+M2-                            3,81/1,4        wirepad                    (0.21 2.49)           R0
+PAD1                           1,6/0,8         wirepad                    (0.35 1.49)           R0
+PAD2                           1,6/0,8         wirepad                    (0.3 1.29)            R0
+PAD3                           1,6/0,8         wirepad                    (0.4 1.29)            R0
+Q1                             QS              special                    (1.26 1.13)           R0
+R1       4.7k                  R2012           rcl                        (0.35 1.16)           R0
+R2       0R                    R2012           rcl                        (0.35 1.39)           R180
+R3       120                   R2012           rcl                        (0.75 0.79)           R180
+R4       0.1R                  R2012           rcl                        (1.43 1.955)          R180
+R5       0.1R                  R2012           rcl                        (0.735 1.95)          R180
+R6                             R2012           rcl                        (0.25 1.64)           R90
+R7                             R2012           rcl                        (0.35 1.64)           R90
+R8       4.7k                  R2012           rcl                        (1.72 1.64)           R0
+R9       4.7k                  R2012           rcl                        (1.72 1.74)           R0
+R10      680                   R2012           rcl                        (0.79 0.65)           R90
+R11      680                   R2012           rcl                        (0.67 0.65)           R270
+R12      120                   R2012           rcl                        (1.01 0.85)           R90
+S1       SWITCH-MOMENTARY-2PTH TACTILE-PTH     SparkFun-Electromechanical (0.35 0.81)           R270
+TP10                           1,6/0,8         wirepad                    (1.1 0.7)             R0
+TP11                           1,6/0,8         wirepad                    (1.15 0.6)            R0
+TP12                           1,6/0,8         wirepad                    (1.2 0.7)             R0
+TP13                           1,6/0,8         wirepad                    (1.25 0.6)            R0
+U$1      RJ45-8PTH             RJ45-8          SparkFun-Connectors        (1.15 0.15)           R0
+U1       ATMEGA328P            TQFP32-08       SparkFun-DigitalIC         (1.15 1.44)           R90
+U2       L298_BRIDGE_DRIVER    POWERSO20       SparkFun-PowerIC           (1.05 2.34)           R180
+U3       742G04DBVR            DBV_R-PDSO-G6   74xx-little-us             (1.05 1.8)            R0
+U5       LMV324IDR             SO14            bb_parts_OpAmp             (0.6 1.54)            R90
+U6       SN75HVD179D           SO-08           texas                      (0.83 1.01)           R180

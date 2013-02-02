@@ -1,0 +1,233 @@
+Pinlist
+
+Exported from BarBot 2012 Tower.brd at 2/1/2013 8:28:46 PM
+
+EAGLE Version 6.3.0 Copyright (c) 1988-2012 CadSoft
+
+Part     Pad      Net
+
+C1       1        GND
+         2        PC6/!RESET
+
+C2       1        GND
+         2        PB7/XTAL2
+
+C3       1        GND
+         2        PB6/XTAL1
+
+C4       1        GNDA
+         2        +5V/2
+
+C5       1        GND
+         2        +5V
+
+D1       A        M1-
+         C        +5V/2
+
+D2       A        GNDA
+         C        M1-
+
+D3       A        M1+
+         C        +5V/2
+
+D4       A        GNDA
+         C        M1+
+
+D5       A        M2-
+         C        +5V/2
+
+D6       A        GNDA
+         C        M2-
+
+D7       A        M2+
+         C        +5V/2
+
+D8       A        GNDA
+         C        M2+
+
+J1       1        PB4/MISO
+         2        +5V
+         3        PB5/SCK
+         4        PB3/MOSI/OC2
+         5        PC6/!RESET
+         6        GND
+
+J2       GND@1    GNDA
+         GND@2    GNDA
+         PWR      +5V/2
+
+JP1      D+                *** unconnected ***
+         D-                *** unconnected ***
+         GND      GND
+         S1                *** unconnected ***
+         S2                *** unconnected ***
+         VBUS     +5V
+
+JP2      1        +5V/2
+         2        SPI_MISO
+         3        SPI_SCK
+         4        GNDA
+
+L1       1        GND
+         2        GNDA
+
+M1+      1        M1+
+
+M1-      1        M1-
+
+M2+      1        M2+
+
+M2-      1        M2-
+
+PAD1     1        TP1
+
+PAD2     1        N$3
+
+PAD3     1        N$7
+
+Q1       1        PB6/XTAL1
+         2        PB7/XTAL2
+
+R1       1        PC6/!RESET
+         2        +5V
+
+R2       1        N$7
+         2        N$3
+
+R3       1        !RS485_TX
+         2        RS485_TX
+
+R4       1        GNDA
+         2        SENSE_A
+
+R5       1        GNDA
+         2        SENSE_B
+
+R6       1        GND
+         2        N$10
+
+R7       1        N$10
+         2        +5V
+
+R8       1        PB4/MISO
+         2        SPI_MISO
+
+R9       1        PB5/SCK
+         2        SPI_SCK
+
+R10      1        GND
+         2        !RS485_TX
+
+R11      1        RS485_TX
+         2        +5V
+
+R12      1        !RS485_RX
+         2        RS485_RX
+
+S1       1        GND
+         2                 *** unconnected ***
+         3        PC6/!RESET
+         4                 *** unconnected ***
+
+TP10     1        N$1
+
+TP11     1        N$2
+
+TP12     1        N$4
+
+TP13     1        N$5
+
+U$1      1        RS485_TX
+         2        !RS485_TX
+         3        N$1
+         4        N$2
+         5        N$4
+         6        N$5
+         7        RS485_RX
+         8        !RS485_RX
+
+U1       1        PD3/INT1
+         10       PD6/AIN0
+         11       PD7/AIN1
+         12       PB0/ICP
+         13       PB1/OC1A
+         14       PB2/SS/OC1B
+         15       PB3/MOSI/OC2
+         16       PB4/MISO
+         17       PB5/SCK
+         18       +5V
+         19       ADC6
+         2        PD4/XCK/T0
+         20       AREF
+         21       GND
+         22       ADC7
+         23       PC0/ADC0
+         24       PC1/ADC1
+         25       PC2/ADC2
+         26       PC3/ADC3
+         27       PC4/ADC4/SDA
+         28       PC5/ADC5/SCL
+         29       PC6/!RESET
+         3        GND
+         30       PD0/RXD
+         31       PD1/TXD
+         32       PD2/INT0
+         4        +5V
+         5        GND
+         6        +5V
+         7        PB6/XTAL1
+         8        PB7/XTAL2
+         9        PD5/T1
+
+U2       1        GND
+         10       GND
+         11       GND
+         12       +5V
+         13       !PD7/AIN1
+         14       PD6/AIN0
+         15       PD7/AIN1
+         16       M2-
+         17       M2+
+         18                *** unconnected ***
+         19       SENSE_B
+         2        SENSE_A
+         20       GND
+         3                 *** unconnected ***
+         4        M1+
+         5        M1-
+         6        +5V/2
+         7        PD4/XCK/T0
+         8        PD5/T1
+         9        !PD4/XCK/T0
+
+U3       1        PD7/AIN1
+         2        GND
+         3        PD4/XCK/T0
+         4        !PD4/XCK/T0
+         5        +5V
+         6        !PD7/AIN1
+
+U5       1        PC0/ADC0
+         10       N$10
+         11       GND
+         12       TP1
+         13       N$3
+         14       N$7
+         2        PC0/ADC0
+         3        SENSE_A
+         4        +5V
+         5        SENSE_B
+         6        PC1/ADC1
+         7        PC1/ADC1
+         8        AREF
+         9        AREF
+
+U6       1        +5V
+         2        PD0/RXD
+         3        PD1/TXD
+         4        GND
+         5        RS485_TX
+         6        !RS485_TX
+         7        !RS485_RX
+         8        RS485_RX
+

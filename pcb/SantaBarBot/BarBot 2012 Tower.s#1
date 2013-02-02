@@ -7546,11 +7546,11 @@ We've spent an enormous amount of time creating and checking these footprints an
 &lt;b&gt;Licensing:&lt;/b&gt; CC v3.0 Share-Alike You are welcome to use this library for commercial purposes. For attribution, we ask that when you begin to sell your device using our footprint, you email us with a link to the product being sold. We want bragging rights that we helped (in a very small part) to create your 8th world wonder. We would like the opportunity to feature your device on our homepage.</description>
 <packages>
 <package name="POWERSO20">
-<wire x1="-5.461" y1="-7.9502" x2="5.461" y2="-7.9502" width="0.127" layer="21"/>
-<wire x1="5.461" y1="7.9502" x2="-4.2418" y2="7.9502" width="0.127" layer="21"/>
-<wire x1="-5.461" y1="6.731" x2="-5.461" y2="-7.9502" width="0.127" layer="21"/>
-<wire x1="5.461" y1="7.9502" x2="5.461" y2="-7.9502" width="0.127" layer="21"/>
-<wire x1="-5.461" y1="6.731" x2="-4.2418" y2="7.9502" width="0.127" layer="21"/>
+<wire x1="-5.55" y1="-8" x2="5.55" y2="-8" width="0.127" layer="21"/>
+<wire x1="5.55" y1="8" x2="-4.25" y2="8" width="0.127" layer="21"/>
+<wire x1="-5.55" y1="6.7" x2="-5.55" y2="-8" width="0.127" layer="21"/>
+<wire x1="5.55" y1="8" x2="5.55" y2="-8" width="0.127" layer="21"/>
+<wire x1="-5.55" y1="6.7" x2="-4.25" y2="8" width="0.127" layer="21"/>
 <smd name="1" x="-6.731" y="5.715" dx="1.651" dy="0.635" layer="1"/>
 <smd name="2" x="-6.731" y="4.445" dx="1.651" dy="0.635" layer="1"/>
 <smd name="3" x="-6.731" y="3.175" dx="1.651" dy="0.635" layer="1"/>
@@ -7571,6 +7571,12 @@ We've spent an enormous amount of time creating and checking these footprints an
 <smd name="18" x="6.731" y="3.175" dx="1.651" dy="0.635" layer="1"/>
 <smd name="19" x="6.731" y="4.445" dx="1.651" dy="0.635" layer="1"/>
 <smd name="20" x="6.731" y="5.715" dx="1.651" dy="0.635" layer="1"/>
+<polygon width="0.127" layer="1">
+<vertex x="-2.5" y="8.85"/>
+<vertex x="2.5" y="8.85"/>
+<vertex x="2.5" y="-8.85"/>
+<vertex x="-2.5" y="-8.85"/>
+</polygon>
 </package>
 </packages>
 <symbols>
@@ -9146,6 +9152,12 @@ Copyright: Würth Elektronik eiSos</description>
 <part name="P+17" library="supply1" deviceset="+5V" device=""/>
 <part name="GND23" library="supply1" deviceset="GNDA" device=""/>
 <part name="P+18" library="supply2" deviceset="+5V/2" device=""/>
+<part name="R3" library="rcl" deviceset="R-US_" device="R2012" value="120"/>
+<part name="R10" library="rcl" deviceset="R-US_" device="R2012" value="680"/>
+<part name="R11" library="rcl" deviceset="R-US_" device="R2012" value="680"/>
+<part name="P+19" library="supply1" deviceset="+5V" device=""/>
+<part name="GND24" library="supply1" deviceset="GND" device=""/>
+<part name="R12" library="rcl" deviceset="R-US_" device="R2012" value="120"/>
 </parts>
 <sheets>
 <sheet>
@@ -9181,13 +9193,13 @@ Copyright: Würth Elektronik eiSos</description>
 </instance>
 <instance part="GND4" gate="1" x="154.94" y="137.16"/>
 <instance part="GND5" gate="1" x="195.58" y="137.16"/>
-<instance part="U3" gate="G$1" x="198.12" y="106.68" smashed="yes">
-<attribute name="NAME" x="195.58" y="114.935" size="1.778" layer="95"/>
-<attribute name="VALUE" x="195.58" y="111.76" size="1.778" layer="96"/>
+<instance part="U3" gate="G$1" x="198.12" y="101.6" smashed="yes">
+<attribute name="NAME" x="195.58" y="109.855" size="1.778" layer="95"/>
+<attribute name="VALUE" x="195.58" y="106.68" size="1.778" layer="96"/>
 </instance>
-<instance part="U3" gate="G$2" x="198.12" y="91.44" smashed="yes">
-<attribute name="NAME" x="195.58" y="99.695" size="1.778" layer="95"/>
-<attribute name="VALUE" x="195.58" y="96.52" size="1.778" layer="96"/>
+<instance part="U3" gate="G$2" x="198.12" y="116.84" smashed="yes">
+<attribute name="NAME" x="195.58" y="125.095" size="1.778" layer="95"/>
+<attribute name="VALUE" x="195.58" y="121.92" size="1.778" layer="96"/>
 </instance>
 <instance part="R4" gate="G$1" x="116.84" y="106.68" smashed="yes" rot="R90">
 <attribute name="NAME" x="120.4214" y="102.87" size="1.778" layer="95" rot="R90"/>
@@ -9206,7 +9218,7 @@ Copyright: Würth Elektronik eiSos</description>
 <instance part="R6" gate="G$1" x="175.26" y="53.34" rot="R90"/>
 <instance part="R7" gate="G$1" x="175.26" y="68.58" rot="R90"/>
 <instance part="P+10" gate="1" x="175.26" y="76.2" smashed="yes">
-<attribute name="VALUE" x="175.26" y="78.74" size="1.778" layer="96" rot="R90" align="center-left"/>
+<attribute name="VALUE" x="175.26" y="76.2" size="1.778" layer="96" rot="R90" align="center-left"/>
 </instance>
 <instance part="GND13" gate="1" x="175.26" y="45.72"/>
 <instance part="R2" gate="G$1" x="132.08" y="40.64" smashed="yes" rot="R180">
@@ -9220,14 +9232,14 @@ Copyright: Würth Elektronik eiSos</description>
 <attribute name="NAME" x="148.463" y="54.0258" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="148.463" y="54.102" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="Q1" gate="G$1" x="58.42" y="134.62" smashed="yes" rot="R180">
-<attribute name="NAME" x="55.88" y="140.97" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="63.5" y="139.7" size="1.778" layer="96" rot="R180"/>
+<instance part="Q1" gate="G$1" x="58.42" y="134.62" smashed="yes">
+<attribute name="NAME" x="55.88" y="138.43" size="1.778" layer="95"/>
+<attribute name="VALUE" x="53.34" y="129.54" size="1.778" layer="96"/>
 </instance>
-<instance part="C2" gate="G$1" x="50.8" y="127" rot="R180"/>
-<instance part="C3" gate="G$1" x="66.04" y="127" smashed="yes" rot="R180">
-<attribute name="NAME" x="69.596" y="126.619" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="72.136" y="131.699" size="1.778" layer="96" rot="R180"/>
+<instance part="C2" gate="G$1" x="66.04" y="127" rot="R180"/>
+<instance part="C3" gate="G$1" x="50.8" y="127" smashed="yes" rot="R180">
+<attribute name="NAME" x="49.276" y="126.619" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="49.276" y="131.699" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="GND7" gate="1" x="58.42" y="116.84"/>
 <instance part="GND9" gate="1" x="116.84" y="71.12"/>
@@ -9354,15 +9366,15 @@ Copyright: Würth Elektronik eiSos</description>
 <pinref part="GND13" gate="1" pin="GND"/>
 </segment>
 <segment>
-<pinref part="C2" gate="G$1" pin="1"/>
-<wire x1="50.8" y1="124.46" x2="50.8" y2="121.92" width="0.1524" layer="91"/>
 <pinref part="GND7" gate="1" pin="GND"/>
 <wire x1="50.8" y1="121.92" x2="58.42" y2="121.92" width="0.1524" layer="91"/>
 <wire x1="58.42" y1="121.92" x2="58.42" y2="119.38" width="0.1524" layer="91"/>
-<pinref part="C3" gate="G$1" pin="1"/>
-<wire x1="66.04" y1="124.46" x2="66.04" y2="121.92" width="0.1524" layer="91"/>
 <wire x1="66.04" y1="121.92" x2="58.42" y2="121.92" width="0.1524" layer="91"/>
 <junction x="58.42" y="121.92"/>
+<pinref part="C3" gate="G$1" pin="1"/>
+<wire x1="50.8" y1="124.46" x2="50.8" y2="121.92" width="0.1524" layer="91"/>
+<pinref part="C2" gate="G$1" pin="1"/>
+<wire x1="66.04" y1="121.92" x2="66.04" y2="124.46" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="PB5/SCK" class="0">
@@ -9417,9 +9429,9 @@ Copyright: Würth Elektronik eiSos</description>
 <label x="78.74" y="66.04" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="U3" gate="G$2" pin="I"/>
-<label x="182.88" y="91.44" size="1.27" layer="95" rot="R180" xref="yes"/>
-<wire x1="187.96" y1="91.44" x2="182.88" y2="91.44" width="0.1524" layer="91"/>
+<label x="182.88" y="101.6" size="1.27" layer="95" rot="R180" xref="yes"/>
+<wire x1="187.96" y1="101.6" x2="182.88" y2="101.6" width="0.1524" layer="91"/>
+<pinref part="U3" gate="G$1" pin="I"/>
 </segment>
 <segment>
 <pinref part="U2" gate="G$1" pin="IN4"/>
@@ -9470,9 +9482,9 @@ Copyright: Würth Elektronik eiSos</description>
 <label x="78.74" y="73.66" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="U3" gate="G$1" pin="I"/>
-<wire x1="187.96" y1="106.68" x2="182.88" y2="106.68" width="0.1524" layer="91"/>
-<label x="182.88" y="106.68" size="1.27" layer="95" rot="MR0" xref="yes"/>
+<label x="182.88" y="116.84" size="1.27" layer="95" rot="MR0" xref="yes"/>
+<wire x1="187.96" y1="116.84" x2="182.88" y2="116.84" width="0.1524" layer="91"/>
+<pinref part="U3" gate="G$2" pin="I"/>
 </segment>
 <segment>
 <pinref part="U2" gate="G$1" pin="IN1"/>
@@ -9611,13 +9623,13 @@ Copyright: Würth Elektronik eiSos</description>
 <label x="25.4" y="81.28" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
-<pinref part="Q1" gate="G$1" pin="2"/>
-<wire x1="53.34" y1="134.62" x2="50.8" y2="134.62" width="0.1524" layer="91"/>
-<pinref part="C2" gate="G$1" pin="2"/>
-<wire x1="50.8" y1="134.62" x2="48.26" y2="134.62" width="0.1524" layer="91"/>
-<wire x1="50.8" y1="132.08" x2="50.8" y2="134.62" width="0.1524" layer="91"/>
-<junction x="50.8" y="134.62"/>
 <label x="48.26" y="134.62" size="1.27" layer="95" rot="MR0" xref="yes"/>
+<pinref part="Q1" gate="G$1" pin="1"/>
+<wire x1="53.34" y1="134.62" x2="50.8" y2="134.62" width="0.1524" layer="91"/>
+<pinref part="C3" gate="G$1" pin="2"/>
+<wire x1="50.8" y1="134.62" x2="48.26" y2="134.62" width="0.1524" layer="91"/>
+<wire x1="50.8" y1="134.62" x2="50.8" y2="132.08" width="0.1524" layer="91"/>
+<junction x="50.8" y="134.62"/>
 </segment>
 </net>
 <net name="PB7/XTAL2" class="0">
@@ -9627,13 +9639,13 @@ Copyright: Würth Elektronik eiSos</description>
 <label x="25.4" y="76.2" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
-<pinref part="C3" gate="G$1" pin="2"/>
-<wire x1="66.04" y1="132.08" x2="66.04" y2="134.62" width="0.1524" layer="91"/>
-<pinref part="Q1" gate="G$1" pin="1"/>
-<wire x1="66.04" y1="134.62" x2="63.5" y2="134.62" width="0.1524" layer="91"/>
-<wire x1="66.04" y1="134.62" x2="68.58" y2="134.62" width="0.1524" layer="91"/>
-<junction x="66.04" y="134.62"/>
 <label x="68.58" y="134.62" size="1.27" layer="95" xref="yes"/>
+<pinref part="Q1" gate="G$1" pin="2"/>
+<wire x1="63.5" y1="134.62" x2="66.04" y2="134.62" width="0.1524" layer="91"/>
+<pinref part="C2" gate="G$1" pin="2"/>
+<wire x1="66.04" y1="134.62" x2="68.58" y2="134.62" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="132.08" x2="66.04" y2="134.62" width="0.1524" layer="91"/>
+<junction x="66.04" y="134.62"/>
 </segment>
 </net>
 <net name="PB4/MISO" class="0">
@@ -9741,9 +9753,9 @@ Copyright: Würth Elektronik eiSos</description>
 </net>
 <net name="!PD4/XCK/T0" class="0">
 <segment>
-<pinref part="U3" gate="G$1" pin="O"/>
-<wire x1="208.28" y1="106.68" x2="213.36" y2="106.68" width="0.1524" layer="91"/>
-<label x="213.36" y="106.68" size="1.27" layer="95" xref="yes"/>
+<label x="213.36" y="116.84" size="1.27" layer="95" xref="yes"/>
+<wire x1="208.28" y1="116.84" x2="213.36" y2="116.84" width="0.1524" layer="91"/>
+<pinref part="U3" gate="G$2" pin="O"/>
 </segment>
 <segment>
 <pinref part="U2" gate="G$1" pin="IN2"/>
@@ -9757,9 +9769,9 @@ Copyright: Würth Elektronik eiSos</description>
 </net>
 <net name="!PD7/AIN1" class="0">
 <segment>
-<pinref part="U3" gate="G$2" pin="O"/>
-<wire x1="208.28" y1="91.44" x2="213.36" y2="91.44" width="0.1524" layer="91"/>
-<label x="213.36" y="91.44" size="1.27" layer="95" xref="yes"/>
+<label x="213.36" y="101.6" size="1.27" layer="95" xref="yes"/>
+<wire x1="208.28" y1="101.6" x2="213.36" y2="101.6" width="0.1524" layer="91"/>
+<pinref part="U3" gate="G$1" pin="O"/>
 </segment>
 <segment>
 <pinref part="U2" gate="G$1" pin="IN3"/>
@@ -9829,10 +9841,11 @@ Copyright: Würth Elektronik eiSos</description>
 </sheet>
 <sheet>
 <plain>
+<text x="114.3" y="88.9" size="1.778" layer="94">RS485 Terminations</text>
 </plain>
 <instances>
 <instance part="U6" gate="G$1" x="48.26" y="154.94"/>
-<instance part="U$1" gate="G$1" x="96.52" y="154.94"/>
+<instance part="U$1" gate="G$1" x="116.84" y="154.94"/>
 <instance part="R8" gate="G$1" x="53.34" y="109.22" smashed="yes">
 <attribute name="NAME" x="49.53" y="110.7186" size="1.778" layer="95"/>
 <attribute name="VALUE" x="57.15" y="110.998" size="1.778" layer="96"/>
@@ -9899,21 +9912,21 @@ Copyright: Würth Elektronik eiSos</description>
 <instance part="P+11" gate="G$1" x="109.22" y="63.5" smashed="yes" rot="MR0">
 <attribute name="VALUE" x="109.22" y="66.04" size="1.778" layer="96" rot="MR90" align="center-left"/>
 </instance>
-<instance part="TP10" gate="P" x="78.74" y="160.02" smashed="yes">
-<attribute name="NAME" x="69.977" y="159.3342" size="1.778" layer="95"/>
-<attribute name="VALUE" x="77.597" y="156.718" size="1.778" layer="96"/>
+<instance part="TP10" gate="P" x="99.06" y="160.02" smashed="yes">
+<attribute name="NAME" x="90.297" y="159.3342" size="1.778" layer="95"/>
+<attribute name="VALUE" x="97.917" y="156.718" size="1.778" layer="96"/>
 </instance>
-<instance part="TP11" gate="P" x="78.74" y="157.48" smashed="yes">
-<attribute name="NAME" x="69.977" y="156.7942" size="1.778" layer="95"/>
-<attribute name="VALUE" x="77.597" y="154.178" size="1.778" layer="96"/>
+<instance part="TP11" gate="P" x="99.06" y="157.48" smashed="yes">
+<attribute name="NAME" x="90.297" y="156.7942" size="1.778" layer="95"/>
+<attribute name="VALUE" x="97.917" y="154.178" size="1.778" layer="96"/>
 </instance>
-<instance part="TP12" gate="P" x="78.74" y="154.94" smashed="yes">
-<attribute name="NAME" x="69.977" y="154.2542" size="1.778" layer="95"/>
-<attribute name="VALUE" x="77.597" y="151.638" size="1.778" layer="96"/>
+<instance part="TP12" gate="P" x="99.06" y="154.94" smashed="yes">
+<attribute name="NAME" x="90.297" y="154.2542" size="1.778" layer="95"/>
+<attribute name="VALUE" x="97.917" y="151.638" size="1.778" layer="96"/>
 </instance>
-<instance part="TP13" gate="P" x="78.74" y="152.4" smashed="yes">
-<attribute name="NAME" x="69.977" y="151.7142" size="1.778" layer="95"/>
-<attribute name="VALUE" x="77.597" y="149.098" size="1.778" layer="96"/>
+<instance part="TP13" gate="P" x="99.06" y="152.4" smashed="yes">
+<attribute name="NAME" x="90.297" y="151.7142" size="1.778" layer="95"/>
+<attribute name="VALUE" x="97.917" y="149.098" size="1.778" layer="96"/>
 </instance>
 <instance part="D2" gate="G$1" x="35.56" y="40.64" rot="R90">
 <attribute name="DIGIKEY_PN" x="35.56" y="40.64" size="1.27" layer="96" rot="R90" display="off"/>
@@ -9947,11 +9960,11 @@ Copyright: Würth Elektronik eiSos</description>
 </instance>
 <instance part="GND19" gate="1" x="134.62" y="154.94"/>
 <instance part="GND21" gate="1" x="154.94" y="154.94"/>
-<instance part="JP1" gate="G$1" x="170.18" y="114.3"/>
+<instance part="JP1" gate="G$1" x="208.28" y="81.28"/>
 <instance part="J2" gate="G$1" x="210.82" y="111.76" rot="MR0"/>
-<instance part="GND22" gate="1" x="160.02" y="109.22"/>
-<instance part="P+17" gate="1" x="160.02" y="127" smashed="yes">
-<attribute name="VALUE" x="160.02" y="129.54" size="1.778" layer="96" rot="R90" align="center-left"/>
+<instance part="GND22" gate="1" x="198.12" y="76.2"/>
+<instance part="P+17" gate="1" x="198.12" y="93.98" smashed="yes">
+<attribute name="VALUE" x="198.12" y="96.52" size="1.778" layer="96" rot="R90" align="center-left"/>
 </instance>
 <instance part="GND23" gate="1" x="198.12" y="109.22"/>
 <instance part="P+18" gate="G$1" x="198.12" y="124.46" smashed="yes" rot="MR0">
@@ -9960,6 +9973,26 @@ Copyright: Würth Elektronik eiSos</description>
 <instance part="U6" gate="G$2" x="195.58" y="157.48"/>
 <instance part="U3" gate="G$3" x="205.74" y="157.48"/>
 <instance part="U5" gate="G$5" x="215.9" y="157.48"/>
+<instance part="R3" gate="G$1" x="109.22" y="109.22" smashed="yes" rot="R90">
+<attribute name="NAME" x="107.7214" y="105.41" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="112.522" y="105.41" size="1.778" layer="96" rot="R90"/>
+</instance>
+<instance part="R10" gate="G$1" x="116.84" y="101.6" smashed="yes" rot="R180">
+<attribute name="NAME" x="120.65" y="105.1814" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="120.65" y="99.822" size="1.778" layer="96" rot="R180"/>
+</instance>
+<instance part="R11" gate="G$1" x="116.84" y="116.84" smashed="yes">
+<attribute name="NAME" x="113.03" y="118.3386" size="1.778" layer="95"/>
+<attribute name="VALUE" x="113.03" y="113.538" size="1.778" layer="96"/>
+</instance>
+<instance part="P+19" gate="1" x="124.46" y="121.92" smashed="yes">
+<attribute name="VALUE" x="124.46" y="124.46" size="1.778" layer="96" rot="R90" align="center-left"/>
+</instance>
+<instance part="GND24" gate="1" x="124.46" y="96.52"/>
+<instance part="R12" gate="G$1" x="154.94" y="109.22" smashed="yes" rot="R90">
+<attribute name="NAME" x="153.4414" y="105.41" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="158.242" y="105.41" size="1.778" layer="96" rot="R90"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -9988,14 +10021,30 @@ Copyright: Würth Elektronik eiSos</description>
 <wire x1="63.5" y1="144.78" x2="66.04" y2="144.78" width="0.1524" layer="91"/>
 <wire x1="66.04" y1="144.78" x2="66.04" y2="147.32" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="8"/>
-<wire x1="66.04" y1="147.32" x2="83.82" y2="147.32" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="147.32" x2="104.14" y2="147.32" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="144.78" x2="68.58" y2="144.78" width="0.1524" layer="91"/>
+<label x="68.58" y="144.78" size="1.778" layer="95" xref="yes"/>
+<junction x="66.04" y="144.78"/>
+<wire x1="154.94" y1="101.6" x2="154.94" y2="104.14" width="0.1524" layer="91"/>
+<pinref part="R12" gate="G$1" pin="1"/>
+<wire x1="154.94" y1="101.6" x2="149.86" y2="101.6" width="0.1524" layer="91"/>
+<label x="149.86" y="101.6" size="1.778" layer="95" rot="MR0" xref="yes"/>
 </segment>
 </net>
 <net name="RS485_RX" class="0">
 <segment>
 <pinref part="U6" gate="G$1" pin="A"/>
 <pinref part="U$1" gate="G$1" pin="7"/>
-<wire x1="63.5" y1="149.86" x2="83.82" y2="149.86" width="0.1524" layer="91"/>
+<wire x1="63.5" y1="149.86" x2="66.04" y2="149.86" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="149.86" x2="104.14" y2="149.86" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="149.86" x2="66.04" y2="152.4" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="152.4" x2="68.58" y2="152.4" width="0.1524" layer="91"/>
+<label x="68.58" y="152.4" size="1.778" layer="95" xref="yes"/>
+<junction x="66.04" y="149.86"/>
+<wire x1="154.94" y1="114.3" x2="154.94" y2="116.84" width="0.1524" layer="91"/>
+<pinref part="R12" gate="G$1" pin="2"/>
+<wire x1="154.94" y1="116.84" x2="149.86" y2="116.84" width="0.1524" layer="91"/>
+<label x="149.86" y="116.84" size="1.778" layer="95" rot="MR0" xref="yes"/>
 </segment>
 </net>
 <net name="!RS485_TX" class="0">
@@ -10004,14 +10053,40 @@ Copyright: Würth Elektronik eiSos</description>
 <wire x1="63.5" y1="160.02" x2="66.04" y2="160.02" width="0.1524" layer="91"/>
 <wire x1="66.04" y1="160.02" x2="66.04" y2="162.56" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="2"/>
-<wire x1="66.04" y1="162.56" x2="83.82" y2="162.56" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="162.56" x2="104.14" y2="162.56" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="160.02" x2="68.58" y2="160.02" width="0.1524" layer="91"/>
+<label x="68.58" y="160.02" size="1.778" layer="95" xref="yes"/>
+<junction x="66.04" y="160.02"/>
+</segment>
+<segment>
+<pinref part="R3" gate="G$1" pin="1"/>
+<wire x1="109.22" y1="101.6" x2="109.22" y2="104.14" width="0.1524" layer="91"/>
+<pinref part="R10" gate="G$1" pin="2"/>
+<wire x1="111.76" y1="101.6" x2="109.22" y2="101.6" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="101.6" x2="104.14" y2="101.6" width="0.1524" layer="91"/>
+<label x="104.14" y="101.6" size="1.778" layer="95" rot="MR0" xref="yes"/>
+<junction x="109.22" y="101.6"/>
 </segment>
 </net>
 <net name="RS485_TX" class="0">
 <segment>
 <pinref part="U6" gate="G$1" pin="Y"/>
 <pinref part="U$1" gate="G$1" pin="1"/>
-<wire x1="63.5" y1="165.1" x2="83.82" y2="165.1" width="0.1524" layer="91"/>
+<wire x1="63.5" y1="165.1" x2="66.04" y2="165.1" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="165.1" x2="104.14" y2="165.1" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="165.1" x2="66.04" y2="167.64" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="167.64" x2="68.58" y2="167.64" width="0.1524" layer="91"/>
+<label x="68.58" y="167.64" size="1.778" layer="95" xref="yes"/>
+<junction x="66.04" y="165.1"/>
+</segment>
+<segment>
+<pinref part="R11" gate="G$1" pin="1"/>
+<wire x1="109.22" y1="116.84" x2="111.76" y2="116.84" width="0.1524" layer="91"/>
+<pinref part="R3" gate="G$1" pin="2"/>
+<wire x1="109.22" y1="114.3" x2="109.22" y2="116.84" width="0.1524" layer="91"/>
+<wire x1="109.22" y1="116.84" x2="104.14" y2="116.84" width="0.1524" layer="91"/>
+<label x="104.14" y="116.84" size="1.778" layer="95" rot="MR0" xref="yes"/>
+<junction x="109.22" y="116.84"/>
 </segment>
 </net>
 <net name="PB5/SCK" class="0">
@@ -10056,8 +10131,8 @@ Copyright: Würth Elektronik eiSos</description>
 </segment>
 <segment>
 <pinref part="JP1" gate="G$1" pin="VBUS"/>
-<wire x1="167.64" y1="116.84" x2="160.02" y2="116.84" width="0.1524" layer="91"/>
-<wire x1="160.02" y1="116.84" x2="160.02" y2="124.46" width="0.1524" layer="91"/>
+<wire x1="205.74" y1="83.82" x2="198.12" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="198.12" y1="83.82" x2="198.12" y2="91.44" width="0.1524" layer="91"/>
 <pinref part="P+17" gate="1" pin="+5V"/>
 </segment>
 <segment>
@@ -10071,6 +10146,12 @@ Copyright: Würth Elektronik eiSos</description>
 <segment>
 <pinref part="P+16" gate="1" pin="+5V"/>
 <pinref part="U5" gate="G$5" pin="+VS"/>
+</segment>
+<segment>
+<pinref part="R11" gate="G$1" pin="2"/>
+<pinref part="P+19" gate="1" pin="+5V"/>
+<wire x1="124.46" y1="119.38" x2="124.46" y2="116.84" width="0.1524" layer="91"/>
+<wire x1="124.46" y1="116.84" x2="121.92" y2="116.84" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -10087,8 +10168,8 @@ Copyright: Würth Elektronik eiSos</description>
 </segment>
 <segment>
 <pinref part="JP1" gate="G$1" pin="GND"/>
-<wire x1="167.64" y1="114.3" x2="160.02" y2="114.3" width="0.1524" layer="91"/>
-<wire x1="160.02" y1="114.3" x2="160.02" y2="111.76" width="0.1524" layer="91"/>
+<wire x1="205.74" y1="81.28" x2="198.12" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="198.12" y1="81.28" x2="198.12" y2="78.74" width="0.1524" layer="91"/>
 <pinref part="GND22" gate="1" pin="GND"/>
 </segment>
 <segment>
@@ -10102,6 +10183,12 @@ Copyright: Würth Elektronik eiSos</description>
 <segment>
 <pinref part="GND18" gate="1" pin="GND"/>
 <pinref part="U5" gate="G$5" pin="-VS"/>
+</segment>
+<segment>
+<pinref part="R10" gate="G$1" pin="1"/>
+<pinref part="GND24" gate="1" pin="GND"/>
+<wire x1="121.92" y1="101.6" x2="124.46" y2="101.6" width="0.1524" layer="91"/>
+<wire x1="124.46" y1="101.6" x2="124.46" y2="99.06" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+5V/2" class="0">
@@ -10198,28 +10285,28 @@ Copyright: Würth Elektronik eiSos</description>
 <segment>
 <pinref part="U$1" gate="G$1" pin="3"/>
 <pinref part="TP10" gate="P" pin="P"/>
-<wire x1="83.82" y1="160.02" x2="81.28" y2="160.02" width="0.1524" layer="91"/>
+<wire x1="104.14" y1="160.02" x2="101.6" y2="160.02" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$2" class="0">
 <segment>
 <pinref part="TP11" gate="P" pin="P"/>
 <pinref part="U$1" gate="G$1" pin="4"/>
-<wire x1="81.28" y1="157.48" x2="83.82" y2="157.48" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="157.48" x2="104.14" y2="157.48" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$4" class="0">
 <segment>
 <pinref part="U$1" gate="G$1" pin="5"/>
 <pinref part="TP12" gate="P" pin="P"/>
-<wire x1="83.82" y1="154.94" x2="81.28" y2="154.94" width="0.1524" layer="91"/>
+<wire x1="104.14" y1="154.94" x2="101.6" y2="154.94" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$5" class="0">
 <segment>
 <pinref part="TP13" gate="P" pin="P"/>
 <pinref part="U$1" gate="G$1" pin="6"/>
-<wire x1="81.28" y1="152.4" x2="83.82" y2="152.4" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="152.4" x2="104.14" y2="152.4" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="GNDA" class="0">
