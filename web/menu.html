@@ -52,6 +52,10 @@
     <script type="text/template" id="ingredient_template">
       <li><span class="btn btn-info"><span class="ingrval"><%= amount %> oz</span> | <span class="ingrname"><%= name %></span></span></li>
     </script>
+
+    <script type="text/template" id="topbar_template">
+      <li><a href="#"><%= get("name") %></a></li>
+    </script>
   </head>
 
   <body class="preview" data-spy="scroll" data-target=".subnav" data-offset="80">
@@ -67,10 +71,7 @@
           </a>
           <a class="brand" href="/">Santa Barbot Menu</a>
           <div class="nav-collapse" id="main-menu">
-            <ul class="nav" id="main-menu-left">
-              <li><a href="#">Manly drinks</a></li>
-              <li><a href="#">Girly drinks</a></li>
-              <li><a href="#">Dashboard</a></li>
+            <ul class="nav category-topbar" id="main-menu-left" >
             </ul>
           </div>
         </div>
@@ -123,6 +124,7 @@
     <script src="assets/js/underscore-min.js"></script>
     <script src="assets/js/backbone.js"></script>
     <script src="assets/js/models/drink.js"></script>
+    <script src="assets/js/models/category.js"></script>
     <script src="assets/js/menu.js"></script>
   </body>
 </html>

@@ -2,10 +2,11 @@ $(function()
 {
   
   drinks = new AllDrinks();
-  
+  categories = new ValidCategories();
+
   //-------------------------------
   // This draws the menu of drinks
-  //-------------------------------
+  //-------------------------------  
   DrinkView = Backbone.View.extend(
   {
     tagName: 'li',
@@ -32,7 +33,7 @@ $(function()
       // For each drink
       this.collection.each(function(drink)
       {
-        $("#drinks-list").append("<li><a href=\"#" + drink.get("key") + "\">" + drink.get("name") + "</a></li>");
+        $("#drinks-list").append("<li>" + drink.get("name") + "</a></li>");
         
         // Get the ingredients for this drink
         var ingredients = drink.get("ingredients");
@@ -68,7 +69,7 @@ $(function()
 
         // Populate the drink template
         var drinkTemplatePopulated = drinkTemplate(drinkVars);
-        
+
         $("#content").append(drinkTemplatePopulated);
         
         // DEBUG
@@ -76,8 +77,11 @@ $(function()
       });
     }
   });
-
+  
   view = new DrinkView();
   drinks.fetch();
-});
+  view2 = new CategoryTopbarView({ el: $(".category-topbar"), 
+                                   collection: categories });
+  categories.fetch();
 
+});
