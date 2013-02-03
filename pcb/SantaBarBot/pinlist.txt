@@ -1,6 +1,6 @@
 Pinlist
 
-Exported from BarBot 2012 Tower.brd at 2/2/2013 12:18:17 AM
+Exported from BarBot 2012 Tower.brd at 2/3/2013 3:04:41 PM
 
 EAGLE Version 6.3.0 Copyright (c) 1988-2012 CadSoft
 
@@ -39,7 +39,7 @@ D7       A        M2+
 D8       A        GND
          C        M2+
 
-J1       1        PB4/MISO
+ICSP     1        PB4/MISO
          2        +5V
          3        PB5/SCK
          4        PB3/MOSI/OC2
@@ -118,31 +118,28 @@ R13      1        PC4/ADC4/SDA
 R14      1        PC5/ADC5/SCL
          2        +5V
 
+RX       1        RS485_RX
+         2        !RS485_RX
+         3        RJ_RX_3
+         4        RJ_RX_4
+         5        RJ_RX_5
+         6        RJ_RX_6
+         7        RJ_RX_7
+         8        RJ_RX_8
+
 S1       1        GND
          2                 *** unconnected ***
          3        PC6/!RESET
          4                 *** unconnected ***
 
-SCL      1        PC5/ADC5/SCL
-
-SDA      1        PC4/ADC4/SDA
-
-TP10     1        N$1
-
-TP11     1        N$2
-
-TP12     1        N$4
-
-TP13     1        N$5
-
-U$1      1        RS485_TX
+TX       1        RS485_TX
          2        !RS485_TX
-         3        N$1
-         4        N$2
-         5        N$4
-         6        N$5
-         7        RS485_RX
-         8        !RS485_RX
+         3        RJ_TX_3
+         4        RJ_TX_4
+         5        RJ_TX_5
+         6        RJ_TX_6
+         7        RJ_TX_7
+         8        RJ_TX_8
 
 U1       1        PD3/INT1
          10       PD6/AIN0

@@ -8718,261 +8718,6 @@ diameter 5 mm, horizontal, grid 15.24 mm</description>
 </deviceset>
 </devicesets>
 </library>
-<library name="wuerth-elektronik">
-<description>&lt;BR&gt;WE eiSos -- EMC &amp; Inductive Solutions&lt;br&gt;&lt;Hr&gt;
-&lt;BR&gt;&lt;BR&gt; 
-&lt;TABLE BORDER=0 CELLSPACING=0 CELLPADDING=0&gt;
-&lt;TR&gt;   
-&lt;TD BGCOLOR="#cccccc" ALIGN=CENTER&gt;&lt;FONT FACE=ARIAL SIZE=3&gt;&lt;BR&gt;&lt;br&gt;
-      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp;&lt;BR&gt;
-       &lt;BR&gt;
-       &lt;BR&gt;
-       &lt;BR&gt;&lt;BR&gt;&lt;/FONT&gt;
-    &lt;/TD&gt;
-&lt;TD BGCOLOR="#cccccc" ALIGN=CENTER&gt;&lt;FONT FACE=ARIAL SIZE=3&gt;&lt;br&gt;
-      -----&lt;BR&gt;
-      -----&lt;BR&gt;
-      -----&lt;BR&gt;
-      -----&lt;BR&gt;
-      -----&lt;BR&gt;&lt;BR&gt;&lt;/FONT&gt;
-    &lt;/TD&gt;
-    &lt;TD BGCOLOR="#cccccc" ALIGN=CENTER&gt; &lt;FONT FACE=ARIAL SIZE=3&gt;&lt;br&gt;
-      ---------------------------&lt;BR&gt;
-&lt;B&gt;&lt;I&gt;&lt;span style='font-size:26pt;
-  color:#FF6600;'&gt;WE &lt;/span&gt;&lt;/i&gt;&lt;/b&gt;
-&lt;BR&gt;
-      ---------------------------&lt;BR&gt;&lt;b&gt;Würth Elektronik&lt;/b&gt;&lt;/FONT&gt;
-    &lt;/TD&gt;
-    &lt;TD BGCOLOR="#cccccc" ALIGN=CENTER&gt;&lt;FONT FACE=ARIAL SIZE=3&gt;&lt;br&gt;
-      ---------O---&lt;BR&gt;
-      ----O--------&lt;BR&gt;
-      ---------O---&lt;BR&gt;
-      ----O--------&lt;BR&gt;
-      ---------O---&lt;BR&gt;&lt;BR&gt;&lt;/FONT&gt;
-    &lt;/TD&gt;
-   
-&lt;TD BGCOLOR="#cccccc" ALIGN=CENTER&gt;&lt;FONT FACE=ARIAL SIZE=3&gt;&lt;BR&gt;
-      &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp;&lt;BR&gt;
-       &lt;BR&gt;
-       &lt;BR&gt;
-       &lt;BR&gt;
-       &lt;BR&gt;&lt;BR&gt;&lt;/FONT&gt;
-    &lt;/TD&gt;
-  &lt;/TR&gt;
-
-  &lt;TR&gt;
-    &lt;TD COLSPAN=7&gt;&amp;nbsp;
-    &lt;/TD&gt;
-  &lt;/TR&gt;
-  
-&lt;/TABLE&gt;
-&lt;B&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;More than you expect&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;/B&gt;
-
-&lt;HR&gt;&lt;BR&gt;
-&lt;b&gt;Würth Elektronik eiSos GmbH &amp; Co. KG&lt;/b&gt;&lt;br&gt;
-EMC &amp; Inductive Solutions&lt;br&gt;
-
-Max-Eyth-Str.1&lt;br&gt;
-D-74638 Waldenburg&lt;br&gt;
-&lt;br&gt;
-Tel: +49 (0)7942-945-0&lt;br&gt;
-Fax:+49 (0)7942-945-400&lt;br&gt;
-&lt;br&gt;
-&lt;a href="http://www.we-online.com"&gt;http://www.we-online.com&lt;/a&gt;&lt;br&gt;
-&lt;a href="mailto:eisos@we-online.de"&gt;eisos@we-online.de&lt;/a&gt; &lt;BR&gt;&lt;BR&gt;
-&lt;br&gt;&lt;HR&gt;&lt;BR&gt;
-Neither CadSoft nor WE-eiSos does warrant that this library is error-free or &lt;br&gt;
-that it meets your specific requirements.&lt;br&gt;&lt;BR&gt;
-Please contact us for more information.&lt;br&gt;&lt;BR&gt;&lt;br&gt;
-&lt;hr&gt;
-Version 4,   July 12th 2005
-&lt;HR&gt;
-Copyright: Würth Elektronik eiSos</description>
-<packages>
-<package name="0603">
-<description>Multilayer SMD</description>
-<wire x1="-0.9" y1="0" x2="0.7" y2="0" width="0.127" layer="51"/>
-<wire x1="-0.8" y1="0.4" x2="0.8" y2="0.4" width="0.07" layer="21"/>
-<wire x1="0.8" y1="0.4" x2="0.8" y2="-0.4" width="0.07" layer="51"/>
-<wire x1="0.8" y1="-0.4" x2="-0.8" y2="-0.4" width="0.07" layer="21"/>
-<wire x1="-0.8" y1="-0.4" x2="-0.8" y2="0.4" width="0.07" layer="51"/>
-<smd name="1" x="-0.9" y="0" dx="0.85" dy="0.7" layer="1"/>
-<smd name="2" x="0.7" y="0" dx="0.85" dy="0.7" layer="1"/>
-<text x="-1.5875" y="0.635" size="0.6096" layer="27">&gt;VALUE</text>
-<text x="-1.5875" y="-1.27" size="0.6096" layer="25">&gt;NAME</text>
-<rectangle x1="-0.3" y1="-0.1" x2="0.1" y2="0.1" layer="21"/>
-</package>
-<package name="0402">
-<description>Multilayer SMD</description>
-<wire x1="-0.6" y1="0" x2="0.6" y2="0" width="0.127" layer="51"/>
-<wire x1="-0.9472" y1="0.2996" x2="0.9399" y2="0.2996" width="0.127" layer="51"/>
-<wire x1="0.9399" y1="0.2996" x2="0.9399" y2="-0.2924" width="0.127" layer="51"/>
-<wire x1="0.9399" y1="-0.2924" x2="-0.9472" y2="-0.2924" width="0.127" layer="51"/>
-<wire x1="-0.9472" y1="-0.2924" x2="-0.9472" y2="0.2996" width="0.127" layer="51"/>
-<smd name="1" x="-0.6" y="0" dx="0.7" dy="0.6" layer="1"/>
-<smd name="2" x="0.6" y="0" dx="0.7" dy="0.6" layer="1"/>
-<text x="-1.5875" y="0.635" size="0.6096" layer="27">&gt;VALUE</text>
-<text x="-1.5875" y="-1.27" size="0.6096" layer="25">&gt;NAME</text>
-<rectangle x1="-0.12" y1="-0.08" x2="0.12" y2="0.08" layer="21"/>
-</package>
-<package name="0805">
-<description>Multilayer SMD</description>
-<wire x1="-1.3" y1="0" x2="1.2" y2="0" width="0.127" layer="21"/>
-<wire x1="-1.1" y1="0" x2="1.1" y2="0" width="0.127" layer="51"/>
-<wire x1="-1" y1="0.625" x2="1" y2="0.625" width="0.07" layer="21"/>
-<wire x1="1" y1="0.625" x2="1" y2="-0.625" width="0.07" layer="51"/>
-<wire x1="1" y1="-0.625" x2="-1" y2="-0.625" width="0.07" layer="21"/>
-<wire x1="-1" y1="-0.625" x2="-1" y2="0.625" width="0.07" layer="51"/>
-<smd name="1" x="-1.1" y="0" dx="1.2" dy="1" layer="1"/>
-<smd name="2" x="1.1" y="0" dx="1.2" dy="1" layer="1"/>
-<text x="-1.905" y="0.9525" size="0.6096" layer="27">&gt;VALUE</text>
-<text x="-1.905" y="-1.5875" size="0.6096" layer="25">&gt;NAME</text>
-<rectangle x1="-0.35" y1="-0.15" x2="0.35" y2="0.15" layer="21"/>
-</package>
-<package name="1206">
-<description>Multilayer SMD</description>
-<wire x1="-1.7" y1="0" x2="1.7" y2="0" width="0.127" layer="51"/>
-<wire x1="-1.6" y1="0.8" x2="1.6" y2="0.8" width="0.07" layer="21"/>
-<wire x1="1.6" y1="0.8" x2="1.6" y2="-0.8" width="0.07" layer="51"/>
-<wire x1="1.6" y1="-0.8" x2="-1.6" y2="-0.8" width="0.07" layer="21"/>
-<wire x1="-1.6" y1="-0.8" x2="-1.6" y2="0.8" width="0.07" layer="51"/>
-<smd name="1" x="-1.7" y="0" dx="1.35" dy="1.2" layer="1"/>
-<smd name="2" x="1.65" y="0" dx="1.35" dy="1.2" layer="1"/>
-<text x="-1.84" y="0.9525" size="0.6096" layer="27">&gt;VALUE</text>
-<text x="-1.84" y="-1.5875" size="0.6096" layer="25">&gt;NAME</text>
-<rectangle x1="-0.6" y1="-0.3" x2="0.5" y2="0.3" layer="21"/>
-</package>
-<package name="1210">
-<description>Multilayer SMD</description>
-<wire x1="-1.7" y1="0" x2="1.8" y2="0" width="0.127" layer="51"/>
-<wire x1="1.8" y1="0" x2="1.8" y2="-0.1" width="0.127" layer="21"/>
-<wire x1="-0.3112" y1="0.7779" x2="2.0225" y2="0.7779" width="0.127" layer="21"/>
-<wire x1="2.0225" y1="0.7779" x2="2.0225" y2="-0.7779" width="0.127" layer="51"/>
-<wire x1="2.0225" y1="-0.7779" x2="-2.0225" y2="-0.7779" width="0.127" layer="21"/>
-<wire x1="-2.0225" y1="-0.7779" x2="-2.0225" y2="0.7779" width="0.127" layer="51"/>
-<wire x1="-2.0225" y1="0.7779" x2="-0.3112" y2="0.7779" width="0.127" layer="21"/>
-<smd name="1" x="-1.7" y="0" dx="1.4" dy="1.2" layer="1"/>
-<smd name="2" x="1.7" y="0" dx="1.4" dy="1.2" layer="1"/>
-<text x="-1.74" y="0.9525" size="0.6096" layer="27">&gt;VALUE</text>
-<text x="-1.74" y="-1.5875" size="0.6096" layer="25">&gt;NAME</text>
-<rectangle x1="-0.6" y1="-0.3" x2="0.6" y2="0.3" layer="21"/>
-</package>
-<package name="1806">
-<description>Multilayer SMD</description>
-<wire x1="2.4" y1="0" x2="2.4" y2="0.1" width="0.127" layer="1"/>
-<wire x1="-2.4" y1="0" x2="2.3" y2="0" width="0.127" layer="51"/>
-<wire x1="2.6448" y1="0.7779" x2="2.6448" y2="-0.7779" width="0.127" layer="51"/>
-<wire x1="2.6448" y1="-0.7779" x2="-2.8004" y2="-0.7779" width="0.127" layer="21"/>
-<wire x1="-2.8004" y1="-0.7779" x2="-2.8004" y2="0.7779" width="0.127" layer="51"/>
-<wire x1="-2.8004" y1="0.7779" x2="2.6448" y2="0.7779" width="0.127" layer="21"/>
-<smd name="1" x="-2.3" y="0" dx="1.5" dy="1.2" layer="1"/>
-<smd name="2" x="2.2" y="0" dx="1.5" dy="1.2" layer="1"/>
-<text x="-1.8575" y="0.9525" size="0.6096" layer="27">&gt;VALUE</text>
-<text x="-1.8575" y="-1.5875" size="0.6096" layer="25">&gt;NAME</text>
-<rectangle x1="-0.8" y1="-0.3" x2="0.8" y2="0.3" layer="21"/>
-</package>
-<package name="1812">
-<description>Multilayer SMD</description>
-<wire x1="-2.3" y1="0" x2="2.4" y2="0" width="0.127" layer="51"/>
-<wire x1="-2.8004" y1="1.7113" x2="2.8004" y2="1.7113" width="0.127" layer="21"/>
-<wire x1="2.8004" y1="1.7113" x2="2.8004" y2="-1.7113" width="0.127" layer="51"/>
-<wire x1="2.8004" y1="-1.7113" x2="-2.8004" y2="-1.7113" width="0.127" layer="21"/>
-<wire x1="-2.8004" y1="-1.7113" x2="-2.8004" y2="1.7113" width="0.127" layer="51"/>
-<smd name="1" x="-2.3" y="0" dx="1.6" dy="3" layer="1"/>
-<smd name="2" x="2.3" y="0" dx="1.6" dy="3" layer="1"/>
-<text x="-1.8575" y="1.905" size="0.6096" layer="27">&gt;VALUE</text>
-<text x="-1.8575" y="-2.54" size="0.6096" layer="25">&gt;NAME</text>
-<rectangle x1="-0.9" y1="-0.3" x2="0.9" y2="0.3" layer="21"/>
-</package>
-</packages>
-<symbols>
-<symbol name="L">
-<text x="-3.81" y="-1.27" size="1.778" layer="96">&gt;VALUE</text>
-<text x="-3.81" y="5.08" size="1.778" layer="95">&gt;NAME</text>
-<rectangle x1="-2.54" y1="1.27" x2="2.54" y2="3.81" layer="94"/>
-<pin name="1" x="-5.08" y="2.54" visible="off" length="short" direction="pas" swaplevel="1"/>
-<pin name="2" x="5.08" y="2.54" visible="off" length="short" direction="pas" swaplevel="1" rot="R180"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="WE-CBF" prefix="L" uservalue="yes">
-<description>SMD EMI Suppression Ferrite Beads
-
-- excellent anti-EMI properties 
-- low DCR
-- impedances till 3000 ohms
-- rated current up to 6 A</description>
-<gates>
-<gate name="G$1" symbol="L" x="0" y="2.54"/>
-</gates>
-<devices>
-<device name="_0603" package="0603">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="_0402" package="0402">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="_0805" package="0805">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="_1206" package="1206">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="_1210" package="1210">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="_1806" package="1806">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="_1812" package="1812">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="SparkFun-FreqCtrl">
 <description>&lt;h3&gt;SparkFun Electronics' preferred foot prints&lt;/h3&gt;
 In this library you'll find crystals and oscillators and other things that go "tick".&lt;br&gt;&lt;br&gt;
@@ -9198,9 +8943,6 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 <part name="GND14" library="supply1" deviceset="GNDA" device=""/>
 <part name="GND9" library="supply1" deviceset="GNDA" device=""/>
 <part name="GND10" library="supply1" deviceset="GNDA" device=""/>
-<part name="L1" library="wuerth-elektronik" deviceset="WE-CBF" device="_0805">
-<attribute name="DIGIKEY_PN" value="445-1555-1-ND"/>
-</part>
 <part name="GND19" library="supply1" deviceset="GND" device=""/>
 <part name="GND21" library="supply1" deviceset="GNDA" device=""/>
 <part name="JP1" library="SparkFun-Connectors" deviceset="USB" device="PTH" value="USB-B"/>
@@ -9419,6 +9161,16 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 <pinref part="GND7" gate="1" pin="GND"/>
 <pinref part="Y1" gate="G$1" pin="2"/>
 <wire x1="58.42" y1="127" x2="58.42" y2="124.46" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="R5" gate="G$1" pin="1"/>
+<pinref part="GND9" gate="1" pin="GNDA"/>
+<wire x1="116.84" y1="73.66" x2="116.84" y2="76.2" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="R4" gate="G$1" pin="1"/>
+<pinref part="GND10" gate="1" pin="GNDA"/>
+<wire x1="116.84" y1="99.06" x2="116.84" y2="101.6" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="PB5/SCK" class="0">
@@ -9821,18 +9573,6 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 <pinref part="PAD3" gate="P" pin="P"/>
 </segment>
 </net>
-<net name="GNDA" class="0">
-<segment>
-<pinref part="R5" gate="G$1" pin="1"/>
-<pinref part="GND9" gate="1" pin="GNDA"/>
-<wire x1="116.84" y1="73.66" x2="116.84" y2="76.2" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="R4" gate="G$1" pin="1"/>
-<pinref part="GND10" gate="1" pin="GNDA"/>
-<wire x1="116.84" y1="99.06" x2="116.84" y2="101.6" width="0.1524" layer="91"/>
-</segment>
-</net>
 </nets>
 </sheet>
 <sheet>
@@ -9951,10 +9691,7 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 <instance part="GND11" gate="1" x="88.9" y="33.02"/>
 <instance part="GND12" gate="1" x="109.22" y="33.02"/>
 <instance part="GND14" gate="1" x="66.04" y="93.98"/>
-<instance part="L1" gate="G$1" x="144.78" y="160.02">
-<attribute name="DIGIKEY_PN" x="144.78" y="160.02" size="1.27" layer="96" display="off"/>
-</instance>
-<instance part="GND19" gate="1" x="134.62" y="154.94"/>
+<instance part="GND19" gate="1" x="144.78" y="154.94"/>
 <instance part="GND21" gate="1" x="154.94" y="154.94"/>
 <instance part="JP1" gate="G$1" x="208.28" y="81.28"/>
 <instance part="J2" gate="G$1" x="210.82" y="111.76" rot="MR0"/>
@@ -10149,12 +9886,6 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 <pinref part="GND15" gate="1" pin="GND"/>
 </segment>
 <segment>
-<pinref part="GND19" gate="1" pin="GND"/>
-<pinref part="L1" gate="G$1" pin="1"/>
-<wire x1="134.62" y1="157.48" x2="134.62" y2="162.56" width="0.1524" layer="91"/>
-<wire x1="134.62" y1="162.56" x2="139.7" y2="162.56" width="0.1524" layer="91"/>
-</segment>
-<segment>
 <pinref part="JP1" gate="G$1" pin="GND"/>
 <wire x1="205.74" y1="81.28" x2="198.12" y2="81.28" width="0.1524" layer="91"/>
 <wire x1="198.12" y1="81.28" x2="198.12" y2="78.74" width="0.1524" layer="91"/>
@@ -10177,6 +9908,54 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 <pinref part="GND24" gate="1" pin="GND"/>
 <wire x1="121.92" y1="101.6" x2="124.46" y2="101.6" width="0.1524" layer="91"/>
 <wire x1="124.46" y1="101.6" x2="124.46" y2="99.06" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="GND21" gate="1" pin="GNDA"/>
+<wire x1="154.94" y1="162.56" x2="154.94" y2="157.48" width="0.1524" layer="91"/>
+<pinref part="GND19" gate="1" pin="GND"/>
+<wire x1="144.78" y1="157.48" x2="144.78" y2="162.56" width="0.1524" layer="91"/>
+<wire x1="154.94" y1="162.56" x2="144.78" y2="162.56" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C4" gate="G$1" pin="1"/>
+<pinref part="GND20" gate="1" pin="GNDA"/>
+<wire x1="182.88" y1="152.4" x2="182.88" y2="149.86" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="JP2" gate="A" pin="4"/>
+<pinref part="GND14" gate="1" pin="GNDA"/>
+<wire x1="73.66" y1="104.14" x2="66.04" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="104.14" x2="66.04" y2="96.52" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="D2" gate="G$1" pin="A"/>
+<pinref part="GND6" gate="1" pin="GNDA"/>
+<wire x1="35.56" y1="38.1" x2="35.56" y2="35.56" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="D4" gate="G$1" pin="A"/>
+<pinref part="GND8" gate="1" pin="GNDA"/>
+<wire x1="55.88" y1="38.1" x2="55.88" y2="35.56" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="D6" gate="G$1" pin="A"/>
+<pinref part="GND11" gate="1" pin="GNDA"/>
+<wire x1="88.9" y1="38.1" x2="88.9" y2="35.56" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="D8" gate="G$1" pin="A"/>
+<pinref part="GND12" gate="1" pin="GNDA"/>
+<wire x1="109.22" y1="38.1" x2="109.22" y2="35.56" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="J2" gate="G$1" pin="GNDBREAK"/>
+<wire x1="208.28" y1="116.84" x2="198.12" y2="116.84" width="0.1524" layer="91"/>
+<wire x1="198.12" y1="116.84" x2="198.12" y2="114.3" width="0.1524" layer="91"/>
+<pinref part="GND23" gate="1" pin="GNDA"/>
+<pinref part="J2" gate="G$1" pin="GND"/>
+<wire x1="198.12" y1="114.3" x2="198.12" y2="111.76" width="0.1524" layer="91"/>
+<wire x1="208.28" y1="114.3" x2="198.12" y2="114.3" width="0.1524" layer="91"/>
+<junction x="198.12" y="114.3"/>
 </segment>
 </net>
 <net name="+5V/2" class="0">
@@ -10295,55 +10074,6 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 <pinref part="TP13" gate="P" pin="P"/>
 <pinref part="U$1" gate="G$1" pin="6"/>
 <wire x1="101.6" y1="152.4" x2="104.14" y2="152.4" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="GNDA" class="0">
-<segment>
-<pinref part="C4" gate="G$1" pin="1"/>
-<pinref part="GND20" gate="1" pin="GNDA"/>
-<wire x1="182.88" y1="152.4" x2="182.88" y2="149.86" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="JP2" gate="A" pin="4"/>
-<pinref part="GND14" gate="1" pin="GNDA"/>
-<wire x1="73.66" y1="104.14" x2="66.04" y2="104.14" width="0.1524" layer="91"/>
-<wire x1="66.04" y1="104.14" x2="66.04" y2="96.52" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="D2" gate="G$1" pin="A"/>
-<pinref part="GND6" gate="1" pin="GNDA"/>
-<wire x1="35.56" y1="38.1" x2="35.56" y2="35.56" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="D4" gate="G$1" pin="A"/>
-<pinref part="GND8" gate="1" pin="GNDA"/>
-<wire x1="55.88" y1="38.1" x2="55.88" y2="35.56" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="D6" gate="G$1" pin="A"/>
-<pinref part="GND11" gate="1" pin="GNDA"/>
-<wire x1="88.9" y1="38.1" x2="88.9" y2="35.56" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="D8" gate="G$1" pin="A"/>
-<pinref part="GND12" gate="1" pin="GNDA"/>
-<wire x1="109.22" y1="38.1" x2="109.22" y2="35.56" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="L1" gate="G$1" pin="2"/>
-<wire x1="149.86" y1="162.56" x2="154.94" y2="162.56" width="0.1524" layer="91"/>
-<pinref part="GND21" gate="1" pin="GNDA"/>
-<wire x1="154.94" y1="162.56" x2="154.94" y2="157.48" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="J2" gate="G$1" pin="GNDBREAK"/>
-<wire x1="208.28" y1="116.84" x2="198.12" y2="116.84" width="0.1524" layer="91"/>
-<wire x1="198.12" y1="116.84" x2="198.12" y2="114.3" width="0.1524" layer="91"/>
-<pinref part="GND23" gate="1" pin="GNDA"/>
-<pinref part="J2" gate="G$1" pin="GND"/>
-<wire x1="198.12" y1="114.3" x2="198.12" y2="111.76" width="0.1524" layer="91"/>
-<wire x1="208.28" y1="114.3" x2="198.12" y2="114.3" width="0.1524" layer="91"/>
-<junction x="198.12" y="114.3"/>
 </segment>
 </net>
 </nets>
