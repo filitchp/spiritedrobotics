@@ -1,232 +1,247 @@
 Pinlist
 
-Exported from BarBot 2012 Tower.brd at 2/3/2013 3:04:41 PM
+Exported from BarBot 2012 Tower.sch at 2/10/2013 10:12:09 PM
 
 EAGLE Version 6.3.0 Copyright (c) 1988-2012 CadSoft
 
-Part     Pad      Net
+Part     Pad      Pin        Dir      Net
 
-C1       1        GND
-         2        PC6/!RESET
+C1       1        1          pas      GND
+         2        2          pas      PC6/!RESET
 
-C4       1        GND
-         2        +5V/2
+C2       1        1          pas      GND
+         2        2          pas      +5V
 
-C5       1        GND
-         2        +5V
+C3       1        1          pas      GND
+         2        2          pas      +5V/2
 
-D1       A        M1-
-         C        +5V/2
+C4       +        +          pas      +5V/2
+         -        -          pas      GND
 
-D2       A        GND
-         C        M1-
+C5       1        1          pas      GND
+         2        2          pas      +5V
 
-D3       A        M1+
-         C        +5V/2
+D1       A        A          pas      M1-
+         C        C          pas      +5V/2
 
-D4       A        GND
-         C        M1+
+D2       A        A          pas      GND
+         C        C          pas      M1-
 
-D5       A        M2-
-         C        +5V/2
+D3       A        A          pas      M1+
+         C        C          pas      +5V/2
 
-D6       A        GND
-         C        M2-
+D4       A        A          pas      GND
+         C        C          pas      M1+
 
-D7       A        M2+
-         C        +5V/2
+D5       A        A          pas      M2-
+         C        C          pas      +5V/2
 
-D8       A        GND
-         C        M2+
+D6       A        A          pas      GND
+         C        C          pas      M2-
 
-ICSP     1        PB4/MISO
-         2        +5V
-         3        PB5/SCK
-         4        PB3/MOSI/OC2
-         5        PC6/!RESET
-         6        GND
+D7       A        A          pas      M2+
+         C        C          pas      +5V/2
 
-J2       GND@1    GND
-         GND@2    GND
-         PWR      +5V/2
+D8       A        A          pas      GND
+         C        C          pas      M2+
 
-JP1      D+                *** unconnected ***
-         D-                *** unconnected ***
-         GND      GND
-         S1                *** unconnected ***
-         S2                *** unconnected ***
-         VBUS     +5V
+ICSP     1        1          pas      PB4/MISO
+         2        2          pas      +5V
+         3        3          pas      PB5/SCK
+         4        4          pas      PB3/MOSI/OC2
+         5        5          pas      PC6/!RESET
+         6        6          pas      GND
 
-JP2      1        +5V/2
-         2        SPI_MISO
-         3        SPI_SCK
-         4        GND
+J2       PWR      PWR        io       +5V/2
+         GND@1    GNDBREAK   io       GND
+         GND@2    GND        io       GND
 
-M1+      1        M1+
+JP1      1        1          pas               *** unconnected ***
+         2        2          pas      +5V
+         3        3          pas      GND
+         4        4          pas               *** unconnected ***
+         S1       S1         pas               *** unconnected ***
+         S2       S2         pas               *** unconnected ***
 
-M1-      1        M1-
+LED      1        1          pas      +5V/2
+         2        2          pas      SPI_MISO
+         3        3          pas      SPI_SCK
+         4        4          pas      GND
 
-M2+      1        M2+
+LED1     A        A          pas      N$2
+         C        C          pas      PB0/ICP
 
-M2-      1        M2-
+LED2     A        A          pas      N$4
+         C        C          pas      PB1/OC1A
 
-PAD1     1        TP1
+LED3     A        A          pas      N$5
+         C        C          pas      PB2/SS/OC1B
 
-PAD2     1        N$3
+M1+      1        P          pas      M1+
 
-PAD3     1        N$7
+M1-      1        P          pas      M1-
 
-R1       1        PC6/!RESET
-         2        +5V
+M2+      1        P          pas      M2+
 
-R2       1        N$7
-         2        N$3
+M2-      1        P          pas      M2-
 
-R3       1        !RS485_TX
-         2        RS485_TX
+PAD1     1        P          pas      TP1
 
-R4       1        GND
-         2        SENSE_A
+PAD2     1        P          pas      N$3
 
-R5       1        GND
-         2        SENSE_B
+R1       1        1          pas      PC6/!RESET
+         2        2          pas      +5V
 
-R6       1        GND
-         2        N$10
+R2       1        1          pas      ADC6
+         2        2          pas      N$3
 
-R7       1        N$10
-         2        +5V
+R3       1        1          pas      GND
+         2        2          pas      SENSE_A
 
-R8       1        PB4/MISO
-         2        SPI_MISO
+R4       1        1          pas      GND
+         2        2          pas      SENSE_B
 
-R9       1        PB5/SCK
-         2        SPI_SCK
+R5       1        1          pas      GND
+         2        2          pas      N$10
 
-R10      1        GND
-         2        !RS485_TX
+R6       1        1          pas      N$10
+         2        2          pas      +5V
 
-R11      1        RS485_TX
-         2        +5V
+R7       1        1          pas      PB4/MISO
+         2        2          pas      SPI_MISO
 
-R12      1        !RS485_RX
-         2        RS485_RX
+R8       1        1          pas      PB5/SCK
+         2        2          pas      SPI_SCK
 
-R13      1        PC4/ADC4/SDA
-         2        +5V
+R9       1        1          pas      !RS485_TX
+         2        2          pas      RS485_TX
 
-R14      1        PC5/ADC5/SCL
-         2        +5V
+R10      1        1          pas      GND
+         2        2          pas      !RS485_TX
 
-RX       1        RS485_RX
-         2        !RS485_RX
-         3        RJ_RX_3
-         4        RJ_RX_4
-         5        RJ_RX_5
-         6        RJ_RX_6
-         7        RJ_RX_7
-         8        RJ_RX_8
+R11      1        1          pas      RS485_TX
+         2        2          pas      +5V
 
-S1       1        GND
-         2                 *** unconnected ***
-         3        PC6/!RESET
-         4                 *** unconnected ***
+R12      1        1          pas      !RS485_RX
+         2        2          pas      RS485_RX
 
-TX       1        RS485_TX
-         2        !RS485_TX
-         3        RJ_TX_3
-         4        RJ_TX_4
-         5        RJ_TX_5
-         6        RJ_TX_6
-         7        RJ_TX_7
-         8        RJ_TX_8
+R13      1        1          pas      PC4/ADC4/SDA
+         2        2          pas      +5V
 
-U1       1        PD3/INT1
-         10       PD6/AIN0
-         11       PD7/AIN1
-         12       PB0/ICP
-         13       PB1/OC1A
-         14       PB2/SS/OC1B
-         15       PB3/MOSI/OC2
-         16       PB4/MISO
-         17       PB5/SCK
-         18       +5V
-         19       ADC6
-         2        PD4/XCK/T0
-         20       AREF
-         21       GND
-         22       ADC7
-         23       PC0/ADC0
-         24       PC1/ADC1
-         25       PC2/ADC2
-         26       PC3/ADC3
-         27       PC4/ADC4/SDA
-         28       PC5/ADC5/SCL
-         29       PC6/!RESET
-         3        GND
-         30       PD0/RXD
-         31       PD1/TXD
-         32       PD2/INT0
-         4        +5V
-         5        GND
-         6        +5V
-         7        PB6/XTAL1
-         8        PB7/XTAL2
-         9        PD5/T1
+R14      1        1          pas      PC5/ADC5/SCL
+         2        2          pas      +5V
 
-U2       1        GND
-         10       GND
-         11       GND
-         12       +5V
-         13       !PD7/AIN1
-         14       PD6/AIN0
-         15       PD7/AIN1
-         16       M2-
-         17       M2+
-         18                *** unconnected ***
-         19       SENSE_B
-         2        SENSE_A
-         20       GND
-         3                 *** unconnected ***
-         4        M1+
-         5        M1-
-         6        +5V/2
-         7        PD4/XCK/T0
-         8        PD5/T1
-         9        !PD4/XCK/T0
+R15      1        1          pas      N$2
+         2        2          pas      +5V
 
-U3       1        PD7/AIN1
-         2        GND
-         3        PD4/XCK/T0
-         4        !PD4/XCK/T0
-         5        +5V
-         6        !PD7/AIN1
+R16      1        1          pas      N$4
+         2        2          pas      +5V
 
-U5       1        PC0/ADC0
-         10       N$10
-         11       GND
-         12       TP1
-         13       N$3
-         14       N$7
-         2        PC0/ADC0
-         3        SENSE_A
-         4        +5V
-         5        SENSE_B
-         6        PC1/ADC1
-         7        PC1/ADC1
-         8        AREF
-         9        AREF
+R17      1        1          pas      N$5
+         2        2          pas      +5V
 
-U6       1        +5V
-         2        PD0/RXD
-         3        PD1/TXD
-         4        GND
-         5        RS485_TX
-         6        !RS485_TX
-         7        !RS485_RX
-         8        RS485_RX
+RX       1        1          io       RS485_RX
+         2        2          io       !RS485_RX
+         3        3          io       RJ_RX_3
+         4        4          io       RJ_RX_4
+         5        5          io       RJ_RX_5
+         6        6          io       RJ_RX_6
+         7        7          io       RJ_RX_7
+         8        8          io       RJ_RX_8
 
-Y1       1        PB6/XTAL1
-         2        GND
-         3        PB7/XTAL2
+S1       1        1          pas      GND
+         3        2          pas      PC6/!RESET
+
+TX       1        1          io       RS485_TX
+         2        2          io       !RS485_TX
+         3        3          io       RJ_TX_3
+         4        4          io       RJ_TX_4
+         5        5          io       RJ_TX_5
+         6        6          io       RJ_TX_6
+         7        7          io       RJ_TX_7
+         8        8          io       RJ_TX_8
+
+U1       1        PD3(INT1)  io       PD3/INT1
+         2        PD4(XCK/T0) io       PD4/XCK/T0
+         3        GND        io       GND
+         4        VCC        io       +5V
+         5        GND        io       GND
+         6        VCC        io       +5V
+         7        PB6(XTAL1/TOSC1) io       PB6/XTAL1
+         8        PB7(XTAL2/TOSC2) io       PB7/XTAL2
+         9        PD5(T1)    io       PD5/T1
+         10       PD6(AIN0)  io       PD6/AIN0
+         11       PD7(AIN1)  io       PD7/AIN1
+         12       PB0(ICP)   io       PB0/ICP
+         13       PB1(OC1A)  io       PB1/OC1A
+         14       PB2(SS/OC1B) io       PB2/SS/OC1B
+         15       PB3(MOSI/OC2) io       PB3/MOSI/OC2
+         16       PB4(MISO)  io       PB4/MISO
+         17       PB5(SCK)   io       PB5/SCK
+         18       AVCC       io       +5V
+         19       ADC6       io       ADC6
+         20       AREF       io       AREF
+         21       AGND       io       GND
+         22       ADC7       io       ADC7
+         23       PC0(ADC0)  io       PC0/ADC0
+         24       PC1(ADC1)  io       PC1/ADC1
+         25       PC2(ADC2)  io       PC2/ADC2
+         26       PC3(ADC3)  io       PC3/ADC3
+         27       PC4(ADC4/SDA) io       PC4/ADC4/SDA
+         28       PC5(ADC5/SCL) io       PC5/ADC5/SCL
+         29       PC6(/RESET) io       PC6/!RESET
+         30       PD0(RXD)   io       PD0/RXD
+         31       PD1(TXD)   io       PD1/TXD
+         32       PD2(INT0)  io       PD2/INT0
+
+U2       1        VCC        pwr      +5V
+         2        R          out      PD0/RXD
+         3        D          in       PD1/TXD
+         4        GND        pwr      GND
+         5        Y          out      RS485_TX
+         6        Z          out      !RS485_TX
+         7        B          in       !RS485_RX
+         8        A          in       RS485_RX
+
+U3       1        I          in       PD7/AIN1
+         2        GND        pwr      GND
+         3        I          in       PD4/XCK/T0
+         4        O          out      !PD4/XCK/T0
+         5        VCC        pwr      +5V
+         6        O          out      !PD7/AIN1
+
+U4       1        OUT        pwr      PC0/ADC0
+         2        -IN        pwr      PC0/ADC0
+         3        +IN        pwr      SENSE_A
+         4        +VS        pwr      +5V
+         5        +IN        pwr      SENSE_B
+         6        -IN        pwr      PC1/ADC1
+         7        OUT        pwr      PC1/ADC1
+         8        OUT        pwr      AREF
+         9        -IN        pwr      AREF
+         10       +IN        pwr      N$10
+         11       -VS        pwr      GND
+         12       +IN        pwr      TP1
+         13       -IN        pwr      N$3
+         14       OUT        pwr      ADC6
+
+U5       1        SEN_A      in       SENSE_A
+         2        OUT1       out      M1+
+         3        OUT2       out      M1-
+         4        VS         pwr      +5V
+         5        INPUT1     in       PD4/XCK/T0
+         6        ENABLE_A   in       PD5/T1
+         7        INPUT2     in       !PD4/XCK/T0
+         8        GND        pwr      GND
+         9        VCC        pwr      +5V/2
+         10       INPUT3     in       PD7/AIN1
+         11       ENABLE_B   in       PD6/AIN0
+         12       INPUT4     in       !PD7/AIN1
+         13       OUT3       out      M2-
+         14       OUT4       out      M2+
+         15       SEN_B      in       SENSE_B
+
+Y1       1        1          pas      PB6/XTAL1
+         2        2          pas      GND
+         3        3          pas      PB7/XTAL2
 

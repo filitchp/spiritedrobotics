@@ -1,55 +1,62 @@
 Partlist
 
-Exported from BarBot 2012 Tower.brd at 2/3/2013 3:04:55 PM
+Exported from BarBot 2012 Tower.sch at 2/10/2013 10:12:03 PM
 
 EAGLE Version 6.3.0 Copyright (c) 1988-2012 CadSoft
 
 Assembly variant: 
 
-Part     Value                 Package         Library                    Position (inch)       Orientation
+Part     Value                 Device                Package         Library                    Sheet
 
-C1       100n                  C2012           rcl                        (0.35 1.06)           R180
-C4       100n                  C2012           rcl                        (2.46 2.42)           R270
-C5       100n                  C2012           rcl                        (1.3 2.815)           R180
-D1                             SMB             diode                      (1.985 2.56)          R90
-D2                             SMB             diode                      (2.185 2.56)          R270
-D3                             SMB             diode                      (1.985 2.28)          R270
-D4                             SMB             diode                      (2.185 2.28)          R90
-D5                             SMB             diode                      (1.06 2.56)           R90
-D6                             SMB             diode                      (0.85 2.56)           R270
-D7                             SMB             diode                      (1.06 2.28)           R270
-D8                             SMB             diode                      (0.85 2.28)           R90
-ICSP     AVR_SPI_PRG_62X3_LOCK 2X3_LOCK        SparkFun-Connectors        (2.285 0.93)          R180
-J2       POWER_JACKSLT         POWER_JACK_SLOT SparkFun-Connectors        (2.485 -0.105)        R0
-JP1      USB-B                 USB-B-PTH       SparkFun-Connectors        (0.4 0.37)            R90
-JP2                            1X04            pinhead                    (2.44 1.375)          R90
-M1+                            3,81/1,4        wirepad                    (2.41 2.195)          R0
-M1-                            3,81/1,4        wirepad                    (2.405 2.645)         R0
-M2+                            3,81/1,4        wirepad                    (0.6 2.195)           R0
-M2-                            3,81/1,4        wirepad                    (0.6 2.645)           R0
-PAD1                           1,6/0,8         wirepad                    (0.35 1.49)           R0
-PAD2                           1,6/0,8         wirepad                    (0.3 1.29)            R0
-PAD3                           1,6/0,8         wirepad                    (0.4 1.29)            R0
-R1       4.7k                  R2012           rcl                        (0.35 1.16)           R0
-R2       0R                    R2012           rcl                        (0.35 1.39)           R180
-R3       120                   R2012           rcl                        (1.14 0.78)           R180
-R4       0.1R                  R2012           rcl                        (1.88 2.015)          R180
-R5       0.1R                  R2012           rcl                        (1.115 2.015)         R0
-R6                             R2012           rcl                        (0.25 1.64)           R90
-R7                             R2012           rcl                        (0.35 1.64)           R90
-R8       4.7k                  R2012           rcl                        (2.24 1.325)          R0
-R9       4.7k                  R2012           rcl                        (2.24 1.425)          R0
-R10      680                   R2012           rcl                        (1.21 0.665)          R180
-R11      680                   R2012           rcl                        (1.025 0.665)         R180
-R12      120                   R2012           rcl                        (1.3 0.78)            R0
-R13      4.7k                  R2012           rcl                        (1.135 1.815)         R90
-R14      4.7k                  R2012           rcl                        (1.045 1.815)         R90
-RX       RJ45-8PTH             RJ45-8          SparkFun-Connectors        (1.95 0.155)          R0
-S1       SWITCH-MOMENTARY-2PTH TACTILE-PTH     SparkFun-Electromechanical (0.35 0.81)           R270
-TX       RJ45-8PTH             RJ45-8          SparkFun-Connectors        (1.185 0.155)         R0
-U1       ATMEGA328P            TQFP32-08       SparkFun-DigitalIC         (1.51 1.45)           R90
-U2       L298_BRIDGE_DRIVER    POWERSO20       SparkFun-PowerIC           (1.5 2.4)             R180
-U3       742G04DBVR            DBV_R-PDSO-G6   74xx-little-us             (1.505 1.89)          R0
-U5       LMV324IDR             SO14            bb_parts_OpAmp             (0.6 1.54)            R90
-U6       SN75HVD179D           SO-08           texas                      (1.22 1)              R180
-Y1       16MHz                 RESONATOR-SMD   SparkFun-FreqCtrl          (1.64 1.17)           R0
+C1       100n                  C-EUC0805             C0805           rcl                        1
+C2       100n                  C-EUC0805             C0805           rcl                        2
+C3       100n                  C-EUC0805             C0805           rcl                        2
+C4                             CPOL-USE3.5-8         E3,5-8          rcl                        1
+C5       100n                  C-EUC0805             C0805           rcl                        1
+D1                             SCHOTTKY-DIODESMD     SMB             diode                      2
+D2                             SCHOTTKY-DIODESMD     SMB             diode                      2
+D3                             SCHOTTKY-DIODESMD     SMB             diode                      2
+D4                             SCHOTTKY-DIODESMD     SMB             diode                      2
+D5                             SCHOTTKY-DIODESMD     SMB             diode                      2
+D6                             SCHOTTKY-DIODESMD     SMB             diode                      2
+D7                             SCHOTTKY-DIODESMD     SMB             diode                      2
+D8                             SCHOTTKY-DIODESMD     SMB             diode                      2
+ICSP     AVR_SPI_PRG_62X3_LOCK AVR_SPI_PRG_62X3_LOCK 2X3_LOCK        SparkFun-Connectors        1
+J2       POWER_JACKSLT         POWER_JACKSLT         POWER_JACK_SLOT SparkFun-Connectors        2
+JP1      USB-B                 PN61729-S             PN61729-S       con-berg                   2
+LED                            PINHD-1X4             1X04            pinhead                    2
+LED1                           LEDCHIPLED_0805       CHIPLED_0805    led                        1
+LED2                           LEDCHIPLED_0805       CHIPLED_0805    led                        1
+LED3                           LEDCHIPLED_0805       CHIPLED_0805    led                        1
+M1+                            3,81/1,1              3,81/1,1        wirepad                    2
+M1-                            3,81/1,1              3,81/1,1        wirepad                    2
+M2+                            3,81/1,1              3,81/1,1        wirepad                    2
+M2-                            3,81/1,1              3,81/1,1        wirepad                    2
+PAD1                           1,6/0,8               1,6/0,8         wirepad                    1
+PAD2                           1,6/0,8               1,6/0,8         wirepad                    1
+R1       4.7k                  R-US_R0805            R0805           rcl                        1
+R2       0R                    R-US_R0805            R0805           rcl                        1
+R3       0.1R                  R-US_R0805            R0805           rcl                        1
+R4       0.1R                  R-US_R0805            R0805           rcl                        1
+R5                             R-US_R0805            R0805           rcl                        1
+R6                             R-US_R0805            R0805           rcl                        1
+R7       4.7k                  R-US_R0805            R0805           rcl                        2
+R8       4.7k                  R-US_R0805            R0805           rcl                        2
+R9       120                   R-US_R0805            R0805           rcl                        2
+R10      680                   R-US_R0805            R0805           rcl                        2
+R11      680                   R-US_R0805            R0805           rcl                        2
+R12      120                   R-US_R0805            R0805           rcl                        2
+R13      4.7k                  R-US_R0805            R0805           rcl                        1
+R14      4.7k                  R-US_R0805            R0805           rcl                        1
+R15      0.1R                  R-US_R0805            R0805           rcl                        1
+R16      0.1R                  R-US_R0805            R0805           rcl                        1
+R17      0.1R                  R-US_R0805            R0805           rcl                        1
+RX       RJ45-8PTH             RJ45-8PTH             RJ45-8          SparkFun-Connectors        2
+S1       SWITCH-MOMENTARY-2PTH SWITCH-MOMENTARY-2PTH TACTILE-PTH     SparkFun-Electromechanical 1
+TX       RJ45-8PTH             RJ45-8PTH             RJ45-8          SparkFun-Connectors        2
+U1       ATMEGA328P            ATMEGA328_SMT         TQFP32-08       SparkFun-DigitalIC         1
+U2       SN75HVD179D           SN75HVD179D           SO-08           texas                      2
+U3       742G04DBVR            742G04DBVR            DBV_R-PDSO-G6   74xx-little-us             1
+U4       LMV324IDR             LMV324IDR             SO14            bb_parts_OpAmp             1
+U5       L298                  L298                  MULTIWATT-15    st-microelectronics        1
+Y1       16MHz                 RESONATOR16MHZ        RESONATOR-SMD   SparkFun-FreqCtrl          1

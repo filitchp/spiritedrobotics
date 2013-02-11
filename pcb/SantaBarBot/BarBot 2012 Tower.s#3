@@ -8958,6 +8958,15 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 <part name="GND24" library="supply1" deviceset="GND" device=""/>
 <part name="R12" library="rcl" deviceset="R-US_" device="R2012" value="120"/>
 <part name="Y1" library="SparkFun-FreqCtrl" deviceset="RESONATOR" device="16MHZ" value="16MHz"/>
+<part name="SDA" library="wirepad" deviceset="1,6/0,8" device=""/>
+<part name="SCL" library="wirepad" deviceset="1,6/0,8" device=""/>
+<part name="R13" library="rcl" deviceset="R-US_" device="R2012" value="0.1R">
+<attribute name="DIGIKEY_PN" value="RHM.10MCT-ND"/>
+</part>
+<part name="R14" library="rcl" deviceset="R-US_" device="R2012" value="0.1R">
+<attribute name="DIGIKEY_PN" value="RHM.10MCT-ND"/>
+</part>
+<part name="P+20" library="supply1" deviceset="+5V" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -9036,6 +9045,27 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 <instance part="GND9" gate="1" x="116.84" y="71.12"/>
 <instance part="GND10" gate="1" x="116.84" y="96.52"/>
 <instance part="Y1" gate="G$1" x="58.42" y="134.62"/>
+<instance part="SDA" gate="P" x="40.64" y="17.78" smashed="yes">
+<attribute name="NAME" x="31.877" y="17.0942" size="1.778" layer="95"/>
+<attribute name="VALUE" x="39.497" y="14.478" size="1.778" layer="96"/>
+</instance>
+<instance part="SCL" gate="P" x="40.64" y="15.24" smashed="yes">
+<attribute name="NAME" x="31.877" y="14.5542" size="1.778" layer="95"/>
+<attribute name="VALUE" x="39.497" y="11.938" size="1.778" layer="96"/>
+</instance>
+<instance part="R13" gate="G$1" x="48.26" y="25.4" smashed="yes" rot="R90">
+<attribute name="NAME" x="51.8414" y="21.59" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="46.482" y="21.59" size="1.778" layer="96" rot="R90"/>
+<attribute name="DIGIKEY_PN" x="48.26" y="25.4" size="1.27" layer="96" rot="R90" display="off"/>
+</instance>
+<instance part="R14" gate="G$1" x="55.88" y="25.4" smashed="yes" rot="R90">
+<attribute name="NAME" x="59.4614" y="21.59" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="54.102" y="21.59" size="1.778" layer="96" rot="R90"/>
+<attribute name="DIGIKEY_PN" x="55.88" y="25.4" size="1.27" layer="96" rot="R90" display="off"/>
+</instance>
+<instance part="P+20" gate="1" x="55.88" y="38.1" smashed="yes">
+<attribute name="VALUE" x="53.34" y="35.56" size="1.778" layer="96" rot="R90" align="center-left"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -9100,6 +9130,16 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 <segment>
 <pinref part="R7" gate="G$1" pin="2"/>
 <pinref part="P+10" gate="1" pin="+5V"/>
+</segment>
+<segment>
+<pinref part="R13" gate="G$1" pin="2"/>
+<wire x1="48.26" y1="30.48" x2="48.26" y2="33.02" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="33.02" x2="55.88" y2="33.02" width="0.1524" layer="91"/>
+<pinref part="R14" gate="G$1" pin="2"/>
+<wire x1="55.88" y1="33.02" x2="55.88" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="55.88" y1="33.02" x2="55.88" y2="35.56" width="0.1524" layer="91"/>
+<pinref part="P+20" gate="1" pin="+5V"/>
+<junction x="55.88" y="33.02"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -9317,6 +9357,15 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 <wire x1="76.2" y1="93.98" x2="78.74" y2="93.98" width="0.1524" layer="91"/>
 <label x="78.74" y="93.98" size="1.27" layer="95" xref="yes"/>
 </segment>
+<segment>
+<label x="66.04" y="15.24" size="1.27" layer="95" xref="yes"/>
+<pinref part="SCL" gate="P" pin="P"/>
+<wire x1="66.04" y1="15.24" x2="55.88" y2="15.24" width="0.1524" layer="91"/>
+<pinref part="R14" gate="G$1" pin="1"/>
+<wire x1="55.88" y1="15.24" x2="43.18" y2="15.24" width="0.1524" layer="91"/>
+<wire x1="55.88" y1="20.32" x2="55.88" y2="15.24" width="0.1524" layer="91"/>
+<junction x="55.88" y="15.24"/>
+</segment>
 </net>
 <net name="ADC6" class="0">
 <segment>
@@ -9330,6 +9379,15 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 <pinref part="U1" gate="G$1" pin="PC4(ADC4/SDA)"/>
 <wire x1="76.2" y1="96.52" x2="78.74" y2="96.52" width="0.1524" layer="91"/>
 <label x="78.74" y="96.52" size="1.27" layer="95" xref="yes"/>
+</segment>
+<segment>
+<label x="66.04" y="17.78" size="1.27" layer="95" xref="yes"/>
+<pinref part="SDA" gate="P" pin="P"/>
+<wire x1="43.18" y1="17.78" x2="48.26" y2="17.78" width="0.1524" layer="91"/>
+<pinref part="R13" gate="G$1" pin="1"/>
+<wire x1="48.26" y1="17.78" x2="66.04" y2="17.78" width="0.1524" layer="91"/>
+<wire x1="48.26" y1="20.32" x2="48.26" y2="17.78" width="0.1524" layer="91"/>
+<junction x="48.26" y="17.78"/>
 </segment>
 </net>
 <net name="PC3/ADC3" class="0">
@@ -10079,6 +10137,60 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="102,1,116.84,73.66,GNDA,GND,,,,"/>
+<approved hash="102,1,116.84,99.06,GNDA,GND,,,,"/>
+<approved hash="102,2,182.88,149.86,GNDA,GND,,,,"/>
+<approved hash="102,2,35.56,35.56,GNDA,GND,,,,"/>
+<approved hash="102,2,55.88,35.56,GNDA,GND,,,,"/>
+<approved hash="102,2,88.9,35.56,GNDA,GND,,,,"/>
+<approved hash="102,2,109.22,35.56,GNDA,GND,,,,"/>
+<approved hash="102,2,66.04,96.52,GNDA,GND,,,,"/>
+<approved hash="102,2,154.94,157.48,GNDA,GND,,,,"/>
+<approved hash="102,2,198.12,111.76,GNDA,GND,,,,"/>
+<approved hash="104,2,205.74,165.1,U3G$3,VCC,+5V,,,"/>
+<approved hash="104,1,139.7,86.36,U5B,OUT,PC1/ADC1,,,"/>
+<approved hash="104,1,124.46,83.82,U5B,-IN,PC1/ADC1,,,"/>
+<approved hash="104,1,124.46,88.9,U5B,+IN,SENSE_B,,,"/>
+<approved hash="104,1,198.12,58.42,U5C,OUT,AREF,,,"/>
+<approved hash="104,1,182.88,55.88,U5C,-IN,AREF,,,"/>
+<approved hash="104,1,182.88,60.96,U5C,+IN,N$10,,,"/>
+<approved hash="104,1,139.7,50.8,U5D,OUT,N$7,,,"/>
+<approved hash="104,1,124.46,48.26,U5D,-IN,N$3,,,"/>
+<approved hash="104,1,124.46,53.34,U5D,+IN,TP1,,,"/>
+<approved hash="104,1,139.7,111.76,U5A,OUT,PC0/ADC0,,,"/>
+<approved hash="104,1,124.46,109.22,U5A,-IN,PC0/ADC0,,,"/>
+<approved hash="104,1,124.46,114.3,U5A,+IN,SENSE_A,,,"/>
+<approved hash="104,2,215.9,165.1,U5G$5,+VS,+5V,,,"/>
+<approved hash="104,2,215.9,149.86,U5G$5,-VS,GND,,,"/>
+<approved hash="104,2,195.58,165.1,U6G$2,VCC,+5V,,,"/>
+<approved hash="115,1,124.356,92.606,FRAME1,,,,,"/>
+<approved hash="115,1,174.265,53.34,R6,,,,,"/>
+<approved hash="115,1,174.265,68.58,R7,,,,,"/>
+<approved hash="115,2,73.8971,109.351,JP2,,,,,"/>
+<approved hash="115,2,124.356,92.606,FRAME2,,,,,"/>
+<approved hash="115,1,119.101,54.5126,PAD1,,,,,"/>
+<approved hash="115,1,119.101,49.4326,PAD2,,,,,"/>
+<approved hash="115,1,145.059,51.7694,PAD3,,,,,"/>
+<approved hash="115,2,52.0595,49.1405,M1+,,,,,"/>
+<approved hash="115,2,39.0636,49.1405,M1-,,,,,"/>
+<approved hash="115,2,105.336,49.2294,M2+,,,,,"/>
+<approved hash="115,2,91.1971,49.2294,M2-,,,,,"/>
+<approved hash="115,2,34.362,55.88,D1,,,,,"/>
+<approved hash="115,2,97.8112,160.02,TP10,,,,,"/>
+<approved hash="115,2,97.8112,157.48,TP11,,,,,"/>
+<approved hash="115,2,97.8112,154.94,TP12,,,,,"/>
+<approved hash="115,2,97.8112,152.4,TP13,,,,,"/>
+<approved hash="115,2,34.362,40.64,D2,,,,,"/>
+<approved hash="115,2,54.682,55.88,D3,,,,,"/>
+<approved hash="115,2,54.682,40.64,D4,,,,,"/>
+<approved hash="115,2,87.702,55.88,D5,,,,,"/>
+<approved hash="115,2,87.702,40.64,D6,,,,,"/>
+<approved hash="115,2,108.022,55.88,D7,,,,,"/>
+<approved hash="115,2,108.022,40.64,D8,,,,,"/>
+<approved hash="115,1,39.3912,17.78,SDA,,,,,"/>
+<approved hash="115,1,39.3912,15.24,SCL,,,,,"/>
+</errors>
 </schematic>
 </drawing>
 </eagle>
