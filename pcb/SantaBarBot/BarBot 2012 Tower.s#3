@@ -10100,6 +10100,7 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 </segment>
 </net>
 <net name="RJ_RX_3" class="0">
+<<<<<<< HEAD
 <segment>
 <pinref part="RX" gate="G$1" pin="3"/>
 <wire x1="111.76" y1="129.54" x2="109.22" y2="129.54" width="0.1524" layer="91"/>
@@ -10125,6 +10126,33 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 </net>
 <net name="RJ_RX_7" class="0">
 <segment>
+=======
+<segment>
+<pinref part="RX" gate="G$1" pin="3"/>
+<wire x1="111.76" y1="129.54" x2="109.22" y2="129.54" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="RJ_RX_4" class="0">
+<segment>
+<pinref part="RX" gate="G$1" pin="4"/>
+<wire x1="109.22" y1="127" x2="111.76" y2="127" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="RJ_RX_5" class="0">
+<segment>
+<pinref part="RX" gate="G$1" pin="5"/>
+<wire x1="111.76" y1="124.46" x2="109.22" y2="124.46" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="RJ_RX_6" class="0">
+<segment>
+<pinref part="RX" gate="G$1" pin="6"/>
+<wire x1="109.22" y1="121.92" x2="111.76" y2="121.92" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="RJ_RX_7" class="0">
+<segment>
+>>>>>>> 7eb585c1dd72ecc8fbffd8083c4b1154f6ae1668
 <pinref part="RX" gate="G$1" pin="7"/>
 <wire x1="111.76" y1="119.38" x2="109.22" y2="119.38" width="0.1524" layer="91"/>
 </segment>
@@ -10165,6 +10193,10 @@ Used, eg, on the Arduino Pro/ Pro Mini boards.&lt;br&gt;
 <approved hash="115,2,124.356,92.606,FRAME2,,,,,"/>
 <approved hash="115,1,119.101,54.5126,PAD1,,,,,"/>
 <approved hash="115,1,119.101,49.4326,PAD2,,,,,"/>
+<<<<<<< HEAD
+=======
+<approved hash="115,1,145.059,51.7694,PAD3,,,,,"/>
+>>>>>>> 7eb585c1dd72ecc8fbffd8083c4b1154f6ae1668
 </errors>
 </schematic>
 </drawing>

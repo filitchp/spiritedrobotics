@@ -16806,7 +16806,11 @@ Based on  the following source:
 <label x="78.74" y="91.44" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
+<<<<<<< HEAD
 <pinref part="U4" gate="D" pin="OUT"/>
+=======
+<pinref part="U5" gate="D" pin="OUT"/>
+>>>>>>> 7eb585c1dd72ecc8fbffd8083c4b1154f6ae1668
 <wire x1="139.7" y1="50.8" x2="142.24" y2="50.8" width="0.1524" layer="91"/>
 <pinref part="R2" gate="G$1" pin="1"/>
 <wire x1="142.24" y1="50.8" x2="144.78" y2="50.8" width="0.1524" layer="91"/>
@@ -17063,6 +17067,7 @@ Based on  the following source:
 <pinref part="PAD2" gate="P" pin="P"/>
 </segment>
 </net>
+<<<<<<< HEAD
 <net name="N$2" class="0">
 <segment>
 <pinref part="R15" gate="G$1" pin="1"/>
@@ -17084,6 +17089,8 @@ Based on  the following source:
 <wire x1="60.96" y1="12.7" x2="63.5" y2="12.7" width="0.1524" layer="91"/>
 </segment>
 </net>
+=======
+>>>>>>> 7eb585c1dd72ecc8fbffd8083c4b1154f6ae1668
 </nets>
 </sheet>
 <sheet>
