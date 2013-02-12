@@ -1,6 +1,6 @@
 Netlist
 
-Exported from BarBot 2012 Tower.sch at 2/10/2013 10:11:54 PM
+Exported from BarBot 2012 Tower.sch at 2/11/2013 6:51:02 PM
 
 EAGLE Version 6.3.0 Copyright (c) 1988-2012 CadSoft
 
@@ -25,6 +25,7 @@ Net      Part     Pad      Pin        Sheet
          C5       2        2          1
          ICSP     2        2          1
          JP1      2        2          2
+         JP2      1        VCC        1
          R1       2        2          1
          R11      2        2          2
          R13      2        2          1
@@ -33,6 +34,8 @@ Net      Part     Pad      Pin        Sheet
          R16      2        2          1
          R17      2        2          1
          R6       2        2          1
+         SJ3      2        2          1
+         SJ4      2        2          1
          U1       18       AVCC       1
          U1       4        VCC        1
          U1       6        VCC        1
@@ -47,7 +50,7 @@ Net      Part     Pad      Pin        Sheet
          D3       C        C          2
          D5       C        C          2
          D7       C        C          2
-         J2       PWR      PWR        2
+         J1       1        1          1
          LED      1        1          2
          U5       9        VCC        1
 
@@ -71,15 +74,18 @@ GND      C1       1        1          1
          D6       A        A          2
          D8       A        A          2
          ICSP     6        6          1
-         J2       GND@1    GNDBREAK   2
-         J2       GND@2    GND        2
+         J1       2        2          1
+         J1       3        3          1
          JP1      3        3          2
+         JP2      5        GND        1
          LED      4        4          2
          R10      1        1          2
          R3       1        1          1
          R4       1        1          1
          R5       1        1          1
          S1       1        1          1
+         SJ1      2        2          1
+         SJ2      2        2          1
          U1       21       AGND       1
          U1       3        GND        1
          U1       5        GND        1
@@ -111,10 +117,6 @@ M2-      D5       A        A          2
 
 N$2      LED1     A        A          1
          R15      1        1          1
-
-N$3      PAD2     1        P          1
-         R2       2        2          1
-         U4       13       -IN        1
 
 N$4      LED2     A        A          1
          R16      1        1          1
@@ -200,29 +202,25 @@ PD7/AIN1 U1       11       PD7(AIN1)  1
          U3       1        I          1
          U5       10       INPUT3     1
 
-RJ_RX_3  RX       3        3          2
+RJ_RX_1  RX       3        3          2
+         RX       5        5          2
+         RX       7        7          2
+         SJ2      1        1          1
 
-RJ_RX_4  RX       4        4          2
+RJ_RX_2  RX       4        4          2
+         RX       6        6          2
+         RX       8        8          2
+         SJ4      1        1          1
 
-RJ_RX_5  RX       5        5          2
+RJ_TX_1  SJ1      1        1          1
+         TX       3        3          2
+         TX       5        5          2
+         TX       7        7          2
 
-RJ_RX_6  RX       6        6          2
-
-RJ_RX_7  RX       7        7          2
-
-RJ_RX_8  RX       8        8          2
-
-RJ_TX_3  TX       3        3          2
-
-RJ_TX_4  TX       4        4          2
-
-RJ_TX_5  TX       5        5          2
-
-RJ_TX_6  TX       6        6          2
-
-RJ_TX_7  TX       7        7          2
-
-RJ_TX_8  TX       8        8          2
+RJ_TX_2  SJ3      1        1          1
+         TX       4        4          2
+         TX       6        6          2
+         TX       8        8          2
 
 RS485_RX R12      2        2          2
          RX       1        1          2
@@ -247,6 +245,8 @@ SPI_MISO LED      2        2          2
 SPI_SCK  LED      3        3          2
          R8       2        2          2
 
-TP1      PAD1     1        P          1
-         U4       12       +IN        1
+U4D+     U4       12       +IN        1
+
+U4D-     R2       2        2          1
+         U4       13       -IN        1
 
