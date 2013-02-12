@@ -1,6 +1,6 @@
 Pinlist
 
-Exported from BarBot 2012 Tower.sch at 2/10/2013 10:12:09 PM
+Exported from BarBot 2012 Tower.sch at 2/11/2013 6:51:13 PM
 
 EAGLE Version 6.3.0 Copyright (c) 1988-2012 CadSoft
 
@@ -52,9 +52,9 @@ ICSP     1        1          pas      PB4/MISO
          5        5          pas      PC6/!RESET
          6        6          pas      GND
 
-J2       PWR      PWR        io       +5V/2
-         GND@1    GNDBREAK   io       GND
-         GND@2    GND        io       GND
+J1       1        1          pas      +5V/2
+         2        2          pas      GND
+         3        3          pas      GND
 
 JP1      1        1          pas               *** unconnected ***
          2        2          pas      +5V
@@ -62,6 +62,12 @@ JP1      1        1          pas               *** unconnected ***
          4        4          pas               *** unconnected ***
          S1       S1         pas               *** unconnected ***
          S2       S2         pas               *** unconnected ***
+
+JP2      1        VCC        io       +5V
+         2        D-         io                *** unconnected ***
+         3        D+         io                *** unconnected ***
+         4        ID         io                *** unconnected ***
+         5        GND        io       GND
 
 LED      1        1          pas      +5V/2
          2        2          pas      SPI_MISO
@@ -85,15 +91,11 @@ M2+      1        P          pas      M2+
 
 M2-      1        P          pas      M2-
 
-PAD1     1        P          pas      TP1
-
-PAD2     1        P          pas      N$3
-
 R1       1        1          pas      PC6/!RESET
          2        2          pas      +5V
 
 R2       1        1          pas      ADC6
-         2        2          pas      N$3
+         2        2          pas      U4D-
 
 R3       1        1          pas      GND
          2        2          pas      SENSE_A
@@ -142,24 +144,36 @@ R17      1        1          pas      N$5
 
 RX       1        1          io       RS485_RX
          2        2          io       !RS485_RX
-         3        3          io       RJ_RX_3
-         4        4          io       RJ_RX_4
-         5        5          io       RJ_RX_5
-         6        6          io       RJ_RX_6
-         7        7          io       RJ_RX_7
-         8        8          io       RJ_RX_8
+         3        3          io       RJ_RX_1
+         4        4          io       RJ_RX_2
+         5        5          io       RJ_RX_1
+         6        6          io       RJ_RX_2
+         7        7          io       RJ_RX_1
+         8        8          io       RJ_RX_2
 
 S1       1        1          pas      GND
          3        2          pas      PC6/!RESET
 
+SJ1      1        1          pas      RJ_TX_1
+         2        2          pas      GND
+
+SJ2      1        1          pas      RJ_RX_1
+         2        2          pas      GND
+
+SJ3      1        1          pas      RJ_TX_2
+         2        2          pas      +5V
+
+SJ4      1        1          pas      RJ_RX_2
+         2        2          pas      +5V
+
 TX       1        1          io       RS485_TX
          2        2          io       !RS485_TX
-         3        3          io       RJ_TX_3
-         4        4          io       RJ_TX_4
-         5        5          io       RJ_TX_5
-         6        6          io       RJ_TX_6
-         7        7          io       RJ_TX_7
-         8        8          io       RJ_TX_8
+         3        3          io       RJ_TX_1
+         4        4          io       RJ_TX_2
+         5        5          io       RJ_TX_1
+         6        6          io       RJ_TX_2
+         7        7          io       RJ_TX_1
+         8        8          io       RJ_TX_2
 
 U1       1        PD3(INT1)  io       PD3/INT1
          2        PD4(XCK/T0) io       PD4/XCK/T0
@@ -221,8 +235,8 @@ U4       1        OUT        pwr      PC0/ADC0
          9        -IN        pwr      AREF
          10       +IN        pwr      N$10
          11       -VS        pwr      GND
-         12       +IN        pwr      TP1
-         13       -IN        pwr      N$3
+         12       +IN        pwr      U4D+
+         13       -IN        pwr      U4D-
          14       OUT        pwr      ADC6
 
 U5       1        SEN_A      in       SENSE_A
