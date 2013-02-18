@@ -17,50 +17,121 @@
 #include "reply.hpp"
 #include "request.hpp"
 
+using namespace std;
+
 namespace http {
 namespace server {
 
-request_handler::request_handler(const std::string& doc_root)
+request_handler::request_handler(const string& doc_root)
   : doc_root_(doc_root)
 {
 }
 
+//------------------------------------------------------------------------------
+//RFC 3986 Section 3 visualizes the structure of URIs as follows:
+//
+//URL:      foo://example.com:8042/over/there?name=ferret#nose
+//          \_/   \______________/\_________/ \_________/ \__/
+//           |           |            |            |        |
+//        scheme     authority       path        query   fragment
+//------------------------------------------------------------------------------
 void request_handler::handle_request(const request& req, reply& rep)
 {
   // Decode url to path.
-  std::string request_path;
-  if (!url_decode(req.uri, request_path))
+  string path_and_query;
+  if (!url_decode(req.uri, path_and_query))
   {
     rep = reply::stock_reply(reply::bad_request);
     return;
   }
 
   // Request path must be absolute and not contain "..".
-  if (request_path.empty() || request_path[0] != '/'
-      || request_path.find("..") != std::string::npos)
+  if (path_and_query.empty() || path_and_query[0] != '/'
+      || path_and_query.find("..") != string::npos)
   {
     rep = reply::stock_reply(reply::bad_request);
     return;
   }
 
-  // If path ends in slash (i.e. is a directory) then add "index.html".
-  if (request_path[request_path.size() - 1] == '/')
+  // TODO: check for fragment and send error if exists
+
+  const string drink_list_path("/drinkList");
+
+  string path("");
+  string query("");
+
+  unsigned split = path_and_query.find("?");
+
+  if (split == string::npos)
   {
-    request_path += "index.html";
+    // There is no query, just a path
+    path = path_and_query;
+  }
+  else
+  {
+    path = path_and_query.substr(0, split);
+
+    unsigned query_start = split + 1;
+    unsigned query_len = path_and_query.size() - query_start;
+
+    if (query_len)
+    {
+      // There is a query, get the parameters
+      query = path_and_query.substr(query_start, query_len);
+    }
+  }
+
+  // Parse the request
+  if (path == drink_list_path)
+  {
+    cout << "path " << path  << endl;
+    cout << "query " << query << endl;
+
+    string message = "drink list";
+    rep.content.append(message.c_str(), message.size());
+
+    rep.status = reply::ok;
+
+    rep.headers.resize(2);
+    rep.headers[0].name = "Content-Length";
+    rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+    rep.headers[1].name = "Content-Type";
+    rep.headers[1].value = "text/html";
+
+  }
+  else
+  {
+    // The request was for a file...
+    handle_file_request(path_and_query, req, rep);
+  }
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void request_handler::handle_file_request(
+  string& path_and_query,
+  const request& req,
+  reply& rep)
+{
+  // If path ends in slash (i.e. is a directory) then add "index.html".
+  if (path_and_query[path_and_query.size() - 1] == '/')
+  {
+    path_and_query += "index.html";
   }
 
   // Determine the file extension.
-  std::size_t last_slash_pos = request_path.find_last_of("/");
-  std::size_t last_dot_pos = request_path.find_last_of(".");
-  std::string extension;
-  if (last_dot_pos != std::string::npos && last_dot_pos > last_slash_pos)
+  size_t last_slash_pos = path_and_query.find_last_of("/");
+  size_t last_dot_pos = path_and_query.find_last_of(".");
+  string extension;
+
+  if (last_dot_pos != string::npos && last_dot_pos > last_slash_pos)
   {
-    extension = request_path.substr(last_dot_pos + 1);
+    extension = path_and_query.substr(last_dot_pos + 1);
   }
 
   // Open the file to send back.
-  std::string full_path = doc_root_ + request_path;
-  std::ifstream is(full_path.c_str(), std::ios::in | std::ios::binary);
+  string full_path = doc_root_ + path_and_query;
+  ifstream is(full_path.c_str(), ios::in | ios::binary);
   if (!is)
   {
     rep = reply::stock_reply(reply::not_found);
@@ -71,27 +142,31 @@ void request_handler::handle_request(const request& req, reply& rep)
   rep.status = reply::ok;
   char buf[512];
   while (is.read(buf, sizeof(buf)).gcount() > 0)
+  {
     rep.content.append(buf, is.gcount());
+  }
   rep.headers.resize(2);
   rep.headers[0].name = "Content-Length";
-  rep.headers[0].value = boost::lexical_cast<std::string>(rep.content.size());
+  rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
   rep.headers[1].name = "Content-Type";
   rep.headers[1].value = mime_types::extension_to_type(extension);
 }
 
-bool request_handler::url_decode(const std::string& in, std::string& out)
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+bool request_handler::url_decode(const string& in, string& out)
 {
   out.clear();
   out.reserve(in.size());
-  for (std::size_t i = 0; i < in.size(); ++i)
+  for (size_t i = 0; i < in.size(); ++i)
   {
     if (in[i] == '%')
     {
       if (i + 3 <= in.size())
       {
         int value = 0;
-        std::istringstream is(in.substr(i + 1, 2));
-        if (is >> std::hex >> value)
+        istringstream is(in.substr(i + 1, 2));
+        if (is >> hex >> value)
         {
           out += static_cast<char>(value);
           i += 2;

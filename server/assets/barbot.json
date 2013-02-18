@@ -1,0 +1,60 @@
+{
+  "description":"This is a hypothetical test file for software testing",
+  "towers" :
+  [
+    {
+      "id" : 1,
+      "key" : "RUM",
+      "name" : "Rum",
+      "flowRate" : 1000.0
+    },
+    {
+      "id" : 2,
+      "key" : "COKE",
+      "name" : "Coke",
+      "flowRate" : 1000.0
+    },
+    {
+      "id" : 3,
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "flowRate" : 1000.0
+    },
+    {
+      "id" : 4,
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "flowRate" : 1000.0
+    },
+    {
+      "id" : 5,
+      "key" : "TEQUILA",
+      "name" : "Tequila",
+      "flowRate" : 1000.0
+    },
+    {
+      "id" : 6,
+      "key" : "GIN",
+      "name" : "Gin",
+      "flowRate" : 1000.0
+    },
+    {
+      "id" : 7,
+      "key" : "TRIPLESEC",
+      "name" : "Triple Sec",
+      "flowRate" : 1000.0
+    },
+    {
+      "id" : 8,
+      "key" : "SWEETNSOUR",
+      "name" : "Sweet n Sour",
+      "flowRate" : 1000.0
+    },
+    {
+      "id" : 9,
+      "key" : "GINGERBEER",
+      "name" : "Ginger Beer",
+      "flowRate" : 1000.0
+    }
+  ]
+}

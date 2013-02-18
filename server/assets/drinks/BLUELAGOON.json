@@ -1,0 +1,24 @@
+{
+  "key" : "BLUELAGOON",
+  "name" : "Blue Lagoon",
+  "ingredients" :
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "2"
+    },
+    {
+      "key" : "BLUECURACAO",
+      "name" : "Blue Curacao",
+      "amount" : "2"
+    },
+    {
+      "key" : "LEMONADE",
+      "name" : "Lemonade",
+      "amount" : "3"
+    }
+  ],
+  "description" : "Blue Lagoon is a popular summer cocktail which is prepared from a mixture of vodka, blue curacao and lemonade. It is said to have been invented in the popular New York bar, Harry’s Bar. It is frequently showcased in various popular cultures by featuring in many movies and sitcoms. The drink is served in a highball glass; on the rocks poured over ice with lemon as the common garnish.",
+  "imagePath" : "assets/img/drinks/bluelagoon.png"
+}
