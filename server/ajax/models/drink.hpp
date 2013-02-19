@@ -27,6 +27,8 @@ class Drink
 
     const std::string& getImagePath() const;
 
+    void output(std::ostream& s, unsigned indent = 0) const;
+
   private:
 
     void addIngredient(Ingredient& ingredient);

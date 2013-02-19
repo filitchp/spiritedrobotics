@@ -41,9 +41,24 @@ Ingredient::Ingredient(const ptree& pt)
     cout << "ERROR: Could not get the ingredient amount" << endl;
   }
 
+  // DEBUG
   cout << "mName:   " << mName << endl;
   cout << "mKey:    " << mKey << endl;
   cout << "mAmount: " << mAmount << endl;
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void Ingredient::output(ostream& s, unsigned indent) const
+{
+  string p = string(indent, ' ');
+
+  s << p << "{" << endl;
+  s << p << "  \"key\" : \""  << mKey    << "\"," << endl;
+  s << p << "  \"name\" : \"" << mName   << "\"," << endl;
+  s << p << "  \"amount\" : " << mAmount << endl;
+  s << p << "}";
+
 }
 
 //------------------------------------------------------------------------------

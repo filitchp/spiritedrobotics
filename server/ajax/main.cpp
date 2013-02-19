@@ -46,6 +46,8 @@ void readAllDrinks(string path);
 
 //void readDrinkMenu(string path);
 
+void outputDrinkList(ostream& s, unsigned indent = 0);
+
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 int main(int argc, char* argv[])
@@ -66,6 +68,12 @@ int main(int argc, char* argv[])
     readSystemConfiguration("/var/www/spiritedrobotics/server/assets/barbot.json");
 
     readAllDrinks("/var/www/spiritedrobotics/server/assets/drinks/");
+
+    //ptree pt;
+    //mAllDrinks[0].output(cout, 0);
+    //write_json(cout, pt);
+
+    outputDrinkList(cout, 0);
 
     // Initialize the server.
     http::server::server s(argv[1], argv[2], argv[3]);
@@ -137,5 +145,36 @@ void readAllDrinks(string pathDrinkDirectory)
 
     mAllDrinks.push_back(drink);
   }
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void outputDrinkList(ostream& s, unsigned indent)
+{
+
+  string p = string(indent, ' ');
+
+  s << p << "{" << endl;
+  s << p << "  \"drinks\" : " << endl;
+  s << p << "  ["  << endl;
+
+  unsigned count = 0;
+  BOOST_FOREACH(const Drink& d, mAllDrinks)
+  {
+    d.output(s, indent + 4);
+
+    count++;
+    if (count != mAllDrinks.size())
+    {
+      s << "," << endl;
+    }
+    else
+    {
+      s << endl;
+    }
+  }
+
+  s << p << "  ]" << endl;
+  s << p << "}" << endl;
 }
 
