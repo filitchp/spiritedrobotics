@@ -34,7 +34,24 @@ $(function()
         category_title: "All",
         url:"drinkList"
     });
-    
+    //--------------------------------------------------------
+    // This view renders a drink modal
+    //--------------------------------------------------------
+    DrinkModal = Backbone.View.extend(
+    {
+        model: Drink,
+        render: function(){
+            console.log("Rendering Modal");
+            var modalTemplate = _.template($("#modal_template").html());
+            this.$el.html(modalTemplate(this.model));
+            $("#modal_container").html(this.$el);
+            $("#order_modal").modal();
+        },
+        events: {
+            'click .click-to-order' : 'order'
+        },
+        order: function(){ alert("Order!"); } 
+    });
     //--------------------------------------------------------
     // This view renders a single drink
     //--------------------------------------------------------
@@ -46,9 +63,12 @@ $(function()
             return _.template($("#drink_template").html()); 
         },
         events: {
-            'click .click-to-order' : 'order'
+            'click .click-to-modal' : 'modal'
         },
-        order: function() { alert("order: " + this.model.get("key") ); },
+        modal: function() { 
+                modal = new DrinkModal({model: this.model});
+                modal.render();
+            },
         render: function(){
             console.log("Making " + this.model.get("key"));
             $("#drinks-list").append("<li><a href=\"#" + this.model.get("key") + "\">" + this.model.get("name") + "</a></li>");

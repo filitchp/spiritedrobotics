@@ -4,21 +4,6 @@ $(function()
   drinks = new AllDrinks();
   categories = new ValidCategories();
 
-  DrinkModal = Backbone.View.extend(
-  {
-    model: Drink,
-    initialize: function()
-    {
-        //No init
-    },
-    render: function(){
-        var modalTemplate = _.template($("#modal_template").html());
-        $("#modal-container").html( modalTemplate(model) );
-        $("#order_modal").modal();
-    }
-    
-  });
-  
   //-------------------------------
   // This draws the menu of drinks
   //-------------------------------  
