@@ -25,5 +25,5 @@ $(function()
         url:"assets/jsons/orders.json"
     });
 
-});
+);
     

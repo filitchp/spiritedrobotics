@@ -34,5 +34,55 @@ $(function()
         category_title: "All",
         url:"assets/json/drinks.json"
     });
+    
+    //--------------------------------------------------------
+    // This view renders a single drink
+    //--------------------------------------------------------
+    DrinkView = Backbone.View.extend(
+    {
+        tagName: 'div',
+        model: Drink,
+        template: function(){ 
+            return _.template($("#drink_template").html()); 
+        },
+        events: {
+            'click .click-to-order' : 'order'
+        },
+        order: function() { alert("order: " + this.model.get("key") ); },
+        render: function(){
+            console.log("Making " + this.model.get("key"));
+            $("#drinks-list").append("<li><a href=\"#" + this.model.get("key") + "\">" + this.model.get("name") + "</a></li>");
+            var ingredients = this.model.get("ingredients");
+            var ingredientHtml = '';
+            var ingredientTemplate = _.template($("#ingredient_template").html());
+            var drinkTemplate = _.template($("#drink_template").html()); 
+            $.each(ingredients, function (i,ingr)
+            {
+                var ingrVars = 
+                {
+                    name: ingr.name,
+                    amount: ingr.amount
+                };
+
+                ingredientHtml = ingredientHtml + ingredientTemplate(ingrVars);
+            });
+
+            //TODO remodel this to use the drink object straight aways
+            var drinkVars = 
+            {
+                key: this.model.get("key"),
+                name: this.model.get("name"),
+                description: this.model.get("description"),
+                imagePath: this.model.get("imagePath"),
+                ingredients: ingredientHtml
+            }
+
+            var drinkTemplatePopulated = drinkTemplate(drinkVars);
+            this.$el.html(drinkTemplatePopulated);
+            $("#content").append(this.$el);
+            return this;
+        }
+    });
+
  
 });

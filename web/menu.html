@@ -19,8 +19,8 @@
     <script type="text/template" id="drink_template">
     <section id="<%= key %>">
       <div style="line-height: 30px">
-        <span class="drinktitle"><%= name %></span>
-        <a class="btn btn-large btn-success btn-drink-make pull-right" href="#">MAKE IT!</a>
+        <span class="drinktitle click-to-order"><%= name %></span>
+        <a class="btn btn-large btn-success btn-drink-make pull-right click-to-order" href="#">MAKE IT!</a>
       </div>
       <hr class="drinkbreak">
       <div class="row-fluid">
@@ -48,7 +48,22 @@
       </div>
     </section>
     </script>
-    
+    <script type="text/template"> 
+     <div class="modal hide fade" id="order_modal">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="Modal Header">Order me a <%= get("name") >!</h3>
+    </div>
+    <div class="modal-body">
+        <p>How can we know you?</p>
+        <input type="text"></input>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn">Forget it</a>
+      <a href="#" class="btn btn-primary">Order</a>
+    </div>
+    </div>
+    </script>
     <script type="text/template" id="ingredient_template">
       <li><span class="btn btn-info"><span class="ingrval"><%= amount %> oz</span> | <span class="ingrname"><%= name %></span></span></li>
     </script>
@@ -96,6 +111,9 @@
     <div id="content">
     </div>
 
+    <div id="model-container">
+    </div>
+
     <!-- Footer
      ================================================== -->
     <hr>
@@ -114,8 +132,7 @@
       <a target="_blank" href="http://www.google.com/webfonts">Google</a>.
     </footer>
     </div><!-- /container -->
-
-    <!-- Le javascript
+   <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="assets/js/jquery.1.7.2.min.js"></script>
