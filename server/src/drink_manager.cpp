@@ -4,9 +4,10 @@
 #include <ostream>
 #include <sstream>
 #include <string>
+#include <utility>
+
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
-
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/exception/info.hpp>
@@ -96,6 +97,54 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
     mAllDrinks.push_back(drink);
   }
 }
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::addOrder(Order order)
+{
+  string orderId = order.getOrderId();
+
+  if (mPendingOrders.find(orderId) == mPendingOrders.end())
+  {
+    mPendingOrders.insert(std::pair<string, Order>(orderId, order));
+  }
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::outputPendingOrders(std::ostream& s, unsigned indent)
+{
+  string p = string(indent, ' ');
+
+  s << p << "["  << endl;
+
+  unsigned count = 0;
+
+  typedef std::map<std::string, Order> order_map;
+
+  BOOST_FOREACH(const order_map::value_type& orderPair, mPendingOrders)
+  {
+    Order o = orderPair.second;
+
+    o.output(s, indent + 4);
+
+    count++;
+
+    if (count != mPendingOrders.size())
+    {
+      s << "," << endl;
+    }
+    else
+    {
+      s << endl;
+    }
+  }
+
+  s << p << "]" << endl;
+}
+
+//void addPendingToApproved(std::string orderId);
+//void addPendingToRejected(std::string orderId);
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------

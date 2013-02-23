@@ -9,11 +9,15 @@
 //
 
 #include "request_handler.hpp"
+
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <map>
 #include <utility>
+#include <sys/time.h>
+#include <stdio.h>
+#include <unistd.h>
 
 
 #include <boost/lexical_cast.hpp>
@@ -23,6 +27,7 @@
 #include "mime_types.hpp"
 #include "reply.hpp"
 #include "request.hpp"
+#include "models/order.hpp"
 
 using namespace std;
 
@@ -108,6 +113,7 @@ void request_handler::handle_request(const request& req, reply& rep)
 
   const string drink_list_path("/drinkList");
   const string order_preset_drink_path("/orderPresetDrink");
+  const string pending_orders_path("/pendingOrders");
 
   string path("");
   string query("");
@@ -184,8 +190,18 @@ void request_handler::handle_request(const request& req, reply& rep)
         success = true;
       }
 
+      struct timeval currentTime;
+
+      gettimeofday(&currentTime, NULL);
+
       cout << "drinkKey" << drinkKey << endl;
       cout << "customerName" << customerName << endl;
+      cout << "currentTime" << currentTime.tv_sec << endl;
+
+      Order newOrder(drinkKey, customerName, (unsigned)currentTime.tv_sec);
+
+      mDrinkManager.addOrder(newOrder);
+
     }
 
     if (success)
@@ -198,6 +214,23 @@ void request_handler::handle_request(const request& req, reply& rep)
       string errorMessage = "{\"result\" : false}";
       rep.content.append(errorMessage.c_str(), errorMessage.size());
     }
+
+    rep.status = reply::ok;
+
+    rep.headers.resize(2);
+    rep.headers[0].name = "Content-Length";
+    rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+    rep.headers[1].name = "Content-Type";
+    rep.headers[1].value = "application/json";
+  }
+  else if (path == pending_orders_path)
+  {
+    stringstream oss(stringstream::out);
+
+    mDrinkManager.outputPendingOrders(oss, 0);
+
+    string message = oss.str();
+    rep.content.append(message.c_str(), message.size());
 
     rep.status = reply::ok;
 
