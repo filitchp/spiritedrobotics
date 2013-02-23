@@ -33,7 +33,7 @@ $(function()
       // For each drink
       this.collection.each(function(drink)
       {
-        $("#drinks-list").append("<li>" + drink.get("name") + "</a></li>");
+        $("#drinks-list").append("<li><a href=\"#" + drink.get("key") + "\">" + drink.get("name") + "</a></li>");
         
         // Get the ingredients for this drink
         var ingredients = drink.get("ingredients");
