@@ -63,15 +63,25 @@ $(function()
                 success: function(res){
                     if (res.result == true){
                         console.log("Order placed sucessfully");
+                        
+                      //  newOrder = new Order({ 
+                      //      key: this.model.get("key"),
+                      //      customer: $("#order_modal").find("#customer").val(),
+                      //      timestamp: res.timestamp
+                      //  });
+
+                      // MyOrders.add(newOrder);
+
+                        $("#order_modal").modal("hide");
                     }else{
                         console.log("Order could not be placed");
+                        alert("Have you ever considered a robotic implant?");
                     }
                 },
                 error: function(){
                     console.log("Order failed");
                 }
             });
-            $("#order_modal").modal("hide");
         }
     });
     //--------------------------------------------------------
