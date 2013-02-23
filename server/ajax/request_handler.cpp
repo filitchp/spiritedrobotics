@@ -12,7 +12,14 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <map>
+#include <utility>
+
+
 #include <boost/lexical_cast.hpp>
+#include <boost/foreach.hpp>
+#include <boost/algorithm/string.hpp>
+
 #include "mime_types.hpp"
 #include "reply.hpp"
 #include "request.hpp"
@@ -21,6 +28,33 @@ using namespace std;
 
 namespace http {
 namespace server {
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+map<string, string> generateQueryMap(const string& query)
+{
+  vector<string> keyValueStrings;
+
+  map<string, string> queryMap;
+
+  boost::split(keyValueStrings, query, boost::is_any_of("&"));
+
+  BOOST_FOREACH(string keyValueString, keyValueStrings)
+  {
+    vector<string> keyAndValue;
+
+    boost::split(keyAndValue, keyValueString, boost::is_any_of("="));
+    if (keyAndValue.size() == 2)
+    {
+//      cout << "KEY = " << keyAndValue[0] << endl;
+//      cout << "VAL = " << keyAndValue[1] << endl;
+
+      queryMap[keyAndValue[0]] = keyAndValue[1];
+    }
+  }
+
+  return queryMap;
+}
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
@@ -40,6 +74,20 @@ request_handler::request_handler(const string& doc_root, DrinkManager& dm)
 //------------------------------------------------------------------------------
 void request_handler::handle_request(const request& req, reply& rep)
 {
+
+  // DEBUG
+//  cout << "=================================" << endl;
+//  cout << "METHOD = " << req.method << endl;
+//  cout << "URI = " << req.uri << endl;
+//
+//  std::vector<header> vals = req.headers;
+//
+//  BOOST_FOREACH(header h, vals)
+//  {
+//    cout <<  "NAME = " << h.name << endl;
+//    cout <<  "VALUE = " << h.value << endl;
+//  }
+
   // Decode url to path.
   string path_and_query;
   if (!url_decode(req.uri, path_and_query))
@@ -59,11 +107,14 @@ void request_handler::handle_request(const request& req, reply& rep)
   // TODO: check for fragment and send error if exists
 
   const string drink_list_path("/drinkList");
+  const string order_preset_drink_path("/orderPresetDrink");
 
   string path("");
   string query("");
 
   unsigned split = path_and_query.find("?");
+
+  map<string, string> queryMap;
 
   if (split == string::npos)
   {
@@ -82,14 +133,16 @@ void request_handler::handle_request(const request& req, reply& rep)
       // There is a query, get the parameters
       query = path_and_query.substr(query_start, query_len);
     }
+
+    cout << "path " << path  << endl;
+    cout << "query " << query << endl;
+
+    queryMap = generateQueryMap(query);
   }
 
   // Parse the request
   if (path == drink_list_path)
   {
-    cout << "path " << path  << endl;
-    cout << "query " << query << endl;
-
     stringstream oss(stringstream::out);
 
     mDrinkManager.outputDrinkList(oss, 0);
@@ -106,12 +159,62 @@ void request_handler::handle_request(const request& req, reply& rep)
     rep.headers[1].value = "application/json";
 
   }
+  else if (path == order_preset_drink_path)
+  {
+
+    bool success = false;
+
+    if (queryMap.size())
+    {
+      string drinkKey;
+      string customerName;
+
+      if (queryMap.find("key") != queryMap.end())
+      {
+        drinkKey = queryMap["key"];
+      }
+
+      if (queryMap.find("customer") != queryMap.end())
+      {
+        customerName = queryMap["customer"];
+      }
+
+      if (drinkKey.size() && customerName.size())
+      {
+        success = true;
+      }
+
+      cout << "drinkKey" << drinkKey << endl;
+      cout << "customerName" << customerName << endl;
+    }
+
+    if (success)
+    {
+      string successMessage = "{\"result\" : true}";
+      rep.content.append(successMessage.c_str(), successMessage.size());
+    }
+    else
+    {
+      string errorMessage = "{\"result\" : false}";
+      rep.content.append(errorMessage.c_str(), errorMessage.size());
+    }
+
+    rep.status = reply::ok;
+
+    rep.headers.resize(2);
+    rep.headers[0].name = "Content-Length";
+    rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+    rep.headers[1].name = "Content-Type";
+    rep.headers[1].value = "application/json";
+  }
   else
   {
     // The request was for a file...
     handle_file_request(path_and_query, req, rep);
   }
 }
+
+
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
