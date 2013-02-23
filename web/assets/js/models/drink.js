@@ -34,6 +34,7 @@ $(function()
         category_title: "All",
         url:"drinkList"
     });
+
     //--------------------------------------------------------
     // This view renders a drink modal
     //--------------------------------------------------------
@@ -59,9 +60,8 @@ $(function()
                     key: this.model.get("key"),
                     customer: $("#order_modal").find("#customer").val()
                 },
-                success: function(data){
-                    response = $.parseJSON(data);
-                    if (response.result == true){
+                success: function(res){
+                    if (res.result == true){
                         console.log("Order placed sucessfully");
                     }else{
                         console.log("Order could not be placed");
