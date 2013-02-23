@@ -50,7 +50,19 @@ $(function()
         events: {
             'click .click-to-order' : 'order'
         },
-        order: function(){ alert("Order!"); } 
+        //TODO replace this with creating an order and posting it...
+        order: function(){ 
+            $.ajax({
+                type: "GET",
+                url: "orderPresetDrink",
+                data: {
+                    key: this.model.get("key"),
+                    customer: $("#order_modal").find("#customer").val()
+                }
+            });
+            $("#order_modal").modal("hide");
+        }
+             
     });
     //--------------------------------------------------------
     // This view renders a single drink
