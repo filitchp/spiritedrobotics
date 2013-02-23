@@ -18,34 +18,38 @@
     
     <script type="text/template" id="drink_template">
     <section id="<%= key %>">
-      <div style="line-height: 30px">
-        <span class="drinktitle click-to-modal"><%= name %></span>
-        <a class="btn btn-large btn-success btn-drink-make pull-right click-to-modal" href="#">MAKE IT!</a>
-      </div>
-      <hr class="drinkbreak">
+    <div style="line-height: 30px">
+      <span class="drinktitle click-to-modal"><%= name %></span>
+    </div>
+    <hr class="drinkbreak">
       <div class="row-fluid">
-        <div class="span5">
-          <table style="background-color: transparent;" width="100%" cellpadding="12px" cellspacing="0px">
-            <tr>
-              <td style="vertical-align: top;">
-                <img src="<%= imagePath %>">
-              </td>
-              <td style="vertical-align: top;">
-                <span class="drinksubtitle">Ingredients</span>
-                <ul class="ingredients">
-                  <%= ingredients %>
-                </ul>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="span7" style="padding: 12px">
-          <div class="drinksubtitle">Description</div>
-          <div class="descriptiontext">
-            <%= description %>
+        <div class="span3">
+          <div class="imageframe">
+            <div class="imageframeinner">
+              <img class="drinkimage" src="<%= imagePath %>">
+            </div>
           </div>
         </div>
+        <div class="span9">
+          <div class="drinksubtitle">Description</div>
+            <div class="descriptiontext">
+              <%= description %>
+            </div>
+          </div> 
+        </div>
       </div>
+      <div class="row" style="padding-top:24px">
+        <div class="span3">
+          <a class="btn btn-large btn-success btn-drink-make click-to-modal" href="#">MAKE IT!</a>
+        </div>
+        <div class="span9">
+          <span class="ingredientssubtitle">Ingredients</span>
+          <ul class="ingredients">
+            <%= ingredients %>
+          </ul>
+        </div>
+      </div>
+    </div>
     </section>
     </script>
     <script type="text/template" id="modal_template"> 
@@ -65,7 +69,15 @@
     </div>
     </script>
     <script type="text/template" id="ingredient_template">
-      <li><span class="btn btn-info"><span class="ingrval"><%= amount %> oz</span> | <span class="ingrname"><%= name %></span></span></li>
+        <li class="span3">
+            <table class="ingredientstable">
+              <tr>
+                <td width="30%" class="ingrval"><%= amount %> oz</td>
+                <td width="5%"> | </td> 
+                <td width="65%" class="ingrname"><%= name %></td>  
+              </tr>
+            </table>
+        </li>
     </script>
 
     <script type="text/template" id="topbar_template">
