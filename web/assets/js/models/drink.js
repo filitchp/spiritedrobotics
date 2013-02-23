@@ -58,11 +58,21 @@ $(function()
                 data: {
                     key: this.model.get("key"),
                     customer: $("#order_modal").find("#customer").val()
+                },
+                success: function(data){
+                    response = $.parseJSON(data);
+                    if (response.result == true){
+                        console.log("Order placed sucessfully");
+                    }else{
+                        console.log("Order could not be placed");
+                    }
+                },
+                error: function(){
+                    console.log("Order failed");
                 }
             });
             $("#order_modal").modal("hide");
         }
-             
     });
     //--------------------------------------------------------
     // This view renders a single drink
