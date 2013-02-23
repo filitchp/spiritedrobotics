@@ -102,6 +102,21 @@
     content: '';
 }
 
+.buttonframe
+{
+    width: 70%;
+    margin-left:24px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.buttonframe:after
+{
+    padding-top: 20%;
+    display: block;
+    content: '';
+}
 .imageframeinner
 {
     overflow: hidden;
@@ -115,9 +130,10 @@
   font-weight: 500;
   font-size: 20px;
   text-rendering: optimizelegibility;
-  width:50%;
-  margin-left: 24px;
-  margin-right:24px;
+  text-align:left;
+  width: 100%;
+  margin-bottom: 24px;
+  border-radius: 0px;
 }
 
 hr.drinkbreak
