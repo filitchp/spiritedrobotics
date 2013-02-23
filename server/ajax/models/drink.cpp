@@ -134,7 +134,7 @@ void Drink::output(ostream& s, unsigned indent) const
   s << p << "  ]" << endl;
   s << p << "}";
 
-// Doesn't quite work... In addition BOOST outputs everything as a string (bad for floats!)
+// Doesn't quite work... In addition BOOST outputs everything as a string
 //  pt.put("key", mKey);
 //  pt.put("name", mName);
 //  pt.put("description", mDescription);

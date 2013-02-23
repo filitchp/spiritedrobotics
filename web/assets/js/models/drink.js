@@ -16,7 +16,7 @@ $(function()
             console.log('initialized drink: ' + this.get("name"));
         }
     });
-    
+
     //--------------------------------------------------------
     // This is a collection of drinks fetched from the server
     //--------------------------------------------------------
@@ -27,11 +27,11 @@ $(function()
         url: "assets/json/drinks.json",
         data: { category: this.category_key }
     });
-    
+
     AllDrinks = Backbone.Collection.extend(
     {
         model: Drink,
-        url:"assets/json/drinks.json"
+        url:"drinkList"
     });
- 
+
 });

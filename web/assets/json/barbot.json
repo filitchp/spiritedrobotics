@@ -1,5 +1,5 @@
 {
-  "description":"This is a hypothetical test file for software testing",
+  "description":"This file is read by the server on startup to configure the system. The following values were arbitrarily chosen for software testing",
   "towers" :
   [
     {
