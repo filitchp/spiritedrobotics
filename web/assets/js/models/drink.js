@@ -31,6 +31,7 @@ $(function()
     AllDrinks = Backbone.Collection.extend(
     {
         model: Drink,
+        category_title: "All",
         url:"assets/json/drinks.json"
     });
  

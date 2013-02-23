@@ -24,12 +24,14 @@ $(function()
       // Compile the drink template using underscore
       var drinkTemplate = _.template($("#drink_template").html());
       
-      // Compile the ingredient template using underscore
+      //Compile the ingredient template using underscore
       var ingredientTemplate = _.template($("#ingredient_template").html());
       
       // Clear the menu
       $("#drinks-list").empty();
       
+      $(".category_title").html(this.collection.category_title);
+
       // For each drink
       this.collection.each(function(drink)
       {
