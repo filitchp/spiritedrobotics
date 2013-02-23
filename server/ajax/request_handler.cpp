@@ -22,8 +22,11 @@ using namespace std;
 namespace http {
 namespace server {
 
-request_handler::request_handler(const string& doc_root)
-  : doc_root_(doc_root)
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+request_handler::request_handler(const string& doc_root, DrinkManager& dm)
+  : doc_root_(doc_root),
+    mDrinkManager(dm)
 {
 }
 
@@ -87,7 +90,11 @@ void request_handler::handle_request(const request& req, reply& rep)
     cout << "path " << path  << endl;
     cout << "query " << query << endl;
 
-    string message = "drink list";
+    stringstream oss(stringstream::out);
+
+    mDrinkManager.outputDrinkList(oss, 0);
+
+    string message = oss.str();
     rep.content.append(message.c_str(), message.size());
 
     rep.status = reply::ok;
@@ -96,7 +103,7 @@ void request_handler::handle_request(const request& req, reply& rep)
     rep.headers[0].name = "Content-Length";
     rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
     rep.headers[1].name = "Content-Type";
-    rep.headers[1].value = "text/html";
+    rep.headers[1].value = "application/json";
 
   }
   else

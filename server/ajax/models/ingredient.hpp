@@ -21,6 +21,8 @@ class Ingredient
 
     float getAmount() const;
 
+    void output(std::ostream& s, unsigned indent = 0) const;
+
   private:
 
     // The ingredient key
