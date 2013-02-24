@@ -21,7 +21,7 @@ class Drink
 
     const std::string& getName() const;
 
-    const std::vector<Ingredient>& getIngredients() const;
+    std::vector<Ingredient> getIngredients() const;
 
     const std::string& getDescription() const;
 

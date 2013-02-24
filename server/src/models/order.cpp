@@ -14,10 +14,15 @@ using namespace std;
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-Order::Order(std::string drinkKey, std::string customerName, unsigned timestamp) :
+Order::Order(
+  std::string drinkKey,
+  std::string customerName,
+  unsigned timestamp,
+  std::vector<Ingredient> ingredients) :
     mDrinkKey(drinkKey),
     mCustomerName(customerName),
-    mTimestamp(timestamp)
+    mTimestamp(timestamp),
+    mIngredients(ingredients)
 {
 }
 
@@ -32,7 +37,26 @@ void Order::output(ostream& s, unsigned indent) const
   s << p << "{" << endl;
   s << p << "  \"key\" : \""      << mDrinkKey     << "\"," << endl;
   s << p << "  \"customer\" : \"" << mCustomerName << "\"," << endl;
-  s << p << "  \"date\" : "       << mTimestamp    << endl;
+  s << p << "  \"date\" : "       << mTimestamp  << ","  << endl;
+  s << p << "  \"ingredients\" : "  << endl;
+  s << p << "  ["  << endl;
+
+  unsigned count = 0;
+  BOOST_FOREACH(const Ingredient& i, mIngredients)
+  {
+    i.output(s, indent + 4);
+
+    count++;
+    if (count != mIngredients.size())
+    {
+      s << "," << endl;
+    }
+    else
+    {
+      s << endl;
+    }
+  }
+  s << p << "  ]" << endl;
   s << p << "}";
 }
 

@@ -25,7 +25,9 @@ class DrinkManager
 //    void outputAcceptedOrders(std::ostream& s, unsigned indent);
 //    void outputRejectedOrders(std::ostream& s, unsigned indent);
 
-    void addOrder(Order order);
+    bool getIngredientsForDrinkKey(std::string key, std::vector<Ingredient>& ingredients);
+
+    bool addOrder(std::string drinkKey, std::string customerName, unsigned timestamp);
 //    void addPendingToApproved(std::string orderId);
 //    void addPendingToRejected(std::string orderId);
 

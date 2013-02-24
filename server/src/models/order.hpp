@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-
+#include "models/drink.hpp"
 
 //------------------------------------------------------------------------------
 // Describes the recipe for a drink
@@ -12,7 +12,7 @@ class Order
 {
   public:
 
-    Order(std::string drinkKey, std::string customerName, unsigned timestamp);
+    Order(std::string drinkKey, std::string customerName, unsigned timestamp, std::vector<Ingredient> ingredients);
 
     std::string getDrinkKey() const;
 
@@ -34,6 +34,9 @@ class Order
 
     // The time it was ordered
     unsigned mTimestamp;
+
+    // The exact ingredients that went into this order
+    std::vector<Ingredient> mIngredients;
 
 };
 

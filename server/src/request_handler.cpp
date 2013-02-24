@@ -19,7 +19,6 @@
 #include <stdio.h>
 #include <unistd.h>
 
-
 #include <boost/lexical_cast.hpp>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
@@ -51,6 +50,7 @@ map<string, string> generateQueryMap(const string& query)
     boost::split(keyAndValue, keyValueString, boost::is_any_of("="));
     if (keyAndValue.size() == 2)
     {
+      // DEBUG
 //      cout << "KEY = " << keyAndValue[0] << endl;
 //      cout << "VAL = " << keyAndValue[1] << endl;
 
@@ -136,59 +136,112 @@ void request_handler::handle_request(const request& req, reply& rep)
 
     if (query_len)
     {
-      // There is a query, get the parameters
+      // There is the URI query, get the parameters
       query = path_and_query.substr(query_start, query_len);
     }
 
-    cout << "path " << path  << endl;
-    cout << "query " << query << endl;
+    // DEBUG
+//    cout << "path " << path  << endl;
+//    cout << "query " << query << endl;
 
+    // generate a key-value map for the URI query parameters
     queryMap = generateQueryMap(query);
   }
 
   // Parse the request
   if (path == drink_list_path)
   {
-    stringstream oss(stringstream::out);
-
-    mDrinkManager.outputDrinkList(oss, 0);
-
-    string message = oss.str();
-    rep.content.append(message.c_str(), message.size());
-
-    rep.status = reply::ok;
-
-    rep.headers.resize(2);
-    rep.headers[0].name = "Content-Length";
-    rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
-    rep.headers[1].name = "Content-Type";
-    rep.headers[1].value = "application/json";
-
+    //--------------------
+    // Display drink list
+    //--------------------
+    handleDrinkListRequest(rep);
   }
   else if (path == order_preset_drink_path)
   {
+    //--------------------
+    // Handle drink order
+    //--------------------
+    handleOrderPresetDrinkRequest(queryMap, rep);
+  }
+  else if (path == pending_orders_path)
+  {
+    //----------------------------------------
+    // Display a list of pending drink orders
+    //----------------------------------------
+    handlePendingOrdersRequest(rep);
+  }
+  else
+  {
+    // The request was for a file...
+    handle_file_request(path_and_query, req, rep);
+  }
+}
 
-    bool success = false;
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void request_handler::handlePendingOrdersRequest(reply& rep)
+{
 
-    if (queryMap.size())
+  stringstream oss(stringstream::out);
+
+  mDrinkManager.outputPendingOrders(oss, 0);
+
+  string message = oss.str();
+  rep.content.append(message.c_str(), message.size());
+
+  rep.status = reply::ok;
+
+  rep.headers.resize(2);
+  rep.headers[0].name = "Content-Length";
+  rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+  rep.headers[1].name = "Content-Type";
+  rep.headers[1].value = "application/json";
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void request_handler::handleDrinkListRequest(reply& rep)
+{
+  stringstream oss(stringstream::out);
+
+  mDrinkManager.outputDrinkList(oss, 0);
+
+  string message = oss.str();
+  rep.content.append(message.c_str(), message.size());
+
+  rep.status = reply::ok;
+
+  rep.headers.resize(2);
+  rep.headers[0].name = "Content-Length";
+  rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+  rep.headers[1].name = "Content-Type";
+  rep.headers[1].value = "application/json";
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void request_handler::handleOrderPresetDrinkRequest(map<string, string>& queryMap, reply& rep)
+{
+  bool success = false;
+
+  if (queryMap.size())
+  {
+    string drinkKey;
+    string customerName;
+
+    if (queryMap.find("key") != queryMap.end())
     {
-      string drinkKey;
-      string customerName;
+      drinkKey = queryMap["key"];
+    }
 
-      if (queryMap.find("key") != queryMap.end())
-      {
-        drinkKey = queryMap["key"];
-      }
+    if (queryMap.find("customer") != queryMap.end())
+    {
+      customerName = queryMap["customer"];
+    }
 
-      if (queryMap.find("customer") != queryMap.end())
-      {
-        customerName = queryMap["customer"];
-      }
-
-      if (drinkKey.size() && customerName.size())
-      {
-        success = true;
-      }
+    // If we have both a drink key and a customer name
+    if (drinkKey.size() && customerName.size())
+    {
 
       struct timeval currentTime;
 
@@ -198,53 +251,31 @@ void request_handler::handle_request(const request& req, reply& rep)
       cout << "customerName" << customerName << endl;
       cout << "currentTime" << currentTime.tv_sec << endl;
 
-      Order newOrder(drinkKey, customerName, (unsigned)currentTime.tv_sec);
-
-      mDrinkManager.addOrder(newOrder);
-
+      if (mDrinkManager.addOrder(drinkKey, customerName, (unsigned)currentTime.tv_sec))
+      {
+        success = true;
+      }
     }
-
-    if (success)
-    {
-      string successMessage = "{\"result\" : true}";
-      rep.content.append(successMessage.c_str(), successMessage.size());
-    }
-    else
-    {
-      string errorMessage = "{\"result\" : false}";
-      rep.content.append(errorMessage.c_str(), errorMessage.size());
-    }
-
-    rep.status = reply::ok;
-
-    rep.headers.resize(2);
-    rep.headers[0].name = "Content-Length";
-    rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
-    rep.headers[1].name = "Content-Type";
-    rep.headers[1].value = "application/json";
   }
-  else if (path == pending_orders_path)
+
+  if (success)
   {
-    stringstream oss(stringstream::out);
-
-    mDrinkManager.outputPendingOrders(oss, 0);
-
-    string message = oss.str();
-    rep.content.append(message.c_str(), message.size());
-
-    rep.status = reply::ok;
-
-    rep.headers.resize(2);
-    rep.headers[0].name = "Content-Length";
-    rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
-    rep.headers[1].name = "Content-Type";
-    rep.headers[1].value = "application/json";
+    string successMessage = "{\"result\" : true}";
+    rep.content.append(successMessage.c_str(), successMessage.size());
   }
   else
   {
-    // The request was for a file...
-    handle_file_request(path_and_query, req, rep);
+    string errorMessage = "{\"result\" : false}";
+    rep.content.append(errorMessage.c_str(), errorMessage.size());
   }
+
+  rep.status = reply::ok;
+
+  rep.headers.resize(2);
+  rep.headers[0].name = "Content-Length";
+  rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+  rep.headers[1].name = "Content-Type";
+  rep.headers[1].value = "application/json";
 }
 
 

@@ -41,6 +41,11 @@ class request_handler : private boost::noncopyable
     /// invalid.
     static bool url_decode(const std::string& in, std::string& out);
     void handle_file_request(std::string& request_path, const request& req, reply& rep);
+
+    void handleDrinkListRequest(reply& rep);
+    void handlePendingOrdersRequest(reply& rep);
+    void handleOrderPresetDrinkRequest(std::map<std::string, std::string>& queryMap, reply& rep);
+
 };
 
 } // namespace server

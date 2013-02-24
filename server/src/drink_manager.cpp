@@ -100,14 +100,46 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-void DrinkManager::addOrder(Order order)
+bool DrinkManager::addOrder(string drinkKey, string customerName, unsigned timestamp)
 {
-  string orderId = order.getOrderId();
 
+  vector<Ingredient> ingredients;
+
+  // Grab the ingredients from the drink key provided
+  BOOST_FOREACH(const Drink& d, mAllDrinks)
+  {
+    if (d.getKey() == drinkKey)
+    {
+      ingredients = d.getIngredients();
+      break;
+    }
+  }
+
+  // If there are no ingredients for this preset (or the preset does not exist)
+  if (ingredients.size() == 0)
+  {
+    return false;
+  }
+
+  Order newOrder(drinkKey, customerName, timestamp, ingredients);
+
+  string orderId = newOrder.getOrderId();
+
+  // If the order ID is unique
   if (mPendingOrders.find(orderId) == mPendingOrders.end())
   {
-    mPendingOrders.insert(std::pair<string, Order>(orderId, order));
+    // Add the order
+    mPendingOrders.insert(std::pair<string, Order>(orderId, newOrder));
   }
+  else
+  {
+    // The order already exists
+    // This could happen if the same order gets submitted back-to-back
+    // Drunk proof design!!!
+    return false;
+  }
+
+  return true;
 }
 
 //------------------------------------------------------------------------------
@@ -145,6 +177,21 @@ void DrinkManager::outputPendingOrders(std::ostream& s, unsigned indent)
 
 //void addPendingToApproved(std::string orderId);
 //void addPendingToRejected(std::string orderId);
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+bool DrinkManager::getIngredientsForDrinkKey(string key, vector<Ingredient>& ingredients)
+{
+  BOOST_FOREACH(const Drink& d, mAllDrinks)
+  {
+    if (d.getKey() == key)
+    {
+      ingredients = d.getIngredients();
+      return true;
+    }
+  }
+  return false;
+}
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------

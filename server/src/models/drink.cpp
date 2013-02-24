@@ -182,3 +182,10 @@ const string& Drink::getImagePath() const
 {
   return mImagePath;
 }
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+vector<Ingredient> Drink::getIngredients() const
+{
+  return mIngredients;
+}
