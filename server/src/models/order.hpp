@@ -12,7 +12,7 @@ class Order
 {
   public:
 
-    Order(std::string drinkKey, std::string customerName, unsigned timestamp, std::vector<Ingredient> ingredients);
+    Order(std::string drinkKey, std::string customerName, unsigned timestamp, std::vector<Ingredient> ingredients, std::vector<unsigned int> towerMessage);
 
     std::string getDrinkKey() const;
 
@@ -21,6 +21,8 @@ class Order
     unsigned getTimestamp() const;
 
     std::string getOrderId() const;
+
+    std::vector<unsigned int> getTowerMessage();
 
     void output(std::ostream& s, unsigned indent = 0) const;
 
@@ -31,6 +33,9 @@ class Order
 
     // The name of the person that ordered it
     std::string mCustomerName;
+
+    //the hexdata to be sent to the tower boards
+    std::vector<unsigned int> mTowerMessage;
 
     // The time it was ordered
     unsigned mTimestamp;
