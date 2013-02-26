@@ -100,6 +100,32 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
+bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned timestamp)
+{
+  string orderId = Order::generateOrderId(drinkKey, customerName, timestamp);
+
+  map<string, Order>::iterator it = mPendingOrders.find(orderId);
+
+  // If the order does not exist
+  if (it == mPendingOrders.end())
+  {
+    return false;
+  }
+
+  // MAKE THE DRINK HERE!
+  Order theOrderToMake = it->second;
+
+
+  mApprovedOrders.insert(pair<string, Order>(it->first, it->second));
+
+  mPendingOrders.erase(it);
+
+  return true;
+
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 bool DrinkManager::addOrder(string drinkKey, string customerName, unsigned timestamp)
 {
 
@@ -175,8 +201,39 @@ void DrinkManager::outputPendingOrders(std::ostream& s, unsigned indent)
   s << p << "]" << endl;
 }
 
-//void addPendingToApproved(std::string orderId);
-//void addPendingToRejected(std::string orderId);
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::outputApprovedOrders(std::ostream& s, unsigned indent)
+{
+  string p = string(indent, ' ');
+
+  s << p << "["  << endl;
+
+  unsigned count = 0;
+
+  typedef std::map<std::string, Order> order_map;
+
+  BOOST_FOREACH(const order_map::value_type& orderPair, mApprovedOrders)
+  {
+    Order o = orderPair.second;
+
+    o.output(s, indent + 4);
+
+    count++;
+
+    if (count != mApprovedOrders.size())
+    {
+      s << "," << endl;
+    }
+    else
+    {
+      s << endl;
+    }
+  }
+
+  s << p << "]" << endl;
+}
+
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------

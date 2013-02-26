@@ -2,8 +2,7 @@
 
 #include <iostream>
 #include <string>
-#include <ostream>
-#include <sstream>
+
 
 #include <boost/exception/info.hpp>
 #include <boost/exception/error_info.hpp>
@@ -85,10 +84,7 @@ unsigned Order::getTimestamp() const
 //------------------------------------------------------------------------------
 string Order::getOrderId() const
 {
-  stringstream oss(stringstream::out);
-  oss << mTimestamp << mDrinkKey << mCustomerName;
-
-  return oss.str();
+  return generateOrderId(mDrinkKey, mCustomerName, mTimestamp);
 
 }
 

@@ -3,6 +3,9 @@
 
 #include <string>
 #include <vector>
+#include <ostream>
+#include <sstream>
+
 #include "models/drink.hpp"
 
 //------------------------------------------------------------------------------
@@ -11,6 +14,17 @@
 class Order
 {
   public:
+
+    static std::string generateOrderId(
+      const std::string& drinkKey,
+      const std::string& customerName,
+      unsigned timestamp)
+    {
+      std::stringstream oss(std::stringstream::out);
+      oss << timestamp << drinkKey << customerName;
+
+      return oss.str();
+    }
 
     Order(std::string drinkKey, std::string customerName, unsigned timestamp, std::vector<Ingredient> ingredients);
 
@@ -23,6 +37,8 @@ class Order
     std::string getOrderId() const;
 
     void output(std::ostream& s, unsigned indent = 0) const;
+
+
 
   private:
 

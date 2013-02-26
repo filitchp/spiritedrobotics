@@ -22,6 +22,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include "mime_types.hpp"
 #include "reply.hpp"
@@ -110,10 +111,11 @@ void request_handler::handle_request(const request& req, reply& rep)
   }
 
   // TODO: check for fragment and send error if exists
-
   const string drink_list_path("/drinkList");
   const string order_preset_drink_path("/orderPresetDrink");
   const string pending_orders_path("/pendingOrders");
+  const string approved_orders_path("/approvedOrders");
+  const string approve_order_path("/approveOrder");
 
   string path("");
   string query("");
@@ -170,11 +172,88 @@ void request_handler::handle_request(const request& req, reply& rep)
     //----------------------------------------
     handlePendingOrdersRequest(rep);
   }
+  else if (path == approved_orders_path)
+  {
+    //----------------------------------------
+    // Display a list of approved drink orders
+    //----------------------------------------
+    handleApprovedOrdersRequest(rep);
+  }
+  else if (path == approve_order_path)
+  {
+    //----------------------------------------
+    // Approve a pending drink
+    //----------------------------------------
+    handleApproveOrderRequest(queryMap,rep);
+  }
   else
   {
     // The request was for a file...
     handle_file_request(path_and_query, req, rep);
   }
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void request_handler::handleApproveOrderRequest(map<string, string>& queryMap, reply& rep)
+{
+  bool success = false;
+
+   if (queryMap.size())
+   {
+     string drinkKey;
+     string customerName;
+     unsigned timestamp;
+
+     if (queryMap.find("key") != queryMap.end())
+     {
+       drinkKey = queryMap["key"];
+     }
+
+     if (queryMap.find("customer") != queryMap.end())
+     {
+       customerName = queryMap["customer"];
+     }
+
+     if (queryMap.find("timestamp") != queryMap.end())
+     {
+       timestamp = boost::lexical_cast<unsigned>(queryMap["timestamp"]);
+     }
+
+     // If we have a drink key, a customer name, and a timestamp
+     if (drinkKey.size() && customerName.size())
+     {
+
+       cout << "drinkKey" << drinkKey << endl;
+       cout << "customerName" << customerName << endl;
+       cout << "timestamp" << timestamp << endl;
+
+       if (mDrinkManager.approveOrder(drinkKey, customerName, timestamp))
+       {
+         success = true;
+       }
+     }
+   }
+
+   if (success)
+    {
+      string successMessage = "{\"result\" : true}";
+      rep.content.append(successMessage.c_str(), successMessage.size());
+    }
+    else
+    {
+      string errorMessage = "{\"result\" : false}";
+      rep.content.append(errorMessage.c_str(), errorMessage.size());
+    }
+
+    rep.status = reply::ok;
+
+    rep.headers.resize(2);
+    rep.headers[0].name = "Content-Length";
+    rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+    rep.headers[1].name = "Content-Type";
+    rep.headers[1].value = "application/json";
+
 }
 
 //------------------------------------------------------------------------------
@@ -185,6 +264,27 @@ void request_handler::handlePendingOrdersRequest(reply& rep)
   stringstream oss(stringstream::out);
 
   mDrinkManager.outputPendingOrders(oss, 0);
+
+  string message = oss.str();
+  rep.content.append(message.c_str(), message.size());
+
+  rep.status = reply::ok;
+
+  rep.headers.resize(2);
+  rep.headers[0].name = "Content-Length";
+  rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+  rep.headers[1].name = "Content-Type";
+  rep.headers[1].value = "application/json";
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void request_handler::handleApprovedOrdersRequest(reply& rep)
+{
+
+  stringstream oss(stringstream::out);
+
+  mDrinkManager.outputApprovedOrders(oss, 0);
 
   string message = oss.str();
   rep.content.append(message.c_str(), message.size());

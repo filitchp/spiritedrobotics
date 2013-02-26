@@ -44,8 +44,9 @@ class request_handler : private boost::noncopyable
 
     void handleDrinkListRequest(reply& rep);
     void handlePendingOrdersRequest(reply& rep);
+    void handleApprovedOrdersRequest(reply& rep);
     void handleOrderPresetDrinkRequest(std::map<std::string, std::string>& queryMap, reply& rep);
-
+    void handleApproveOrderRequest(std::map<std::string, std::string>& queryMap, reply& rep);
 };
 
 } // namespace server
