@@ -130,6 +130,7 @@ bool DrinkManager::addOrder(string drinkKey, string customerName, unsigned times
 {
 
   vector<Ingredient> ingredients;
+  vector<unsigned> towerMessage;
 
   // Grab the ingredients from the drink key provided
   BOOST_FOREACH(const Drink& d, mAllDrinks)
@@ -147,7 +148,27 @@ bool DrinkManager::addOrder(string drinkKey, string customerName, unsigned times
     return false;
   }
 
-  Order newOrder(drinkKey, customerName, timestamp, ingredients);
+  // use to generate the tower message
+    //according to the protocol documnted here: https://github.com/filitchp/spiritedrobotics/wiki/Node-Communication-Protocol
+  unsigned chksum = 0; //xor of all nibbles,
+  BOOST_FOREACH(const Ingredient& ing, ingredients){
+
+      //is there a more direct way to do this?
+      unsigned towerID = (mpBarbot->getTowerByIngredientKey(ing.getKey())).getTowerId();
+      //header byte
+      unsigned tByte = (towerID << 2) | (0x01);
+      chksum ^= (tByte & 0x0F) ^ (tByte >> 4); // because xor is distributive and associative, it should be fine to do it this way.
+      towerMessage.push_back(tByte);
+
+        //protocol incomplete? to be completed following discussion with paul/ryan
+
+      //footer byte
+      tByte = (0x03)|(chksum & 0x0F);//just in case
+      towerMessage.push_back(tByte);
+
+  }
+
+  Order newOrder(drinkKey, customerName, timestamp, ingredients, towerMessage);
 
   string orderId = newOrder.getOrderId();
 

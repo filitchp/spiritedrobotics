@@ -17,14 +17,15 @@ Order::Order(
   std::string drinkKey,
   std::string customerName,
   unsigned timestamp,
-  std::vector<Ingredient> ingredients) :
+  std::vector<Ingredient> ingredients,
+  std::vector<unsigned int> towerMessage):
     mDrinkKey(drinkKey),
     mCustomerName(customerName),
     mTimestamp(timestamp),
-    mIngredients(ingredients)
+    mIngredients(ingredients),
+    mTowerMessage(towerMessage)
 {
 }
-
 //------------------------------------------------------------------------------
 // Unfortunately writing JSON from property trees has some limitations so
 // for now we output it manually.  At least this is fast....
@@ -87,4 +88,15 @@ string Order::getOrderId() const
   return generateOrderId(mDrinkKey, mCustomerName, mTimestamp);
 
 }
+
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+    std::vector<unsigned int> Order::getTowerMessage(){
+        return mTowerMessage;
+
+    }
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 

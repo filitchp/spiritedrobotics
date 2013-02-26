@@ -35,20 +35,19 @@
   font-weight: bold;
   font-size: 16px;
   text-rendering: optimizelegibility;
-  text-align:right;
 }
 
 .ingredientstable
 {
     width:100%;
     background: none;
-
+    margin: 0;
 }
 
 .ingredientstable td
 {
     padding-top: 6px;
-    padding-left: 4px;
+    padding-right: 4px;
 }
 
 .descriptiontext
