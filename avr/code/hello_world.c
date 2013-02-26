@@ -7,6 +7,7 @@
 
 #include "led_strip.h"
 #include "motor_driver.h"
+#include "communication.h"
 
 
 int main (void)
