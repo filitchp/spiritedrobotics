@@ -102,7 +102,7 @@ const Tower& BarBot::getTowerByIngredientKey(const std::string& ingredientKey) c
       return t;
     }
   }
-
+  cout << ingredientKey << endl;
   // TODO: add exception details
   throw tower_error();
 }
