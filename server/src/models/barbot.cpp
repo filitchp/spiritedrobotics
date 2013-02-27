@@ -102,23 +102,7 @@ const Tower& BarBot::getTowerByIngredientKey(const std::string& ingredientKey) c
       return t;
     }
   }
-  cout << ingredientKey << endl;
+
   // TODO: add exception details
   throw tower_error();
 }
-
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
-bool BarBot::isTowerIdValid(unsigned char id) const
-{
-  BOOST_FOREACH(const Tower& t, mTowers)
-  {
-    if (t.getTowerId() == id)
-    {
-      return true;
-    }
-  }
-  return false;
-}
-
-
