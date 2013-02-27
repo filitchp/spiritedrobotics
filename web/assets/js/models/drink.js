@@ -69,7 +69,6 @@ $(function()
                       //      customer: $("#order_modal").find("#customer").val(),
                       //      timestamp: res.timestamp
                       //  });
-
                       // MyOrders.add(newOrder);
 
                         $("#order_modal").modal("hide");
