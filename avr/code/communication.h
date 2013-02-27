@@ -7,10 +7,11 @@
 void byte_receive_ISR();
 
 /**************************************************
- *				Administrative Functions		  *
+ *						API						  *
  **************************************************/
 void initialize_communication();
 void set_my_address(char address);
+char ready_to_process_incomming_data();
 
 #endif
 

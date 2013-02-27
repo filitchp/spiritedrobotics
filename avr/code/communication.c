@@ -1,4 +1,5 @@
 #include "communication.h"
+#include <avr/io.h>
 
 #define bool char
 #define false 0
@@ -20,10 +21,37 @@ static char checksum;
 static char my_address = 0;
 volatile bool communication_ready_flag = false;
 
+/**************************************************
+ *						API						  *
+ **************************************************/
+
 void initialize_communication()
 {
-	// enable uart and set frequency here
+	// disable the power saving register for the usart
+	PRR &= !(1<<PRUSART0 );
+
+	// Enable the receiver and transmitter
+	UCSR0B = (1<<RXEN0) | (1<<TXEN0);
+	
+	// Set the buad rate
+	// assuming 8 MHz Fosc, and 9600 baud
+	UBRR0H = 0;
+	UBRR0L = 51;
 }
+
+void set_my_address(char address)
+{
+	my_address = address;
+}
+
+char ready_to_process_incomming_data()
+{
+	return communication_ready_flag; 
+}
+
+/**************************************************
+ *					ISRs						  *
+ **************************************************/
 
 void byte_receive_ISR()
 {
@@ -87,7 +115,3 @@ void byte_receive_ISR()
 	}
 }
 
-void set_my_address(char address)
-{
-	my_address = address;
-}
