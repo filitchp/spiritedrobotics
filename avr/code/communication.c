@@ -58,6 +58,25 @@ char ready_to_process_incomming_data()
 	return communication_ready_flag; 
 }
 
+
+void blocking_transmit_byte(unsigned char data)
+{
+	/* Wait for empty transmit buffer */
+	while ( !(UCSR0A & (1<<UDRE0) ) ) {}
+
+	/* Put data into buffer, this sends the data */
+	UDR0 = data;
+}
+
+unsigned char blocking_receive_byte()
+{
+	/* Wait for data to be received */
+	while ( !(UCSR0A & (1<<RXC0)) ) {}
+
+	/* Get and return received data from buffer */
+	return UDR0;
+}
+
 /**************************************************
  *					ISRs						  *
  **************************************************/
@@ -122,24 +141,6 @@ ISR(USART_RX_vect)
 			// TODO: send header to output
 		}
 	}
-}
-
-void blocking_transmit_byte(unsigned char data)
-{
-	/* Wait for empty transmit buffer */
-	while ( !(UCSR0A & (1<<UDRE0) ) ) {}
-
-	/* Put data into buffer, this sends the data */
-	UDR0 = data;
-}
-
-unsigned char blocking_receive_byte()
-{
-	/* Wait for data to be received */
-	while ( !(UCSR0A & (1<<RXC0)) ) {}
-
-	/* Get and return received data from buffer */
-	return UDR0;
 }
 
 
