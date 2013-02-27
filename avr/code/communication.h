@@ -13,7 +13,9 @@ void initialize_communication();
 void set_my_address(char address);
 char ready_to_process_incomming_data();
 
-void transmit_byte(char data);
+void blocking_transmit_byte(char data);
+
+unsigned char blocking_receive_byte();
 
 #endif
 

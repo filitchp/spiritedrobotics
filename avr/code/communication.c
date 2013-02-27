@@ -31,7 +31,7 @@ void initialize_communication()
 	PRR &= !(1<<PRUSART0 );
 
 	// Enable the receiver and transmitter
-	UCSR0B = (1<<RXEN0) | (1<<TXEN0);
+	UCSR0B |= (1<<RXEN0) | (1<<TXEN0);
 	
 	// Set the buad rate
 	// assuming 8 MHz Fosc, and 9600 baud
@@ -115,7 +115,7 @@ void byte_receive_ISR()
 	}
 }
 
-void transmit_byte(char data)
+void blocking_transmit_byte(char data)
 {
 	/* Wait for empty transmit buffer */
 	while ( !(UCSR0A & (1<<UDRE0) ) ) {}
@@ -124,5 +124,14 @@ void transmit_byte(char data)
 	UDR0 = data;
 }
 
+
+unsigned char blocking_receive_byte()
+{
+	/* Wait for data to be received */
+	while ( !(UCSR0A & (1<<RXC0)) ) {}
+
+	/* Get and return received data from buffer */
+	return UDR0;
+}
 
 
