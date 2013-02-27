@@ -69,7 +69,6 @@ $(function()
                       //      customer: $("#order_modal").find("#customer").val(),
                       //      timestamp: res.timestamp
                       //  });
-
                       // MyOrders.add(newOrder);
 
                         $("#order_modal").modal("hide");
@@ -100,7 +99,7 @@ $(function()
         modal: function() { 
                 modal = new DrinkModal({model: this.model});
                 modal.render();
-            },
+        },
         render: function(){
             console.log("Making " + this.model.get("key"));
             $("#drinks-list").append("<li><a href=\"#" + this.model.get("key") + "\">" + this.model.get("name") + "</a></li>");
