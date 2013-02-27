@@ -29,16 +29,6 @@ void Init_PWM()
 void Init_Motor1()
 {
     // Set both the pwm pin and the direction pin to be outputs
-    DDRD |= (1<<DDD6) | (1<<DDD7);
-
-    // Enable the PWM output for timer 0 comare register B
-    TCCR0A &= ~(1<<COM0A0);
-    TCCR0A |= (1<<COM0A1);
-}
-
-void Init_Motor2()
-{
-    // Set both the pwm pin and the direction pin to be outputs
     DDRD |= ( (1<<DDD4) | (1<<DDD5) );
 
     // Enable the PWM output for timer 0 comare register A
@@ -46,37 +36,17 @@ void Init_Motor2()
     TCCR0A |= (1<<COM0B1);
 }
 
-void Set_Motor1_Velocity(int velocity)
+void Init_Motor2()
 {
+    // Set both the pwm pin and the direction pin to be outputs
+    DDRD |= (1<<DDD6) | (1<<DDD7);
 
-    // Max velocity is 255, we are going to limit it to 254
-    if(velocity > 254)
-	velocity = 254;
-    else if (velocity < -254)
-	velocity = -254;
-
-    if(velocity >= 0)
-    {
-	// Set the data direction bit
-	PORTD |= (1<<PD7);
-
-	// Set the velocity
-	OCR0A = velocity;
-    }
-    else
-    {
-	//set the data direction bit
-	PORTD &= ~(1<<PD7);
-
-	// Make the velocity positive
-	velocity = -velocity;
-
-	// Set the velocity
-	OCR0A = velocity;
-    }
+    // Enable the PWM output for timer 0 comare register B
+    TCCR0A &= ~(1<<COM0A0);
+    TCCR0A |= (1<<COM0A1);
 }
 
-void Set_Motor2_Velocity(int velocity)
+void Set_Motor1_Velocity(int velocity)
 {
 
     // Max velocity is 255, we are going to limit it to 254
@@ -103,6 +73,36 @@ void Set_Motor2_Velocity(int velocity)
 
 	// Set the velocity
 	OCR0B = velocity;
+    }
+}
+
+void Set_Motor2_Velocity(int velocity)
+{
+
+    // Max velocity is 255, we are going to limit it to 254
+    if(velocity > 254)
+	velocity = 254;
+    else if (velocity < -254)
+	velocity = -254;
+
+    if(velocity >= 0)
+    {
+	// Set the data direction bit
+	PORTD |= (1<<PD7);
+
+	// Set the velocity
+	OCR0A = velocity;
+    }
+    else
+    {
+	//set the data direction bit
+	PORTD &= ~(1<<PD7);
+
+	// Make the velocity positive
+	velocity = -velocity;
+
+	// Set the velocity
+	OCR0A = velocity;
     }
 }
 

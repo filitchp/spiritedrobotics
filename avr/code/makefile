@@ -5,7 +5,7 @@
 
 # Flags
 CC=avr-gcc
-TARGET=atmega328
+TARGET=atmega328p
 OP=-Os # Optimization
 PROGRAMMER=avrispmkii 
 
@@ -22,7 +22,7 @@ firmware.hex: firmware.elf
 
 # Firmware
 firmware.elf: tower.o led_strip.o motor_driver.o communication.o
-	$(CC) -s -mmcu=$(TARGET) $(OP) tower.o led_strip.o motor_driver.o -o firmware.elf
+	$(CC) -s -mmcu=$(TARGET) $(OP) tower.o led_strip.o motor_driver.o communication.o -o firmware.elf
 
 # Source
 tower.o: tower.c led_strip.h motor_driver.h communication.h

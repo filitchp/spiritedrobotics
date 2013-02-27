@@ -40,10 +40,14 @@ void initialize_communication()
 
 	// Set the buad rate
 	// assuming 8 MHz Fosc, and 9600 baud
+	// UBRR0H = 0;
+	// UBRR0L = 51;
+
+	// Set the buad rate
+	// assuming 1 MHz Fosc, and 9600 baud
 	UBRR0H = 0;
-	UBRR0L = 51;
-
-
+	UBRR0L = 6;
+	
 	// TODO: move this into main program
 	sei(); // Enable Global Interrupts
 }
