@@ -13,5 +13,7 @@ void initialize_communication();
 void set_my_address(char address);
 char ready_to_process_incomming_data();
 
+void transmit_byte(char data);
+
 #endif
 
