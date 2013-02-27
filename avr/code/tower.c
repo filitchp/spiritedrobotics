@@ -11,8 +11,22 @@
 
 
 int main (void)
-{
+{	
+	LightStrip led_strip;
+	int num_leds_on_strip = 20;
 
+	init_led_strip(&led_strip, num_leds_on_strip);
+
+	unsigned int counter = 0;
+	for (;;)
+	{
+		rainbow(&led_strip, counter);
+		Write_To_Led_Strip(&led_strip);
+		counter += 10;
+		_delay_ms(0);
+	}
+
+/*
 	initialize_communication();
 
 	// Set the LED pins to output
@@ -38,6 +52,7 @@ int main (void)
 
 		blocking_transmit_byte(received_byte);
 	}
+	*/
 	/*
 	// PWM stuff for motor
 	int velocity = 255;
