@@ -6,7 +6,7 @@ $(function()
     Order = Backbone.Model.extend(
     {
         defaults: {
-            name: "Pat Doe",
+            customer: "Pat Doe",
             drinkKey: "NIL",
             imagePath: "NIL",
             timestamp: new Date.getTime()
@@ -25,5 +25,10 @@ $(function()
         url:"assets/jsons/orders.json"
     });
 
-});
+    MyOrders = Backbone.Collection.extend(
+    {
+        model: Order
+    });
+
+);
     

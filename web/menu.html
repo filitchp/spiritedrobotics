@@ -18,43 +18,74 @@
     
     <script type="text/template" id="drink_template">
     <section id="<%= key %>">
-      <div style="line-height: 30px">
-        <span class="drinktitle"><%= name %></span>
-        <a class="btn btn-large btn-success btn-drink-make pull-right" href="#">MAKE IT!</a>
-      </div>
-      <hr class="drinkbreak">
+    <div style="line-height: 30px">
+      <span class="drinktitle click-to-modal"><%= name %></span>
+    </div>
+    <hr class="drinkbreak">
       <div class="row-fluid">
-        <div class="span5">
-          <table style="background-color: transparent;" width="100%" cellpadding="12px" cellspacing="0px">
-            <tr>
-              <td style="vertical-align: top;">
-                <img src="<%= imagePath %>">
-              </td>
-              <td style="vertical-align: top;">
-                <span class="drinksubtitle">Ingredients</span>
-                <ul class="ingredients">
-                  <%= ingredients %>
-                </ul>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div class="span7" style="padding: 12px">
-          <div class="drinksubtitle">Description</div>
-          <div class="descriptiontext">
-            <%= description %>
+        <div class="span3">
+          <div class="imageframe">
+            <div class="imageframeinner">
+              <img class="drinkimage" src="<%= imagePath %>">
+            </div>
           </div>
         </div>
+        <div class="span9">
+          <div class="drinksubtitle">Description</div>
+            <div class="descriptiontext">
+              <%= description %>
+            </div>
+          </div> 
+        </div>
       </div>
+      <div class="row" style="padding-top:24px">
+        <div class="span3">
+          <div class="buttonframe">
+            <div class="buttonframeinner">
+              <a class="btn btn-large btn-success btn-drink-make click-to-modal" href="#<%= key %>">MAKE IT!</a>
+            </div>
+          </div>
+        </div>
+        <div class="span9">
+          <span class="ingredientssubtitle">Ingredients</span>
+          <ul class="ingredients">
+            <%= ingredients %>
+          </ul>
+        </div>
+      </div>
+    </div>
     </section>
     </script>
-    
+    <script type="text/template" id="modal_template"> 
+     <div class="modal hide fade" id="order_modal">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="Modal Header">Order me a <%= get("name") %>!</h3>
+    </div>
+    <div class="modal-body">
+        <p>How can we know you?</p>
+        <input type="text" id="customer"></input>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn close" data-dismiss="modal">Forget it</a>
+      <a href="#" class="btn btn-primary click-to-order">Order</a>
+    </div>
+    </div>
+    </script>
     <script type="text/template" id="ingredient_template">
-      <li><span class="btn btn-info"><span class="ingrval"><%= amount %> oz</span> | <span class="ingrname"><%= name %></span></span></li>
+        <li class="span3">
+            <table class="ingredientstable">
+              <tr>
+                <td width="15%" class="ingrval"><%= amount %></td>
+                <td width="5%"> | </td> 
+                <td width="80" class="ingrname"><%= name %></td>  
+              </tr>
+            </table>
+        </li>
     </script>
 
     <script type="text/template" id="topbar_template">
-      <li><a href="#"><%= get("name") %></a></li>
+      <li><a href="#<%= get("key") %>"><%= get("name") %></a></li>
     </script>
   </head>
 
@@ -84,7 +115,7 @@
     <header class="jumbotron subhead" id="overview">
       <div class="row">
         <div class="span6">
-          <h2>Manly Drinks</h2>
+          <h2 class="category_title">Manly Drinks</h2>
         </div>
       </div>
       <div class="subnav">
@@ -94,6 +125,9 @@
     </header>
 
     <div id="content">
+    </div>
+
+    <div id="modal_container">
     </div>
 
     <!-- Footer
@@ -114,8 +148,7 @@
       <a target="_blank" href="http://www.google.com/webfonts">Google</a>.
     </footer>
     </div><!-- /container -->
-
-    <!-- Le javascript
+   <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="assets/js/jquery.1.7.2.min.js"></script>
@@ -123,6 +156,7 @@
     <script src="assets/js/application.js"></script>
     <script src="assets/js/underscore-min.js"></script>
     <script src="assets/js/backbone.js"></script>
+    <script src="assets/js/models/order.js"></script>
     <script src="assets/js/models/drink.js"></script>
     <script src="assets/js/models/category.js"></script>
     <script src="assets/js/menu.js"></script>

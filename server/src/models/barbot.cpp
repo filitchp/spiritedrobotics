@@ -93,7 +93,16 @@ const Tower& BarBot::getTowerById(unsigned int id) const
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-//const Tower& BarBot::getTowerByIngredientKey(const std::string& ingredientKey) const
-//{
-//
-//}
+const Tower& BarBot::getTowerByIngredientKey(const std::string& ingredientKey) const
+{
+  BOOST_FOREACH(const Tower& t, mTowers)
+  {
+    if (t.getIngredientKey() == ingredientKey)
+    {
+      return t;
+    }
+  }
+
+  // TODO: add exception details
+  throw tower_error();
+}

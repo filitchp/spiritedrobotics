@@ -2,18 +2,28 @@
 .ingredients
 {
   list-style-type: none;
-  margin: 0px;
+  margin: 0;
+  display: block;
 }
 
 .ingredients > li
 {
-  margin: 12px 0px 0px 0px;
-  padding: 0;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  display: inline-block;
+}
+
+.ingredientssubtitle
+{
+  color: #e36b23;
+  font-family: 'Oswald',Arial,sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  text-rendering: optimizelegibility;
 }
 
 .ingrname
 {
-  margin: 10px 0;
   font-family: 'Oxygen',Arial,sans-serif;
   font-size: 16px;
   text-rendering: optimizelegibility;
@@ -21,11 +31,23 @@
 
 .ingrval
 {
-  margin: 10px 0;
   font-family: 'Oswald',Arial,sans-serif;
   font-weight: bold;
   font-size: 16px;
   text-rendering: optimizelegibility;
+}
+
+.ingredientstable
+{
+    width:100%;
+    background: none;
+    margin: 0;
+}
+
+.ingredientstable td
+{
+    padding-top: 6px;
+    padding-right: 4px;
 }
 
 .descriptiontext
@@ -53,18 +75,64 @@
   font-family: 'Oswald',Arial,sans-serif;
   font-weight: 500;
   font-size: 24px;
+  margin-top: 12px;
   text-rendering: optimizelegibility;
+}
+
+.drinkimage
+{
+    width: 100%;
+}
+
+.imageframe
+{
+    width: 70%;
+    margin-top:12px;
+    margin-left:24px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.imageframe:after
+{
+    padding-top: 100%;
+    display: block;
+    content: '';
+}
+
+.buttonframe
+{
+    width: 70%;
+    margin-left:24px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.buttonframe:after
+{
+    padding-top: 20%;
+    display: block;
+    content: '';
+}
+.imageframeinner
+{
+    overflow: hidden;
+    position: absolute;
+    top:0; bottom: 0; right: 0; left: 0;
 }
 
 .btn-drink-make
 {
-  margin-left: 20px;
   font-family: 'Oswald',Arial,sans-serif;
   font-weight: 500;
   font-size: 20px;
   text-rendering: optimizelegibility;
-  margin-right: 20px;
-  padding: 8px 16px;
+  text-align:left;
+  width: 100%;
+  margin-bottom: 24px;
+  border-radius: 0px;
 }
 
 hr.drinkbreak

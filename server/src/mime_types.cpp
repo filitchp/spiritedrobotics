@@ -25,6 +25,9 @@ struct mapping
   { "html", "text/html" },
   { "jpg", "image/jpeg" },
   { "png", "image/png" },
+  { "js", "application/javascript" },
+  { "json", "application/json" },
+  { "css", "text/css" },
   { 0, 0 } // Marks end of list.
 };
 
