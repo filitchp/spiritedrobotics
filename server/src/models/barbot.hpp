@@ -33,6 +33,7 @@ class BarBot
 
     // A description of the current configuration
     std::string mDescription;
+
 };
 
 #endif // BARBOT_HPP

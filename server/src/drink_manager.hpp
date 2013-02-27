@@ -18,6 +18,7 @@ class DrinkManager
   public:
 
     DrinkManager(const std::string& rootPath);
+    ~DrinkManager();
 
     void outputDrinkList(std::ostream& s, unsigned indent);
 
@@ -31,6 +32,9 @@ class DrinkManager
     bool testTower(unsigned char towerId, float amount);
 
   private:
+
+    // Serial port file descriptor
+    int mFd;
 
     // System configuration
     BarBot* mpBarbot;
