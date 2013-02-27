@@ -1,5 +1,7 @@
 #include "communication.h"
 #include <avr/io.h>
+#include <avr/interrupt.h>
+
 
 #define bool char
 #define false 0
@@ -18,7 +20,7 @@ static bool	receiving_data = false;
 static int  receive_buffer[RECEIVE_BUFFER_LENGTH];
 static int received_bytes = 0;
 static char checksum;
-static char my_address = 0;
+static unsigned char my_address = 0;
 volatile bool communication_ready_flag = false;
 
 /**************************************************
@@ -31,15 +33,22 @@ void initialize_communication()
 	PRR &= !(1<<PRUSART0 );
 
 	// Enable the receiver and transmitter
-	UCSR0B = (1<<RXEN0) | (1<<TXEN0);
+	UCSR0B |= (1<<RXEN0) | (1<<TXEN0);
 	
+	// Enable the receiver interrupt 
+	UCSR0B |= (1<<RXCIE0);
+
 	// Set the buad rate
 	// assuming 8 MHz Fosc, and 9600 baud
 	UBRR0H = 0;
 	UBRR0L = 51;
+
+
+	// TODO: move this into main program
+	sei(); // Enable Global Interrupts
 }
 
-void set_my_address(char address)
+void set_my_address(unsigned char address)
 {
 	my_address = address;
 }
@@ -49,14 +58,33 @@ char ready_to_process_incomming_data()
 	return communication_ready_flag; 
 }
 
+
+void blocking_transmit_byte(unsigned char data)
+{
+	/* Wait for empty transmit buffer */
+	while ( !(UCSR0A & (1<<UDRE0) ) ) {}
+
+	/* Put data into buffer, this sends the data */
+	UDR0 = data;
+}
+
+unsigned char blocking_receive_byte()
+{
+	/* Wait for data to be received */
+	while ( !(UCSR0A & (1<<RXC0)) ) {}
+
+	/* Get and return received data from buffer */
+	return UDR0;
+}
+
 /**************************************************
  *					ISRs						  *
  **************************************************/
 
-void byte_receive_ISR()
+ISR(USART_RX_vect)
 {
 	// store the byte from the receive buffer 
-	char data = 0; // = Register where the received byte is
+	char data = UDR0;
 
 	if (data & DATA_TYPE_MASK) // Control Data
 	{
@@ -114,15 +142,5 @@ void byte_receive_ISR()
 		}
 	}
 }
-
-void transmit_byte(char data)
-{
-	/* Wait for empty transmit buffer */
-	while ( !(UCSR0A & (1<<UDRE0) ) ) {}
-
-	/* Put data into buffer, this sends the data */
-	UDR0 = data;
-}
-
 
 

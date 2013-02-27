@@ -18,6 +18,7 @@
 #include <sys/time.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <sstream>
 
 #include <boost/lexical_cast.hpp>
 #include <boost/foreach.hpp>
@@ -116,6 +117,7 @@ void request_handler::handle_request(const request& req, reply& rep)
   const string pending_orders_path("/pendingOrders");
   const string approved_orders_path("/approvedOrders");
   const string approve_order_path("/approveOrder");
+  const string test_tower_path("/testTower");
 
   string path("");
   string query("");
@@ -186,6 +188,13 @@ void request_handler::handle_request(const request& req, reply& rep)
     //----------------------------------------
     handleApproveOrderRequest(queryMap,rep);
   }
+  else if (path == test_tower_path)
+  {
+    //----------------------------------------
+    // DEBUG: test a tower
+    //----------------------------------------
+    handleTestTowerRequest(queryMap,rep);
+  }
   else
   {
     // The request was for a file...
@@ -195,64 +204,129 @@ void request_handler::handle_request(const request& req, reply& rep)
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
+void request_handler::handleTestTowerRequest(map<string, string>& queryMap, reply& rep)
+{
+  bool success = false;
+
+  if (queryMap.size())
+  {
+    string towerIdStr;
+    string amountStr;
+
+    if (queryMap.find("tower") != queryMap.end())
+    {
+      towerIdStr = queryMap["tower"];
+    }
+
+    if (queryMap.find("amount") != queryMap.end())
+    {
+      amountStr = queryMap["amount"];
+    }
+
+    if (towerIdStr.size() && amountStr.size())
+    {
+      cout << "towerIdStr " << towerIdStr << endl;
+      cout << "amountStr " << amountStr << endl;
+
+      unsigned towerId;
+      istringstream ( towerIdStr ) >> towerId;
+
+      //unsigned char towerId = boost::lexical_cast<unsigned char>("11");
+      float amount = boost::lexical_cast<float>(amountStr);
+
+      // If we have a drink key, a customer name, and a timestamp
+      if ((towerId > 0) && (amount > 0))
+      {
+        cout << "towerId " << towerId << endl;
+        cout << "amount " << amount << endl;
+
+        if (mDrinkManager.testTower(towerId, amount))
+        {
+          success = true;
+        }
+      }
+    }
+  }
+
+  if (success)
+  {
+    string successMessage = "{\"result\" : true}";
+    rep.content.append(successMessage.c_str(), successMessage.size());
+  }
+  else
+  {
+    string errorMessage = "{\"result\" : false}";
+    rep.content.append(errorMessage.c_str(), errorMessage.size());
+  }
+
+  rep.status = reply::ok;
+
+  rep.headers.resize(2);
+  rep.headers[0].name = "Content-Length";
+  rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+  rep.headers[1].name = "Content-Type";
+  rep.headers[1].value = "application/json";
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void request_handler::handleApproveOrderRequest(map<string, string>& queryMap, reply& rep)
 {
   bool success = false;
 
-   if (queryMap.size())
-   {
-     string drinkKey;
-     string customerName;
-     unsigned timestamp;
+  if (queryMap.size())
+  {
+    string drinkKey;
+    string customerName;
+    unsigned timestamp;
 
-     if (queryMap.find("key") != queryMap.end())
-     {
-       drinkKey = queryMap["key"];
-     }
-
-     if (queryMap.find("customer") != queryMap.end())
-     {
-       customerName = queryMap["customer"];
-     }
-
-     if (queryMap.find("timestamp") != queryMap.end())
-     {
-       timestamp = boost::lexical_cast<unsigned>(queryMap["timestamp"]);
-     }
-
-     // If we have a drink key, a customer name, and a timestamp
-     if (drinkKey.size() && customerName.size())
-     {
-
-       cout << "drinkKey" << drinkKey << endl;
-       cout << "customerName" << customerName << endl;
-       cout << "timestamp" << timestamp << endl;
-
-       if (mDrinkManager.approveOrder(drinkKey, customerName, timestamp))
-       {
-         success = true;
-       }
-     }
-   }
-
-   if (success)
+    if (queryMap.find("key") != queryMap.end())
     {
-      string successMessage = "{\"result\" : true}";
-      rep.content.append(successMessage.c_str(), successMessage.size());
-    }
-    else
-    {
-      string errorMessage = "{\"result\" : false}";
-      rep.content.append(errorMessage.c_str(), errorMessage.size());
+      drinkKey = queryMap["key"];
     }
 
-    rep.status = reply::ok;
+    if (queryMap.find("customer") != queryMap.end())
+    {
+      customerName = queryMap["customer"];
+    }
 
-    rep.headers.resize(2);
-    rep.headers[0].name = "Content-Length";
-    rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
-    rep.headers[1].name = "Content-Type";
-    rep.headers[1].value = "application/json";
+    if (queryMap.find("timestamp") != queryMap.end())
+    {
+      timestamp = boost::lexical_cast<unsigned>(queryMap["timestamp"]);
+    }
+
+    // If we have a drink key, a customer name, and a timestamp
+    if (drinkKey.size() && customerName.size())
+    {
+      cout << "drinkKey" << drinkKey << endl;
+      cout << "customerName" << customerName << endl;
+      cout << "timestamp" << timestamp << endl;
+
+      if (mDrinkManager.approveOrder(drinkKey, customerName, timestamp))
+      {
+       success = true;
+      }
+    }
+  }
+
+  if (success)
+  {
+    string successMessage = "{\"result\" : true}";
+    rep.content.append(successMessage.c_str(), successMessage.size());
+  }
+  else
+  {
+    string errorMessage = "{\"result\" : false}";
+    rep.content.append(errorMessage.c_str(), errorMessage.size());
+  }
+
+  rep.status = reply::ok;
+
+  rep.headers.resize(2);
+  rep.headers[0].name = "Content-Length";
+  rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+  rep.headers[1].name = "Content-Type";
+  rep.headers[1].value = "application/json";
 
 }
 
