@@ -16,6 +16,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
 
+#include <boost/lexical_cast.hpp>
 
 using namespace boost::filesystem;
 using boost::property_tree::ptree;
@@ -100,6 +101,72 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
+bool DrinkManager::testTower(unsigned char towerId, float amount)
+{
+  if (mpBarbot->isTowerIdValid(towerId) == false)
+  {
+    return false;
+  }
+
+  Tower tower = mpBarbot->getTowerById(towerId);
+
+  float flowRate = tower.getFlowRate();
+
+  // Header byte = 0x80 - header byte for all
+  // Command type = 0x40 - Pour drink
+  // Command data = 0x01 (amount)
+  // Footer + checksum = 0xC5 (random crap)
+
+
+
+  if (amount <= 0)
+  {
+    return false;
+  }
+
+  static unsigned char POUR_DRINK_COMMAND = 0x40;
+
+  vector<unsigned char> towerMessage;
+
+  //header byte
+  unsigned char headerDataByte = 0x80 | towerId;
+
+  towerMessage.push_back(headerDataByte);
+  towerMessage.push_back(POUR_DRINK_COMMAND);
+
+  unsigned char amountDataByte = (tower.getFlowRate()*amount)/100.0f;
+  if (amountDataByte > 127)
+  {
+    amountDataByte = 127;
+  }
+
+  towerMessage.push_back(amountDataByte);
+  towerMessage.push_back(0xC5);
+
+  BOOST_FOREACH(unsigned char byteToSend, towerMessage)
+  {
+    printf("%2X ", byteToSend);
+    cout <<  endl;
+  }
+
+
+
+  //unsigned char
+
+  //protocol incomplete? to be completed following discussion with paul/ryan
+
+  //footer byte
+//  tByte = (0x03) | (chksum & 0x0F); //just in case
+//  towerMessage.push_back(tByte);
+
+
+
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned timestamp)
 {
   string orderId = Order::generateOrderId(drinkKey, customerName, timestamp);
@@ -151,20 +218,20 @@ bool DrinkManager::addOrder(string drinkKey, string customerName, unsigned times
   // use to generate the tower message
     //according to the protocol documnted here: https://github.com/filitchp/spiritedrobotics/wiki/Node-Communication-Protocol
   unsigned chksum = 0; //xor of all nibbles,
-  BOOST_FOREACH(const Ingredient& ing, ingredients){
+  BOOST_FOREACH(const Ingredient& ing, ingredients)
+  {
+    //is there a more direct way to do this?
+    unsigned towerID = (mpBarbot->getTowerByIngredientKey(ing.getKey())).getTowerId();
+    //header byte
+    unsigned tByte = (towerID << 2) | (0x01);
+    chksum ^= (tByte & 0x0F) ^ (tByte >> 4); // because xor is distributive and associative, it should be fine to do it this way.
+    towerMessage.push_back(tByte);
 
-      //is there a more direct way to do this?
-      unsigned towerID = (mpBarbot->getTowerByIngredientKey(ing.getKey())).getTowerId();
-      //header byte
-      unsigned tByte = (towerID << 2) | (0x01);
-      chksum ^= (tByte & 0x0F) ^ (tByte >> 4); // because xor is distributive and associative, it should be fine to do it this way.
-      towerMessage.push_back(tByte);
+      //protocol incomplete? to be completed following discussion with paul/ryan
 
-        //protocol incomplete? to be completed following discussion with paul/ryan
-
-      //footer byte
-      tByte = (0x03)|(chksum & 0x0F);//just in case
-      towerMessage.push_back(tByte);
+    //footer byte
+    tByte = (0x03)|(chksum & 0x0F);//just in case
+    towerMessage.push_back(tByte);
 
   }
 

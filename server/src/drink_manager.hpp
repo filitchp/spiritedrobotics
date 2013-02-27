@@ -23,15 +23,12 @@ class DrinkManager
 
     void outputPendingOrders(std::ostream& s, unsigned indent);
     void outputApprovedOrders(std::ostream& s, unsigned indent);
-//    void outputAcceptedOrders(std::ostream& s, unsigned indent);
-//    void outputRejectedOrders(std::ostream& s, unsigned indent);
 
     bool getIngredientsForDrinkKey(std::string key, std::vector<Ingredient>& ingredients);
 
     bool addOrder(std::string drinkKey, std::string customerName, unsigned timestamp);
     bool approveOrder(std::string drinkKey, std::string customerName, unsigned timestamp);
-//    void addPendingToApproved(std::string orderId);
-//    void addPendingToRejected(std::string orderId);
+    bool testTower(unsigned char towerId, float amount);
 
   private:
 
