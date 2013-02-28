@@ -139,10 +139,10 @@ void SPI_MasterInit(void)
     /* Enable SPI, Master, set clock rate fck/4444 */
     SPCR =  (1<<SPE)	| // SPI Enable
 	    //(1<<DORD)	| // Reverse data order
-	    (1<<MSTR)	; // SPI Master mode
+	    (1<<MSTR)	| // SPI Master mode
 	   //(1<<CPOL)	| // Reverse the clock polarity
 	   //(1<<SPR1)	| // Sets the spi clock frequency
-	   //(1<<SPR0)	; // Sets the spi clock frequency
+	   (1<<SPR0)	; // Sets the spi clock frequency
 
 	SPSR |= (1<<SPI2X); // Run the SPI twice as fast
 }

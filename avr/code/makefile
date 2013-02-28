@@ -25,7 +25,7 @@ firmware.elf: tower.o led_strip.o motor_driver.o communication.o
 	$(CC) -s -mmcu=$(TARGET) $(OP) tower.o led_strip.o motor_driver.o communication.o -o firmware.elf
 
 # Source
-tower.o: tower.c led_strip.h motor_driver.h communication.h
+tower.o: tower.c led_strip.h motor_driver.h communication.h definitions.h
 	$(CC) -c -mmcu=$(TARGET) $(OP) tower.c
 
 hello_world.o: hello_world.c led_strip.h
@@ -37,7 +37,7 @@ led_strip.o: led_strip.c led_strip.h
 motor_driver.o: motor_driver.c motor_driver.h
 	$(CC) -c -mmcu=$(TARGET) $(OP) motor_driver.c
 
-communication.o: communication.c communication.h
+communication.o: communication.c communication.h definitions.h
 	$(CC) -c -mmcu=$(TARGET) $(OP) communication.c
 
 # Clean
@@ -48,6 +48,9 @@ clean:
 read_fuses:
 	sudo avrdude -U hfuse:r:high.hex:i -c$(PROGRAMMER) -p $(TARGET) -P usb
 	sudo avrdude -U lfuse:r:low.hex:i  -c$(PROGRAMMER) -p $(TARGET) -P usb
+write_fuses_8MHz:
+	sudo avrdude -U lfuse:w:0xe2:m -c$(PROGRAMMER) -p $(TARGET) -P usb
 
-
+write_fuses_1MHz:
+	sudo avrdude -U lfuse:w:0x62:m -c$(PROGRAMMER) -p $(TARGET) -P usb
 

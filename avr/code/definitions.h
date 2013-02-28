@@ -5,7 +5,7 @@
  *			  # Defines (ATMega328p)			  *
  **************************************************/
 
-#define F_CPU 1000000
+#define F_CPU 8000000
 #define BAUD 9000
 
 

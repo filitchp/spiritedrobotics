@@ -12,14 +12,17 @@
 
 // Constants
 #define RECEIVE_BUFFER_LENGTH 10
+
 static const char DATA_TYPE_MASK = 0x80;
 static const char HEADER_FOOTER_MASK = 0x40;
-static const char ADDRESS_MASK = 0x40;
+static const char ADDRESS_MASK = 0x3F;
+static const char COMMAND_TYPE_MASK = 0x40;
+static const char COMMAND_MASK = 0x3F;
 
 
 // Global Data
 static bool	receiving_data = false;
-static int  receive_buffer[RECEIVE_BUFFER_LENGTH];
+static unsigned char receive_buffer[RECEIVE_BUFFER_LENGTH];
 static int received_bytes = 0;
 static char checksum;
 static unsigned char my_address = 0;
@@ -32,7 +35,7 @@ volatile bool communication_ready_flag = false;
 void initialize_communication()
 {
 	// disable the power saving register for the usart
-	PRR &= !(1<<PRUSART0 );
+	PRR &= !(1<<PRUSART0);
 
 	// Enable the receiver and transmitter
 	UCSR0B |= (1<<RXEN0) | (1<<TXEN0);
@@ -50,8 +53,6 @@ void initialize_communication()
 	UCSR0A &= ~(1 << U2X0);
 #endif
 
-	// TODO: move this into main program
-	//sei(); // Enable Global Interrupts
 }
 
 void set_my_address(unsigned char address)
@@ -62,6 +63,49 @@ void set_my_address(unsigned char address)
 char ready_to_process_incomming_data()
 {
 	return communication_ready_flag; 
+}
+
+char process_incomming_data()
+{
+
+	if (!communication_ready_flag) { return 1; }
+	else { communication_ready_flag = false; }
+
+	if (received_bytes < 3) { return 1; }
+
+	// TODO: REmove this. it's for testing only
+	PORTB |= (1<<2);
+	
+	if (receive_buffer[1] & COMMAND_TYPE_MASK) // Node specific commands
+	{
+		blocking_transmit_byte(receive_buffer[1]);
+
+		// TODO: REmove this. it's for testing only
+		PORTB |= (1<<1);
+
+		if (receive_buffer[1] == 0x40)
+		{
+			// TODO: REmove this. it's for testing only
+			PORTB |= (1<<0);
+		}
+		switch((receive_buffer[1] & COMMAND_MASK))
+		{
+			case 0: // Pour drink
+				if (received_bytes != 4)
+					return 1;
+
+				// TODO: REmove this. it's for testing only
+				PORTB |= (1<<0);
+
+
+				break;
+		}
+	}
+	else // Generic Commands
+	{
+	}
+
+	return 0;
 }
 
 
@@ -89,8 +133,9 @@ unsigned char blocking_receive_byte()
 
 ISR(USART_RX_vect)
 {
+
 	// store the byte from the receive buffer 
-	char data = UDR0;
+	unsigned char data = UDR0;
 
 	if (data & DATA_TYPE_MASK) // Control Data
 	{
@@ -99,7 +144,7 @@ ISR(USART_RX_vect)
 			if (receiving_data)	// This is the end of the nodes packet. Add byte to buffer and set the "ready" flag
 			{
 				// Add byte to the buffer
-				receive_buffer[received_bytes];
+				receive_buffer[received_bytes] = data;
 				++received_bytes;
 
 				// Reset the recieveing data flag
@@ -107,6 +152,8 @@ ISR(USART_RX_vect)
 
 				// Set the ready flag	
 				communication_ready_flag = true;
+
+
 			}
 			else // Pass the byte along
 			{
@@ -121,12 +168,13 @@ ISR(USART_RX_vect)
 				// TODO: we need to talk about what happens if we get another packet before we handle the first one. 
 				communication_ready_flag = false;
 
+
 				// reset the received byte count and set receiving data flag
 				received_bytes = 0;
 				receiving_data = true;
 
 				// Add byte to the buffer
-				receive_buffer[received_bytes];
+				receive_buffer[received_bytes] = data;
 				++received_bytes;
 			}
 			else // pass the header through 
@@ -139,7 +187,7 @@ ISR(USART_RX_vect)
 	{
 		if (receiving_data)	// Store the data
 		{
-			receive_buffer[received_bytes];
+			receive_buffer[received_bytes] = data;
 			++received_bytes;
 		}
 		else //
