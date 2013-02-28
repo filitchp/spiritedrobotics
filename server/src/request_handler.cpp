@@ -234,7 +234,7 @@ void request_handler::handleTestTowerRequest(map<string, string>& queryMap, repl
       float amount = boost::lexical_cast<float>(amountStr);
 
       // If we have a drink key, a customer name, and a timestamp
-      if ((towerId > 0) && (amount > 0))
+      if ((towerId >= 0) && (amount > 0))
       {
         cout << "towerId " << towerId << endl;
         cout << "amount " << amount << endl;

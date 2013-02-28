@@ -31,6 +31,8 @@ class DrinkManager
     bool approveOrder(std::string drinkKey, std::string customerName, unsigned timestamp);
     bool testTower(unsigned char towerId, float amount);
 
+    int readData(long msTimeout);
+
   private:
 
     // Serial port file descriptor

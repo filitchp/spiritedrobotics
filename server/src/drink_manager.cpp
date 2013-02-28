@@ -95,9 +95,12 @@ DrinkManager::DrinkManager(const string& rootPath)
 //------------------------------------------------------------------------------
 DrinkManager::~DrinkManager()
 {
+
+  cout << "Drink manager desctructor" << endl;
   if (mFd > 0)
   {
     close(mFd);
+    cout << "Closed mFd" << endl;
   }
 }
 
@@ -160,12 +163,29 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
 }
 
 //------------------------------------------------------------------------------
+// Determine the number of milliseconds difference between two timeval structs
+//------------------------------------------------------------------------------
+long millisecondDelta(struct timeval start, struct timeval end)
+{
+  double seconds, uSeconds;
+  seconds  = (double)(end.tv_sec  - start.tv_sec);
+  uSeconds = (double)(end.tv_usec - start.tv_usec);
+
+  long delta = (long)(((seconds) * 1000.0 + uSeconds/1000.0) + 0.5);
+  return delta;
+}
+
+//------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 bool DrinkManager::testTower(unsigned char towerId, float amount)
 {
-  if (mpBarbot->isTowerIdValid(towerId) == false)
+
+  if (towerId != 0)
   {
-    return false;
+    if ((mpBarbot->isTowerIdValid(towerId) == false))
+    {
+      return false;
+    }
   }
 
   if (mFd <= 0)
@@ -174,9 +194,18 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
     return false;
   }
 
-  Tower tower = mpBarbot->getTowerById(towerId);
+  float flowRate = 0;
 
-  float flowRate = tower.getFlowRate();
+  if (towerId != 0)
+  {
+    Tower tower = mpBarbot->getTowerById(towerId);
+
+    flowRate = tower.getFlowRate();
+  }
+  else
+  {
+    flowRate = 100;
+  }
 
   // Header byte = 0x80 - header byte for all
   // Command type = 0x40 - Pour drink
@@ -188,70 +217,99 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
     return false;
   }
 
-//  static unsigned char POUR_DRINK_COMMAND = 0x40;
-//
-//  vector<unsigned char> towerMessage;
-//
-//  //header byte
-//  unsigned char headerDataByte = 0x80 | towerId;
-//
-//  towerMessage.push_back(headerDataByte);
-//  towerMessage.push_back(POUR_DRINK_COMMAND);
-//
-//  unsigned char amountDataByte = (tower.getFlowRate()*amount)/100.0f;
-//  if (amountDataByte > 127)
-//  {
-//    amountDataByte = 127;
-//  }
-//
-//  towerMessage.push_back(amountDataByte);
-//  towerMessage.push_back(0xC5);
-//
-//  unsigned char msg[4];
-//
-//  unsigned i = 0;
-//  BOOST_FOREACH(unsigned char byteToSend, towerMessage)
-//  {
-//    printf("%2X ", byteToSend);
-//    cout <<  endl;
-//
-//    msg[i] = byteToSend;
-//
-//    ++i;
-//  }
+  static unsigned char POUR_DRINK_COMMAND = 0x40;
 
-//  write(fd, msg, 4);
+  vector<unsigned char> towerMessage;
 
-  unsigned char msg[1];
+  //header byte
+  unsigned char headerDataByte = 0x80 | towerId;
 
-  if (amount == 1)
+  towerMessage.push_back(headerDataByte);
+  towerMessage.push_back(POUR_DRINK_COMMAND);
+
+  unsigned char amountDataByte = (flowRate*amount)/100.0f;
+
+  // The MSB must be 0 so we max out at 0x7F (127)
+  if (amountDataByte > 127)
   {
-    msg[0] = 0;
-  }
-  else if (amount > 1)
-  {
-    msg[0] = 1;
-  }
-  else
-  {
-    msg[0] = 2;
+    amountDataByte = 127;
   }
 
-  ssize_t bytesWritten = write(mFd, msg, 1);
+  towerMessage.push_back(amountDataByte);
+  towerMessage.push_back(0xC5);
+
+  unsigned char msg[4];
+
+  unsigned i = 0;
+  BOOST_FOREACH(unsigned char byteToSend, towerMessage)
+  {
+    printf("%2X ", byteToSend);
+    cout <<  endl;
+
+    msg[i] = byteToSend;
+
+    ++i;
+  }
+
+  ssize_t bytesWritten = write(mFd, msg, 4);
 
   if (bytesWritten > 0)
   {
     cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
+
+//    unsigned char buffer[255];
+//    ssize_t bytesRead = read(mFd, buffer, 255);
+//
+//    cout << "Got " << bytesRead << " bytes" << endl;
+
+    //readData(2000);
   }
   else
   {
     cout << "ERROR: Could not write any bytes" << endl;
   }
 
-  //usleep(100000);
-
-
   return true;
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+int DrinkManager::readData(long msTimeout)
+{
+  struct timeval timeStart;
+  gettimeofday(&timeStart, NULL);
+  unsigned char buffer[255];
+
+  while (1)
+  {
+
+    ssize_t bytesRead = read(mFd, buffer, 255);
+
+    if (bytesRead)
+    {
+      cout << "Got " << bytesRead << " bytes" << endl;
+      for (int i = 0; i < bytesRead; ++i)  // for all chars in string
+      {
+        printf("Got: %X \n", buffer[i]);
+      }
+    }
+
+    // Sleep 100 ms
+    usleep(100000);
+
+    struct timeval currentTime;
+    gettimeofday(&currentTime, NULL);
+
+    long delta = millisecondDelta(timeStart, currentTime);
+
+    if (delta > msTimeout)
+    {
+      // Time out
+      return -2;
+    }
+  }
+
+  return 1;
 }
 
 //------------------------------------------------------------------------------
