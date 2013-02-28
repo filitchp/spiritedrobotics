@@ -11,33 +11,112 @@
 
 
 int main (void)
-{
+{	
 	LightStrip led_strip;
-	int num_leds_on_strip = 160;
+	int num_leds_on_strip = 20;
 
 	init_led_strip(&led_strip, num_leds_on_strip);
-
-
-	Init_PWM();
-	Init_Motor1();
-	Set_Motor1_Velocity(0);
-	int motor_counter = 0;
-
 
 	unsigned int counter = 0;
 	for (;;)
 	{
-		rainbow(&led_strip, counter, 1000);
+		rainbow(&led_strip, counter);
 		Write_To_Led_Strip(&led_strip);
-		counter += 50;
-		motor_counter += 1;
-		if (motor_counter == 255)
-			motor_counter = -254;
-
-		Set_Motor1_Velocity(motor_counter);
-
+		counter += 10;
+		_delay_ms(0);
 	}
 
+/*
+	initialize_communication();
+
+	// Set the LED pins to output
+	DDRB |= (1<<0) | (1<<1) | (1<<2);
+
+	// Turn all of the LEDs off
+	PORTB &= ~( (1<<0) | (1<<1) | (1<<2) );
+
+	unsigned char received_byte;
+
+	for (;;) // Loop forever 
+	{ 
+		PORTB &= ~(1<<2);
+
+		received_byte = blocking_receive_byte();
+
+		if (received_byte == 0)
+			PORTB ^= (1<<0);
+		else if (received_byte == 1)
+			PORTB ^= (1<<1);
+
+		PORTB |= (1<<2);
+
+		blocking_transmit_byte(received_byte);
+	}
+	*/
+	/*
+	// PWM stuff for motor
+	int velocity = 255;
+	int vel_delta = 1;
+	Init_PWM();
+	Init_Motor1();
+	Set_Motor1_Velocity(velocity);
+
+
+	// Set the LED pins to output
+	DDRB |= (1<<0) | (1<<1) | (1<<2);
+
+	// Turn all of the LEDs off
+	PORTB &= ~( (1<<0) | (1<<1) | (1<<2) );
+
+
+	unsigned int counter = 0;
+	unsigned char lights = 0;
+	unsigned char last_lights = 0;
+	for (;;)
+	{
+		counter += 1;
+		if (counter == 2000)
+		{
+			counter = 0;
+			++lights;
+
+			velocity += vel_delta;
+
+			if (velocity >= 254)
+			{
+				vel_delta = -1;
+				PORTB |= (1<<0);
+			}
+			if (velocity <= -254)
+			{
+				vel_delta = 1;
+				PORTB &= ~(1<<0);
+			}
+			Set_Motor1_Velocity(velocity);
+		}
+
+		if (last_lights != lights)
+		{
+			last_lights = lights;
+
+			//if (lights & (1<<0))
+			//	PORTB |= (1<<0);
+			//else
+			//	PORTB &= ~(1<<0);
+
+			if (lights & (1<<1))
+				PORTB |= (1<<1);
+			else
+				PORTB &= ~(1<<1);
+
+			if (lights & (1<<2))
+				PORTB |= (1<<2);
+			else
+				PORTB &= ~(1<<2);
+		}
+	}
+
+	*/
 	return 0;
 }
 

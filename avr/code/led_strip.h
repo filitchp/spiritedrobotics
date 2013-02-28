@@ -15,7 +15,7 @@
 
 typedef struct Light_Struct
 {
-    char red, green, blue;
+    unsigned char red, green, blue;
 } Light;
 
 typedef struct Light_Strip_Struct
@@ -31,7 +31,7 @@ typedef struct Light_Strip_Struct
 
 void init_led_strip(LightStrip* strip, size_t length);
 
-void set_led_color(LightStrip* strip, size_t index, char red, char green, char blue);
+void set_led_color(LightStrip* strip, size_t index, unsigned char red, unsigned char green, unsigned char blue);
 
 void Write_To_Led_Strip(LightStrip* lights);
 
@@ -40,7 +40,7 @@ void Write_To_Led_Strip(LightStrip* lights);
  *		  Color Paterns			  *
  **************************************************/
 
-void rainbow(LightStrip* strip, unsigned int counter, int cycle_length);
+void rainbow(LightStrip* strip, unsigned int counter);
 
 
 /**************************************************
@@ -58,7 +58,7 @@ void send_end_of_sequence();
 
 void SPI_MasterInit(void);
 
-void SPI_MasterTransmit(char cData);
+void SPI_MasterTransmit(unsigned char cData);
 
 
 #endif

@@ -37,10 +37,10 @@ void init_led_strip(LightStrip* strip, size_t length)
     }
 }
 
-void set_led_color(LightStrip* strip, size_t index, char red, char green, char blue)
+void set_led_color(LightStrip* strip, size_t index, unsigned char red, unsigned char green, unsigned char blue)
 {
     if (index >= strip->num_lights)
-	return;
+		return;
 
     strip->lights[index].red = red;
     strip->lights[index].green = green;
@@ -66,41 +66,36 @@ void Write_To_Led_Strip(LightStrip* lights)
 const float one_third = 1.0 / 3.0;
 const float two_thirds = 2.0 / 3.0;
 
-char get_u_brightness(char max, float percent)
+unsigned char get_brightness(unsigned int p)
 {
-    while (percent > 1.0)
-	percent -= 1.0;
-    while (percent < 0)
-	percent += 1.0;
+	unsigned char out;
+	if (p < 128)
+		out = (unsigned char) p;
+	else if (p < 256)
+		out = (unsigned char)(255 - p);
+	else
+		out = (unsigned char)0;
 
-    if (percent < one_third)
-	return (char) (max * (-3*percent + 1));
-    else if (percent < two_thirds)
-	return 0;
-    else
-	return (char) (max * (3*(percent - two_thirds)));
+	return out;
 }
 
-void rainbow(LightStrip* strip, unsigned int counter, int cycle_length)
+void rainbow(LightStrip* strip, unsigned int counter)
 {
-    int num_lights = strip->num_lights;
-    int c = counter % cycle_length;
+	const unsigned int cycle_length = 384;
+    size_t num_lights = strip->num_lights;
+    unsigned int c = counter % cycle_length;
 
-    int offset_per_light = cycle_length / num_lights;
+    unsigned int offset_per_light = cycle_length / num_lights;
     
-    char max_brightness = 100;
-    int i;
-    for (i=0; i<num_lights; ++i)
-    {
-	int c = (counter + offset_per_light*i) % cycle_length;
-	float cycle_percent = (float) c / (float) cycle_length;
-	
-	strip->lights[i].red   = get_u_brightness(max_brightness, cycle_percent); 
-	strip->lights[i].green = get_u_brightness(max_brightness, cycle_percent + one_third); 
-	strip->lights[i].blue  = get_u_brightness(max_brightness, cycle_percent + two_thirds); 
+    size_t i;
+	for (i=0; i<num_lights; ++i)
+	{
+		unsigned int cycle_position = (((cycle_length * i) / num_lights) + c) % cycle_length;
 
-    }
-
+		strip->lights[i].red   = get_brightness(cycle_position); 
+		strip->lights[i].green = get_brightness((cycle_position + 128)%384); 
+		strip->lights[i].blue  = get_brightness((cycle_position + 256)%384); 
+	}
 }
 
 
@@ -110,7 +105,7 @@ void rainbow(LightStrip* strip, unsigned int counter, int cycle_length)
 
 void send_next_light(Light* light)
 {
-    char enable = 0x80;
+    unsigned char enable = 0x80;
 
     SPI_MasterTransmit(enable | (*light).green);
     SPI_MasterTransmit(enable | (*light).red);
@@ -150,7 +145,7 @@ void SPI_MasterInit(void)
 	   //(1<<SPR0)	; // Sets the spi clock frequency
 }
 
-void SPI_MasterTransmit(char cData)
+void SPI_MasterTransmit(unsigned char cData)
 {
     /* Start transmission */
     SPDR = cData;
