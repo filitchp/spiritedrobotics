@@ -1,3 +1,5 @@
+#include "definitions.h"
+#include <util/setbaud.h>
 #include "communication.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -38,18 +40,18 @@ void initialize_communication()
 	// Enable the receiver interrupt 
 	UCSR0B |= (1<<RXCIE0);
 
-	// Set the buad rate
-	// assuming 8 MHz Fosc, and 9600 baud
-	// UBRR0H = 0;
-	// UBRR0L = 51;
+	// Set the buad rate (defined in definitions.h)
 
-	// Set the buad rate
-	// assuming 1 MHz Fosc, and 9600 baud
-	UBRR0H = 0;
-	UBRR0L = 6;
-	
+	UBRR0H = UBRRH_VALUE;
+	UBRR0L = UBRRL_VALUE;
+#if USE_2X
+	UCSR0A |= (1 << U2X0);
+#else
+	UCSR0A &= ~(1 << U2X0);
+#endif
+
 	// TODO: move this into main program
-	sei(); // Enable Global Interrupts
+	//sei(); // Enable Global Interrupts
 }
 
 void set_my_address(unsigned char address)

@@ -1,8 +1,9 @@
 //compiler includes
 #include <avr/io.h>
 
-//for delay calculations
-#define F_CPU 1000000
+#include "definitions.h"	
+
+
 #include <util/delay.h>
 
 #include "led_strip.h"
@@ -12,6 +13,7 @@
 
 int main (void)
 {	
+/* LED Test
 	// Set the LED pins to output
 	DDRB |= (1<<0) | (1<<1) | (1<<2);
 
@@ -31,22 +33,76 @@ int main (void)
 		counter += 10;
 		_delay_ms(25);
 	}
+*/
 
-/*
+/*  Receive Test */
 	initialize_communication();
 
 	// Set the LED pins to output
 	DDRB |= (1<<0) | (1<<1) | (1<<2);
 
-	// Turn all of the LEDs off
+	// Turn all of the LEDs on
 	PORTB &= ~( (1<<0) | (1<<1) | (1<<2) );
 
 	unsigned char received_byte;
 
 	for (;;) // Loop forever 
 	{ 
+
+		received_byte = blocking_receive_byte();
+
+		PORTB ^= (1<<2);
+
+		if (received_byte == 0)
+			PORTB ^= (1<<0);
+		else if (received_byte == 1)
+			PORTB ^= (1<<1);
+
+
+		//blocking_transmit_byte(received_byte);
+	}
+/*  Transmit Test  
+	initialize_communication();
+
+	// Set the LED pins to output
+	DDRB |= (1<<0) | (1<<1) | (1<<2);
+
+	// Turn all of the LEDs off
+	PORTB |= (1<<0) | (1<<1) | (1<<2);
+
+	unsigned char received_byte;
+	unsigned char sending_byte;
+
+	for (;;) // Loop forever 
+	{ 
+		// Turn all of the LEDs off
+		PORTB |= (1<<0) | (1<<1) | (1<<2);
+
+		_delay_ms(1000);
+
+		PORTB &= ~(1<<0);
+
+		sending_byte = 0;
+		blocking_transmit_byte(sending_byte);
+
+		_delay_ms(1000);
+
+		PORTB &= ~(1<<1);
+
+		sending_byte = 1;
+		blocking_transmit_byte(sending_byte);
+
+		_delay_ms(1000);
+
 		PORTB &= ~(1<<2);
 
+		sending_byte = 2;
+		blocking_transmit_byte(sending_byte);
+
+		_delay_ms(3000);
+	}
+*/
+/*
 		received_byte = blocking_receive_byte();
 
 		if (received_byte == 0)
@@ -57,8 +113,10 @@ int main (void)
 		PORTB |= (1<<2);
 
 		blocking_transmit_byte(received_byte);
-	}
-	*/
+		*/
+	
+
+
 	/*
 	// PWM stuff for motor
 	int velocity = 255;

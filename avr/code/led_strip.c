@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <avr/io.h>
 
-#include "pin_definitions.h"
+#include "definitions.h"
 #include "led_strip.h"
 
 
