@@ -16,36 +16,18 @@
 
 int main (void)
 {	
-	//LED Test
-	// Set the LED pins to output
-	DDRB |= (1<<0) | (1<<1) | (1<<2);
 
-	LightStrip led_strip;
-	int num_leds_on_strip = 20;
-
-	init_led_strip(&led_strip, num_leds_on_strip);
-
-	unsigned int counter = 0;
-	for (;;)
-	{
-		//Toggle the led
-		PORTB ^= (1<<0);
-
-		rainbow(&led_strip, counter);
-		Write_To_Led_Strip(&led_strip);
-		counter += 10;
-		_delay_ms(25);
-	}
-
-	/*
 	// PWM stuff for motor
-	int velocity = 80;
+	int velocity = 200;
 	int vel_delta = 1;
 	Init_PWM();
 	Init_Motor1();
 	Set_Motor1_Velocity(velocity);
 
-
+	for (;;)
+	{
+	}
+/*
 	// Set the LED pins to output
 	DDRB |= (1<<0) | (1<<1) | (1<<2);
 

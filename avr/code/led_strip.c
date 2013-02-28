@@ -136,7 +136,7 @@ void SPI_MasterInit(void)
     /* Set MISO to input */
     DDR_SPI &=~ (1<<DD_MISO);
 
-    /* Enable SPI, Master, set clock rate fck/4444 */
+    /* Enable SPI, Master, set clock rate */
     SPCR =  (1<<SPE)	| // SPI Enable
 	    //(1<<DORD)	| // Reverse data order
 	    (1<<MSTR)	| // SPI Master mode

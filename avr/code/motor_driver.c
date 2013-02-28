@@ -12,9 +12,9 @@ void Init_PWM()
     TCCR0B &= ~(1<<WGM02);
 
     // Set the clock source of the timer to be 
-    // the I/O clock without prescaling
-    TCCR0B |= (1<<CS00);
-    TCCR0B &= ~(1<<CS01);
+    // the I/O clock/8  prescaling
+    TCCR0B &= ~(1<<CS00);
+    TCCR0B |= (1<<CS01);
     TCCR0B &= ~(1<<CS02);
 
     // Zero both of the compare registers
