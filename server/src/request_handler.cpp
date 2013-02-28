@@ -231,7 +231,6 @@ void request_handler::handleTestTowerRequest(map<string, string>& queryMap, repl
       unsigned towerId;
       istringstream ( towerIdStr ) >> towerId;
 
-      //unsigned char towerId = boost::lexical_cast<unsigned char>("11");
       float amount = boost::lexical_cast<float>(amountStr);
 
       // If we have a drink key, a customer name, and a timestamp
@@ -250,11 +249,13 @@ void request_handler::handleTestTowerRequest(map<string, string>& queryMap, repl
 
   if (success)
   {
+    cout << "TEST SUCCESS" << endl;
     string successMessage = "{\"result\" : true}";
     rep.content.append(successMessage.c_str(), successMessage.size());
   }
   else
   {
+    cout << "TEST FAILURE" << endl;
     string errorMessage = "{\"result\" : false}";
     rep.content.append(errorMessage.c_str(), errorMessage.size());
   }

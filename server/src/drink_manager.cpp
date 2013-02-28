@@ -6,6 +6,12 @@
 #include <string>
 #include <utility>
 
+#include <fcntl.h>    // File control definitions
+#include <errno.h>    // Error number definitions
+#include <termios.h>  // POSIX terminal control definitions
+#include <stdio.h>    // Standard input/output definitions
+#include <string.h>   // String function definitions
+
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/property_tree/ptree.hpp>
@@ -39,6 +45,60 @@ DrinkManager::DrinkManager(const string& rootPath)
 
   // DEBUG
   //outputDrinkList(cout, 0);
+
+  string serialDevice = "/dev/ttyUSB0";
+
+  // USB device
+  mFd = open(serialDevice.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
+
+  if (mFd <= 0)
+  {
+    cerr << "ERROR: could not open " << serialDevice << endl;
+  }
+
+  cout << "Opened " << serialDevice << endl;
+
+  fcntl(mFd, F_SETFL, 0);
+
+  struct termios options;
+
+  // Get the current options for the port...
+  tcgetattr(mFd, &options);
+
+  // Set serial speed
+  // B9600      9600 baud
+  // B19200    19200 baud
+  // B38400    38400 baud
+  // B57600   57,600 baud
+  // B76800   76,800 baud
+  // B115200 115,200 baud
+  cfsetispeed(&options, B9600);
+  cfsetospeed(&options, B9600);
+
+  // No parity (8N1)
+  options.c_cflag &= ~PARENB;
+  options.c_cflag &= ~CSTOPB;
+  options.c_cflag &= ~CSIZE;
+  options.c_cflag |= CS8;
+
+  // Enable the receiver and set local mode...
+  options.c_cflag |= (CLOCAL | CREAD);
+
+  // Set the new options for the port...
+  tcsetattr(mFd, TCSANOW, &options);
+
+  // Non-Blocking
+  fcntl(mFd, F_SETFL, FNDELAY);
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+DrinkManager::~DrinkManager()
+{
+  if (mFd > 0)
+  {
+    close(mFd);
+  }
 }
 
 //------------------------------------------------------------------------------
@@ -108,6 +168,12 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
     return false;
   }
 
+  if (mFd <= 0)
+  {
+    cerr << "ERROR: serial port is not open" << endl;
+    return false;
+  }
+
   Tower tower = mpBarbot->getTowerById(towerId);
 
   float flowRate = tower.getFlowRate();
@@ -117,49 +183,72 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
   // Command data = 0x01 (amount)
   // Footer + checksum = 0xC5 (random crap)
 
-
-
-  if (amount <= 0)
+  if (amount < 0)
   {
     return false;
   }
 
-  static unsigned char POUR_DRINK_COMMAND = 0x40;
+//  static unsigned char POUR_DRINK_COMMAND = 0x40;
+//
+//  vector<unsigned char> towerMessage;
+//
+//  //header byte
+//  unsigned char headerDataByte = 0x80 | towerId;
+//
+//  towerMessage.push_back(headerDataByte);
+//  towerMessage.push_back(POUR_DRINK_COMMAND);
+//
+//  unsigned char amountDataByte = (tower.getFlowRate()*amount)/100.0f;
+//  if (amountDataByte > 127)
+//  {
+//    amountDataByte = 127;
+//  }
+//
+//  towerMessage.push_back(amountDataByte);
+//  towerMessage.push_back(0xC5);
+//
+//  unsigned char msg[4];
+//
+//  unsigned i = 0;
+//  BOOST_FOREACH(unsigned char byteToSend, towerMessage)
+//  {
+//    printf("%2X ", byteToSend);
+//    cout <<  endl;
+//
+//    msg[i] = byteToSend;
+//
+//    ++i;
+//  }
 
-  vector<unsigned char> towerMessage;
+//  write(fd, msg, 4);
 
-  //header byte
-  unsigned char headerDataByte = 0x80 | towerId;
+  unsigned char msg[1];
 
-  towerMessage.push_back(headerDataByte);
-  towerMessage.push_back(POUR_DRINK_COMMAND);
-
-  unsigned char amountDataByte = (tower.getFlowRate()*amount)/100.0f;
-  if (amountDataByte > 127)
+  if (amount == 1)
   {
-    amountDataByte = 127;
+    msg[0] = 0;
+  }
+  else if (amount > 1)
+  {
+    msg[0] = 1;
+  }
+  else
+  {
+    msg[0] = 2;
   }
 
-  towerMessage.push_back(amountDataByte);
-  towerMessage.push_back(0xC5);
+  ssize_t bytesWritten = write(mFd, msg, 1);
 
-  BOOST_FOREACH(unsigned char byteToSend, towerMessage)
+  if (bytesWritten > 0)
   {
-    printf("%2X ", byteToSend);
-    cout <<  endl;
+    cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
+  }
+  else
+  {
+    cout << "ERROR: Could not write any bytes" << endl;
   }
 
-
-
-  //unsigned char
-
-  //protocol incomplete? to be completed following discussion with paul/ryan
-
-  //footer byte
-//  tByte = (0x03) | (chksum & 0x0F); //just in case
-//  towerMessage.push_back(tByte);
-
-
+  //usleep(100000);
 
 
   return true;
