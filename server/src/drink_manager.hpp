@@ -55,6 +55,7 @@ class DrinkManager
 
     void readSystemConfiguration(std::string systemConfigurationPath);
     void readAllDrinks(std::string systemConfigurationPath);
+    void createAvailableDrinkList();
 
 };
 

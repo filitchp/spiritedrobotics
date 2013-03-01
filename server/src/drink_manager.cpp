@@ -41,6 +41,7 @@ DrinkManager::DrinkManager(const string& rootPath)
   drinksPath << rootPath << "/assets/json/drinks";
 
   readAllDrinks(drinksPath.str());
+  createAvailableDrinkList();
 
   // DEBUG
   //outputDrinkList(cout, 0);
@@ -159,6 +160,30 @@ void DrinkManager::readSystemConfiguration(string systemConfigurationPath)
 
   // Create the system configuration object
   mpBarbot = new BarBot(pt);
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::createAvailableDrinkList()
+{
+	cout<<"^&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&Building valid drinks"<<endl;
+
+	 BOOST_FOREACH(const Drink& drink, mAllDrinks){
+
+	    bool valid=true;
+	    BOOST_FOREACH(const Ingredient& ing, drink.getIngredients()){
+	    	if(!mpBarbot->hasTowerWithIngredient(ing.getKey())){
+	    		valid=false;
+	    		cout<<"This ingredient Doesn't exist!! "<<ing.getKey()<<" for "<<drink.getName()<<endl;
+	    	}
+
+	    }
+	    if(valid){
+	    	cout<<"This Drink is valid "<<drink.getName()<<endl;
+	    	mValidDrinks.push_back(drink);
+	    }
+	  }
+
 }
 
 //------------------------------------------------------------------------------
@@ -537,12 +562,12 @@ void DrinkManager::outputDrinkList(ostream& s, unsigned indent)
   s << p << "["  << endl;
 
   unsigned count = 0;
-  BOOST_FOREACH(const Drink& d, mAllDrinks)
+  BOOST_FOREACH(const Drink& d, mValidDrinks)
   {
     d.output(s, indent + 4);
 
     count++;
-    if (count != mAllDrinks.size())
+    if (count != mValidDrinks.size())
     {
       s << "," << endl;
     }
