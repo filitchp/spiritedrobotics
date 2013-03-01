@@ -12,12 +12,7 @@
 #include "communication.h"
 
 
-
-
-int main (void)
-{	
-	//	sei(); // Enable Global Interrupts
-
+/*
 	// Set up the SPI
 	initialize_communication();
 
@@ -29,20 +24,36 @@ int main (void)
 	PORTB &= ~( (1<<0) | (1<<1) | (1<<2) );
 
 
+	for (;;)
+	{
+		PORTB ^= (1<<0);
+		blocking_transmit_byte(0x81);
+		blocking_transmit_byte(0x40);
+		blocking_transmit_byte(0x1e);
+		blocking_transmit_byte(0xc5);
+		_delay_ms(1000);
+	}
+*/
+int main (void)
+{	
+	//sei(); // Enable Global Interrupts
+
+	// Set up the SPI
+	initialize_communication();
 
 
-	unsigned char data;
+	// Set the LED pins to output
+	DDRB |= (1<<0) | (1<<1) | (1<<2);
+
+	// Turn all of the LEDs on
+	PORTB &= ~( (1<<0) | (1<<1) | (1<<2) );
 
 	for (;;)
 	{
-		data = blocking_receive_byte();
+		PORTB ^= (1<<0);
+		unsigned char data = blocking_receive_byte();
 		blocking_transmit_byte(data);
 	}
-
-
-
-
-
 
 	set_my_address(1);
 
@@ -52,6 +63,8 @@ int main (void)
 		{
 			process_incomming_data();
 		}
+		Transmit_Data_If_Available();
+		_delay_ms(5);
 	}
 	return 0;
 }

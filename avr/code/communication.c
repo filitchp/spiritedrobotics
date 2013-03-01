@@ -64,6 +64,10 @@ void initialize_communication()
 	UCSR0A &= ~(1 << U2X0);
 #endif
 
+	UCSR0B &= ~(1<<UCSZ02);
+	UCSR0C |= (1<<UCSZ00) | (1<<UCSZ01);
+
+
 	Init_Reset_CircBuff(&output_buff);
 }
 
@@ -90,7 +94,8 @@ char process_incomming_data()
 	
 	if (receive_buffer[1] & COMMAND_TYPE_MASK) // Node specific commands
 	{
-		blocking_transmit_byte(receive_buffer[1]);
+		// TODO: Remove this. debugging
+		//blocking_transmit_byte(receive_buffer[1]);
 
 		// TODO: REmove this. it's for testing only
 		PORTB |= (1<<1);
@@ -98,7 +103,7 @@ char process_incomming_data()
 		if (receive_buffer[1] == 0x40)
 		{
 			// TODO: REmove this. it's for testing only
-			PORTB |= (1<<0);
+			//PORTB |= (1<<0);
 		}
 		switch((receive_buffer[1] & COMMAND_MASK))
 		{
@@ -107,7 +112,7 @@ char process_incomming_data()
 					return 1;
 
 				// TODO: REmove this. it's for testing only
-				PORTB |= (1<<0);
+				PORTB ^= (1<<0);
 
 
 				break;
@@ -115,6 +120,7 @@ char process_incomming_data()
 	}
 	else // Generic Commands
 	{
+		
 	}
 
 	return 0;
