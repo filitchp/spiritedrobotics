@@ -1,6 +1,7 @@
 #include "drink_manager.hpp"
 
 #include <iostream>
+#include <fstream>
 #include <ostream>
 #include <sstream>
 #include <string>
@@ -176,7 +177,7 @@ void DrinkManager::readSystemConfiguration(string systemConfigurationPath)
 //------------------------------------------------------------------------------
 void DrinkManager::createAvailableDrinkList()
 {
-	cout<<"^&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&Building valid drinks"<<endl;
+	//cout<<"^&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&Building valid drinks"<<endl;
 
 	 BOOST_FOREACH(const Drink& drink, mAllDrinks){
 
@@ -184,12 +185,12 @@ void DrinkManager::createAvailableDrinkList()
 	    BOOST_FOREACH(const Ingredient& ing, drink.getIngredients()){
 	    	if(!mpBarbot->hasTowerWithIngredient(ing.getKey())){
 	    		valid=false;
-	    		cout<<"This ingredient Doesn't exist!! "<<ing.getKey()<<" for "<<drink.getName()<<endl;
+	    		//cout<<"This ingredient Doesn't exist!! "<<ing.getKey()<<" for "<<drink.getName()<<endl;
 	    	}
 
 	    }
 	    if(valid){
-	    	cout<<"This Drink is valid "<<drink.getName()<<endl;
+	    	//cout<<"This Drink is valid "<<drink.getName()<<endl;
 	    	mValidDrinks.push_back(drink);
 	    }
 	  }
@@ -407,9 +408,18 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
   Order theOrderToMake = it->second;
 
 
+  //cout<<"***************************************************************"<<endl;
+  ofstream drinkRecord;
+  const char* file = ("records/"+it->first+".json").c_str();
+  drinkRecord.open(file);
+  it->second.output(drinkRecord,0);
+  drinkRecord.close();
+
   mApprovedOrders.insert(pair<string, Order>(it->first, it->second));
 
+
   mPendingOrders.erase(it);
+
 
   return true;
 

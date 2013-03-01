@@ -16,9 +16,7 @@ Tower::Tower(const ptree& pt)
 {
   try
   {
-	cout<< "right before the exception"<<endl;
     mIngredientName = pt.get<string>("name");
-    cout<< "right before the exception"<<endl;
   }
   catch (boost::exception& e)
   {
