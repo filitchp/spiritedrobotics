@@ -57,6 +57,12 @@ class DrinkManager
     void readAllDrinks(std::string systemConfigurationPath);
     void createAvailableDrinkList();
 
+    std::vector<unsigned char> constructTowerMessage(
+          unsigned char towerId,
+          unsigned char command,
+          float amount,
+          float flowRate);
+
 };
 
 #endif // DRINK_MANAGER_HPP

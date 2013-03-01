@@ -177,24 +177,27 @@ void DrinkManager::readSystemConfiguration(string systemConfigurationPath)
 //------------------------------------------------------------------------------
 void DrinkManager::createAvailableDrinkList()
 {
-	//cout<<"^&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&Building valid drinks"<<endl;
 
-	 BOOST_FOREACH(const Drink& drink, mAllDrinks){
+  BOOST_FOREACH(const Drink& drink, mAllDrinks)
+  {
 
-	    bool valid=true;
-	    BOOST_FOREACH(const Ingredient& ing, drink.getIngredients()){
-	    	if(!mpBarbot->hasTowerWithIngredient(ing.getKey())){
-	    		valid=false;
-	    		//cout<<"This ingredient Doesn't exist!! "<<ing.getKey()<<" for "<<drink.getName()<<endl;
-	    	}
+    bool valid = true;
 
-	    }
-	    if(valid){
-	    	//cout<<"This Drink is valid "<<drink.getName()<<endl;
-	    	mValidDrinks.push_back(drink);
-	    }
-	  }
+    BOOST_FOREACH(const Ingredient& ing, drink.getIngredients())
+    {
+      if (!mpBarbot->hasTowerWithIngredient(ing.getKey()))
+      {
+        valid = false;
+        //cout<<"This ingredient Doesn't exist!! "<<ing.getKey()<<" for "<<drink.getName()<<endl;
+      }
+    }
 
+    if (valid)
+    {
+      //cout<<"This Drink is valid "<<drink.getName()<<endl;
+      mValidDrinks.push_back(drink);
+    }
+  }
 }
 
 //------------------------------------------------------------------------------
@@ -253,8 +256,43 @@ long millisecondDelta(struct timeval start, struct timeval end)
   long delta = (long)(((seconds) * 1000.0 + uSeconds/1000.0) + 0.5);
   return delta;
 }
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+vector<unsigned char> DrinkManager::constructTowerMessage(
+  unsigned char towerId,
+  unsigned char command,
+  float amount,
+  float flowRate)
+{
+  vector<unsigned char> message;
+
+  //header byte
+  unsigned char headerDataByte = 0x80 | towerId;
+
+  message.push_back(headerDataByte);
+  message.push_back(command);
+
+  unsigned char amountDataByte = flowRate * amount;
+
+  // The MSB must be 0 so we max out at 0x7F (127)
+  if (amountDataByte > 127)
+  {
+    amountDataByte = 127;
+  }
+
+  message.push_back(amountDataByte);
+
+  // TODO: checksum
+  message.push_back(0xC5);
+
+  return message;
+}
 
 //------------------------------------------------------------------------------
+// Header byte = 0x80 - header byte for all
+// Command type = 0x40 - Pour drink
+// Command data = amount x flowRate
+// Footer + checksum = 0xC5 (random crap)
 //------------------------------------------------------------------------------
 bool DrinkManager::testTower(unsigned char towerId, float amount)
 {
@@ -283,13 +321,9 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
   }
   else
   {
-    flowRate = 100;
+    cerr << "ERROR: we do not have a tower with that ID" << endl;
+    return false;
   }
-
-  // Header byte = 0x80 - header byte for all
-  // Command type = 0x40 - Pour drink
-  // Command data = 0x01 (amount)
-  // Footer + checksum = 0xC5 (random crap)
 
   if (amount < 0)
   {
@@ -298,29 +332,13 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
 
   static unsigned char POUR_DRINK_COMMAND = 0x40;
 
-  vector<unsigned char> towerMessage;
-
-  //header byte
-  unsigned char headerDataByte = 0x80 | towerId;
-
-  towerMessage.push_back(headerDataByte);
-  towerMessage.push_back(POUR_DRINK_COMMAND);
-
-  unsigned char amountDataByte = (flowRate*amount)/100.0f;
-
-  // The MSB must be 0 so we max out at 0x7F (127)
-  if (amountDataByte > 127)
-  {
-    amountDataByte = 127;
-  }
-
-  towerMessage.push_back(amountDataByte);
-  towerMessage.push_back(0xC5);
+  vector<unsigned char> message = constructTowerMessage(
+    towerId, POUR_DRINK_COMMAND, amount, flowRate);
 
   unsigned char msg[4];
 
   unsigned i = 0;
-  BOOST_FOREACH(unsigned char byteToSend, towerMessage)
+  BOOST_FOREACH(unsigned char byteToSend, message)
   {
     printf("%2X ", byteToSend);
     cout <<  endl;
@@ -336,7 +354,7 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
   {
     cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
 
-    readData(30000);
+    readData(500);
   }
   else
   {
@@ -350,26 +368,36 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
 //------------------------------------------------------------------------------
 int DrinkManager::readData(long msTimeout)
 {
+
+  if (mFd <= 0)
+  {
+    return 0;
+  }
+
   struct timeval timeStart;
   gettimeofday(&timeStart, NULL);
   unsigned char buffer[255];
 
   while (1)
   {
-
     ssize_t bytesRead = read(mFd, buffer, 255);
 
-    
-    if (bytesRead == -1){
-      cout << strerror(errno) << endl;
-    }else if (bytesRead){
+    if (bytesRead == -1)
+    {
+      // DEBUG, -1 actually gets returned when there are no bytes available
+      //cout << strerror(errno) << endl;
+    }
+    else if (bytesRead)
+    {
       cout << "Got " << bytesRead << " bytes" << endl;
       for (int i = 0; i < bytesRead; ++i)  // for all chars in string
       {
         printf("Got: %X \n", buffer[i]);
       }
-    }else{
-        cout << "Got " << bytesRead << " bytes" << endl;
+    }
+    else
+    {
+      cout << "Got " << bytesRead << " bytes" << endl;
     }
 
     // Sleep 100 ms
@@ -407,7 +435,6 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
   // MAKE THE DRINK HERE!
   Order theOrderToMake = it->second;
 
-
   //cout<<"***************************************************************"<<endl;
   ofstream drinkRecord;
   const char* file = ("records/"+it->first+".json").c_str();
@@ -417,9 +444,7 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
 
   mApprovedOrders.insert(pair<string, Order>(it->first, it->second));
 
-
   mPendingOrders.erase(it);
-
 
   return true;
 
@@ -456,12 +481,13 @@ bool DrinkManager::addOrder(string drinkKey, string customerName, unsigned times
   {
     //is there a more direct way to do this?
     unsigned towerID = (mpBarbot->getTowerByIngredientKey(ing.getKey())).getTowerId();
+
     //header byte
     unsigned tByte = (towerID << 2) | (0x01);
     chksum ^= (tByte & 0x0F) ^ (tByte >> 4); // because xor is distributive and associative, it should be fine to do it this way.
     towerMessage.push_back(tByte);
 
-      //protocol incomplete? to be completed following discussion with paul/ryan
+    //protocol incomplete? to be completed following discussion with paul/ryan
 
     //footer byte
     tByte = (0x03)|(chksum & 0x0F);//just in case
@@ -555,7 +581,6 @@ void DrinkManager::outputApprovedOrders(std::ostream& s, unsigned indent)
 
   s << p << "]" << endl;
 }
-
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
