@@ -8,7 +8,6 @@
 
 #include <fcntl.h>    // File control definitions
 #include <errno.h>    // Error number definitions
-#include <termios.h>  // POSIX terminal control definitions
 #include <stdio.h>    // Standard input/output definitions
 #include <string.h>   // String function definitions
 
@@ -46,9 +45,10 @@ DrinkManager::DrinkManager(const string& rootPath)
   // DEBUG
   //outputDrinkList(cout, 0);
 
+  // Serial port guide: http://www.easysw.com/~mike/serial/serial.html#2_5_2
+
   string serialDevice = "/dev/ttyUSB0";
 
-  // USB device
   mFd = open(serialDevice.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
 
   if (mFd <= 0)
@@ -58,12 +58,18 @@ DrinkManager::DrinkManager(const string& rootPath)
 
   cout << "Opened " << serialDevice << endl;
 
-  fcntl(mFd, F_SETFL, 0);
-
-  struct termios options;
+  // Non-Blocking mode
+  fcntl(mFd, F_SETFL, FNDELAY);
 
   // Get the current options for the port...
-  tcgetattr(mFd, &options);
+  tcgetattr(mFd, &mOriginalOptions);
+
+  printf("Input mode flags   = %X\n", mOriginalOptions.c_iflag);
+  printf("output mode flags  = %X\n", mOriginalOptions.c_oflag);
+  printf("control mode flags = %X\n", mOriginalOptions.c_cflag);
+  printf("local mode flags   = %X\n", mOriginalOptions.c_lflag);
+
+  struct termios newOptions;
 
   // Set serial speed
   // B9600      9600 baud
@@ -72,23 +78,49 @@ DrinkManager::DrinkManager(const string& rootPath)
   // B57600   57,600 baud
   // B76800   76,800 baud
   // B115200 115,200 baud
-  cfsetispeed(&options, B9600);
-  cfsetospeed(&options, B9600);
+  cfsetispeed(&newOptions, B115200);
+  cfsetospeed(&newOptions, B115200);
+
+  //--------------------
+  // Control mode flags
+  //--------------------
+
+  // Disable hardware flow control
+  newOptions.c_cflag &= ~CRTSCTS;
 
   // No parity (8N1)
-  options.c_cflag &= ~PARENB;
-  options.c_cflag &= ~CSTOPB;
-  options.c_cflag &= ~CSIZE;
-  options.c_cflag |= CS8;
+  newOptions.c_cflag &= ~PARENB;
+  newOptions.c_cflag &= ~CSTOPB;
+  newOptions.c_cflag &= ~CSIZE;
+  newOptions.c_cflag |= CS8;
 
   // Enable the receiver and set local mode...
-  options.c_cflag |= (CLOCAL | CREAD);
+  newOptions.c_cflag |= (CLOCAL | CREAD);
+
+  //------------------
+  // Input mode flags
+  //------------------
+
+  // Disable software flow control
+  newOptions.c_iflag &= ~(IXON | IXOFF | IXANY);
+
+  //-------------------
+  // Output mode flags
+  //-------------------
+
+  // Raw output
+  newOptions.c_oflag &= ~OPOST;
+
+  //------------------
+  // Local mode flags
+  //------------------
+
+  // Raw mode (disable canonical mode, don't echo, and disable signals)
+  newOptions.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
 
   // Set the new options for the port...
-  tcsetattr(mFd, TCSANOW, &options);
+  tcsetattr(mFd, TCSANOW, &newOptions);
 
-  // Non-Blocking
-  fcntl(mFd, F_SETFL, FNDELAY);
 }
 
 //------------------------------------------------------------------------------
@@ -96,10 +128,20 @@ DrinkManager::DrinkManager(const string& rootPath)
 DrinkManager::~DrinkManager()
 {
 
-  cout << "Drink manager desctructor" << endl;
   if (mFd > 0)
   {
-    close(mFd);
+    tcsetattr(mFd, TCSANOW, &mOriginalOptions);
+
+    struct termios options;
+    tcgetattr(mFd, &options);
+
+    printf("Input mode flags   = %X\n", options.c_iflag);
+    printf("output mode flags  = %X\n", options.c_oflag);
+    printf("control mode flags = %X\n", options.c_cflag);
+    printf("local mode flags   = %X\n", options.c_lflag);
+
+    while(close(mFd) != 0);
+
     cout << "Closed mFd" << endl;
   }
 }
@@ -257,12 +299,7 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
   {
     cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
 
-//    unsigned char buffer[255];
-//    ssize_t bytesRead = read(mFd, buffer, 255);
-//
-//    cout << "Got " << bytesRead << " bytes" << endl;
-
-    //readData(2000);
+    readData(2000);
   }
   else
   {

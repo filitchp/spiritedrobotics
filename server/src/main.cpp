@@ -28,6 +28,12 @@ using namespace std;
 using boost::property_tree::ptree;
 
 
+#include <boost/asio.hpp>
+#include <boost/asio/serial_port.hpp>
+#include <boost/thread.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
+
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 int main(int argc, char* argv[])
@@ -46,6 +52,9 @@ int main(int argc, char* argv[])
       cerr << "Known Working Example: 127.0.0.1 3000 /var/www/spiritedrobotics/web/" << endl;
       return 1;
     }
+
+//    boost_asio
+//    serial_port port(my_io_service, name);
 
     // Initialize the server.
     http::server::server s(argv[1], argv[2], argv[3]);
