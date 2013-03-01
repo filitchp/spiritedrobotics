@@ -1,0 +1,19 @@
+{
+  "key" : "BRAVEBULL",
+  "name" : "Brave Bull",
+  "ingredients" :
+  [
+    {
+      "key" : "TEQUILA",
+      "name" : "Tequila",
+      "amount" : "3"
+    },
+    {
+      "key" : "COFFEELIQUEUR",
+      "name" : "Coffee Liqueur",
+      "amount" : "1"
+    }
+  ],
+  "description" : "A Brave Bull is made by mixing tequila and coffee liqueur.",
+  "imagePath" : "assets/img/drinks/bravebull.jpeg"
+}

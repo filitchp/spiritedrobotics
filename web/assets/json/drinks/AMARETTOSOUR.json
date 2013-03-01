@@ -1,0 +1,19 @@
+{
+  "key" : "AMARETTOSOUR",
+  "name" : "Amaretto Sour",
+  "ingredients" :
+  [
+    {
+      "key" : "AMARETTOLIQUEUR",
+      "name" : "Amaretto Liqueur",
+      "amount" : "2"
+    },
+    {
+      "key" : "LEMONJUICE",
+      "name" : "Lemon Juice",
+      "amount" : "1"
+    }
+  ],
+  "description" : "Smooth, sweet taste with a kick.",
+  "imagePath" : "assets/img/drinks/amarettosour.jpeg"
+}

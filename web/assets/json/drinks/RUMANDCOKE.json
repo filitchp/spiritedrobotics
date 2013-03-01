@@ -1,19 +1,19 @@
 {
   "key" : "RUMANDCOKE",
-  "name" : "Rum and Coke",
+  "name" : "Rum & Coke",
   "ingredients" :
   [
-    {
-      "key" : "RUM",
-      "name" : "Rum",
-      "amount" : "1.5"
-    },
-    {
-      "key" : "COKE",
-      "name" : "Coke",
-      "amount" : "5"
-    }
+	{
+		"key" : "DARKRUM",
+		"name" : "Dark Rum",
+		"amount" : "2"
+	},
+	{
+		"key" : "COKE",
+		"name" : "Coke",
+		"amount" : "4"
+	}
   ],
-  "description" : "Accounts of the invention of the Cuba Libre vary. One account claims that the drink (Spanish for Free Cuba) was invented in Havana, Cuba around 1901/1902. Patriots aiding Cuba during the Spanish-American War—and, later, expatriates avoiding Prohibition—regularly mixed rum and cola as a highball and a toast to this Caribbean island.",
-  "imagePath" : "assets/img/drinks/rumandcoke.png"
+  "description" : "Rum & Coke is a 2009 album by British dub band Dub Pistols. Rum & Coke incorporates many genres, including reggae, rap, ska, dub reggae and urban music.", 
+  "imagePath" : "assets/img/drinks/rumandcoke.jpeg"
 }

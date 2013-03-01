@@ -1,0 +1,39 @@
+{
+  "key" : "LONGBEACHICEDTEA",
+  "name" : "Long Beach Iced Tea",
+  "ingredients" : 
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "1"
+    },
+    {
+      "key" : "LIGHTRUM",
+      "name" : "Light Rum",
+      "amount" : "1"
+    },
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "1"
+    },
+    {
+      "key" : "ORANGE LIQUEUR",
+      "name" : "Orange Liqueur",
+      "amount" : "1"
+    },
+    {
+      "key" : "TEQUILA",
+      "name" : "Tequila",
+      "amount" : "1"
+    },
+    {
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "amount" : "0.25"
+    }
+  ],
+  "description" : "The Long Beach iced tea is a delightful variation of the Long Island iced tea..",
+  "imagePath" : "assets/img/drinks/longbeachicedtea.jpg"
+}
