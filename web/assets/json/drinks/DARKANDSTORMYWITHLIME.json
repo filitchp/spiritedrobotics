@@ -1,0 +1,24 @@
+{
+  "key" : "DARKANDSTORMYWITHLIME",
+  "name" : "Dark and Stormy with lime",
+  "ingredients" :
+  [
+    {
+      "key" : "DARKRUM",
+      "name" : "Dark Rum",
+      "amount" : "1"
+    },
+    {
+      "key" : "GINGERBEER",
+      "name" : "Ginger Beer",
+      "amount" : "3"
+    },
+	{
+	  "key" : "LIMEJUICE",
+	  "name" : "Lime Juice",
+	  "amount" : "0.5"
+	}
+  ],
+  "description" : " The Dark and Stormy is described as "Bermuda's National Drink", a description often applied to the Rum Swizzle as well.",
+  "imagePath" : "assets/img/drinks/darkandstormy.jpeg"
+}

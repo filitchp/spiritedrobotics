@@ -1,0 +1,19 @@
+{
+  "key" : "GODMOTHER",
+  "name" : "Godmother",
+  "ingredients" :
+  [
+    {
+      "key" : "AMARETTOLIQUEUR",
+      "name" : "Amaretto Liqueur",
+      "amount" : "1"
+    },
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "2"
+    }
+  ],
+  "description" : "The more lady-like version of the Godfather.",
+  "imagePath" : "assets/img/drinks/godmother.jpeg"
+}

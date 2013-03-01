@@ -1,0 +1,25 @@
+{
+  "key" : "RYEANDGINGER",
+  "name" : "Rye and Ginger",
+  "ingredients" :
+  [
+    {
+      "key" : "WHISKEY",
+      "name" : "Whiskey",
+      "amount" : "2"
+    },
+    {
+      "key" : "GINGERBEER",
+      "name" : "Ginger Beer",
+      "amount" : "3"
+    },
+	{
+	  "key" : "LIMEJUICE",
+	  "name" : "Lime Juice",
+	  "amount" : "1"
+	},
+	{
+  ],
+  "description" : "It's Canadian!",
+  "imagePath" : "assets/img/drinks/ryeandginger.jpeg"
+}

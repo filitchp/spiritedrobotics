@@ -79,8 +79,8 @@ DrinkManager::DrinkManager(const string& rootPath)
   // B57600   57,600 baud
   // B76800   76,800 baud
   // B115200 115,200 baud
-  cfsetispeed(&newOptions, B115200);
-  cfsetospeed(&newOptions, B115200);
+  cfsetispeed(&newOptions, B57600);
+  cfsetospeed(&newOptions, B57600);
 
   //--------------------
   // Control mode flags
@@ -120,7 +120,7 @@ DrinkManager::DrinkManager(const string& rootPath)
   newOptions.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
 
   // Set the new options for the port...
-  tcsetattr(mFd, TCSANOW, &newOptions);
+  tcsetattr(mFd, TCSAFLUSH, &newOptions);
 
 }
 

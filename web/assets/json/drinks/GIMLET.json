@@ -1,0 +1,19 @@
+{
+  "key" : "GIMLET",
+  "name" : "Gimlet",
+  "ingredients" :
+  [
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "4"
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : "1"
+    }
+  ],
+  "description" : "Bartenders often answer requests for the gimlet with a vodka gimlet.",
+  "imagePath" : "assets/img/drinks/gimlet.jpeg"
+}

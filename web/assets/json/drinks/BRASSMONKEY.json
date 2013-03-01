@@ -1,0 +1,24 @@
+{
+  "key" : "BRASSMONKEY",
+  "name" : "Brass Monkey",
+  "ingredients" :
+  [
+    {
+      "key" : "DARKRUM",
+      "name" : "Dark Rum",
+      "amount" : "1"
+    },
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "1"
+    },
+    {
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
+      "amount" : "1"
+    }
+  ],
+  "description" : "Brass Monkey. That funky monkey. --Beastie Boys",
+  "imagePath" : "assets/img/drinks/brassmonkey.png"
+}

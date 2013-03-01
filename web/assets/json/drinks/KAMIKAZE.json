@@ -1,0 +1,24 @@
+{
+  "key" : "KAMIKAZE",
+  "name" : "Kamikaze",
+  "ingredients" :
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "1"
+    },
+    {
+      "key" : "ORANGE LIQUEUR",
+      "name" : "Orange Liqueur",
+      "amount" : "1"
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : "1"
+    }
+  ],
+  "description" : ""Kamikaze" is a Japanese word literally meaning "divine wind".",
+  "imagePath" : "assets/img/drinks/kamikaze.jpeg"
+}

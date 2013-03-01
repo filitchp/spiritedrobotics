@@ -1,0 +1,19 @@
+{
+  "key" : "WHISKEYSOUR",
+  "name" : "Whiskey Sour",
+  "ingredients" :
+  [
+    {
+      "key" : "WHISKEY",
+      "name" : "Whiskey",
+      "amount" : "1"
+    },
+    {
+      "key" : "SWEETANDSOUR",
+      "name" : "Sweet & Sour Mix",
+      "amount" : "1"
+      }
+  ],
+  "description" : "Delicious and tart!",
+  "imagePath" : "assets/img/drinks/whiskeysour.jpg"
+}

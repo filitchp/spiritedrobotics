@@ -1,0 +1,19 @@
+{
+  "key" : "VODKAMARTINI",
+  "name" : "Vodka Martini",
+  "ingredients" :
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "11"
+    },
+    {
+      "key" : "VERMOUTH",
+      "name" : "Vermouth",
+      "amount" : "3"
+    }
+  ],
+  "description" : "Vodka Martini, shaken not stirred. --James Bond",
+  "imagePath" : "assets/img/drinks/vodkamartini.jpeg"
+}

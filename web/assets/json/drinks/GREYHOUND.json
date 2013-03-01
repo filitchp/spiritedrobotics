@@ -1,0 +1,19 @@
+{
+  "key" : "GREYHOUND",
+  "name" : "Greyhound",
+  "ingredients" :
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "4"
+    },
+    {
+      "key" : "GRAPEFRUITJUICE",
+      "name" : "Grapefruit Juice",
+      "amount" : "10"
+    }
+  ],
+  "description" : "A salted rim is the only difference between a Salty Dog and a Greyhound.",
+  "imagePath" : "assets/img/drinks/greyhound.jpeg"
+}
