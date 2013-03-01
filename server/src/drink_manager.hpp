@@ -33,6 +33,7 @@ class DrinkManager
     bool testTower(unsigned char towerId, float amount);
 
     int readData(long msTimeout);
+    void printAllDrinks() const;
 
   private:
 

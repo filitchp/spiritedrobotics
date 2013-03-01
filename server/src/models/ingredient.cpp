@@ -42,9 +42,9 @@ Ingredient::Ingredient(const ptree& pt)
   }
 
   // DEBUG
-  cout << "mName:   " << mName << endl;
-  cout << "mKey:    " << mKey << endl;
-  cout << "mAmount: " << mAmount << endl;
+//  cout << "mName:   " << mName << endl;
+//  cout << "mKey:    " << mKey << endl;
+//  cout << "mAmount: " << mAmount << endl;
 }
 
 //------------------------------------------------------------------------------

@@ -19,7 +19,9 @@ Drink::Drink(const ptree& pt)
   try
   {
     mKey = pt.get<std::string>("key");
-    cout << "mKey: " << mKey << endl;
+
+    // DEBUG
+    //cout << "mKey: " << mKey << endl;
   }
   catch (boost::exception& e)
   {
@@ -30,7 +32,9 @@ Drink::Drink(const ptree& pt)
   try
   {
     mName = pt.get<std::string>("name");
-    cout << "mName: " << mName << endl;
+
+    // DEBUG
+    //cout << "mName: " << mName << endl;
   }
   catch (boost::exception& e)
   {
@@ -41,7 +45,9 @@ Drink::Drink(const ptree& pt)
   try
   {
     mDescription = pt.get<std::string>("description");
-    cout << "description: " << mDescription << endl;
+
+    // DEBUG
+    // cout << "description: " << mDescription << endl;
   }
   catch (boost::exception& e)
   {
@@ -52,7 +58,9 @@ Drink::Drink(const ptree& pt)
   try
   {
     mImagePath = pt.get<std::string>("imagePath");
-    cout << "image path: " << mImagePath << endl;
+
+    // DEBUG
+    // cout << "image path: " << mImagePath << endl;
   }
   catch (boost::exception& e)
   {

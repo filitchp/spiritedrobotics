@@ -8,6 +8,8 @@
 #include <boost/exception/all.hpp>
 #include <boost/foreach.hpp>
 
+#include "utils/table_printer.hpp"
+
 using boost::property_tree::ptree;
 using namespace std;
 
@@ -15,6 +17,8 @@ using namespace std;
 struct tower_error: virtual boost::exception { };
 
 //------------------------------------------------------------------------------
+// Constructor
+//   Import tower settings from a parameter tree (generally created from JSON)
 //------------------------------------------------------------------------------
 BarBot::BarBot(const ptree& pt)
 {
@@ -22,7 +26,7 @@ BarBot::BarBot(const ptree& pt)
   try
   {
     mDescription = pt.get<std::string>("description");
-    cout << "description: " << mDescription << endl;
+    //cout << "description: " << mDescription << endl;
   }
   catch (boost::exception& e)
   {
@@ -77,6 +81,44 @@ void BarBot::addTower(Tower& tower)
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
+void BarBot::printTowerDebug() const
+{
+  // Figure out max widths
+  unsigned maxIngredientKeyWidth = 0;
+  unsigned maxIngredientNameWidth = 0;
+  BOOST_FOREACH(const Tower& t, mTowers)
+  {
+    if (t.getIngredientKey().size() > maxIngredientKeyWidth)
+    {
+      maxIngredientKeyWidth = t.getIngredientKey().size();
+    }
+
+    if (t.getIngredientName().size() > maxIngredientNameWidth)
+    {
+      maxIngredientNameWidth = t.getIngredientKey().size();
+    }
+  }
+
+  bprinter::TablePrinter tp(&std::cout);
+
+  tp.AddColumn("ID", 6);
+  tp.AddColumn("KEY", maxIngredientKeyWidth + 8);
+  tp.AddColumn("NAME", maxIngredientNameWidth + 8);
+  tp.AddColumn("FLOW RATE", 5);
+
+  tp.PrintHeader();
+
+  BOOST_FOREACH(const Tower& t, mTowers)
+  {
+    tp << t.getTowerId() << t.getIngredientKey() << t.getIngredientName() << t.getFlowRate();
+  }
+
+  tp.PrintFooter();
+
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 const Tower& BarBot::getTowerById(unsigned int id) const
 {
   BOOST_FOREACH(const Tower& t, mTowers)
@@ -120,17 +162,17 @@ bool BarBot::isTowerIdValid(unsigned char id) const
   }
   return false;
 }
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
 
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 bool BarBot::hasTowerWithIngredient(const std::string& ingredientKey) const
 {
   BOOST_FOREACH(const Tower& t, mTowers)
   {
-	  if (t.getIngredientKey() == ingredientKey)
-	      {
-	        return true;
-	      }
+    if (t.getIngredientKey() == ingredientKey)
+    {
+      return true;
+    }
   }
   return false;
 }
