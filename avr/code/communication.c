@@ -89,8 +89,6 @@ char process_incomming_data()
 
 	if (received_bytes < 3) { return 1; }
 
-	// TODO: REmove this. it's for testing only
-	PORTB |= (1<<2);
 	
 	if (receive_buffer[1] & COMMAND_TYPE_MASK) // Node specific commands
 	{
@@ -100,11 +98,6 @@ char process_incomming_data()
 		// TODO: REmove this. it's for testing only
 		PORTB |= (1<<1);
 
-		if (receive_buffer[1] == 0x40)
-		{
-			// TODO: REmove this. it's for testing only
-			//PORTB |= (1<<0);
-		}
 		switch((receive_buffer[1] & COMMAND_MASK))
 		{
 			case 0: // Pour drink

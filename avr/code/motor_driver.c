@@ -106,3 +106,40 @@ void Set_Motor2_Velocity(int velocity)
     }
 }
 
+
+
+void Start_Motor_Timer(unsigned int time)
+{
+	unsigned int result = 0xFFFF;
+	result -= time;
+
+	// Set the timer value
+	TCNT1 = result;
+
+	// Set the clock to be Fosc / 1024
+	TCCR1B |= ((1<<CS12) | (1<<CS10));
+	// Enable the overflow interrupt
+	//TIMSK1 |= (1<<TOIE1); 
+
+	// This need to be atomic
+	// The counter
+	//TCNT1 
+
+	//TIFR1 & (1<<TOV1);// THis is the interrupt flag. clear by writing 1
+
+}
+
+void Blocking_Wait_For_Motor_Timer_Complete()
+{
+	while(!(TIFR1 & (1<<TOV1)))
+	{}
+	
+	// Turn off the timer
+	TCCR1B &= ~((1<<CS12) | (1<<CS10));
+
+	// Clear the interrupt flag by writing one to it
+	TIFR1 |= (1<<TOV1);
+}
+
+
+

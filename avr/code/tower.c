@@ -11,60 +11,39 @@
 #include "motor_driver.h"
 #include "communication.h"
 
-
-/*
-	// Set up the SPI
-	initialize_communication();
-
-
-	// Set the LED pins to output
-	DDRB |= (1<<0) | (1<<1) | (1<<2);
-
-	// Turn all of the LEDs on
-	PORTB &= ~( (1<<0) | (1<<1) | (1<<2) );
-
-
-	for (;;)
-	{
-		PORTB ^= (1<<0);
-		blocking_transmit_byte(0x81);
-		blocking_transmit_byte(0x40);
-		blocking_transmit_byte(0x1e);
-		blocking_transmit_byte(0xc5);
-		_delay_ms(1000);
-	}
-*/
 int main (void)
 {	
-	//sei(); // Enable Global Interrupts
+	sei(); // Enable Global Interrupts
 
 	// Set up the SPI
 	initialize_communication();
-
 
 	// Set the LED pins to output
 	DDRB |= (1<<0) | (1<<1) | (1<<2);
 
 	// Turn all of the LEDs on
 	PORTB &= ~( (1<<0) | (1<<1) | (1<<2) );
-
-	for (;;)
-	{
-		PORTB ^= (1<<0);
-		unsigned char data = blocking_receive_byte();
-		blocking_transmit_byte(data);
-	}
 
 	set_my_address(1);
 
 	for (;;)
 	{
+
+		Start_Motor_Timer(8<<9);
+		Blocking_Wait_For_Motor_Timer_Complete();
+
+		PORTB ^= (1<<2);
+
+	// TODO: REmove this. it's for testing only
+
+/*
+
 		if (ready_to_process_incomming_data())
 		{
 			process_incomming_data();
 		}
 		Transmit_Data_If_Available();
-		_delay_ms(5);
+		*/
 	}
 	return 0;
 }
