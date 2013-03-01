@@ -7,9 +7,9 @@ Port B
     1	OC1A		LED
     2	SS/OC1B    	LED
     3	MOSI	    Connected directly ICP header
-    	Note*	    other connections must go through a 4.7KOhm resistor to prevent interference with the programmer 
+    	SPI-MOSI    Connected through 4.7KOhm resistor to led-strip data input
     4	MISO	    Connected directly ICP header
-    	SPI-MISO    Connected through 4.7KOhm resistor to led-strip data input
+    	Note*	    other connections must go through a 4.7KOhm resistor to prevent interference with the programmer 
     5	SCK	    	Connected directly to ICP header
     	SCK	    	Connected through 4.7KOhm resistor to led-strip clock input 
     6 	XTAL1		XTAL

@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <avr/io.h>
 
-#include "pin_definitions.h"
+#include "definitions.h"
 #include "led_strip.h"
 
 
@@ -136,13 +136,15 @@ void SPI_MasterInit(void)
     /* Set MISO to input */
     DDR_SPI &=~ (1<<DD_MISO);
 
-    /* Enable SPI, Master, set clock rate fck/4444 */
+    /* Enable SPI, Master, set clock rate */
     SPCR =  (1<<SPE)	| // SPI Enable
 	    //(1<<DORD)	| // Reverse data order
-	    (1<<MSTR)	; // SPI Master mode
+	    (1<<MSTR)	| // SPI Master mode
 	   //(1<<CPOL)	| // Reverse the clock polarity
 	   //(1<<SPR1)	| // Sets the spi clock frequency
-	   //(1<<SPR0)	; // Sets the spi clock frequency
+	   (1<<SPR0)	; // Sets the spi clock frequency
+
+	SPSR |= (1<<SPI2X); // Run the SPI twice as fast
 }
 
 void SPI_MasterTransmit(unsigned char cData)

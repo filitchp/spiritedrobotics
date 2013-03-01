@@ -34,6 +34,18 @@ $(function()
         category_title: "All",
         url:"drinkList"
     });
+    
+    FlavorQuestions = [
+        "WHAT IS YOUR DATE OF MANUFACTURE?",
+        "KISS MY SHINY METAL ______!",
+        "With my last breath, I curse ______!",
+        "I'M GONNA DRINK 'TILL I ______!",
+        "EXTERMINATE. EXTERMINATE! EXTERMINATE!!!",
+        "WHAT IS YOUR QUEST?",
+        "WHAT IS YOUR FAVORITE COLOR?",
+        "WHAT GOES AROUND THE WORLD BUT STAYS IN A CORNER?",
+        "WHAT IS PUT ON A TABLE, CUT, BUT NEVER EATEN?",
+        "TO ALCOHOL, THE CAUSE AND SOLUTION TO ALL OF LIFE'S _____!" ];
 
     //--------------------------------------------------------
     // This view renders a drink modal
@@ -58,7 +70,8 @@ $(function()
                 url: "orderPresetDrink",
                 data: {
                     key: this.model.get("key"),
-                    customer: $("#order_modal").find("#customer").val()
+                    customer: ( $("#order_modal").find("#customer").val() + " " + 
+                    $("#order_modal").find("#flavor").val() )
                 },
                 success: function(res){
                     if (res.result == true){

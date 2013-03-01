@@ -49,6 +49,7 @@ DrinkManager::DrinkManager(const string& rootPath)
 
   string serialDevice = "/dev/ttyUSB0";
 
+  // USB device
   mFd = open(serialDevice.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
 
   if (mFd <= 0)
@@ -322,13 +323,17 @@ int DrinkManager::readData(long msTimeout)
 
     ssize_t bytesRead = read(mFd, buffer, 255);
 
-    if (bytesRead)
-    {
+    
+    if (bytesRead == -1){
+      cout << strerror(errno) << endl;
+    }else if (bytesRead){
       cout << "Got " << bytesRead << " bytes" << endl;
       for (int i = 0; i < bytesRead; ++i)  // for all chars in string
       {
         printf("Got: %X \n", buffer[i]);
       }
+    }else{
+        cout << "Got " << bytesRead << " bytes" << endl;
     }
 
     // Sleep 100 ms
