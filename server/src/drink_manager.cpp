@@ -80,8 +80,16 @@ DrinkManager::DrinkManager(const string& rootPath)
   // B57600   57,600 baud
   // B76800   76,800 baud
   // B115200 115,200 baud
-  cfsetispeed(&newOptions, B115200);
-  cfsetospeed(&newOptions, B115200);
+
+  if (cfsetispeed(&newOptions, B9600) == -1)
+  {
+    cerr << "ERROR: Could not set the input speed" << endl;
+  }
+
+  if (cfsetospeed(&newOptions, B9600) == -1)
+  {
+    cerr << "ERROR: Could not set the output speed" << endl;
+  }
 
   //--------------------
   // Control mode flags
@@ -121,8 +129,10 @@ DrinkManager::DrinkManager(const string& rootPath)
   newOptions.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
 
   // Set the new options for the port...
-  tcsetattr(mFd, TCSANOW, &newOptions);
-
+  if (tcsetattr(mFd, TCSAFLUSH, &newOptions) == -1)
+  {
+    cerr << "ERROR: Could not set the options for the serial port" << endl;
+  }
 }
 
 //------------------------------------------------------------------------------
@@ -325,7 +335,7 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
   {
     cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
 
-    readData(2000);
+    readData(30000);
   }
   else
   {

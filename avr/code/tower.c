@@ -16,45 +16,7 @@
 
 int main (void)
 {	
-
-	// PWM stuff for motor
-	int velocity = 200;
-	int vel_delta = 1;
-	Init_PWM();
-	Init_Motor1();
-	Set_Motor1_Velocity(velocity);
-
-	for (;;)
-	{
-	}
-/*
-	// Set the LED pins to output
-	DDRB |= (1<<0) | (1<<1) | (1<<2);
-
-	// Turn all of the LEDs off
-	PORTB &= ~( (1<<0) | (1<<1) | (1<<2) );
-
-
-	unsigned int counter = 0;
-	for (;;)
-	{
-		_delay_ms(50);
-			velocity += vel_delta;
-
-			if (velocity >= 254)
-			{
-				vel_delta = -1;
-				PORTB |= (1<<0);
-			}
-			if (velocity <= -254)
-			{
-				vel_delta = 1;
-				PORTB &= ~(1<<0);
-			}
-			Set_Motor1_Velocity(velocity);
-	}
-
-//	sei(); // Enable Global Interrupts
+	//	sei(); // Enable Global Interrupts
 
 	// Set up the SPI
 	initialize_communication();
@@ -91,7 +53,6 @@ int main (void)
 			process_incomming_data();
 		}
 	}
-*/
 	return 0;
 }
 

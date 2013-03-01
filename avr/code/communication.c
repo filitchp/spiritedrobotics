@@ -3,15 +3,14 @@
 #include "communication.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include "circ_buff.h"
 
 
-#define bool char
-#define false 0
-#define true 1
 
 
 // Constants
-#define RECEIVE_BUFFER_LENGTH 10
+#define RECEIVE_BUFFER_LENGTH 16
+#define PERSONAL_OUTPUT_BUFFER_LENGTH 16
 
 static const char DATA_TYPE_MASK = 0x80;
 static const char HEADER_FOOTER_MASK = 0x40;
@@ -21,12 +20,24 @@ static const char COMMAND_MASK = 0x3F;
 
 
 // Global Data
-static bool	receiving_data = false;
-static unsigned char receive_buffer[RECEIVE_BUFFER_LENGTH];
-static int received_bytes = 0;
-static char checksum;
 static unsigned char my_address = 0;
-volatile bool communication_ready_flag = false;
+	// Receiveing data
+static unsigned char receive_buffer[RECEIVE_BUFFER_LENGTH];
+static bool	receiving_data = FALSE;
+static int received_bytes = 0;
+volatile bool incomming_data_ready_for_processing = FALSE;
+
+	// Output buffer
+static CircBuff output_buff;
+static bool can_load_new_packet_into_output_buffer = TRUE;
+static char checksum = 0;
+
+	// Personal output buffer
+static unsigned char personal_output_buffer[PERSONAL_OUTPUT_BUFFER_LENGTH];
+static unsigned char personal_output_buffer_bytes = 0;
+static bool personal_out_buffer_ready_to_write = FALSE;
+
+
 
 /**************************************************
  *						API						  *
@@ -53,6 +64,7 @@ void initialize_communication()
 	UCSR0A &= ~(1 << U2X0);
 #endif
 
+	Init_Reset_CircBuff(&output_buff);
 }
 
 void set_my_address(unsigned char address)
@@ -60,16 +72,16 @@ void set_my_address(unsigned char address)
 	my_address = address;
 }
 
-char ready_to_process_incomming_data()
+bool ready_to_process_incomming_data()
 {
-	return communication_ready_flag; 
+	return incomming_data_ready_for_processing; 
 }
 
 char process_incomming_data()
 {
 
-	if (!communication_ready_flag) { return 1; }
-	else { communication_ready_flag = false; }
+	if (!incomming_data_ready_for_processing) { return 1; }
+	else { incomming_data_ready_for_processing = FALSE; }
 
 	if (received_bytes < 3) { return 1; }
 
@@ -106,6 +118,26 @@ char process_incomming_data()
 	}
 
 	return 0;
+}
+
+
+
+void Transmit_Data_If_Available()
+{
+	if (personal_out_buffer_ready_to_write && can_load_new_packet_into_output_buffer)
+	{
+		// enqueue personal buffer onto output buffer
+	}
+
+	// Check for data in buffer AND empty transmit buffer	
+	if ( (output_buff.count != 0) && (UCSR0A & (1<<UDRE0) ) )
+	{
+		unsigned char data = 0;
+		if(Dequeue_Value(&output_buff, &data) == FAILURE) { return; }
+
+		// Put data into buffer, this sends the data
+		UDR0 = data;
+	}
 }
 
 
@@ -148,16 +180,17 @@ ISR(USART_RX_vect)
 				++received_bytes;
 
 				// Reset the recieveing data flag
-				receiving_data = false;
+				receiving_data = FALSE;
 
 				// Set the ready flag	
-				communication_ready_flag = true;
+				incomming_data_ready_for_processing = TRUE;
 
 
 			}
 			else // Pass the byte along
 			{
-				// TODO: send the byte to the output buffer
+				Enqueue_Value(&output_buff, data);
+				can_load_new_packet_into_output_buffer = TRUE;
 			}
 		}
 		else // Header byte
@@ -166,12 +199,12 @@ ISR(USART_RX_vect)
 			if ((address == my_address) || (address == 0)) // Node needs to save this data
 			{
 				// TODO: we need to talk about what happens if we get another packet before we handle the first one. 
-				communication_ready_flag = false;
+				incomming_data_ready_for_processing = FALSE;
 
 
 				// reset the received byte count and set receiving data flag
 				received_bytes = 0;
-				receiving_data = true;
+				receiving_data = TRUE;
 
 				// Add byte to the buffer
 				receive_buffer[received_bytes] = data;
@@ -179,7 +212,8 @@ ISR(USART_RX_vect)
 			}
 			else // pass the header through 
 			{
-				// TODO: send header to output
+				can_load_new_packet_into_output_buffer = FALSE;
+				Enqueue_Value(&output_buff, data);
 			}
 		}
 	}
@@ -190,9 +224,9 @@ ISR(USART_RX_vect)
 			receive_buffer[received_bytes] = data;
 			++received_bytes;
 		}
-		else //
+		else // Pass the data to the output
 		{
-			// TODO: send header to output
+			Enqueue_Value(&output_buff, data);
 		}
 	}
 }
