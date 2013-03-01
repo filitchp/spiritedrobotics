@@ -17,8 +17,7 @@
 	  "key" : "LIMEJUICE",
 	  "name" : "Lime Juice",
 	  "amount" : "1"
-	},
-	{
+	}
   ],
   "description" : "It's Canadian!",
   "imagePath" : "assets/img/drinks/ryeandginger.jpeg"
