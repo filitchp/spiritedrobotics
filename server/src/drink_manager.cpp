@@ -262,7 +262,7 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
 //
 //    cout << "Got " << bytesRead << " bytes" << endl;
 
-    //readData(2000);
+    readData(2000);
   }
   else
   {
@@ -285,13 +285,17 @@ int DrinkManager::readData(long msTimeout)
 
     ssize_t bytesRead = read(mFd, buffer, 255);
 
-    if (bytesRead)
-    {
+    
+    if (bytesRead == -1){
+      cout << strerror(errno) << endl;
+    }else if (bytesRead){
       cout << "Got " << bytesRead << " bytes" << endl;
       for (int i = 0; i < bytesRead; ++i)  // for all chars in string
       {
         printf("Got: %X \n", buffer[i]);
       }
+    }else{
+        cout << "Got " << bytesRead << " bytes" << endl;
     }
 
     // Sleep 100 ms
