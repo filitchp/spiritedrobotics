@@ -55,6 +55,13 @@ class DrinkManager
 
     void readSystemConfiguration(std::string systemConfigurationPath);
     void readAllDrinks(std::string systemConfigurationPath);
+    void createAvailableDrinkList();
+
+    std::vector<unsigned char> constructTowerMessage(
+          unsigned char towerId,
+          unsigned char command,
+          float amount,
+          float flowRate);
 
 };
 

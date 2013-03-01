@@ -1,0 +1,19 @@
+{
+  "key" : "MANHATTAN",
+  "name" : "Manhattan",
+  "ingredients" :
+  [
+    {
+      "key" : "WHISKEY",
+      "name" : "Whiskey",
+      "amount" : "5"
+    },
+    {
+      "key" : "VERMOUTH",
+      "name" : "Vermouth",
+      "amount" : "2"
+    }
+  ],
+  "description" : "The Manhattan is subject to considerable variation and innovation, and is often a way for the best bartenders to show off their creativity.",
+  "imagePath" : "assets/img/drinks/manhattan.jpeg"
+}

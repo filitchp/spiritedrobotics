@@ -30,7 +30,7 @@ $(function()
                 },
                 success: function(res){
                     if (res.result == true){
-                        alert("Success!");
+                      console.log(res.toString());
                     }else{
                         alert("ERR");
                     }

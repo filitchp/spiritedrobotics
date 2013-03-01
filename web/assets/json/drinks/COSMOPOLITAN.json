@@ -1,0 +1,29 @@
+{
+  "key" : "COSMOPOLITAN",
+  "name" : "Cosmopolitan",
+  "ingredients" :
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "4"
+    },
+    {
+      "key" : "ORANGELIQUEUR",
+      "name" : "Orange Liqueur",
+      "amount" : "1.5"
+    },
+	{
+	  "key" : "LIMEJUICE",
+	  "name" : "Lime Juice",
+	  "amount" : "1.5"
+	},
+	{
+	  "key" : "CRANBERRYJUICE",
+	  "name" : "Cranberry Juice",
+	  "amount" : "3"
+	}
+  ],
+  "description" : "A cosmopolitan, or informally a cosmo, is a cocktail made with vodka, triple sec, cranberry juice, and freshly squeezed lime juice or sweetened lime juice.",
+  "imagePath" : "assets/img/drinks/cosmopolitan.jpeg"
+}

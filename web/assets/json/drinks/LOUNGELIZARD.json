@@ -1,0 +1,24 @@
+{
+  "key" : "LOUNGELIZARD",
+  "name" : "Lounge Lizard",
+  "ingredients" :
+  [
+    {
+      "key" : "AMARETTOLIQUEUR",
+      "name" : "Amaretto Liqueur",
+      "amount" : "1"
+    },
+    {
+      "key" : "DARKRUM",
+      "name" : "Dark Rum",
+      "amount" : "2"
+    },
+	{
+	  "key" : "COKE",
+	  "name" : "Coca-Cola",
+	  "amount" : "8"
+	}
+  ],
+  "description" : "The origin of this cocktail's name is unclear and there is only a weak link to the novel The Godfather.",
+  "imagePath" : "assets/img/drinks/loungelizard.jpeg"
+}

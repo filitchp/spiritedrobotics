@@ -6,19 +6,19 @@
     {
       "key" : "VODKA",
       "name" : "Vodka",
-      "amount" : "1.75"
-    },
-    {
-      "key" : "LIMEJUICE",
-      "name" : "Lime Juice",
-      "amount" : "0.5"
+      "amount" : "2"
     },
     {
       "key" : "GINGERBEER",
       "name" : "Ginger Beer",
-      "amount" : "3.0"
+      "amount" : "3"
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : "1"
     }
   ],
-  "description" : "Invented in 1941 by John G. Martin, this cocktail is made with vodka, ginger beer and lime. It was a popular drink during 1950s and a big hit among the Hollywood hipsters, who frequented the famous tavern on the Sunset Strip in the United States. The drink is served on the rocks poured over ice in a copper cup. The copper mugs were especially made for this drink and marketed around the country. At that time Vodka was a big craze in the US which made the popularity of this drink to soar more.",
-  "imagePath" : "assets/img/drinks/moscowmule.png"
+  "description" : "A Moscow Mule is a buck or mule cocktail made with vodka, ginger beer and lime which was popular during the vodka craze in the United States during the 1950s. The name refers to the popular perception of vodka as a Russian product.",
+  "imagePath" : "assets/img/drinks/moscowmule.jpeg"
 }

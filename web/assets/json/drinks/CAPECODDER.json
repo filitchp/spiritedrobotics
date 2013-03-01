@@ -1,0 +1,26 @@
+{
+  "key" : "CAPECODDER",
+  "name" : "Cape Codder",
+  "ingredients" :
+  [
+	{
+		"key" : "VODKA",
+		"name" : "Vodka",
+		"amount" : "1.25"
+	},
+	{
+		"key" : "CRANBERRYJUICE",
+		"name" : "Cranberry Juice",
+		"amount" : "4.5"
+	},
+	{
+		"key" : "LIMEJUICE",
+		"name" : "Lime Juice",
+		"amount" : "0.25"
+	}
+  ],
+  "description" : "This drink was conceived in 1945 by the Ocean Spray cranberry grower's cooperative under the name \"Red Devil\".",
+  "imagePath" : "assets/img/drinks/capecodder.jpeg"
+}
+  
+	
