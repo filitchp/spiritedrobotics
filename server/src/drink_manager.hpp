@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <termios.h>  // POSIX terminal control definitions
 
 #include "models/barbot.hpp"
 #include "models/drink.hpp"
@@ -37,6 +38,7 @@ class DrinkManager
 
     // Serial port file descriptor
     int mFd;
+    struct termios mOriginalOptions;
 
     // System configuration
     BarBot* mpBarbot;
