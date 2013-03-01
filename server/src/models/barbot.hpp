@@ -23,6 +23,7 @@ class BarBot
     const Tower& getTowerById(unsigned int) const;
     const Tower& getTowerByIngredientKey(const std::string& ingredientKey) const;
     bool isTowerIdValid(unsigned char id) const;
+    bool hasTowerWithIngredient(const std::string& ingredientKey) const;
 
   private:
 

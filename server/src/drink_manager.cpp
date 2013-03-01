@@ -1,6 +1,7 @@
 #include "drink_manager.hpp"
 
 #include <iostream>
+#include <fstream>
 #include <ostream>
 #include <sstream>
 #include <string>
@@ -41,6 +42,7 @@ DrinkManager::DrinkManager(const string& rootPath)
   drinksPath << rootPath << "/assets/json/drinks";
 
   readAllDrinks(drinksPath.str());
+  createAvailableDrinkList();
 
   // DEBUG
   //outputDrinkList(cout, 0);
@@ -79,8 +81,16 @@ DrinkManager::DrinkManager(const string& rootPath)
   // B57600   57,600 baud
   // B76800   76,800 baud
   // B115200 115,200 baud
-  cfsetispeed(&newOptions, B57600);
-  cfsetospeed(&newOptions, B57600);
+
+  if (cfsetispeed(&newOptions, B9600) == -1)
+  {
+    cerr << "ERROR: Could not set the input speed" << endl;
+  }
+
+  if (cfsetospeed(&newOptions, B9600) == -1)
+  {
+    cerr << "ERROR: Could not set the output speed" << endl;
+  }
 
   //--------------------
   // Control mode flags
@@ -120,8 +130,10 @@ DrinkManager::DrinkManager(const string& rootPath)
   newOptions.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
 
   // Set the new options for the port...
-  tcsetattr(mFd, TCSAFLUSH, &newOptions);
-
+  if (tcsetattr(mFd, TCSAFLUSH, &newOptions) == -1)
+  {
+    cerr << "ERROR: Could not set the options for the serial port" << endl;
+  }
 }
 
 //------------------------------------------------------------------------------
@@ -159,6 +171,30 @@ void DrinkManager::readSystemConfiguration(string systemConfigurationPath)
 
   // Create the system configuration object
   mpBarbot = new BarBot(pt);
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::createAvailableDrinkList()
+{
+	//cout<<"^&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&Building valid drinks"<<endl;
+
+	 BOOST_FOREACH(const Drink& drink, mAllDrinks){
+
+	    bool valid=true;
+	    BOOST_FOREACH(const Ingredient& ing, drink.getIngredients()){
+	    	if(!mpBarbot->hasTowerWithIngredient(ing.getKey())){
+	    		valid=false;
+	    		//cout<<"This ingredient Doesn't exist!! "<<ing.getKey()<<" for "<<drink.getName()<<endl;
+	    	}
+
+	    }
+	    if(valid){
+	    	//cout<<"This Drink is valid "<<drink.getName()<<endl;
+	    	mValidDrinks.push_back(drink);
+	    }
+	  }
+
 }
 
 //------------------------------------------------------------------------------
@@ -300,7 +336,7 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
   {
     cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
 
-    readData(2000);
+    readData(30000);
   }
   else
   {
@@ -372,9 +408,18 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
   Order theOrderToMake = it->second;
 
 
+  //cout<<"***************************************************************"<<endl;
+  ofstream drinkRecord;
+  const char* file = ("records/"+it->first+".json").c_str();
+  drinkRecord.open(file);
+  it->second.output(drinkRecord,0);
+  drinkRecord.close();
+
   mApprovedOrders.insert(pair<string, Order>(it->first, it->second));
 
+
   mPendingOrders.erase(it);
+
 
   return true;
 
@@ -537,12 +582,12 @@ void DrinkManager::outputDrinkList(ostream& s, unsigned indent)
   s << p << "["  << endl;
 
   unsigned count = 0;
-  BOOST_FOREACH(const Drink& d, mAllDrinks)
+  BOOST_FOREACH(const Drink& d, mValidDrinks)
   {
     d.output(s, indent + 4);
 
     count++;
-    if (count != mAllDrinks.size())
+    if (count != mValidDrinks.size())
     {
       s << "," << endl;
     }

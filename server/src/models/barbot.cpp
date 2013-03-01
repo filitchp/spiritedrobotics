@@ -120,5 +120,19 @@ bool BarBot::isTowerIdValid(unsigned char id) const
   }
   return false;
 }
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+bool BarBot::hasTowerWithIngredient(const std::string& ingredientKey) const
+{
+  BOOST_FOREACH(const Tower& t, mTowers)
+  {
+	  if (t.getIngredientKey() == ingredientKey)
+	      {
+	        return true;
+	      }
+  }
+  return false;
+}
 
 

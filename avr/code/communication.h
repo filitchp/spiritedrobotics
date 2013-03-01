@@ -6,8 +6,10 @@
  **************************************************/
 void initialize_communication();
 void set_my_address(unsigned char address);
-char ready_to_process_incomming_data();
-char process_incomming_data();
+bool ready_to_process_incomming_data();
+bool process_incomming_data();
+
+void Transmit_Data_If_Available();
 
 void blocking_transmit_byte(unsigned char data);
 unsigned char blocking_receive_byte();

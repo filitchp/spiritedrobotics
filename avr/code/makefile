@@ -21,8 +21,8 @@ firmware.hex: firmware.elf
 	avr-objcopy -j .text -j .data -O ihex firmware.elf firmware.hex
 
 # Firmware
-firmware.elf: tower.o led_strip.o motor_driver.o communication.o
-	$(CC) -s -mmcu=$(TARGET) $(OP) tower.o led_strip.o motor_driver.o communication.o -o firmware.elf
+firmware.elf: tower.o led_strip.o motor_driver.o communication.o circ_buff.o
+	$(CC) -s -mmcu=$(TARGET) $(OP) tower.o led_strip.o motor_driver.o communication.o circ_buff.o -o firmware.elf
 
 # Source
 tower.o: tower.c led_strip.h motor_driver.h communication.h definitions.h
@@ -39,6 +39,9 @@ motor_driver.o: motor_driver.c motor_driver.h
 
 communication.o: communication.c communication.h definitions.h
 	$(CC) -c -mmcu=$(TARGET) $(OP) communication.c
+
+circ_buff.o: circ_buff.c circ_buff.h definitions.h
+	$(CC) -c -mmcu=$(TARGET) $(OP) circ_buff.c
 
 # Clean
 clean:
