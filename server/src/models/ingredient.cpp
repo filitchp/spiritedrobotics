@@ -42,9 +42,9 @@ Ingredient::Ingredient(const ptree& pt)
   }
 
   // DEBUG
-  cout << "mName:   " << mName << endl;
-  cout << "mKey:    " << mKey << endl;
-  cout << "mAmount: " << mAmount << endl;
+//  cout << "mName:   " << mName << endl;
+//  cout << "mKey:    " << mKey << endl;
+//  cout << "mAmount: " << mAmount << endl;
 }
 
 //------------------------------------------------------------------------------
@@ -80,4 +80,14 @@ const string& Ingredient::getKey() const
 float Ingredient::getAmount() const
 {
   return mAmount;
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void Ingredient::setAmount(float amount)
+{
+  if (amount > 0)
+  {
+    mAmount = amount;
+  }
 }

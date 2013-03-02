@@ -4,14 +4,14 @@
   [
     {
       "id" : 1,
-      "key" : "RUM",
-      "name" : "Rum",
+      "key" : "DARKRUM",
+      "name" : "Dark Rum",
       "flowRate" : 15.3
     },
     {
       "id" : 2,
-      "key" : "COKE",
-      "name" : "Coke",
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
       "flowRate" : 15.3
     },
     {
@@ -28,8 +28,8 @@
     },
     {
       "id" : 5,
-      "key" : "TEQUILA",
-      "name" : "Tequila",
+      "key" : "WHISKEY",
+      "name" : "Whiskey",
       "flowRate" : 15.3
     },
     {
@@ -40,18 +40,12 @@
     },
     {
       "id" : 7,
-      "key" : "TRIPLESEC",
-      "name" : "Triple Sec",
+      "key" : "AMARETTOLIQUEUR",
+      "name" : "Amaretto",
       "flowRate" : 15.3
     },
     {
       "id" : 8,
-      "key" : "SWEETNSOUR",
-      "name" : "Sweet n Sour",
-      "flowRate" : 15.3
-    },
-    {
-      "id" : 9,
       "key" : "GINGERBEER",
       "name" : "Ginger Beer",
       "flowRate" : 15.3

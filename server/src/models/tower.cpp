@@ -50,10 +50,11 @@ Tower::Tower(const ptree& pt)
     cout << "ERROR: Could not get the flow rate" << endl;
   }
 
-  cout << "mIngredientName: " << mIngredientName << endl;
-  cout << "mIngredientKey: "  << mIngredientKey << endl;
-  cout << "mTowerId: "        << mTowerId << endl;
-  cout << "mFlowRate: "       << mFlowRate << endl;
+  // DEBUG
+  //cout << "mIngredientName: " << mIngredientName << endl;
+  //cout << "mIngredientKey: "  << mIngredientKey << endl;
+  //cout << "mTowerId: "        << mTowerId << endl;
+  //cout << "mFlowRate: "       << mFlowRate << endl;
 
 }
 

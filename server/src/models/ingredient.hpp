@@ -23,6 +23,8 @@ class Ingredient
 
     void output(std::ostream& s, unsigned indent = 0) const;
 
+    void setAmount(float amount);
+
   private:
 
     // The ingredient key
@@ -31,8 +33,9 @@ class Ingredient
     // The ingredient name
     std::string mName;
 
-    // The ingredient amount in ounces
+    // The recipe ingredient amount in ounces
     float mAmount;
+
 };
 
 #endif // INGREDIENT_HPP

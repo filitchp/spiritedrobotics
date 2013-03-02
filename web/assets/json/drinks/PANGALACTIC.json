@@ -9,8 +9,8 @@
       "amount" : "1.5"
     },
     {
-      "key" : "RUM",
-      "name" : "Rum",
+      "key" : "DARKRUM",
+      "name" : "Dark Rum",
       "amount" : "1.0"
     },
     {
@@ -19,8 +19,8 @@
       "amount" : "1.0"
     },
     {
-      "key" : "TEQUILA",
-      "name" : "Tequila",
+      "key" : "WHISKEY",
+      "name" : "Whiskey",
       "amount" : "1.0"
     },
     {

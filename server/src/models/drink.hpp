@@ -29,6 +29,8 @@ class Drink
 
     void output(std::ostream& s, unsigned indent = 0) const;
 
+    void normalizeIngredient(std::string key, float amount);
+
   private:
 
     void addIngredient(Ingredient& ingredient);

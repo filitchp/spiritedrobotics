@@ -24,6 +24,8 @@
 
 #include <boost/lexical_cast.hpp>
 
+#include "utils/table_printer.hpp"
+
 using namespace boost::filesystem;
 using boost::property_tree::ptree;
 using namespace std;
@@ -43,6 +45,11 @@ DrinkManager::DrinkManager(const string& rootPath)
 
   readAllDrinks(drinksPath.str());
   createAvailableDrinkList();
+
+  // DEBUG
+  printAllDrinkSummary();
+
+  printAllDrinkIngredients();
 
   // DEBUG
   //outputDrinkList(cout, 0);
@@ -65,12 +72,8 @@ DrinkManager::DrinkManager(const string& rootPath)
   fcntl(mFd, F_SETFL, FNDELAY);
 
   // Get the current options for the port...
+  // (and save them so we can write them back on close)
   tcgetattr(mFd, &mOriginalOptions);
-
-  printf("Input mode flags   = %X\n", mOriginalOptions.c_iflag);
-  printf("output mode flags  = %X\n", mOriginalOptions.c_oflag);
-  printf("control mode flags = %X\n", mOriginalOptions.c_cflag);
-  printf("local mode flags   = %X\n", mOriginalOptions.c_lflag);
 
   struct termios newOptions;
 
@@ -140,7 +143,6 @@ DrinkManager::DrinkManager(const string& rootPath)
 //------------------------------------------------------------------------------
 DrinkManager::~DrinkManager()
 {
-
   if (mFd > 0)
   {
     tcsetattr(mFd, TCSANOW, &mOriginalOptions);
@@ -148,14 +150,7 @@ DrinkManager::~DrinkManager()
     struct termios options;
     tcgetattr(mFd, &options);
 
-    printf("Input mode flags   = %X\n", options.c_iflag);
-    printf("output mode flags  = %X\n", options.c_oflag);
-    printf("control mode flags = %X\n", options.c_cflag);
-    printf("local mode flags   = %X\n", options.c_lflag);
-
-    while(close(mFd) != 0);
-
-    cout << "Closed mFd" << endl;
+    close(mFd);
   }
 }
 
@@ -171,6 +166,9 @@ void DrinkManager::readSystemConfiguration(string systemConfigurationPath)
 
   // Create the system configuration object
   mpBarbot = new BarBot(pt);
+
+  // DEBUG
+  mpBarbot->printTowerDebug();
 }
 
 //------------------------------------------------------------------------------
@@ -194,7 +192,7 @@ void DrinkManager::createAvailableDrinkList()
 
     if (valid)
     {
-      //cout<<"This Drink is valid "<<drink.getName()<<endl;
+      //cout << "This Drink is valid " << drink.getName() << endl;
       mValidDrinks.push_back(drink);
     }
   }
@@ -233,15 +231,182 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
   {
     path drinkPath = *it;
 
-    cout << "   " << drinkPath.filename() << '\n';
+    // DEBUG
+    //cout << "   " << drinkPath.filename() << '\n';
 
     ptree dpt;
     read_json(drinkPath.string(), dpt);
 
     Drink drink(dpt);
 
+    // All drinks are normalized to this amount in ounces
+    float allDrinkSizeOunces = 8.0f;
+
+    normalizeDrink(drink, allDrinkSizeOunces);
+
     mAllDrinks.push_back(drink);
   }
+}
+
+//------------------------------------------------------------------------------
+// This takes the original ingredient amounts and normalizes them to sum to
+// the desired total amount.
+// normalizedAmount - the new drink size in ounces
+//------------------------------------------------------------------------------
+void DrinkManager::normalizeDrink(Drink& d, float normalizedAmount)
+{
+  float totalAmount = 0;
+
+  vector<Ingredient> ingredients = d.getIngredients();
+
+  BOOST_FOREACH(const Ingredient& i, ingredients)
+  {
+    totalAmount += i.getAmount();
+  }
+
+  BOOST_FOREACH(const Ingredient& i, ingredients)
+  {
+    float percent = i.getAmount()/totalAmount;
+    float newAmount = percent*normalizedAmount;
+
+    d.normalizeIngredient(i.getKey(), newAmount);
+  }
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::printAllDrinkSummary() const
+{
+  unsigned maxKeyWidth = 0;
+  unsigned maxNameWidth = 0;
+  unsigned maxImagePathWidth = 0;
+  unsigned descriptionWidth = 10;
+
+  BOOST_FOREACH(const Drink& d, mAllDrinks)
+  {
+    if (d.getKey().size() > maxKeyWidth)
+    {
+      maxKeyWidth = d.getKey().size();
+    }
+
+    if (d.getName().size() > maxNameWidth)
+    {
+      maxNameWidth = d.getKey().size();
+    }
+
+    if (d.getImagePath().size() > maxImagePathWidth)
+    {
+      maxImagePathWidth = d.getImagePath().size();
+    }
+  }
+
+  bprinter::TablePrinter tp(&std::cout);
+
+  cout << "maxNameWidth " << maxNameWidth << endl;
+
+  tp.AddColumn("KEY", maxKeyWidth + 2);
+  tp.AddColumn("NAME", 28);
+  tp.AddColumn("INGRS", 6);
+  tp.AddColumn("IMAGE PATH", maxImagePathWidth + 2);
+  tp.AddColumn("MAKE", 4);
+
+  tp.PrintHeader();
+
+  BOOST_FOREACH(const Drink& d, mAllDrinks)
+  {
+    string canMake = "  ";
+
+    BOOST_FOREACH(const Drink& vd, mValidDrinks)
+    {
+      if (vd.getKey() == d.getKey())
+      {
+        canMake = " x ";
+        break;
+      }
+    }
+
+    tp << d.getKey() << d.getName() << d.getIngredients().size() << d.getImagePath() << canMake;
+  }
+
+  tp.PrintFooter();
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::printAllDrinkIngredients() const
+{
+  unsigned maxKeyWidth = 0;
+  unsigned maxNameWidth = 0;
+  unsigned maxImagePathWidth = 0;
+  unsigned descriptionWidth = 10;
+  unsigned maxIngredientDisplay = 0;
+  vector<string> ingredientDisplay;
+
+  BOOST_FOREACH(const Drink& d, mAllDrinks)
+  {
+    if (d.getKey().size() > maxKeyWidth)
+    {
+      maxKeyWidth = d.getKey().size();
+    }
+
+    if (d.getImagePath().size() > maxImagePathWidth)
+    {
+      maxImagePathWidth = d.getImagePath().size();
+    }
+
+    vector<Ingredient> ingredients = d.getIngredients();
+
+    stringstream ss(stringstream::out);
+    ss.precision(2);
+    BOOST_FOREACH(const Ingredient i, ingredients)
+    {
+      ss << i.getKey() << " " << i.getAmount() << "oz ";
+    }
+
+    string ingredientString = ss.str();
+
+    //cout << ingredientString << endl;
+
+    if (ingredientString.size() > maxIngredientDisplay)
+    {
+      maxIngredientDisplay = ingredientString.size();
+    }
+
+    ingredientDisplay.push_back(ingredientString);
+  }
+
+  bprinter::TablePrinter tp(&std::cout);
+
+  tp.AddColumn("KEY", maxKeyWidth + 1);
+  tp.AddColumn("INGREDIENTS", maxIngredientDisplay + 4);
+  tp.AddColumn("MAKE", 4);
+
+  tp.PrintHeader();
+
+  unsigned i = 0;
+  unsigned makeCount = 0;
+  BOOST_FOREACH(const Drink& d, mAllDrinks)
+  {
+    string canMake = "  ";
+
+    BOOST_FOREACH(const Drink& vd, mValidDrinks)
+    {
+      if (vd.getKey() == d.getKey())
+      {
+        canMake = " x ";
+        makeCount++;
+        break;
+      }
+    }
+
+    tp << d.getKey() <<  ingredientDisplay[i] << canMake;
+
+    ++i;
+  }
+
+  tp.PrintFooter();
+
+  cout << "We can make " << makeCount << " out of " << mAllDrinks.size() << " drinks" << endl;
 }
 
 //------------------------------------------------------------------------------
@@ -256,6 +421,7 @@ long millisecondDelta(struct timeval start, struct timeval end)
   long delta = (long)(((seconds) * 1000.0 + uSeconds/1000.0) + 0.5);
   return delta;
 }
+
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 vector<unsigned char> DrinkManager::constructTowerMessage(
@@ -289,10 +455,12 @@ vector<unsigned char> DrinkManager::constructTowerMessage(
 }
 
 //------------------------------------------------------------------------------
-// Header byte = 0x80 - header byte for all
-// Command type = 0x40 - Pour drink
-// Command data = amount x flowRate
-// Footer + checksum = 0xC5 (random crap)
+// For debugging and calibrating each tower
+//
+// BYTE 1 - Header = 0x80 (header byte for all)
+// BYTE 2 - Command type = 0x40 (Pour drink)
+// BYTE 3 - Command data = amount x flowRate
+// BYTE 4 - Footer + checksum
 //------------------------------------------------------------------------------
 bool DrinkManager::testTower(unsigned char towerId, float amount)
 {
@@ -359,12 +527,61 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
   else
   {
     cout << "ERROR: Could not write any bytes" << endl;
+    return false;
   }
 
   return true;
 }
 
 //------------------------------------------------------------------------------
+// For debugging and calibrating each tower
+//------------------------------------------------------------------------------
+bool DrinkManager::initTowers()
+{
+  if (mFd <= 0)
+  {
+    cerr << "ERROR: serial port is not open" << endl;
+    return false;
+  }
+
+  float flowRate = 0;
+
+  static unsigned char INIT_ADDRESS = 0x80;
+
+  unsigned char msg = INIT_ADDRESS;
+
+  ssize_t bytesWritten = write(mFd, &msg, 1);
+
+  if (bytesWritten > 0)
+  {
+    cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
+
+    readData(500);
+
+    // DEBUG - test the first four towers
+    testTower(1, 1);
+    usleep(900000);
+
+    testTower(2, 1);
+    usleep(900000);
+
+    testTower(3, 1);
+    usleep(900000);
+
+    testTower(4, 1);
+
+  }
+  else
+  {
+    cout << "ERROR: Could not write any bytes" << endl;
+    return false;
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+// Get data back from the system
 //------------------------------------------------------------------------------
 int DrinkManager::readData(long msTimeout)
 {

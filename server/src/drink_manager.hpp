@@ -32,7 +32,13 @@ class DrinkManager
     bool approveOrder(std::string drinkKey, std::string customerName, unsigned timestamp);
     bool testTower(unsigned char towerId, float amount);
 
+    void normalizeDrink(Drink& d, float normalizedAmount);
+    void printAllDrinkIngredients() const;
+
     int readData(long msTimeout);
+    void printAllDrinkSummary() const;
+
+    bool initTowers();
 
   private:
 
