@@ -99,9 +99,9 @@ void rainbow(LightStrip* strip, unsigned int counter)
 void mod_rainbow(LightStrip* strip, unsigned int counter)
 {
     LightStrip base;
-    get_base_subset(strip, base);
-    rainbow(base,counter);
-    set_top(strip, base->lights[0].red, base->lights[0].green, base->lights[0].blue);
+    get_base_subset(strip, &base);
+    rainbow(&base,counter);
+    set_top(strip, 0, 0, 0);
 }
 
 /**************************************************
@@ -110,7 +110,8 @@ void mod_rainbow(LightStrip* strip, unsigned int counter)
 
 void set_left(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
 {
-    for (i=0, i<=3, i++){
+	size_t i;
+    for (i=0; i<=3; i++){
         strip->lights[i].red = red;
         strip->lights[i].green = green;
         strip->lights[i].blue = blue;
@@ -119,7 +120,8 @@ void set_left(LightStrip* strip, unsigned char red, unsigned char green, unsigne
 
 void set_front(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
 {
-    for (i=4, i<=7, i++){
+	size_t i;
+     for (i=4; i<=7; i++){
         strip->lights[i].red = red;
         strip->lights[i].green = green;
         strip->lights[i].blue = blue;
@@ -127,41 +129,44 @@ void set_front(LightStrip* strip, unsigned char red, unsigned char green, unsign
 }
 
 void set_right(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
-{
-    for (i=8, i<=11, i++){
+ {
+	size_t i;
+    for (i=8; i<=11; i++){
         strip->lights[i].red = red;
         strip->lights[i].green = green;
         strip->lights[i].blue = blue;
-    }
+     }
 }
 
 void set_top(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
-{
-    for (i=12, i<=19, i++){
+{ 
+	size_t i;
+    for (i=12; i<=19; i++){
         strip->lights[i].red = red;
         strip->lights[i].green = green;
         strip->lights[i].blue = blue;
-    }
+     }
 }
 
 void set_base(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
 {
-    for (i=0, i<=11, i++){
+	size_t i;
+    for (i=0; i<=11; i++){
         strip->lights[i].red = red;
         strip->lights[i].green = green;
         strip->lights[i].blue = blue;
-    }
-}
+     }
+}  
 
 void get_base_subset(LightStrip* strip, LightStrip* subset)
 {
-    subset->lights = strip->lights[BASE_START];
-    subset->length = BASE_LENGTH;
-}
+    subset->lights = strip->lights;
+    subset->num_lights = 12;
+} 
 
 /**************************************************
  *		 Helper Functions		  *
- **************************************************/
+ * *************************************************/
 
 void send_next_light(Light* light)
 {

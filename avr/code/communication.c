@@ -13,19 +13,19 @@
 #define RECEIVE_BUFFER_LENGTH 16
 #define PERSONAL_OUTPUT_BUFFER_LENGTH 16
 
-static const char MASK_DATA_TYPE = 0x80;
-static const char MASK_HEADER_FOOTER = 0x40;
-static const char MASK_ADDRESS = 0x3F;
-static const char MASK_COMMAND_TYPE = 0x40;
+static const unsigned char MASK_DATA_TYPE = 0x80;
+static const unsigned char MASK_HEADER_FOOTER = 0x40;
+static const unsigned char MASK_ADDRESS = 0x3F;
+static const unsigned char MASK_COMMAND_TYPE = 0x40;
 
 
 // Packet Stuff
-static const char HEADER_ALL = 0x80;
-static const char HEADER_MASTER = 0xBF;
-static const char FOOTER  = 0xCF;
+static const unsigned char HEADER_ALL = 0x80;
+static const unsigned char HEADER_MASTER = 0xBF;
+static const unsigned char FOOTER  = 0xCF;
 
 // Error Codes
-static const char RESPONSE_OK  = 0x3F;
+static const unsigned char RESPONSE_OK  = 0x3F;
 
 
 // Commands
@@ -42,7 +42,7 @@ volatile bool incomming_data_ready_for_processing = FALSE;
 // Output buffer
 static CircBuff output_buff;
 static bool can_load_new_packet_into_output_buffer = TRUE;
-static char checksum = 0;
+static unsigned char checksum = 0;
 
 // Personal output buffer
 static unsigned char personal_output_buffer[PERSONAL_OUTPUT_BUFFER_LENGTH];

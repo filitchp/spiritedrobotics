@@ -47,7 +47,7 @@ int main (void)
 		Write_To_Led_Strip(&led_strip);
 		counter += 10;
 		_delay_ms(25);
-	/
+	
 	}
 	return SUCCESS;
 }
