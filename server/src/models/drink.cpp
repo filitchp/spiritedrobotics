@@ -197,3 +197,16 @@ vector<Ingredient> Drink::getIngredients() const
 {
   return mIngredients;
 }
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void Drink::normalizeIngredient(string key, float amount)
+{
+  BOOST_FOREACH(Ingredient& i, mIngredients)
+  {
+    if (i.getKey() == key)
+    {
+      i.setAmount(amount);
+    }
+  }
+}

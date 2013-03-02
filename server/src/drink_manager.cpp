@@ -47,7 +47,9 @@ DrinkManager::DrinkManager(const string& rootPath)
   createAvailableDrinkList();
 
   // DEBUG
-  printAllDrinks();
+  printAllDrinkSummary();
+
+  printAllDrinkIngredients();
 
   // DEBUG
   //outputDrinkList(cout, 0);
@@ -249,13 +251,40 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
 
     Drink drink(dpt);
 
+    normalizeDrink(drink, 8);
+
     mAllDrinks.push_back(drink);
   }
 }
 
 //------------------------------------------------------------------------------
+// This takes the original ingredient amounts and normalizes them to sum to
+// the desired total amount.
+// normalizedAmount - the new drink size in ounces
 //------------------------------------------------------------------------------
-void DrinkManager::printAllDrinks() const
+void DrinkManager::normalizeDrink(Drink& d, float normalizedAmount)
+{
+  float totalAmount = 0;
+
+  vector<Ingredient> ingredients = d.getIngredients();
+
+  BOOST_FOREACH(const Ingredient& i, ingredients)
+  {
+    totalAmount += i.getAmount();
+  }
+
+  BOOST_FOREACH(const Ingredient& i, ingredients)
+  {
+    float percent = i.getAmount()/totalAmount;
+    float newAmount = percent*normalizedAmount;
+
+    d.normalizeIngredient(i.getKey(), newAmount);
+  }
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::printAllDrinkSummary() const
 {
   unsigned maxKeyWidth = 0;
   unsigned maxNameWidth = 0;
@@ -306,6 +335,80 @@ void DrinkManager::printAllDrinks() const
     }
 
     tp << d.getKey() << d.getName() << d.getIngredients().size() << d.getImagePath() << canMake;
+  }
+
+  tp.PrintFooter();
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::printAllDrinkIngredients() const
+{
+  unsigned maxKeyWidth = 0;
+  unsigned maxNameWidth = 0;
+  unsigned maxImagePathWidth = 0;
+  unsigned descriptionWidth = 10;
+  unsigned maxIngredientDisplay = 0;
+  vector<string> ingredientDisplay;
+
+  BOOST_FOREACH(const Drink& d, mAllDrinks)
+  {
+    if (d.getKey().size() > maxKeyWidth)
+    {
+      maxKeyWidth = d.getKey().size();
+    }
+
+    if (d.getImagePath().size() > maxImagePathWidth)
+    {
+      maxImagePathWidth = d.getImagePath().size();
+    }
+
+    vector<Ingredient> ingredients = d.getIngredients();
+
+    stringstream ss(stringstream::out);
+    ss.precision(2);
+    BOOST_FOREACH(const Ingredient i, ingredients)
+    {
+      ss << i.getKey() << " " << i.getAmount() << "oz ";
+    }
+
+    string ingredientString = ss.str();
+
+    //cout << ingredientString << endl;
+
+    if (ingredientString.size() > maxIngredientDisplay)
+    {
+      maxIngredientDisplay = ingredientString.size();
+    }
+
+    ingredientDisplay.push_back(ingredientString);
+  }
+
+  bprinter::TablePrinter tp(&std::cout);
+
+  tp.AddColumn("KEY", maxKeyWidth + 1);
+  tp.AddColumn("INGREDIENTS", maxIngredientDisplay + 4);
+  tp.AddColumn("MAKE", 4);
+
+  tp.PrintHeader();
+
+  unsigned i = 0;
+  BOOST_FOREACH(const Drink& d, mAllDrinks)
+  {
+    string canMake = "  ";
+
+    BOOST_FOREACH(const Drink& vd, mValidDrinks)
+    {
+      if (vd.getKey() == d.getKey())
+      {
+        canMake = " x ";
+        break;
+      }
+    }
+
+    tp << d.getKey() <<  ingredientDisplay[i] << canMake;
+
+    ++i;
   }
 
   tp.PrintFooter();

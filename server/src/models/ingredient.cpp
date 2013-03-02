@@ -81,3 +81,13 @@ float Ingredient::getAmount() const
 {
   return mAmount;
 }
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void Ingredient::setAmount(float amount)
+{
+  if (amount > 0)
+  {
+    mAmount = amount;
+  }
+}
