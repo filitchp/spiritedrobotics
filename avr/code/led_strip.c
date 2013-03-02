@@ -219,9 +219,12 @@ void drain(LightStrip* strip, unsigned int counter, unsigned int total, Light mi
     }
 
 }
+
+
 /**************************************************
  *		  Color Patern Helpers	  *
  **************************************************/
+
 
 void set_left(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
 {

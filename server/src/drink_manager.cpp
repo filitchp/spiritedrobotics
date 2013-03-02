@@ -693,15 +693,15 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
 
       unsigned char msg[4];
 
-      unsigned i = 0;
+      unsigned j = 0;
       BOOST_FOREACH(unsigned char byteToSend, message)
       {
-        printf("  %d : %02X ", i, byteToSend);
+        printf("  %d : %02X ", j, byteToSend);
         cout <<  endl;
 
-        msg[i] = byteToSend;
+        msg[j] = byteToSend;
 
-        ++i;
+        ++j;
       }
 
       if (mFd > 0)
