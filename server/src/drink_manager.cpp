@@ -75,11 +75,6 @@ DrinkManager::DrinkManager(const string& rootPath)
   // (and save them so we can write them back on close)
   tcgetattr(mFd, &mOriginalOptions);
 
-  printf("Input mode flags   = %X\n", mOriginalOptions.c_iflag);
-  printf("output mode flags  = %X\n", mOriginalOptions.c_oflag);
-  printf("control mode flags = %X\n", mOriginalOptions.c_cflag);
-  printf("local mode flags   = %X\n", mOriginalOptions.c_lflag);
-
   struct termios newOptions;
 
   // Set serial speed
@@ -148,7 +143,6 @@ DrinkManager::DrinkManager(const string& rootPath)
 //------------------------------------------------------------------------------
 DrinkManager::~DrinkManager()
 {
-
   if (mFd > 0)
   {
     tcsetattr(mFd, TCSANOW, &mOriginalOptions);
@@ -156,14 +150,7 @@ DrinkManager::~DrinkManager()
     struct termios options;
     tcgetattr(mFd, &options);
 
-    printf("Input mode flags   = %X\n", options.c_iflag);
-    printf("output mode flags  = %X\n", options.c_oflag);
-    printf("control mode flags = %X\n", options.c_cflag);
-    printf("local mode flags   = %X\n", options.c_lflag);
-
-    while(close(mFd) != 0);
-
-    cout << "Closed mFd" << endl;
+    close(mFd);
   }
 }
 
@@ -180,6 +167,7 @@ void DrinkManager::readSystemConfiguration(string systemConfigurationPath)
   // Create the system configuration object
   mpBarbot = new BarBot(pt);
 
+  // DEBUG
   mpBarbot->printTowerDebug();
 }
 
@@ -251,7 +239,10 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
 
     Drink drink(dpt);
 
-    normalizeDrink(drink, 8);
+    // All drinks are normalized to this amount in ounces
+    float allDrinkSizeOunces = 8.0f;
+
+    normalizeDrink(drink, allDrinkSizeOunces);
 
     mAllDrinks.push_back(drink);
   }
@@ -393,6 +384,7 @@ void DrinkManager::printAllDrinkIngredients() const
   tp.PrintHeader();
 
   unsigned i = 0;
+  unsigned makeCount = 0;
   BOOST_FOREACH(const Drink& d, mAllDrinks)
   {
     string canMake = "  ";
@@ -402,6 +394,7 @@ void DrinkManager::printAllDrinkIngredients() const
       if (vd.getKey() == d.getKey())
       {
         canMake = " x ";
+        makeCount++;
         break;
       }
     }
@@ -412,6 +405,8 @@ void DrinkManager::printAllDrinkIngredients() const
   }
 
   tp.PrintFooter();
+
+  cout << "We can make " << makeCount << " out of " << mAllDrinks.size() << " drinks" << endl;
 }
 
 //------------------------------------------------------------------------------
@@ -532,6 +527,54 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
   else
   {
     cout << "ERROR: Could not write any bytes" << endl;
+    return false;
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+// For debugging and calibrating each tower
+//------------------------------------------------------------------------------
+bool DrinkManager::initTowers()
+{
+  if (mFd <= 0)
+  {
+    cerr << "ERROR: serial port is not open" << endl;
+    return false;
+  }
+
+  float flowRate = 0;
+
+  static unsigned char INIT_ADDRESS = 0x80;
+
+  unsigned char msg = INIT_ADDRESS;
+
+  ssize_t bytesWritten = write(mFd, &msg, 1);
+
+  if (bytesWritten > 0)
+  {
+    cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
+
+    readData(500);
+
+    // DEBUG - test the first four towers
+    testTower(1, 1);
+    usleep(900000);
+
+    testTower(2, 1);
+    usleep(900000);
+
+    testTower(3, 1);
+    usleep(900000);
+
+    testTower(4, 1);
+
+  }
+  else
+  {
+    cout << "ERROR: Could not write any bytes" << endl;
+    return false;
   }
 
   return true;

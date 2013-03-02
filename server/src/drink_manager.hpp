@@ -38,6 +38,8 @@ class DrinkManager
     int readData(long msTimeout);
     void printAllDrinkSummary() const;
 
+    bool initTowers();
+
   private:
 
     // Serial port file descriptor

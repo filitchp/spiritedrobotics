@@ -42,6 +42,7 @@ class request_handler : private boost::noncopyable
     static bool url_decode(const std::string& in, std::string& out);
     void handle_file_request(std::string& request_path, const request& req, reply& rep);
 
+    void handleInitRoutineRequest(reply& rep);
     void handleDrinkListRequest(reply& rep);
     void handlePendingOrdersRequest(reply& rep);
     void handleApprovedOrdersRequest(reply& rep);
