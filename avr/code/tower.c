@@ -37,17 +37,17 @@ int main (void)
 	unsigned int counter = 0;
 	for (;;)
 	{
-		if(Process_Incomming_Data_If_Available() == FAILURE)
-		{
-			PORTB &= ~(1<<0);
-		}
-		Transmit_Data_If_Available();
-		/*
-		rainbow(&led_strip, counter);
+//		if(Process_Incomming_Data_If_Available() == FAILURE)
+//		{
+//			PORTB &= ~(1<<0);
+//		}
+//		Transmit_Data_If_Available();
+		
+		mod_rainbow(&led_strip, counter);
 		Write_To_Led_Strip(&led_strip);
 		counter += 10;
 		_delay_ms(25);
-		*/
+	/
 	}
 	return SUCCESS;
 }

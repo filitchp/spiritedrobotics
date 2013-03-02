@@ -16,4 +16,5 @@
   ],
   "description" : "Vodka Martini, shaken not stirred. --James Bond",
   "imagePath" : "assets/img/drinks/vodkamartini.jpeg"
+  "type" : "Lowball"
 }

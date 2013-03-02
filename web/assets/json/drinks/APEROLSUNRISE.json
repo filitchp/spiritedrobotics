@@ -19,6 +19,7 @@
 	  "amount" : "1"
 	}
   ],
-  "description" : "Variation: The Tequila Sunrise was originally served at the Arizona Biltmore Hotel, where it was created by Gene Sulit in the 1930s or 1940s, the cocktail is named for the way it looks after it has been poured into a glass.",
+  "description" : "Variation. The Tequila Sunrise was originally served at the Arizona Biltmore Hotel, where it was created by Gene Sulit in the 1930s or 1940s, the cocktail is named for the way it looks after it has been poured into a glass.",
   "imagePath" : "assets/img/drinks/tequilasunrise.jpeg"
+  "type" : "Highball"
 }

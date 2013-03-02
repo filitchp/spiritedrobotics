@@ -4,8 +4,8 @@
   "ingredients" :
   [
     {
-      "key" : "RUM",
-      "name" : "Rum",
+      "key" : "LIGHTRUM",
+      "name" : "Light Rum",
       "amount" : "1"
     },
     {
@@ -14,6 +14,7 @@
       "amount" : "2"
     }
   ],
-  "description" : "Variation: The Screwdriver reportedly got its name because American petroleum engineers in Saudi Arabia secretly added vodka to small cans of orange juice and stirred the mixture with their screwdrivers.",
+  "description" : "Variation. The Screwdriver reportedly got its name because American petroleum engineers in Saudi Arabia secretly added vodka to small cans of orange juice and stirred the mixture with their screwdrivers.",
   "imagePath" : "assets/img/drinks/screwdriver.jpeg"
+  "type" : "Highball"
 }

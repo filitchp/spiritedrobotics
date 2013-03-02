@@ -19,6 +19,7 @@
       "amount" : "1"
     }
   ],
-  "description" : "\"Kamikaze\" is a Japanese word literally meaning \"divine wind\".",
+  "description" : "'Kamikaze' is a Japanese word literally meaning 'divine wind'.",
   "imagePath" : "assets/img/drinks/kamikaze.jpeg"
+  "type" : "Lowball"
 }

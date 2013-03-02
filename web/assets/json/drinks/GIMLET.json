@@ -16,4 +16,5 @@
   ],
   "description" : "Bartenders often answer requests for the gimlet with a vodka gimlet.",
   "imagePath" : "assets/img/drinks/gimlet.jpeg"
+  "type" : "Lowball"
 }

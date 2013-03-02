@@ -6,22 +6,22 @@
     {
       "key" : "GIN",
       "name" : "Gin",
-      "amount" : "1.5"
+      "amount" : "1"
     },
     {
-      "key" : "DARKRUM",
-      "name" : "Dark Rum",
-      "amount" : "1.0"
+      "key" : "RUM",
+      "name" : "Rum",
+      "amount" : "1"
     },
     {
       "key" : "VODKA",
       "name" : "Vodka",
-      "amount" : "1.0"
+      "amount" : "1"
     },
     {
       "key" : "WHISKEY",
       "name" : "Whiskey",
-      "amount" : "1.0"
+      "amount" : "1"
     },
     {
       "key" : "LIMEJUICE",
@@ -32,9 +32,15 @@
       "key" : "GINGERBEER",
       "name" : "Ginger Beer",
       "amount" : "1.5"
-    }
+    },
+	{
+	  "key" : "AMARETTOLIQUEUR",
+	  "name" : "Amaretto Liqueur",
+	  "amount" : "0.5"
+	}
   ],
   "description" : "Like having your brains smashed out by a slice of lemon wrapped around a large gold brick.",
   "imagePath" : "assets/img/drinks/pangalactic.jpg"
+  "type" : "Highball"
 }
 

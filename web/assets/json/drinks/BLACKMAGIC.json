@@ -6,19 +6,20 @@
     {
       "key" : "VODKA",
       "name" : "Vodka",
-      "amount" : "10"
+      "amount" : "5"
     },
     {
       "key" : "COFFEELIQUEUR",
       "name" : "Coffee Liquer",
-      "amount" : "4"
+      "amount" : "2"
     },
     {
       "key" : "LEMONJUICE",
       "name" : "Lemon Juice",
-      "amount" : "1"
+      "amount" : "0.5"
     }
   ],
   "description" : "The Black Magic, a sour twist on the Black Russian, can be made by adding a dash of lemon juice and a lemon twist garnish.",
   "imagePath" : "assets/img/drinks/blackrussian.jpeg"
+  "type" : "Lowball"
 }

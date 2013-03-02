@@ -14,6 +14,7 @@
       "amount" : "1"
     }
   ],
-  "description" : "A Brave Bull is made by mixing tequila and coffee liqueur.",
+  "description" : "A Brave Bull is made by mixing tequila and coffee liqueur. You need to be brave to try this drink.",
   "imagePath" : "assets/img/drinks/bravebull.jpeg"
+  "type" : "Lowball"
 }
