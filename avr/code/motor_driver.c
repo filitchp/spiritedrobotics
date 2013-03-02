@@ -2,8 +2,11 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+#include "definitions.h"
 #include "motor_driver.h"
 #include "led_strip.h"
+
+volatile bool reversing = FALSE;
 
 //This initializes timer 0 (8 bits) to phase correct PWM
 void Init_PWM()
@@ -26,6 +29,9 @@ void Init_PWM()
     // Disable both PWM outputs
     TCCR0A &= ~( (1<<COM0A0) | (1<<COM0A1) );
     TCCR0A &= ~( (1<<COM0B0) | (1<<COM0B1) );
+
+	// for towers to prevent spilling
+	reversing = FALSE;
 }
 
 void Init_Motor1()
@@ -53,29 +59,29 @@ void Set_Motor1_Velocity(int velocity)
 
     // Max velocity is 255, we are going to limit it to 254
     if(velocity > 254)
-	velocity = 254;
+		velocity = 254;
     else if (velocity < -254)
-	velocity = -254;
+		velocity = -254;
 
-    if(velocity >= 0)
-    {
-	// Set the data direction bit
-	PORTD |= (1<<PD4);
+	if(velocity >= 0)
+	{
+		// Set the data direction bit
+		PORTD |= (1<<PD4);
 
-	// Set the velocity
-	OCR0B = velocity;
-    }
-    else
-    {
-	//set the data direction bit
-	PORTD &= ~(1<<PD4);
+		// Set the velocity
+		OCR0B = velocity;
+	}
+	else
+	{
+		//set the data direction bit
+		PORTD &= ~(1<<PD4);
 
-	// Make the velocity positive
-	velocity = -velocity;
+		// Make the velocity positive
+		velocity = -velocity;
 
-	// Set the velocity
-	OCR0B = velocity;
-    }
+		// Set the velocity
+		OCR0B = velocity;
+	}
 }
 
 void Set_Motor2_Velocity(int velocity)
@@ -137,13 +143,24 @@ void Blocking_Wait_For_Motor_Timer_Complete()
 	TIFR1 |= (1<<TOV1);
 }
 
+
 ISR (TIMER1_OVF_vect)
 {
-	// Turn off the clock 
-	TCCR1B &= ~((1<<CS12) | (1<<CS11) | (1<<CS10));
-	Set_Motor1_Velocity(0);
-	PORTB |= (1<<2);
-    led_strip_standby();
+	if (reversing == TRUE)
+	{
+		// Turn off the clock 
+		TCCR1B &= ~((1<<CS12) | (1<<CS11) | (1<<CS10));
+		Set_Motor1_Velocity(0);
+		PORTB |= (1<<2);
+		led_strip_standby();
+		reversing = FALSE;
+	}
+	else
+	{
+		Set_Motor1_Velocity(-200);
+		Start_Motor_Timer(0x0200);
+		reversing = TRUE;
+	}
 }
 
 

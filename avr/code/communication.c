@@ -112,7 +112,7 @@ char Process_Incomming_Data_If_Available()
 				return FAILURE;
 
 			Send_Response_Byte(receive_buffer[2]);
-			Set_Motor1_Velocity(200);
+			Set_Motor1_Velocity(160); //160
 
 			PORTB &= ~(1<<2);
             

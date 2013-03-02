@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <avr/io.h>
-#include <avr/delay.h>
-
 #include "definitions.h"
+#include <util/delay.h>
+
 #include "led_strip.h"
 
 
