@@ -18,6 +18,7 @@ void Set_Personal_Out_Buffer_Ready_To_Write();
 void Load_Personal_Out_Buffer_Into_Transmit_Buffer_If_Ready();
 
 void Send_Response_Byte(unsigned char data);
+void Send_Response_Bytes2(unsigned char data1, unsigned char data2);
 
 #endif
 
