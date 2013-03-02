@@ -1,0 +1,25 @@
+{
+  "key" : "CUBALIBREWITHLIGHTRUM",
+  "name" : "Cuba Libre (sub. light rum)",
+  "ingredients" :
+  [
+    {
+      "key" : "LIGHTRUM",
+      "name" : "Light Rum",
+      "amount" : "4"
+    },
+    {
+      "key" : "COKE",
+      "name" : "Coca-Cola",
+      "amount" : "8"
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : "1"
+    }
+  ],
+  "description" : "Variation. Along with the Mojito and the Daiquiri, the Cuba Libre shares the mystery of its exact origin. The only certainty is that this cocktail was first sipped in Cuba. The year? 1900. 1900 is generally said to be the year that cola first came to Cuba, introduced to the island by American troops. But 'Cuba Libre!' was the battle cry of the Cuba Liberation Army during the war of independence that ended in 1898.",
+  "imagePath" : "assets/img/drinks/rumandcoke.jpg",
+  "type" : "Highball"
+}

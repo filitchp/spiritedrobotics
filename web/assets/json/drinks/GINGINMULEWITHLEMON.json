@@ -1,0 +1,25 @@
+{
+  "key" : "GINGINMULEWITHLEMON",
+  "name" : "Gin-Gin Mule (sub. lemon)",
+  "ingredients" :
+  [
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "2"
+    },
+    {
+      "key" : "GINGERBEER",
+      "name" : "Ginger Beer",
+      "amount" : "3"
+    },
+	{
+	  "key" : "LEMONJUICE",
+	  "name" : "Lemon Juice",
+	  "amount" : "1"
+	}
+  ],
+  "description" : "Buck, and also mule, are slightly antiquated names for a family of historic mixed drinks that involve ginger ale or ginger beer, citrus juice, and any of a number of base liquors.",
+  "imagePath" : "assets/img/drinks/ginginmule.jpg",
+  "type" : "Lowball"
+}

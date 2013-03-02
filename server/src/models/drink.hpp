@@ -8,6 +8,13 @@
 
 #include "models/ingredient.hpp"
 
+enum
+{
+  DrinkTypeShot = 0,
+  DrinkTypeLowBall = 1,
+  DrinkTypeHighBall = 2
+};
+
 //------------------------------------------------------------------------------
 // Describes the recipe for a drink
 //------------------------------------------------------------------------------
@@ -26,6 +33,8 @@ class Drink
     const std::string& getDescription() const;
 
     const std::string& getImagePath() const;
+
+    const unsigned getType() const;
 
     void output(std::ostream& s, unsigned indent = 0) const;
 
@@ -46,6 +55,9 @@ class Drink
 
     // Drink image path
     std::string mImagePath;
+
+    // Helps determine how to normalize the drink
+    int mType;
 
     // The ingredient in the drink
     std::vector<Ingredient> mIngredients;

@@ -35,6 +35,6 @@
     }
   ],
   "description" : "The Long Beach iced tea is a delightful variation of the Long Island iced tea.",
-  "imagePath" : "assets/img/drinks/longbeachicedtea.jpg"
+  "imagePath" : "assets/img/drinks/longbeachicedtea.jpg",
   "type" : "Highball"
 }

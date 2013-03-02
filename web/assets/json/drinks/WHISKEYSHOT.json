@@ -1,0 +1,15 @@
+{
+  "key" : "WHISKEYSHOT",
+  "name" : "Whiskey",
+  "ingredients" :
+  [
+    {
+      "key" : "WHISKEY",
+      "name" : "Whiskey",
+      "amount" : "1"
+    }
+  ],
+  "description" : "Whiskey, neat.",
+  "imagePath" : "assets/img/drinks/whiskeyshot.jpg",
+  "type" : "Shot"
+}

@@ -1,0 +1,20 @@
+{
+  "key" : "CUBANSCREWWITHDARKRUM",
+  "name" : "Cuban Screw (sub. dark rum)",
+  "ingredients" :
+  [
+    {
+      "key" : "DARKRUM",
+      "name" : "Dark Rum",
+      "amount" : "1"
+    },
+    {
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
+      "amount" : "2"
+    }
+  ],
+  "description" : "Variation. The Screwdriver reportedly got its name because American petroleum engineers in Saudi Arabia secretly added vodka to small cans of orange juice and stirred the mixture with their screwdrivers.",
+  "imagePath" : "assets/img/drinks/screwdriver.jpg",
+  "type" : "Highball"
+}

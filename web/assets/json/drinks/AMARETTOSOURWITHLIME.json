@@ -1,0 +1,20 @@
+{
+  "key" : "AMARETTOSOURWITHLIME",
+  "name" : "Amaretto Sour (sub. lime)",
+  "ingredients" :
+  [
+    {
+      "key" : "AMARETTOLIQUEUR",
+      "name" : "Amaretto Liqueur",
+      "amount" : "2"
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : "1"
+    }
+  ],
+  "description" : "Smooth, sweet taste with a kick.",
+  "imagePath" : "assets/img/drinks/amarettosour.jpg",
+  "type" : "Lowball"
+}

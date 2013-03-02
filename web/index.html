@@ -1,129 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Santa Barbot</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Santa Barbot drink menu">
-  <meta name="author" content="Spirited Robotics">
+  <head>
+    <meta charset="utf-8">
+    <title>Santa Barbot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Santa Barbot drink menu">
+    <meta name="author" content="Spirited Robotics">
 
-  <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
-  <link href="assets/css/bootswatch.main.css" rel="stylesheet">
-  <link href="assets/css/bootstrap-responsive.min.css" rel="stylesheet">
-  <link href="assets/css/bootswatch.css" rel="stylesheet">
-  <link href="assets/css/barbot.css" rel="stylesheet">
-
-</head>
-
-<body class="preview" data-spy="scroll" data-target=".subnav" data-offset="80">
-
-  <!-- Navbar  -->
-  <div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
-        <a class="brand" href="/">Santa Barbot Menu</a>
-        <div class="nav-collapse" id="main-menu">
-          <ul class="nav" id="main-menu-left">
-            <li><a href="#">Vodka-based</a></li>
-            <li><a href="#">Gin-based</a></li>
-            <li><a href="#">Whiskey-based</a></li>
+    <link href="assets/css/bootswatch.main.css" rel="stylesheet">
+    <link href="assets/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="assets/css/bootstrap-modal.css" rel="stylesheet">
+    <link href="assets/css/bootswatch.css" rel="stylesheet">
+    <link href="assets/css/barbot.css" rel="stylesheet">
+    
+    <script type="text/template" id="drink_template">
+    <section id="<%= key %>">
+    <div style="line-height: 30px">
+      <span class="drinktitle click-to-modal"><%= name %></span>
+    </div>
+    <hr class="drinkbreak">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="imageframe">
+            <div class="imageframeinner">
+              <img class="drinkimage" src="<%= imagePath %>">
+            </div>
+          </div>
+        </div>
+        <div class="span9">
+          <div class="drinksubtitle">Description</div>
+            <div class="descriptiontext">
+              <%= description %>
+            </div>
+          </div> 
+        </div>
+      </div>
+      <div class="row" style="padding-top:24px">
+        <div class="span3">
+          <div class="buttonframe">
+            <div class="buttonframeinner">
+              <a class="btn btn-large btn-success btn-drink-make click-to-modal" href="#<%= key %>">MAKE IT!</a>
+            </div>
+          </div>
+        </div>
+        <div class="span9">
+          <span class="ingredientssubtitle">Ingredients</span>
+          <ul class="ingredients">
+            <%= ingredients %>
           </ul>
         </div>
       </div>
     </div>
-  </div>
-  <div class="container">
+    </section>
+    </script>
+    <script type="text/template" id="modal_template"> 
+     <div class="modal hide fade" id="order_modal">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="Modal Header">Order me a <%= get("name") %>!</h3>
+    </div>
+    <div class="modal-body center">
+        <div class="row">
+        <div class="span4 offset1">
+            <p>WHAT IS YOUR DESIGNATION?</p>
+            <input type="text" id="customer"></input>
+            <p><%= FlavorQuestions[Math.floor(Math.random()*FlavorQuestions.length)] %></p>
+            <input type="text" id="flavor"></input>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn btn-primary click-to-order">Order</a>
+      <a href="#" class="btn close" data-dismiss="modal">Forget it</a>
+    </div>
+    </div>
+    </script>
+    <script type="text/template" id="ingredient_template">
+        <li class="span3">
+            <table class="ingredientstable">
+              <tr>
+                <td width="15%" class="ingrval"><%= amount %></td>
+                <td width="5%"> | </td> 
+                <td width="80" class="ingrname"><%= name %></td>  
+              </tr>
+            </table>
+        </li>
+    </script>
 
-  <!-- Masthead
-  ================================================== -->
-  <header class="jumbotron subhead" id="overview">
-    <div class="row">
-      <div class="span6">
-        <h2>Vodka-based drinks:</h2>
-  <!--      <p class="lead">Please select a drink:</p>-->
-      </div>
-    </div>
-    <div class="subnav">
-      <ul class="nav nav-pills">
-        <li><a href="#moscowmule">Moscow Mule</a></li>
-        <li><a href="#longisland">Long Island</a></li>
-        <li><a href="#bluelagoon">Blue Lagoon</a></li>
-        <li><a href="#caesar">Caesar</a></li>
-        <li><a href="#bloodymary">Bloody Mary</a></li>
-        <li><a href="#blackrussian">Black Russian</a></li>
-        <li><a href="#screwdriver">Screw Driver</a></li>
-        <li><a href="#cosmo">Cosmo</a></li>
-      </ul>
-    </div>
-  </header>
+    <script type="text/template" id="topbar_template">
+      <li><a href="#<%= get("key") %>"><%= get("name") %></a></li>
+    </script>
+  </head>
 
-  <!-- Typography
-  ================================================== -->
-  <section id="moscowmule">
-    <div style="line-height: 30px">
-      <span class="drinktitle">Moscow Mule</span>
-      <a class="btn btn-large btn-success btn-drink-make pull-right" href="#">MAKE IT!</a>
-    </div>
-    <hr class="drinkbreak">
-    <div class="row-fluid">
-      <div class="span5">
-        <table style="background-color: transparent;" width="100%" cellpadding="12px" cellspacing="0px">
-          <tr>
-            <td style="vertical-align: top;">
-              <img src="assets/img/drinks/moscowmule.png">
-            </td>
-            <td style="vertical-align: top;">
-              <span class="drinksubtitle">Ingredients</span>
-              <ul class="ingredients">
-                <li><span class="btn btn-info"><span class="ingrval">3.0 oz</span> | <span class="ingrname">vodka</span></span></li>
-                <li><span class="btn btn-info"><span class="ingrval">0.5 oz</span> | <span class="ingrname">lime juice</span></span></li>
-                <li><span class="btn btn-info"><span class="ingrval">3.5 oz</span> | <span class="ingrname">ginger beer</span></span></li>
-              </ul>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="span7" style="padding: 12px">
-        <div class="drinksubtitle">Description</div>
-        <div class="descriptiontext">
-          Invented in 1941 by John G. Martin, this cocktail is made with vodka, ginger beer and lime. It was a popular drink during 1950s and a big hit among the Hollywood hipsters, who frequented the famous tavern on the Sunset Strip in the United States. The drink is served on the rocks poured over ice in a copper cup. The copper mugs were especially made for this drink and marketed around the country. At that time Vodka was a big craze in the US which made the popularity of this drink to soar more. 
+  <body class="preview" data-spy="scroll" data-target=".subnav" data-offset="80">
+
+    <!-- Navbar  -->
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">Santa Barbot Menu</a>
+          <div class="nav-collapse" id="main-menu">
+            <ul class="nav category-topbar" id="main-menu-left" >
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+    <div class="container">
 
-  <!-- Footer
-   ================================================== -->
-  <hr>
+    <!-- Masthead
+    ================================================== -->
+    <header class="jumbotron subhead" id="overview">
+      <div class="row">
+        <div class="span6">
+          <h2 class="category_title">Manly Drinks</h2>
+        </div>
+      </div>
+      <div class="subnav">
+        <ul class="nav nav-pills" id="drinks-list">
+        </ul>
+      </div>
+    </header>
 
-  <footer id="footer" class="footertext">
-    <p class="pull-right"><a href="#">Back to top</a></p>
-    Template courtesy of 
-    <a target="_blank" href="http://thomaspark.me">Thomas Park</a>.
-    Code licensed under the 
-    <a target="_blank" href="http://www.apache.org/licenses/LICENSE-2.0">Apache License v2.0</a>.<br/>
-    Based on 
-    <a target="_blank" href="http://twitter.github.com/bootstrap/">Bootstrap</a>. Hosted on 
-    <a target="_blank" href="http://pages.github.com/">GitHub</a>. Icons from 
-    <a target="_blank" href="http://glyphicons.com/">Glyphicons</a>. Web fonts from 
-    <a target="_blank" href="http://www.google.com/webfonts">Google</a>.
-  </footer>
-  </div><!-- /container -->
+    <div id="content">
+    </div>
 
-  <!-- Le javascript
-  ================================================== -->
-  <!-- Placed at the end of the document so the pages load faster -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script src="assets/js/bootstrap.min.js"></script>
-  <script src="assets/js/application.js"></script>
-  <script src="assets/js/bootswatch.js"></script>
-</body>
+    <div id="modal_container">
+    </div>
+
+    <!-- Footer
+     ================================================== -->
+    <hr>
+
+    <footer id="footer">
+      <p class="pull-right"><a href="#">Back to top</a></p>
+      Made by 
+      <a target="_blank" href="http://thomaspark.me">Thomas Park</a>. Contact him 
+      <a href="mailto:hello@thomaspark.me">hello@thomaspark.me</a>.<br/>
+      Code licensed under the 
+      <a target="_blank" href="http://www.apache.org/licenses/LICENSE-2.0">Apache License v2.0</a>.<br/>
+      Based on 
+      <a target="_blank" href="http://twitter.github.com/bootstrap/">Bootstrap</a>. Hosted on 
+      <a target="_blank" href="http://pages.github.com/">GitHub</a>. Icons from 
+      <a target="_blank" href="http://glyphicons.com/">Glyphicons</a>. Web fonts from 
+      <a target="_blank" href="http://www.google.com/webfonts">Google</a>.
+    </footer>
+    </div><!-- /container -->
+   <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/jquery-1.9.1.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/bootstrap-modalmanager.js"></script>
+    <script src="assets/js/application.js"></script>
+    <script src="assets/js/underscore-min.js"></script>
+    <script src="assets/js/backbone.js"></script>
+    <script src="assets/js/models/order.js"></script>
+    <script src="assets/js/models/drink.js"></script>
+    <script src="assets/js/models/category.js"></script>
+    <script src="assets/js/menu.js"></script>
+  </body>
 </html>

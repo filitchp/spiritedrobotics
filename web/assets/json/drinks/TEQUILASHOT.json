@@ -1,0 +1,15 @@
+{
+  "key" : "TEQUILASHOT",
+  "name" : "Tequila",
+  "ingredients" :
+  [
+    {
+      "key" : "TEQUILA",
+      "name" : "Tequila",
+      "amount" : "1"
+    }
+  ],
+  "description" : "Tequila shots. The drink of choice for the brave and for the stupid. Dare your friends!",
+  "imagePath" : "assets/img/drinks/tequilashot.jpg",
+  "type" : "Shot"
+}

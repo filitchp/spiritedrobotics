@@ -86,9 +86,14 @@ unsigned Order::getTimestamp() const
 string Order::getOrderId() const
 {
   return generateOrderId(mDrinkKey, mCustomerName, mTimestamp);
-
 }
 
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+std::vector<Ingredient> Order::getIngredients()
+{
+  return mIngredients;
+}
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------

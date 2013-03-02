@@ -1,0 +1,15 @@
+{
+  "key" : "GINSHOT",
+  "name" : "Gin",
+  "ingredients" :
+  [
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "1"
+    }
+  ],
+  "description" : "Gin, neat.",
+  "imagePath" : "assets/img/drinks/ginshot.jpg",
+  "type" : "Shot"
+}

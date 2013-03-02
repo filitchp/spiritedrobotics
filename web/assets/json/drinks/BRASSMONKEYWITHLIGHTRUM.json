@@ -1,0 +1,25 @@
+{
+  "key" : "BRASSMONKEYWITHLIGHTRUM",
+  "name" : "Brass Monkey (sub. light rum)",
+  "ingredients" :
+  [
+    {
+      "key" : "LIGHTRUM",
+      "name" : "Light Rum",
+      "amount" : "1"
+    },
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "1"
+    },
+    {
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
+      "amount" : "1"
+    }
+  ],
+  "description" : "Brass Monkey. That funky monkey. --Beastie Boys",
+  "imagePath" : "assets/img/drinks/brassmonkey.jpg",
+  "type" : "Highball"
+}
