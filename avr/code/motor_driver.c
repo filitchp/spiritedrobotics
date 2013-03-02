@@ -3,6 +3,7 @@
 #include <avr/interrupt.h>
 
 #include "motor_driver.h"
+#include "led_strip.h"
 
 //This initializes timer 0 (8 bits) to phase correct PWM
 void Init_PWM()
@@ -142,6 +143,7 @@ ISR (TIMER1_OVF_vect)
 	TCCR1B &= ~((1<<CS12) | (1<<CS11) | (1<<CS10));
 	Set_Motor1_Velocity(0);
 	PORTB |= (1<<2);
+    led_strip_standby();
 }
 
 

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <avr/io.h>
+#include <avr/delay.h>
 
 #include "definitions.h"
 #include "led_strip.h"
@@ -9,8 +10,23 @@
  *		   LED Strip API		  *
  **************************************************/
 
-void init_led_strip(LightStrip* strip, size_t length)
+LightStrip base;
+LightStrip top;
+LightStrip led_strip;
+unsigned int state_firing_time;
+unsigned int state_counter;
+unsigned int saved_counter;
+size_t state;
+#define STANDBY 0
+#define FIRING 1
+
+void init_led_strip()
 {
+    
+    LightStrip* strip = &led_strip;
+    int num_leds_on_strip = 20;
+    saved_counter = 0;
+
     if (strip == 0)
     {
        	// throw error
@@ -19,7 +35,7 @@ void init_led_strip(LightStrip* strip, size_t length)
 
     SPI_MasterInit();
 
-    strip->lights = (Light*) malloc( length * sizeof(Light));
+    strip->lights = (Light*) malloc( num_leds_on_strip * sizeof(Light));
 
     if (strip->lights == 0)
     {
@@ -28,12 +44,54 @@ void init_led_strip(LightStrip* strip, size_t length)
     }
     else
     {
-	strip->num_lights = length;
+	strip->num_lights = num_leds_on_strip;
 
 	int i;
 	for (i=0; i<strip->num_lights; ++i)
 	    set_led_color(strip, i, 0, 0, 0);
     }
+
+    Write_To_Led_Strip(strip);
+    Write_To_Led_Strip(strip);
+
+    get_base_subset(strip, &base);
+    get_top_subset(strip, &top);
+    set_top(strip, 20,20,20);
+    //TODO start timer
+}
+
+void led_strip_standby(){
+    LightStrip* strip = &led_strip;
+    set_top(strip, strip->lights[12].red / 10, strip->lights[12].green / 10, strip->lights[12].blue / 10);
+    state_counter = saved_counter;
+    state = STANDBY;
+}
+
+void led_strip_fire(unsigned int time){
+    LightStrip* strip = &led_strip;
+    saved_counter = state_counter;
+    state_counter = 0;
+    state_firing_time = (time);
+    set_top(strip, strip->lights[0].red * 10, strip->lights[0].green * 10, strip->lights[0].blue* 10);
+    set_base(strip, strip->lights[0].red * 10, strip->lights[0].green * 10, strip->lights[0].blue * 10);
+    state = FIRING;
+}
+
+void led_strip_update(){
+    state_counter += 1;
+    _delay_ms(65);
+
+    switch (state)
+    {
+        case STANDBY:
+            rainbow(&base, state_counter/3, 42);
+        break;
+        case FIRING:
+            drain(&top, state_counter, state_firing_time, (&base)->lights[0]);
+        break;
+    }
+
+    Write_To_Led_Strip(&led_strip);
 }
 
 void set_led_color(LightStrip* strip, size_t index, unsigned char red, unsigned char green, unsigned char blue)
@@ -74,21 +132,19 @@ unsigned char get_brightness(unsigned int p)
 	else
 		out = (unsigned char)0;
 
-	return out;
+	return out / 10;
 }
 
-void rainbow(LightStrip* strip, unsigned int counter)
+void rainbow(LightStrip* strip, unsigned int counter, unsigned int spread)
 {
 	const unsigned int cycle_length = 384;
     size_t num_lights = strip->num_lights;
     unsigned int c = counter % cycle_length;
 
-    unsigned int offset_per_light = cycle_length / num_lights;
-    
     size_t i;
 	for (i=0; i<num_lights; ++i)
 	{
-		unsigned int cycle_position = (((cycle_length * i) / num_lights) + c) % cycle_length;
+		unsigned int cycle_position = (((cycle_length * i * 10) / (num_lights * (spread + 1))) + c) % cycle_length;
 
 		strip->lights[i].red   = get_brightness(cycle_position); 
 		strip->lights[i].green = get_brightness((cycle_position + 128)%384); 
@@ -100,10 +156,69 @@ void mod_rainbow(LightStrip* strip, unsigned int counter)
 {
     LightStrip base;
     get_base_subset(strip, &base);
-    rainbow(&base,counter);
-    set_top(strip, 0, 0, 0);
+    
+    LightStrip top;
+    get_top_subset(strip, &top);
+    
+    rainbow(&base,counter,50);
+    fill(&top, counter, 300, (&base)->lights[0]);
 }
 
+void fill(LightStrip* strip, unsigned int counter, unsigned int total, Light mimic)
+{
+    unsigned int red = mimic.red;
+    unsigned int green = mimic.green;
+    unsigned int blue = mimic.blue;
+
+   //if(red+green+blue == 0){ red = 127; green = 127; blue = 127; }
+
+    unsigned int c = counter; //% total;
+
+    size_t i;
+
+    for (i=0; i<((c * (strip->num_lights + 1)) /total); i++){
+        strip->lights[i].red = red;
+        strip->lights[i].green = green;
+        strip->lights[i].blue = blue;
+    }
+
+    for(;i < strip->num_lights; i++){
+        strip->lights[i].red = 0;
+        strip->lights[i].green = 0;
+        strip->lights[i].blue = 0;
+    }
+
+}
+
+void drain(LightStrip* strip, unsigned int counter, unsigned int total, Light mimic)
+{
+    unsigned int red = mimic.red;
+    unsigned int green = mimic.green;
+    unsigned int blue = mimic.blue;
+
+   //if(red+green+blue == 0){ red = 127; green = 127; blue = 127; }
+    
+
+
+    unsigned int c = 0;
+    if (total >= counter) { c = total - counter; } //% total;
+
+    size_t i;
+    unsigned int num = strip->num_lights;
+
+    for (i=0; i<((c * (strip->num_lights + 1)) / total); i++){
+        strip->lights[i].red = red;
+        strip->lights[i].green = green;
+        strip->lights[i].blue = blue;
+    }
+
+    for(;i < strip->num_lights; i++){
+        strip->lights[i].red = 0;
+        strip->lights[i].green = 0;
+        strip->lights[i].blue = 0;
+    }
+
+}
 /**************************************************
  *		  Color Patern Helpers	  *
  **************************************************/
@@ -162,6 +277,12 @@ void get_base_subset(LightStrip* strip, LightStrip* subset)
 {
     subset->lights = strip->lights;
     subset->num_lights = 12;
+} 
+
+void get_top_subset(LightStrip* strip, LightStrip* subset)
+{
+    subset->lights = strip->lights+12;
+    subset->num_lights = 8;
 } 
 
 /**************************************************

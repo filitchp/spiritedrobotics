@@ -27,27 +27,20 @@ int main (void)
 
 	// Turn all of the LEDs off
 	PORTB |= ( (1<<0) | (1<<1) | (1<<2) );
-	LightStrip led_strip;
-	int num_leds_on_strip = 20;
+    
+    init_led_strip();
 
-	init_led_strip(&led_strip, num_leds_on_strip);
-	Write_To_Led_Strip(&led_strip);
-	Write_To_Led_Strip(&led_strip);
+    led_strip_standby();
 
 	unsigned int counter = 0;
 	for (;;)
 	{
-//		if(Process_Incomming_Data_If_Available() == FAILURE)
-//		{
-//			PORTB &= ~(1<<0);
-//		}
-//		Transmit_Data_If_Available();
-		
-		mod_rainbow(&led_strip, counter);
-		Write_To_Led_Strip(&led_strip);
-		counter += 10;
-		_delay_ms(25);
-	
+		if(Process_Incomming_Data_If_Available() == FAILURE)
+		{
+			PORTB &= ~(1<<0);
+		}
+		Transmit_Data_If_Available();
+	    led_strip_update();	
 	}
 	return SUCCESS;
 }

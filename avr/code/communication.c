@@ -5,6 +5,9 @@
 #include <avr/interrupt.h>
 #include "circ_buff.h"
 #include "motor_driver.h"
+#include "led_strip.h"
+
+
 
 
 
@@ -112,7 +115,11 @@ char Process_Incomming_Data_If_Available()
 			Set_Motor1_Velocity(200);
 
 			PORTB &= ~(1<<2);
-			Start_Motor_Timer(((unsigned int)receive_buffer[2])<<9);
+            
+            unsigned int time;
+			time =(((unsigned int)receive_buffer[2])<<9);
+            Start_Motor_Timer(time);
+            led_strip_fire(time >> 6);
 
 			break;
 
