@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <avr/io.h>
+#include <avr/interrupt.h>
 
 #include "motor_driver.h"
 
@@ -119,13 +120,7 @@ void Start_Motor_Timer(unsigned int time)
 	// Set the clock to be Fosc / 1024
 	TCCR1B |= ((1<<CS12) | (1<<CS10));
 	// Enable the overflow interrupt
-	//TIMSK1 |= (1<<TOIE1); 
-
-	// This need to be atomic
-	// The counter
-	//TCNT1 
-
-	//TIFR1 & (1<<TOV1);// THis is the interrupt flag. clear by writing 1
+	TIMSK1 |= (1<<TOIE1); 
 
 }
 
@@ -141,5 +136,12 @@ void Blocking_Wait_For_Motor_Timer_Complete()
 	TIFR1 |= (1<<TOV1);
 }
 
+ISR (TIMER1_OVF_vect)
+{
+	// Turn off the clock 
+	TCCR1B &= ~((1<<CS12) | (1<<CS11) | (1<<CS10));
+	Set_Motor1_Velocity(0);
+	PORTB |= (1<<2);
+}
 
 
