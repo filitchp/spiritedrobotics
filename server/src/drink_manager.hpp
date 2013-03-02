@@ -39,6 +39,7 @@ class DrinkManager
     void printAllDrinkSummary() const;
 
     bool initTowers();
+    bool sendInitMessage();
 
   private:
 

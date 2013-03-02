@@ -533,6 +533,36 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
   return true;
 }
 
+bool DrinkManager::sendInitMessage()
+{
+
+  cout << "Initializing towers..." << endl;
+  static unsigned char INIT_ADDRESS = 0x80;
+  static unsigned char INIT_COMMAND = 0x02;
+
+  unsigned char msg[4];
+  msg[0] = INIT_ADDRESS;
+  msg[1] = INIT_COMMAND;
+  msg[2] = 0x01;
+  msg[3] = 0xC0;
+
+  cout << "Init tower message: " << endl;
+  for (int i = 0; i < 4; ++i)
+  {
+    printf("%d : %2X\n", i, msg[i]);
+  }
+
+  ssize_t bytesWritten = write(mFd, msg, 4);
+
+  if (bytesWritten != 4)
+  {
+    cout << "ERROR: could not send bytes to init tower" << endl;
+    return false;
+  }
+
+  return true;
+}
+
 //------------------------------------------------------------------------------
 // For debugging and calibrating each tower
 //------------------------------------------------------------------------------
@@ -544,38 +574,14 @@ bool DrinkManager::initTowers()
     return false;
   }
 
-  float flowRate = 0;
-
-  static unsigned char INIT_ADDRESS = 0x80;
-
-  unsigned char msg = INIT_ADDRESS;
-
-  ssize_t bytesWritten = write(mFd, &msg, 1);
-
-  if (bytesWritten > 0)
+  if (!sendInitMessage())
   {
-    cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
-
-    readData(500);
-
-    // DEBUG - test the first four towers
-    testTower(1, 1);
-    usleep(900000);
-
-    testTower(2, 1);
-    usleep(900000);
-
-    testTower(3, 1);
-    usleep(900000);
-
-    testTower(4, 1);
-
-  }
-  else
-  {
-    cout << "ERROR: Could not write any bytes" << endl;
     return false;
   }
+
+  readData(500);
+
+  cout << "=====================" << endl;
 
   return true;
 }
@@ -590,6 +596,8 @@ int DrinkManager::readData(long msTimeout)
   {
     return 0;
   }
+
+
 
   struct timeval timeStart;
   gettimeofday(&timeStart, NULL);
