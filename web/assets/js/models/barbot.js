@@ -18,7 +18,8 @@ $(function()
         tagName: 'div',
         model: Barbot,
         events: {
-            'click .click-to-test' : 'test'
+            'click .click-to-test' : 'test',
+            'click .click-to-init' : 'init'
         },
         test: function(){
             $.ajax({
@@ -36,6 +37,20 @@ $(function()
                     }
                 }
             });
+        },
+        init: function(){
+             $.ajax({
+                type: "GET",
+                url: "initTowers",
+                success: function(res){
+                    if (res.result == true){
+                        console.log(res.toString());
+                    }else{
+                        alert("ERR");
+                    }
+                }
+            });
+
         },
         render: function(){
             var template = _.template($("#debug_template").html());
