@@ -27,7 +27,7 @@ $(function()
       // For each drink
       this.collection.each(function(drink)
       {
-
+        console.log("Rendering drink" + drink.toString());
         v = new DrinkView({model: drink});
         v.render();
       });

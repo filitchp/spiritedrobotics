@@ -15,37 +15,41 @@ int main (void)
 {	
 	sei(); // Enable Global Interrupts
 
+	// PWM Stuff
+	Init_PWM();
+	Init_Motor1();
+
 	// Set up the SPI
 	initialize_communication();
 
 	// Set the LED pins to output
 	DDRB |= (1<<0) | (1<<1) | (1<<2);
 
-	// Turn all of the LEDs on
-	PORTB &= ~( (1<<0) | (1<<1) | (1<<2) );
+	// Turn all of the LEDs off
+	PORTB |= ( (1<<0) | (1<<1) | (1<<2) );
+	LightStrip led_strip;
+	int num_leds_on_strip = 20;
 
-	set_my_address(1);
+	init_led_strip(&led_strip, num_leds_on_strip);
+	Write_To_Led_Strip(&led_strip);
+	Write_To_Led_Strip(&led_strip);
 
+	unsigned int counter = 0;
 	for (;;)
 	{
-
-		Start_Motor_Timer(8<<9);
-		Blocking_Wait_For_Motor_Timer_Complete();
-
-		PORTB ^= (1<<2);
-
-	// TODO: REmove this. it's for testing only
-
-/*
-
-		if (ready_to_process_incomming_data())
+		if(Process_Incomming_Data_If_Available() == FAILURE)
 		{
-			process_incomming_data();
+			PORTB &= ~(1<<0);
 		}
 		Transmit_Data_If_Available();
+		/*
+		rainbow(&led_strip, counter);
+		Write_To_Led_Strip(&led_strip);
+		counter += 10;
+		_delay_ms(25);
 		*/
 	}
-	return 0;
+	return SUCCESS;
 }
 
 /* 
