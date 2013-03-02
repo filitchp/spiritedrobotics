@@ -4,6 +4,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "circ_buff.h"
+#include "motor_driver.h"
 
 
 
@@ -12,29 +13,41 @@
 #define RECEIVE_BUFFER_LENGTH 16
 #define PERSONAL_OUTPUT_BUFFER_LENGTH 16
 
-static const char DATA_TYPE_MASK = 0x80;
-static const char HEADER_FOOTER_MASK = 0x40;
-static const char ADDRESS_MASK = 0x3F;
-static const char COMMAND_TYPE_MASK = 0x40;
-static const char COMMAND_MASK = 0x3F;
+static const char MASK_DATA_TYPE = 0x80;
+static const char MASK_HEADER_FOOTER = 0x40;
+static const char MASK_ADDRESS = 0x3F;
+static const char MASK_COMMAND_TYPE = 0x40;
 
 
-// Global Data
+// Packet Stuff
+static const char HEADER_ALL = 0x80;
+static const char HEADER_MASTER = 0xBF;
+static const char FOOTER  = 0xCF;
+
+// Error Codes
+static const char RESPONSE_OK  = 0x3F;
+
+
+// Commands
+#define COMMAND_POUR_DRINK 0x40
+#define COMMAND_REASSIGN_ADDRESS 0x02
+
+// Receiveing data
 static unsigned char my_address = 0;
-	// Receiveing data
 static unsigned char receive_buffer[RECEIVE_BUFFER_LENGTH];
 static bool	receiving_data = FALSE;
 static int received_bytes = 0;
 volatile bool incomming_data_ready_for_processing = FALSE;
 
-	// Output buffer
+// Output buffer
 static CircBuff output_buff;
 static bool can_load_new_packet_into_output_buffer = TRUE;
 static char checksum = 0;
 
-	// Personal output buffer
+// Personal output buffer
 static unsigned char personal_output_buffer[PERSONAL_OUTPUT_BUFFER_LENGTH];
 static unsigned char personal_output_buffer_bytes = 0;
+
 static bool personal_out_buffer_ready_to_write = FALSE;
 
 
@@ -50,7 +63,7 @@ void initialize_communication()
 
 	// Enable the receiver and transmitter
 	UCSR0B |= (1<<RXEN0) | (1<<TXEN0);
-	
+
 	// Enable the receiver interrupt 
 	UCSR0B |= (1<<RXCIE0);
 
@@ -81,51 +94,61 @@ bool ready_to_process_incomming_data()
 	return incomming_data_ready_for_processing; 
 }
 
-char process_incomming_data()
+char Process_Incomming_Data_If_Available()
 {
-
-	if (!incomming_data_ready_for_processing) { return 1; }
+	if (!incomming_data_ready_for_processing) { return SUCCESS; }
 	else { incomming_data_ready_for_processing = FALSE; }
 
-	if (received_bytes < 3) { return 1; }
+	if (received_bytes < 3) { return FAILURE; }
 
-	
-	if (receive_buffer[1] & COMMAND_TYPE_MASK) // Node specific commands
+
+	switch(receive_buffer[1])
 	{
-		// TODO: Remove this. debugging
-		//blocking_transmit_byte(receive_buffer[1]);
+		case COMMAND_POUR_DRINK: 
+			if (received_bytes != 4)
+				return FAILURE;
 
-		// TODO: REmove this. it's for testing only
-		PORTB |= (1<<1);
+			Send_Response_Byte(receive_buffer[2]);
+			Set_Motor1_Velocity(200);
 
-		switch((receive_buffer[1] & COMMAND_MASK))
-		{
-			case 0: // Pour drink
-				if (received_bytes != 4)
-					return 1;
+			PORTB &= ~(1<<2);
+			Start_Motor_Timer(((unsigned int)receive_buffer[2])<<9);
 
-				// TODO: REmove this. it's for testing only
-				PORTB ^= (1<<0);
+			break;
 
+		case COMMAND_REASSIGN_ADDRESS:
+			if (received_bytes != 4)
+				return FAILURE;
 
-				break;
-		}
+			PORTB &= ~(1<<1);
+			set_my_address(receive_buffer[2]);
+
+			// If addressed to command, pass the packet along with address += 1
+			if (receive_buffer[0] == HEADER_ALL)
+			{
+				Add_To_Personal_Out_Buffer(HEADER_ALL);
+				Add_To_Personal_Out_Buffer(COMMAND_REASSIGN_ADDRESS);
+				Add_To_Personal_Out_Buffer(receive_buffer[2] + 1);
+				Add_To_Personal_Out_Buffer(FOOTER);
+				Set_Personal_Out_Buffer_Ready_To_Write();
+			}
+			break;
+		default:
+			//Send_Response_Byte(receive_buffer[1]);
+			PORTB &= ~(1<<0);
+			break;
 	}
-	else // Generic Commands
-	{
-		
-	}
 
-	return 0;
+	return SUCCESS;
 }
 
 
 
 void Transmit_Data_If_Available()
 {
-	if (personal_out_buffer_ready_to_write && can_load_new_packet_into_output_buffer)
+	if (can_load_new_packet_into_output_buffer)
 	{
-		// enqueue personal buffer onto output buffer
+		Load_Personal_Out_Buffer_Into_Transmit_Buffer_If_Ready();
 	}
 
 	// Check for data in buffer AND empty transmit buffer	
@@ -168,9 +191,9 @@ ISR(USART_RX_vect)
 	// store the byte from the receive buffer 
 	unsigned char data = UDR0;
 
-	if (data & DATA_TYPE_MASK) // Control Data
+	if (data & MASK_DATA_TYPE) // Control Data
 	{
-		if (data & HEADER_FOOTER_MASK) // Footer byte
+		if (data & MASK_HEADER_FOOTER) // Footer byte
 		{
 			if (receiving_data)	// This is the end of the nodes packet. Add byte to buffer and set the "ready" flag
 			{
@@ -194,7 +217,7 @@ ISR(USART_RX_vect)
 		}
 		else // Header byte
 		{
-			char address = data & ADDRESS_MASK;
+			char address = data & MASK_ADDRESS;
 			if ((address == my_address) || (address == 0)) // Node needs to save this data
 			{
 				// TODO: we need to talk about what happens if we get another packet before we handle the first one. 
@@ -231,3 +254,38 @@ ISR(USART_RX_vect)
 }
 
 
+void Add_To_Personal_Out_Buffer(unsigned char data)
+{
+	personal_out_buffer_ready_to_write = FALSE;
+	personal_output_buffer[personal_output_buffer_bytes] = data;
+	++personal_output_buffer_bytes;
+}
+void Set_Personal_Out_Buffer_Ready_To_Write()
+{
+	personal_out_buffer_ready_to_write = TRUE;
+}
+
+
+void Load_Personal_Out_Buffer_Into_Transmit_Buffer_If_Ready()
+{
+	if(personal_out_buffer_ready_to_write == FALSE) { return; }
+
+	int i=0;
+	for (i=0; i<personal_output_buffer_bytes; ++i)
+	{
+		Enqueue_Value(&output_buff, personal_output_buffer[i]);
+	}	
+
+	personal_output_buffer_bytes = 0;
+	personal_out_buffer_ready_to_write = FALSE;
+}
+
+
+void Send_Response_Byte(unsigned char data)
+{
+	Add_To_Personal_Out_Buffer(HEADER_MASTER);
+	Add_To_Personal_Out_Buffer(data);
+	Add_To_Personal_Out_Buffer(my_address);
+	Add_To_Personal_Out_Buffer(FOOTER);
+	Set_Personal_Out_Buffer_Ready_To_Write();
+}
