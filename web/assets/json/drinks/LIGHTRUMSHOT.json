@@ -1,0 +1,15 @@
+{
+  "key" : "LIGHTRUMSHOT",
+  "name" : "Light Rum",
+  "ingredients" :
+  [
+    {
+      "key" : "LIGHTRUM",
+      "name" : "Light Rum",
+      "amount" : "1"
+    }
+  ],
+  "description" : "Fifteen men on a dead man's chest. Yo-ho-ho, and a bottle of rum!",
+  "imagePath" : "assets/img/drinks/lightrumshot.jpg",
+  "type" : "Shot"
+}

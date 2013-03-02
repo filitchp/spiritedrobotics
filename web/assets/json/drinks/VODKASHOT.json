@@ -1,0 +1,15 @@
+{
+  "key" : "VODKASHOT",
+  "name" : "Vodka",
+  "ingredients" :
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "1"
+    }
+  ],
+  "description" : "In Soviet Russia, vodka drinks you!",
+  "imagePath" : "assets/img/drinks/vodkashot.jpg",
+  "type" : "Shot"
+}

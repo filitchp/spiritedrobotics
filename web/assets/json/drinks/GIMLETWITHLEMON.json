@@ -1,0 +1,20 @@
+{
+  "key" : "GIMLETWITHLEMON",
+  "name" : "Gimlet (sub. lemon)",
+  "ingredients" :
+  [
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "4"
+    },
+    {
+      "key" : "LEMONJUICE",
+      "name" : "Lemon Juice",
+      "amount" : "1"
+    }
+  ],
+  "description" : "Bartenders often answer requests for the gimlet with a vodka gimlet.",
+  "imagePath" : "assets/img/drinks/gimlet.jpg",
+  "type" : "Lowball"
+}

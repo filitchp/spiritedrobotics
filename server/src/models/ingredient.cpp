@@ -56,7 +56,7 @@ void Ingredient::output(ostream& s, unsigned indent) const
   s << p << "{" << endl;
   s << p << "  \"key\" : \""  << mKey    << "\"," << endl;
   s << p << "  \"name\" : \"" << mName   << "\"," << endl;
-  s << p << "  \"amount\" : " << mAmount << endl;
+  s << p << "  \"amount\" : " << setprecision(3) << mAmount << endl;
   s << p << "}";
 
 }

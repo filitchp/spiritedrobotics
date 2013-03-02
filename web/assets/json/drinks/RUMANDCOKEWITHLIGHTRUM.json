@@ -1,0 +1,20 @@
+{
+  "key" : "RUMANDCOKEWITHLIGHTRUM",
+  "name" : "Rum & Coke (sub. light rum)",
+  "ingredients" :
+  [
+	{
+		"key" : "LIGHTRUM",
+		"name" : "Light Rum",
+		"amount" : "2"
+	},
+	{
+		"key" : "COKE",
+		"name" : "Coca-Cola",
+		"amount" : "4"
+	}
+  ],
+  "description" : "Rum & Coke is a 2009 album by British dub band Dub Pistols. Rum & Coke incorporates many genres, including reggae, rap, ska, dub reggae and urban music.", 
+  "imagePath" : "assets/img/drinks/rumandcoke.jpg",
+  "type" : "Highball"
+}

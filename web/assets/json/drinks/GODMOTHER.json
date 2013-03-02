@@ -15,5 +15,6 @@
     }
   ],
   "description" : "The more lady-like version of the Godfather.",
-  "imagePath" : "assets/img/drinks/godmother.jpeg"
+  "imagePath" : "assets/img/drinks/godmother.jpg",
+  "type" : "Lowball"
 }

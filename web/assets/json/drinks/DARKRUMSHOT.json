@@ -1,0 +1,15 @@
+{
+  "key" : "DARKRUMSHOT",
+  "name" : "Dark Rum",
+  "ingredients" :
+  [
+    {
+      "key" : "DARKRUM",
+      "name" : "Dark Rum",
+      "amount" : "1"
+    }
+  ],
+  "description" : "All work and no play makes Jack a dull boy.",
+  "imagePath" : "assets/img/drinks/darkrumshot.jpg",
+  "type" : "Shot"
+}

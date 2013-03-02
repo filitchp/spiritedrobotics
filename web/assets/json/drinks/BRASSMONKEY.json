@@ -20,5 +20,6 @@
     }
   ],
   "description" : "Brass Monkey. That funky monkey. --Beastie Boys",
-  "imagePath" : "assets/img/drinks/brassmonkey.png"
+  "imagePath" : "assets/img/drinks/brassmonkey.jpg",
+  "type" : "Highball"
 }

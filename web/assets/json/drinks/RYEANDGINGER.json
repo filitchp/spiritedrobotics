@@ -12,13 +12,9 @@
       "key" : "GINGERBEER",
       "name" : "Ginger Beer",
       "amount" : "3"
-    },
-	{
-	  "key" : "LIMEJUICE",
-	  "name" : "Lime Juice",
-	  "amount" : "1"
 	}
   ],
   "description" : "It's Canadian!",
-  "imagePath" : "assets/img/drinks/ryeandginger.jpeg"
+  "imagePath" : "assets/img/drinks/ryeandginger.jpg",
+  "type" : "Lowball"
 }

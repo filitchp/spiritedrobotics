@@ -1,0 +1,20 @@
+{
+  "key" : "SILVERBULLET",
+  "name" : "Silver Bullet",
+  "ingredients" :
+  [
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "2"
+    },
+	{
+	  "key" : "WHISKEY",
+	  "name" : "Scotch Whiskey",
+	  "amount" : "1"
+	}
+  ],
+  "description" : "This shot will transform anyone into a monster hunter.",
+  "imagePath" : "assets/img/drinks/darkrumshot.jpg",
+  "type" : "Shot"
+}

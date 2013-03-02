@@ -1,0 +1,25 @@
+{
+  "key" : "TOOTSIEROLL",
+  "name" : "Tootsie Roll",
+  "ingredients" :
+  [
+    {
+      "key" : "COFFEELIQUEUR",
+      "name" : "Coffee Liqueur",
+      "amount" : "1"
+    },
+	{
+	  "key" : "ORANGEJUICE",
+	  "name" : "Orange Juice",
+	  "amount" : "1"
+	},
+	{
+	  "key" : "VODKA",
+	  "name" : "Vodka",
+	  "amount" : "1"
+	}
+  ],
+  "description" : "A nostalgic treat.",
+  "imagePath" : "assets/img/drinks/tootsieroll.jpg",
+  "type" : "Shot"
+}

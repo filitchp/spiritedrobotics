@@ -1,0 +1,25 @@
+{
+  "key" : "KAMIKAZESHOT",
+  "name" : "Kamikaze",
+  "ingredients" :
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "4"
+    },
+	{
+	  "key" : "ORANGELIQUEUR",
+	  "name" : "Orange Liqueur",
+	  "amount" : "1"
+	},
+	{
+	  "key" : "LIMEJUICE",
+	  "name" : "Lime Juice",
+	  "amount" : "0.5"
+	}
+  ],
+  "description" : "The wonderful fruity flavors of the popular Kamikaze cocktail in the form of a shot. You may also hear this shot referred to as a Bullfrog.",
+  "imagePath" : "assets/img/drinks/kamikazeshot.jpg",
+  "type" : "Shot"
+}

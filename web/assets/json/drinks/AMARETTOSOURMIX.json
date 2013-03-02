@@ -1,0 +1,20 @@
+{
+  "key" : "AMARETTOSOURMIX",
+  "name" : "Amaretto Sour (sub. sweet & sour)",
+  "ingredients" :
+  [
+    {
+      "key" : "AMARETTOLIQUEUR",
+      "name" : "Amaretto Liqueur",
+      "amount" : "3"
+    },
+    {
+      "key" : "SWEETANDSOUR",
+      "name" : "Sweet & Sour Mix",
+      "amount" : "1"
+    }
+  ],
+  "description" : "Smooth, sweet taste with a kick.",
+  "imagePath" : "assets/img/drinks/amarettosour.jpg",
+  "type" : "Lowball"
+}

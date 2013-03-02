@@ -12,8 +12,9 @@
       "key" : "SWEETANDSOUR",
       "name" : "Sweet & Sour Mix",
       "amount" : "1"
-      }
+    }
   ],
   "description" : "Delicious and tart!",
-  "imagePath" : "assets/img/drinks/whiskeysour.jpg"
+  "imagePath" : "assets/img/drinks/whiskeysour.jpg",
+  "type" : "Lowball"
 }

@@ -68,10 +68,40 @@ Drink::Drink(const ptree& pt)
     return;
   }
 
+  try
+  {
+    string type = pt.get<std::string>("type");
+
+    if (type == "Shot")
+    {
+      //cout << DrinkTypeShot << endl;
+      mType = DrinkTypeShot;
+    }
+    else if (type == "Lowball")
+    {
+      //cout << DrinkTypeLowBall << endl;
+      mType = DrinkTypeLowBall;
+    }
+    else if (type == "Highball")
+    {
+      //cout << DrinkTypeHighBall << endl;
+      mType = DrinkTypeHighBall;
+    }
+    else
+    {
+      // Invalid
+      mType = -1;
+    }
+  }
+  catch (boost::exception& e)
+  {
+    cerr << "ERROR: Could not read the drink image path" << endl;
+    return;
+  }
+
   // Get the ingredients
   try
   {
-
     // For each set of ingredient properties
     BOOST_FOREACH (const ptree::value_type& node, pt.get_child("ingredients"))
     {
@@ -196,6 +226,13 @@ const string& Drink::getImagePath() const
 vector<Ingredient> Drink::getIngredients() const
 {
   return mIngredients;
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+const unsigned Drink::getType() const
+{
+  return mType;
 }
 
 //------------------------------------------------------------------------------

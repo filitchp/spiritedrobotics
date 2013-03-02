@@ -175,6 +175,7 @@ void DrinkManager::readSystemConfiguration(string systemConfigurationPath)
 //------------------------------------------------------------------------------
 void DrinkManager::createAvailableDrinkList()
 {
+  bool allRumIsTheSame = true;
 
   BOOST_FOREACH(const Drink& drink, mAllDrinks)
   {
@@ -239,10 +240,20 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
 
     Drink drink(dpt);
 
-    // All drinks are normalized to this amount in ounces
-    float allDrinkSizeOunces = 8.0f;
+    unsigned type = drink.getType();
 
-    normalizeDrink(drink, allDrinkSizeOunces);
+    if (type == DrinkTypeShot)
+    {
+      normalizeDrink(drink, 2.5);
+    }
+    else if (type == DrinkTypeLowBall)
+    {
+      normalizeDrink(drink, 5);
+    }
+    else if (type == DrinkTypeHighBall)
+    {
+      normalizeDrink(drink, 8);
+    }
 
     mAllDrinks.push_back(drink);
   }
@@ -305,9 +316,9 @@ void DrinkManager::printAllDrinkSummary() const
   cout << "maxNameWidth " << maxNameWidth << endl;
 
   tp.AddColumn("KEY", maxKeyWidth + 2);
-  tp.AddColumn("NAME", 28);
-  tp.AddColumn("INGRS", 6);
-  tp.AddColumn("IMAGE PATH", maxImagePathWidth + 2);
+  tp.AddColumn("NAME", 38);
+  tp.AddColumn("INGR", 4);
+  tp.AddColumn("TYPE", 4);
   tp.AddColumn("MAKE", 4);
 
   tp.PrintHeader();
@@ -325,7 +336,7 @@ void DrinkManager::printAllDrinkSummary() const
       }
     }
 
-    tp << d.getKey() << d.getName() << d.getIngredients().size() << d.getImagePath() << canMake;
+    tp << d.getKey() << d.getName() << d.getIngredients().size() << d.getType() << canMake;
   }
 
   tp.PrintFooter();
@@ -597,8 +608,6 @@ int DrinkManager::readData(long msTimeout)
     return 0;
   }
 
-
-
   struct timeval timeStart;
   gettimeofday(&timeStart, NULL);
   unsigned char buffer[255];
@@ -660,6 +669,65 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
   // MAKE THE DRINK HERE!
   Order theOrderToMake = it->second;
 
+  cout << "Order key = " << theOrderToMake.getDrinkKey() << endl;
+
+  vector<Ingredient> ingredients = theOrderToMake.getIngredients();
+
+  BOOST_FOREACH(const Ingredient& i, ingredients)
+  {
+    Tower t = mpBarbot->getTowerByIngredientKey(i.getKey());
+
+    unsigned towerID = t.getTowerId();
+    float flowRate = t.getFlowRate();
+    float amount = i.getAmount();
+
+    //testTower(towerID, i.getAmount());
+
+    cout << "  Ingredient key = " << i.getKey() << endl;
+    cout << "  Ingredient amt = " << setprecision(3) << i.getAmount() << endl;
+
+    static unsigned char POUR_DRINK_COMMAND = 0x40;
+
+      vector<unsigned char> message = constructTowerMessage(
+        towerID, POUR_DRINK_COMMAND, amount, flowRate);
+
+      unsigned char msg[4];
+
+      unsigned i = 0;
+      BOOST_FOREACH(unsigned char byteToSend, message)
+      {
+        printf("  %d : %02X ", i, byteToSend);
+        cout <<  endl;
+
+        msg[i] = byteToSend;
+
+        ++i;
+      }
+
+      if (mFd > 0)
+      {
+        ssize_t bytesWritten = write(mFd, msg, 4);
+
+        if (bytesWritten > 0)
+        {
+          cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
+
+          readData(500);
+        }
+        else
+        {
+          cout << "ERROR: Could not write any bytes" << endl;
+          return false;
+        }
+
+        unsigned amountToSleep = (unsigned) (amount * 1000.0f);
+
+        usleep(amountToSleep);
+      }
+
+  }
+
+
   //cout<<"***************************************************************"<<endl;
   ofstream drinkRecord;
   const char* file = ("records/"+it->first+".json").c_str();
@@ -701,24 +769,24 @@ bool DrinkManager::addOrder(string drinkKey, string customerName, unsigned times
 
   // use to generate the tower message
     //according to the protocol documnted here: https://github.com/filitchp/spiritedrobotics/wiki/Node-Communication-Protocol
-  unsigned chksum = 0; //xor of all nibbles,
-  BOOST_FOREACH(const Ingredient& ing, ingredients)
-  {
-    //is there a more direct way to do this?
-    unsigned towerID = (mpBarbot->getTowerByIngredientKey(ing.getKey())).getTowerId();
-
-    //header byte
-    unsigned tByte = (towerID << 2) | (0x01);
-    chksum ^= (tByte & 0x0F) ^ (tByte >> 4); // because xor is distributive and associative, it should be fine to do it this way.
-    towerMessage.push_back(tByte);
-
-    //protocol incomplete? to be completed following discussion with paul/ryan
-
-    //footer byte
-    tByte = (0x03)|(chksum & 0x0F);//just in case
-    towerMessage.push_back(tByte);
-
-  }
+//  unsigned chksum = 0; //xor of all nibbles,
+//  BOOST_FOREACH(const Ingredient& ing, ingredients)
+//  {
+//    //is there a more direct way to do this?
+//    unsigned towerID = (mpBarbot->getTowerByIngredientKey(ing.getKey())).getTowerId();
+//
+//    //header byte
+//    unsigned tByte = (towerID << 2) | (0x01);
+//    chksum ^= (tByte & 0x0F) ^ (tByte >> 4); // because xor is distributive and associative, it should be fine to do it this way.
+//    towerMessage.push_back(tByte);
+//
+//    //protocol incomplete? to be completed following discussion with paul/ryan
+//
+//    //footer byte
+//    tByte = (0x03)|(chksum & 0x0F);//just in case
+//    towerMessage.push_back(tByte);
+//
+//  }
 
   Order newOrder(drinkKey, customerName, timestamp, ingredients, towerMessage);
 

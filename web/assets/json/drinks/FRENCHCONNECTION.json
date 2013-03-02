@@ -15,5 +15,6 @@
     }
   ],
   "description" : "A French connection is a cocktail made with equal parts Cognac and Amaretto liqueur.",
-  "imagePath" : "assets/img/drinks/frenchconnection.jpeg"
+  "imagePath" : "assets/img/drinks/frenchconnection.jpg",
+  "type" : "Lowball"
 }
