@@ -40,7 +40,6 @@
     }
   ],
   "description" : "A cocktail made with vodka, gin, tequila and rum with a dash of lemon; this drink was invented in 1920’s. More popular variants of this cocktail include cola. This drink has a higher alcohol concentration as it contains rum and tequila along with vodka. Outside USA, the Long Island Iced Tea is made with cola and lemon or orange juice without alcohol. This drink is served on the rocks over the ice in a highball glass. The most common garnish accompanying this drink is a lemon wedge. Other variants of this drink involve champagne, whiskey, cranberry juice, peach schnapps and tequila instead of cola.",
-  "imagePath" : "assets/img/drinks/longislandicedtea.jpg",
-  "type" : "Highball"
+  "imagePath" : "assets/img/drinks/longislandicedtea.jpg"
 }
 

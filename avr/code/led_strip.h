@@ -41,7 +41,19 @@ void Write_To_Led_Strip(LightStrip* lights);
  **************************************************/
 
 void rainbow(LightStrip* strip, unsigned int counter);
+void mod_rainbow(LightStrip* strip, unsigned int counter);
 
+/**************************************************
+ *		  Color Patern Helpers	  *
+ *************************p*************************/
+
+void set_left(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue);
+void set_front(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue);
+void set_right(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue);
+void set_base(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue);
+void set_top(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue);
+
+void get_base_subset(LightStrip* strip, LightStrip* subset);
 
 /**************************************************
  *		 Helper Functions		  *

@@ -17,7 +17,6 @@ void init_led_strip(LightStrip* strip, size_t length)
 	return;
     }
 
-
     SPI_MasterInit();
 
     strip->lights = (Light*) malloc( length * sizeof(Light));
@@ -58,7 +57,6 @@ void Write_To_Led_Strip(LightStrip* lights)
     send_end_of_sequence();
 }
 
-
 /**************************************************
  *		  Color Paterns			  *
  **************************************************/
@@ -98,10 +96,77 @@ void rainbow(LightStrip* strip, unsigned int counter)
 	}
 }
 
+void mod_rainbow(LightStrip* strip, unsigned int counter)
+{
+    LightStrip base;
+    get_base_subset(strip, &base);
+    rainbow(&base,counter);
+    set_top(strip, 0, 0, 0);
+}
+
+/**************************************************
+ *		  Color Patern Helpers	  *
+ **************************************************/
+
+void set_left(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
+{
+	size_t i;
+    for (i=0; i<=3; i++){
+        strip->lights[i].red = red;
+        strip->lights[i].green = green;
+        strip->lights[i].blue = blue;
+    }
+}
+
+void set_front(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
+{
+	size_t i;
+     for (i=4; i<=7; i++){
+        strip->lights[i].red = red;
+        strip->lights[i].green = green;
+        strip->lights[i].blue = blue;
+    }
+}
+
+void set_right(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
+ {
+	size_t i;
+    for (i=8; i<=11; i++){
+        strip->lights[i].red = red;
+        strip->lights[i].green = green;
+        strip->lights[i].blue = blue;
+     }
+}
+
+void set_top(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
+{ 
+	size_t i;
+    for (i=12; i<=19; i++){
+        strip->lights[i].red = red;
+        strip->lights[i].green = green;
+        strip->lights[i].blue = blue;
+     }
+}
+
+void set_base(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
+{
+	size_t i;
+    for (i=0; i<=11; i++){
+        strip->lights[i].red = red;
+        strip->lights[i].green = green;
+        strip->lights[i].blue = blue;
+     }
+}  
+
+void get_base_subset(LightStrip* strip, LightStrip* subset)
+{
+    subset->lights = strip->lights;
+    subset->num_lights = 12;
+} 
 
 /**************************************************
  *		 Helper Functions		  *
- **************************************************/
+ * *************************************************/
 
 void send_next_light(Light* light)
 {

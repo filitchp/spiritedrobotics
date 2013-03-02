@@ -1,12 +1,7 @@
 [
   {
-    "key" : "VODKA",
-    "name" : "Vodka",
+    "key" : "DRINKS",
+    "name" : "Drinks",
     "description" : "Russian drinks for russian russians" 
-  },
-  {
-    "key" : "NVODKA",
-    "name" : "Not Vodka",
-    "description" : "Yeah sure, I guess these qualify as drinks"
   }
 ]
