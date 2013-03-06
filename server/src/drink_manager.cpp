@@ -449,15 +449,19 @@ vector<unsigned char> DrinkManager::constructTowerMessage(
   message.push_back(headerDataByte);
   message.push_back(command);
 
-  unsigned char amountDataByte = flowRate * amount;
+  unsigned int amountDataByte = flowRate * amount;
 
   // The MSB must be 0 so we max out at 0x7F (127)
-  if (amountDataByte > 127)
+  if (amountDataByte > 1<<15)
   {
-    amountDataByte = 127;
+    amountDataByte = (1<<15) -1;
   }
 
-  message.push_back(amountDataByte);
+  unsigned char lowerByte = (char) (amountDataByte & 0x7F);
+  unsigned char upperByte = (char) ((amountDataByte>>7) & 0x7F);
+
+  message.push_back(upperByte);
+  message.push_back(lowerByte);
 
   // TODO: checksum
   message.push_back(0xC5);
@@ -514,7 +518,7 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
   vector<unsigned char> message = constructTowerMessage(
     towerId, POUR_DRINK_COMMAND, amount, flowRate);
 
-  unsigned char msg[4];
+  unsigned char msg[5];
 
   unsigned i = 0;
   BOOST_FOREACH(unsigned char byteToSend, message)
@@ -527,12 +531,11 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
     ++i;
   }
 
-  ssize_t bytesWritten = write(mFd, msg, 4);
+  size_t bytesWritten = write(mFd, msg, 5);
 
   if (bytesWritten > 0)
   {
     cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
-
     readData(500);
   }
   else
@@ -691,7 +694,7 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
       vector<unsigned char> message = constructTowerMessage(
         towerID, POUR_DRINK_COMMAND, amount, flowRate);
 
-      unsigned char msg[4];
+      unsigned char msg[5];
 
       unsigned j = 0;
       BOOST_FOREACH(unsigned char byteToSend, message)
@@ -706,7 +709,7 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
 
       if (mFd > 0)
       {
-        ssize_t bytesWritten = write(mFd, msg, 4);
+        size_t bytesWritten = write(mFd, msg, 5);
 
         if (bytesWritten > 0)
         {
