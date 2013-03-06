@@ -9,28 +9,44 @@ $(function()
   //-------------------------------  
   DrinksView = Backbone.View.extend(
   {
-    tagName: 'li',
+    tagName: 'ul',
     collection: drinks,
+    events: {
+        'click .next-drink' : 'nextDrink',
+        'click .prev-drink' : 'prevDrink'
+    },
     initialize: function()
     {
       var self = this;
+      this.current_index = 0;
+      this.setElement($("#drinks-list"));
       this.collection.on({
-          "sync": function(){ self.render() }
+          "sync": function(){ self.render(0) }
       });
     },
-    render: function()
+    current_index: 0,
+    nextDrink: function(){
+        this.current_index = this.current_index + 1;
+        if (this.current_index > this.collection.size() - 1){
+            this.current_index = 0;
+        }
+        this.render(this.current_index);
+    },
+    prevDrink: function(){
+        this.current_index = this.current_index - 1;
+        if (this.current_index < 0){
+            this.current_index = this.collection.size() - 1;
+        }
+        this.render(this.current_index);
+    },
+    render: function(idx)
     {
+      $("#content").empty();
       // Clear the menu
-      $("#drinks-list").empty();
       $(".category_title").html(this.collection.category_title);
-
-      // For each drink
-      this.collection.each(function(drink)
-      {
-        console.log("Rendering drink" + drink.toString());
-        v = new DrinkView({model: drink});
+      // Render a drink
+        v = new DrinkView({model: this.collection.at(idx)});
         v.render();
-      });
     }
   });
   

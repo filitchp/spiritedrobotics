@@ -24,35 +24,31 @@
     </div>
     <hr class="drinkbreak">
       <div class="row-fluid">
-        <div class="span3">
+        <div class="span6">
           <div class="imageframe">
             <div class="imageframeinner">
               <img class="drinkimage" src="<%= imagePath %>">
             </div>
           </div>
         </div>
-        <div class="span9">
-          <div class="drinksubtitle">Description</div>
-            <div class="descriptiontext">
-              <%= description %>
-            </div>
-          </div> 
-        </div>
-      </div>
-      <div class="row" style="padding-top:24px">
-        <div class="span3">
+        <div class="span6">
+          <span class="ingredientssubtitle">Ingredients</span>
+          <ul class="ingredients">
+            <%= ingredients %>
+          </ul>
           <div class="buttonframe">
             <div class="buttonframeinner">
               <a class="btn btn-large btn-success btn-drink-make click-to-modal" href="#<%= key %>">MAKE IT!</a>
             </div>
           </div>
         </div>
-        <div class="span9">
-          <span class="ingredientssubtitle">Ingredients</span>
-          <ul class="ingredients">
-            <%= ingredients %>
-          </ul>
-        </div>
+      </div> 
+      <div class="row">
+        <div class="drinksubtitle">Description</div>
+          <div class="descriptiontext">
+            <%= description %>
+          </div>
+        </div> 
       </div>
     </div>
     </section>
@@ -126,6 +122,8 @@
       </div>
       <div class="subnav">
         <ul class="nav nav-pills" id="drinks-list">
+            <button class="btn btn-large next-drink">Next!</button>
+            <button class="btn btn-large prev-drink">Previous!</button>
         </ul>
       </div>
     </header>
@@ -140,19 +138,6 @@
      ================================================== -->
     <hr>
 
-    <footer id="footer">
-      <p class="pull-right"><a href="#">Back to top</a></p>
-      Made by 
-      <a target="_blank" href="http://thomaspark.me">Thomas Park</a>. Contact him 
-      <a href="mailto:hello@thomaspark.me">hello@thomaspark.me</a>.<br/>
-      Code licensed under the 
-      <a target="_blank" href="http://www.apache.org/licenses/LICENSE-2.0">Apache License v2.0</a>.<br/>
-      Based on 
-      <a target="_blank" href="http://twitter.github.com/bootstrap/">Bootstrap</a>. Hosted on 
-      <a target="_blank" href="http://pages.github.com/">GitHub</a>. Icons from 
-      <a target="_blank" href="http://glyphicons.com/">Glyphicons</a>. Web fonts from 
-      <a target="_blank" href="http://www.google.com/webfonts">Google</a>.
-    </footer>
     </div><!-- /container -->
    <!-- Le javascript
     ================================================== -->
