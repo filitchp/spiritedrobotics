@@ -13,3 +13,11 @@ fire_motor:
 	echo -ne "\x00" > /dev/ttyUSB0
 	echo -ne "\xC5" > /dev/ttyUSB0
 
+check_baud:
+	stty -F /dev/ttyUSB0 
+
+set_baud_9600:
+	stty -F /dev/ttyUSB0 9600
+
+set_baud_115200:
+	stty -F /dev/ttyUSB0 115200 
