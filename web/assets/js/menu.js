@@ -19,7 +19,7 @@ $(function()
     {
       var self = this;
       this.current_index = 0;
-      this.setElement($("#drinks-list"));
+      this.setElement($("body"));
       this.collection.on({
           "sync": function(){ self.render(0) }
       });
