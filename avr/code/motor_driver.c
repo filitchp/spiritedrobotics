@@ -160,6 +160,7 @@ void Blocking_Wait_For_Motor_Timer_Complete()
 
 ISR (TIMER1_OVF_vect)
 {
+	// TODO: figure out why this does not reverse the motor
 	if (cycles_remaining == 0)
 	{
 		// This is happens after we reverse the motor 
@@ -176,7 +177,7 @@ ISR (TIMER1_OVF_vect)
 		else
 		{
 			Set_Motor1_Velocity(-200);
-			Start_Motor_Timer(0x0200);
+			Start_Motor_Timer(0x1200);
 			reversing = TRUE;
 		}
 	}
