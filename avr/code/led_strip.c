@@ -2,9 +2,9 @@
 #include <avr/io.h>
 #include "definitions.h"
 #include <util/delay.h>
+#include <avr/interrupt.h>
 
 #include "led_strip.h"
-
 
 /**************************************************
  *		   LED Strip API		  *
@@ -14,7 +14,8 @@ LightStrip base;
 LightStrip top;
 LightStrip led_strip;
 unsigned int state_firing_time;
-unsigned int state_counter;
+volatile unsigned int state_counter;
+unsigned int last_counter;
 unsigned int saved_counter;
 size_t state;
 #define STANDBY 0
@@ -35,6 +36,19 @@ void init_led_strip()
 
 	SPI_MasterInit();
 
+
+	// Enable the interrupt
+	TIMSK2 |= (1<<TOIE2);
+
+	// Tick every 10ms is 78 cycles of timer 2 with a 1024 prescaler (Tck @ 8MHz)
+	// Set the clock source and prescaler
+	TCCR2B |= (1<<CS22) | (1<<CS21) | (1<<CS20); 
+
+	// set the sate counter to zero
+	state_counter = 0;
+	last_counter = 1;
+
+	// Sweet malloc bro (fix this so it is constant)
 	strip->lights = (Light*) malloc( num_leds_on_strip * sizeof(Light));
 
 	if (strip->lights == 0)
@@ -57,17 +71,18 @@ void init_led_strip()
 	get_base_subset(strip, &base);
 	get_top_subset(strip, &top);
 	set_top(strip, 20,20,20);
-	//TODO start timer
 }
 
-void led_strip_standby(){
+void led_strip_standby()
+{
 	LightStrip* strip = &led_strip;
 	set_top(strip, strip->lights[1].red / 10, strip->lights[1].green / 10, strip->lights[1].blue / 10);
 	state_counter = saved_counter;
 	state = STANDBY;
 }
 
-void led_strip_fire(unsigned int time){
+void led_strip_fire(unsigned int time)
+{
 	LightStrip* strip = &led_strip;
 	saved_counter = state_counter;
 	state_counter = 0;
@@ -77,14 +92,23 @@ void led_strip_fire(unsigned int time){
 	state = FIRING;
 }
 
-void led_strip_update(){
-	state_counter += 1;
-	_delay_ms(65);
+void led_strip_update()
+{
+	// if the state counter has not transitioned, nothing to do
+	if (last_counter == state_counter) { return; }	
+	
+	last_counter = state_counter;
+	double static led_counter = 0;
+
+	if (state_counter % 16 == 0)
+	{
+		led_counter += 1;
+	}
 
 	switch (state)
 	{
 		case STANDBY:
-			rainbow(&base, state_counter/3, 42);
+			rainbow(&base, led_counter, 42);
 			break;
 		case FIRING:
 			drain(&top, state_counter, state_firing_time, (&base)->lights[0]);
@@ -342,5 +366,14 @@ void SPI_MasterTransmit(unsigned char cData)
 	// We can use this if we want to free up the processor
 	while(!(SPSR & (1<<SPIF)))
 	{}
+}
+
+ISR (TIMER2_OVF_vect)
+{
+	// overflow will occur in 78 tics (10ms)
+	TCNT2 = 0xFF - 78;
+
+	// increment the state counter
+	state_counter += 1;
 }
 
