@@ -47,15 +47,27 @@ $(function()
       // Render a drink
         v = new DrinkView({model: this.collection.at(idx)});
         v.render();
+    },
+    setHash: function(hash){
+        var target = this.collection.where({ key: hash.substring(1) });
+        console.log(hash);
+        var idx = this.collection.indexOf(target[0]);
+        this.current_index = idx;
+        this.render(idx);
     }
   });
   
   view = new DrinksView();
-  view3 = new DrinkListView({ collection: drinks });
+  view3 = new DrinkListView({ collection: drinks, target: view});
   drinks.fetch();
   view2 = new CategoryTopbarView({ el: $(".category-topbar"), 
                                    collection: categories });
   
+ $(window).on('hashchange', function(){
+    view.setHash(window.location.hash);
+ });
+
+
   categories.fetch();
 
 });

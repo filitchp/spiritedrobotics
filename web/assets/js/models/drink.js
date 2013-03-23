@@ -158,11 +158,19 @@ $(function()
         },
         render: function() {
             var drinkListItemTemplate = _.template($("#drink_list_item_template").html());
-            this.collection.map(function(drink){ 
+            var list = $(".drinks-list");
+            this.collection.each(function(drink, i){ 
                 var poped = drinkListItemTemplate(drink);
-                $(".drinks-list").append(poped);
+                list.append(poped);
             });
+            this.renderMain(10);
             this.setElement($(".drinks-list"));
+        },
+        renderMain: function(idx){
+            $("#content").empty();
+            v = new DrinkView({model:this.collection.at(idx)});
+            v.render();
         }
+
     });
 });

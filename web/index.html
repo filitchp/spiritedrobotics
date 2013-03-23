@@ -37,7 +37,7 @@
             </div>
             <div class="nav-button-container">
                 <button class="nav-button btn btn-large btn-drink-last prev-drink" href="#">&lt;</button>
-                <button class="nav-button btn btn-large btn-drink-make click-to-modal" href="#<%= key %>">MAKE IT!</button>
+                <button class="nav-button btn btn-large btn-drink-make click-to-modal" href="#<%= key %>">ORDER IT!</button>
                 <button class="nav-button btn btn-large btn-drink-next next-drink" href="#">&gt;</button>
             </div>
         </div>
@@ -45,7 +45,7 @@
     </script>
     <script type="text/template" id="drink_list_item_template"> 
         <hr class="drinkitembreak"/>
-        <li class="drink-list-item"> <%= get("name") %></li>
+        <li class="drink-list-item"> <a href='#<%=get("key")%>'><%= get("name") %></a> </li>
     </script>
     <script type="text/template" id="modal_template"> 
         <div class="modal hide fade" id="order_modal">
