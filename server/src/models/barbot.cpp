@@ -81,7 +81,7 @@ void BarBot::addTower(Tower& tower)
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-void BarBot::printTowerDebug() const
+void BarBot::printTowerDebug(ostream& os) const
 {
   // Figure out max widths
   unsigned maxIngredientKeyWidth = 0;
@@ -99,7 +99,7 @@ void BarBot::printTowerDebug() const
     }
   }
 
-  bprinter::TablePrinter tp(&std::cout);
+  bprinter::TablePrinter tp(&os);
 
   tp.AddColumn("ID", 6);
   tp.AddColumn("KEY", maxIngredientKeyWidth + 8);

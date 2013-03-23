@@ -460,6 +460,7 @@ void request_handler::handleOrderPresetDrinkRequest(map<string, string>& queryMa
 
       gettimeofday(&currentTime, NULL);
 
+      // DEBUG
       cout << "drinkKey" << drinkKey << endl;
       cout << "customerName" << customerName << endl;
       cout << "currentTime" << currentTime.tv_sec << endl;

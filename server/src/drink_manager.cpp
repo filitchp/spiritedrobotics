@@ -32,9 +32,9 @@ using namespace std;
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-DrinkManager::DrinkManager(const string& rootPath)
+DrinkManager::DrinkManager(const string& rootPath) :
+  mRootPath(rootPath)
 {
-
   stringstream configFilePath(stringstream::out);
   configFilePath << rootPath << "/assets/json/barbot.json";
 
@@ -46,10 +46,101 @@ DrinkManager::DrinkManager(const string& rootPath)
   readAllDrinks(drinksPath.str());
   createAvailableDrinkList();
 
-  // DEBUG
-  printAllDrinkSummary();
+  stringstream logsPathSS(stringstream::out);
+  logsPathSS << rootPath << "/logs";
 
-  printAllDrinkIngredients();
+  stringstream ordersPathSS(stringstream::out);
+  ordersPathSS << logsPathSS.str() << "/orders";
+
+  stringstream debugPathSS(stringstream::out);
+  debugPathSS << logsPathSS.str() << "/debug";
+
+  path logsPath(logsPathSS.str());
+  path ordersPath(ordersPathSS.str());
+  path debugPath(debugPathSS.str());
+
+  try
+  {
+    // Have to create directories one level at a time...
+    if (!exists(logsPath))
+    {
+      create_directory(logsPath);
+    }
+
+    if (!exists(ordersPath))
+    {
+      create_directory(ordersPath);
+    }
+
+    if (!exists(debugPath))
+    {
+      create_directory(debugPath);
+    }
+  }
+  catch (const filesystem_error& ex)
+  {
+    cout << ex.what() << endl;
+  }
+
+  // Get current time
+  struct timeval currentTime;
+
+  gettimeofday(&currentTime, NULL);
+
+  //--------------------------------------------
+  // DEBUG configuration (print to console)
+  //--------------------------------------------
+  mpBarbot->printTowerDebug(cout);
+
+  //--------------------------------------------
+  // DEBUG configuration (write to file)
+  //--------------------------------------------
+  ofstream configLog;
+  stringstream configLogSS(stringstream::out);
+
+  configLogSS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
+      << "SystemConfig.txt";
+
+  configLog.open(configLogSS.str().c_str());
+  mpBarbot->printTowerDebug(configLog);
+  configLog.close();
+
+  //--------------------------------------------
+  // DEBUG all drink summary (print to console)
+  //--------------------------------------------
+  printAllDrinkSummary(cout);
+
+  //--------------------------------------------
+  // DEBUG all drink summary (write to file)
+  //--------------------------------------------
+  ofstream allSummaryLog;
+  stringstream allDrinkSummarySS(stringstream::out);
+
+  allDrinkSummarySS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
+      << "AllDrinkSummary.txt";
+
+  allSummaryLog.open(allDrinkSummarySS.str().c_str());
+  printAllDrinkSummary(allSummaryLog);
+  allSummaryLog.close();
+
+  //------------------------------------------------
+  // DEBUG all drink ingredients (print to console)
+  //------------------------------------------------
+  printAllDrinkIngredients(cout);
+
+  //--------------------------------------------
+  // DEBUG all drink ingredients (write to file)
+  //--------------------------------------------
+
+  stringstream allDrinkIngredientsSS(stringstream::out);
+
+  allDrinkIngredientsSS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
+      << "AllDrinkIngredients.txt";
+
+  ofstream allIngredientsLog;
+  allIngredientsLog.open(allDrinkIngredientsSS.str().c_str());
+  printAllDrinkIngredients(allIngredientsLog);
+  allIngredientsLog.close();
 
   // DEBUG
   //outputDrinkList(cout, 0);
@@ -167,8 +258,6 @@ void DrinkManager::readSystemConfiguration(string systemConfigurationPath)
   // Create the system configuration object
   mpBarbot = new BarBot(pt);
 
-  // DEBUG
-  mpBarbot->printTowerDebug();
 }
 
 //------------------------------------------------------------------------------
@@ -286,7 +375,7 @@ void DrinkManager::normalizeDrink(Drink& d, float normalizedAmount)
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-void DrinkManager::printAllDrinkSummary() const
+void DrinkManager::printAllDrinkSummary(ostream& os) const
 {
   unsigned maxKeyWidth = 0;
   unsigned maxNameWidth = 0;
@@ -311,9 +400,9 @@ void DrinkManager::printAllDrinkSummary() const
     }
   }
 
-  bprinter::TablePrinter tp(&std::cout);
+  bprinter::TablePrinter tp(&os);
 
-  cout << "maxNameWidth " << maxNameWidth << endl;
+  //cout << "maxNameWidth " << maxNameWidth << endl;
 
   tp.AddColumn("KEY", maxKeyWidth + 2);
   tp.AddColumn("NAME", 38);
@@ -344,7 +433,7 @@ void DrinkManager::printAllDrinkSummary() const
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-void DrinkManager::printAllDrinkIngredients() const
+void DrinkManager::printAllDrinkIngredients(ostream& os) const
 {
   unsigned maxKeyWidth = 0;
   unsigned maxNameWidth = 0;
@@ -386,7 +475,7 @@ void DrinkManager::printAllDrinkIngredients() const
     ingredientDisplay.push_back(ingredientString);
   }
 
-  bprinter::TablePrinter tp(&std::cout);
+  bprinter::TablePrinter tp(&os);
 
   tp.AddColumn("KEY", maxKeyWidth + 1);
   tp.AddColumn("INGREDIENTS", maxIngredientDisplay + 4);
@@ -417,6 +506,7 @@ void DrinkManager::printAllDrinkIngredients() const
 
   tp.PrintFooter();
 
+  // DEBUG
   cout << "We can make " << makeCount << " out of " << mAllDrinks.size() << " drinks" << endl;
 }
 
@@ -691,51 +781,56 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
 
     static unsigned char POUR_DRINK_COMMAND = 0x40;
 
-      vector<unsigned char> message = constructTowerMessage(
-        towerID, POUR_DRINK_COMMAND, amount, flowRate);
+    vector<unsigned char> message = constructTowerMessage(
+      towerID,
+      POUR_DRINK_COMMAND,
+      amount,
+      flowRate);
 
-      unsigned char msg[5];
+    unsigned char msg[5];
 
-      unsigned j = 0;
-      BOOST_FOREACH(unsigned char byteToSend, message)
+    unsigned j = 0;
+    BOOST_FOREACH(unsigned char byteToSend, message)
+    {
+      printf("  %d : %02X ", j, byteToSend);
+      cout << endl;
+
+      msg[j] = byteToSend;
+
+      ++j;
+    }
+
+    if (mFd > 0)
+    {
+      size_t bytesWritten = write(mFd, msg, 5);
+
+      if (bytesWritten > 0)
       {
-        printf("  %d : %02X ", j, byteToSend);
-        cout <<  endl;
+        cout << "Wrote " << (unsigned) bytesWritten << " bytes" << endl;
 
-        msg[j] = byteToSend;
-
-        ++j;
+        readData(500);
+      }
+      else
+      {
+        cout << "ERROR: Could not write any bytes" << endl;
+        return false;
       }
 
-      if (mFd > 0)
-      {
-        size_t bytesWritten = write(mFd, msg, 5);
+      unsigned amountToSleep = (unsigned) (amount * 1000.0f);
 
-        if (bytesWritten > 0)
-        {
-          cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
-
-          readData(500);
-        }
-        else
-        {
-          cout << "ERROR: Could not write any bytes" << endl;
-          return false;
-        }
-
-        unsigned amountToSleep = (unsigned) (amount * 1000.0f);
-
-        usleep(amountToSleep);
-      }
-
+      usleep(amountToSleep);
+    }
   }
 
-
-  //cout<<"***************************************************************"<<endl;
   ofstream drinkRecord;
-  const char* file = ("records/"+it->first+".json").c_str();
-  drinkRecord.open(file);
-  it->second.output(drinkRecord,0);
+
+  stringstream orderPathSS(stringstream::out);
+  orderPathSS << mRootPath << "/logs/orders/" << it->first << ".json";
+
+  drinkRecord.open(orderPathSS.str().c_str());
+
+  it->second.output(drinkRecord, 0);
+
   drinkRecord.close();
 
   mApprovedOrders.insert(pair<string, Order>(it->first, it->second));
