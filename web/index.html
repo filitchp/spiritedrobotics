@@ -12,7 +12,9 @@
         <![endif]-->
 
 	    <link href="assets/css/bootstrap.css" rel="stylesheet">	
-	    <link href="assets/css/bootstrap-modal.css" rel="stylesheet">	       <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+	    <link href="assets/css/bootstrap-modal.css" rel="stylesheet">	 
+        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+	    <link href="assets/css/bootswatch.main.css" rel="stylesheet">	
         <link href="assets/css/barbot.css" rel="stylesheet">
 
         <script type="text/template" id="drink_template">
@@ -40,6 +42,10 @@
             </div>
         </div>
         </section>
+    </script>
+    <script type="text/template" id="drink_list_item_template"> 
+        <hr class="drinkitembreak"/>
+        <li class="drink-item-template"> <%= get("name") %></li>
     </script>
     <script type="text/template" id="modal_template"> 
         <div class="modal hide fade" id="order_modal">

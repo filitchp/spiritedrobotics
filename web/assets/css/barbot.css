@@ -29,8 +29,9 @@
   font-family: 'Oxygen',Arial,sans-serif;
   font-size: 16px;
   text-rendering: optimizelegibility;
-  border-color: black;
   border-left:2px;
+  border-top:0px;
+  border-bottom:0px;
   border-style: solid;
   padding-left: 12px;
 }
@@ -105,7 +106,6 @@
 
 .nav-button
 {
-  clear: none;
   height:100%;
   position:relative;
   display:inline-block;
@@ -168,4 +168,29 @@ hr.drinkbreak
     right: 0;
     height: 100%;
     width: 60%;
+}
+
+.drinks-list
+{
+    width: 30%;
+    padding-bottom:100px;
+}
+
+hr.drinkitembreak
+{
+  margin: 10px 0px 4px;
+  border-bottom: 3px solid #45515F;
+  padding-bottom:30px;
+}
+
+
+.drink-list-item
+{
+  font-family: 'Oswald',Arial,sans-serif;
+  font-weight: 500;
+  font-style: bold;
+  font-size: 36px;
+  width:100%;
+  padding-bottom:30px;
+  padding-top:30px;
 }

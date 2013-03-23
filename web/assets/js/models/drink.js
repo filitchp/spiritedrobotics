@@ -157,9 +157,12 @@ $(function()
             });
         },
         render: function() {
+            var drinkListItemTemplate = _.template($("#drink_list_item_template").html());
             this.collection.map(function(drink){ 
-                $(".drinks-list").append("<li>"+drink.get("name")+"</li>");
+                var poped = drinkListItemTemplate(drink);
+                $(".drinks-list").append(poped);
             });
+            this.setElement($(".drinks-list"));
         }
     });
 });
