@@ -33,10 +33,10 @@ class DrinkManager
     bool testTower(unsigned char towerId, float amount);
 
     void normalizeDrink(Drink& d, float normalizedAmount);
-    void printAllDrinkIngredients() const;
+    void printAllDrinkIngredients(std::ostream& os) const;
 
     int readData(long msTimeout);
-    void printAllDrinkSummary() const;
+    void printAllDrinkSummary(std::ostream& os) const;
 
     bool initTowers();
     bool sendInitMessage();
@@ -46,6 +46,9 @@ class DrinkManager
     // Serial port file descriptor
     int mFd;
     struct termios mOriginalOptions;
+
+    // The working path (all input/output files are relative to this path)
+    std::string mRootPath;
 
     // System configuration
     BarBot* mpBarbot;
