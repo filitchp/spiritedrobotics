@@ -121,8 +121,8 @@
         "amount" : "1.5"
       },
       {
-        "key" : "RUM",
-        "name" : "Rum",
+        "key" : "DARKRUM",
+        "name" : "Dark Rum",
         "amount" : "1.0"
       },
       {
@@ -131,8 +131,8 @@
         "amount" : "1.0"
       },
       {
-        "key" : "TEQUILA",
-        "name" : "Tequila",
+        "key" : "AMARETTOLIQUEUR",
+        "name" : "Amaretto",
         "amount" : "1.0"
       },
       {
@@ -141,12 +141,18 @@
         "amount" : "0.5"
       },
       {
-        "key" : "GINGERBEER",
-        "name" : "Ginger Beer",
+        "key" : "ORANGEJUICE",
+        "name" : "Orange Juice",
+        "amount" : "0.5"
+      },
+      {
+        "key" : "CRANBERRYJUICE",
+        "name" : "Cranberry",
         "amount" : "1.5"
       }
     ],
     "description" : "Like having your brains smashed out by a slice of lemon wrapped around a large gold brick.",
-    "imagePath" : "assets/img/drinks/pangalactic.jpg"
+    "imagePath" : "assets/img/drinks/pangalactic.jpg",
+    "type" : "Highball"
   }
 ]

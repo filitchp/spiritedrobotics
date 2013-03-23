@@ -244,11 +244,11 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
 
     if (type == DrinkTypeShot)
     {
-      normalizeDrink(drink, 2.5);
+      normalizeDrink(drink, 4);
     }
     else if (type == DrinkTypeLowBall)
     {
-      normalizeDrink(drink, 5);
+      normalizeDrink(drink, 8);
     }
     else if (type == DrinkTypeHighBall)
     {

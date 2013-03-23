@@ -9,8 +9,8 @@
       "amount" : "1"
     },
     {
-      "key" : "RUM",
-      "name" : "Rum",
+      "key" : "DARKRUM",
+      "name" : "Dark Rum",
       "amount" : "1"
     },
     {
@@ -29,8 +29,13 @@
       "amount" : "0.5"
     },
     {
-      "key" : "GINGERBEER",
-      "name" : "Ginger Beer",
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
+      "amount" : "0.5"
+    },
+    {
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
       "amount" : "1.5"
     },
 	{

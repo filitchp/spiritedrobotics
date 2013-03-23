@@ -6,49 +6,49 @@
       "id" : 1,
       "key" : "DARKRUM",
       "name" : "Dark Rum",
-      "flowRate" : 15.3
+      "flowRate" : 2200
     },
     {
       "id" : 2,
       "key" : "ORANGEJUICE",
       "name" : "Orange Juice",
-      "flowRate" : 15.3
+      "flowRate" : 2200
     },
     {
       "id" : 3,
       "key" : "LIMEJUICE",
       "name" : "Lime Juice",
-      "flowRate" : 15.3
+      "flowRate" : 1500
     },
     {
       "id" : 4,
-      "key" : "VODKA",
-      "name" : "Vodka",
-      "flowRate" : 15.3
+      "key" : "WHISKEY",
+      "name" : "Whiskey",
+      "flowRate" : 2200
     },
     {
       "id" : 5,
-      "key" : "WHISKEY",
-      "name" : "Whiskey",
-      "flowRate" : 15.3
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "flowRate" : 2200
     },
     {
       "id" : 6,
       "key" : "GIN",
       "name" : "Gin",
-      "flowRate" : 15.3
+      "flowRate" : 2200
     },
     {
       "id" : 7,
       "key" : "AMARETTOLIQUEUR",
       "name" : "Amaretto",
-      "flowRate" : 15.3
+      "flowRate" : 1800
     },
     {
       "id" : 8,
-      "key" : "GINGERBEER",
-      "name" : "Ginger Beer",
-      "flowRate" : 15.3
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry",
+      "flowRate" : 2200
     }
   ]
 }
