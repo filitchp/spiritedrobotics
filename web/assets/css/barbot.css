@@ -180,7 +180,6 @@ hr.drinkitembreak
 {
   margin: 10px 0px 4px;
   border-bottom: 3px solid #45515F;
-  padding-bottom:30px;
 }
 
 
@@ -189,7 +188,7 @@ hr.drinkitembreak
   font-family: 'Oswald',Arial,sans-serif;
   font-weight: 500;
   font-style: bold;
-  font-size: 36px;
+  font-size: 24px;
   width:100%;
   padding-bottom:30px;
   padding-top:30px;
