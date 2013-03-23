@@ -51,9 +51,11 @@ $(function()
   });
   
   view = new DrinksView();
+  view3 = new DrinkListView({ collection: drinks });
   drinks.fetch();
   view2 = new CategoryTopbarView({ el: $(".category-topbar"), 
                                    collection: categories });
+  
   categories.fetch();
 
 });

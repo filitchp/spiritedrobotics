@@ -146,5 +146,20 @@ $(function()
             return this;
         }
     });
-
+	
+    DrinkListView = Backbone.View.extend({
+        tagName:'ul',
+        collection:AllDrinks,
+        initialize: function() {
+            var self = this;
+            this.collection.on({
+                "sync": function() { self.render(0) }
+            });
+        },
+        render: function() {
+            this.collection.map(function(drink){ 
+                $(".drinks-list").append("<li>"+drink.get("name")+"</li>");
+            });
+        }
+    });
 });

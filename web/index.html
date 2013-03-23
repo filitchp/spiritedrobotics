@@ -11,10 +11,9 @@
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 
+	    <link href="assets/css/bootstrap.css" rel="stylesheet">	
+	    <link href="assets/css/bootstrap-modal.css" rel="stylesheet">	       <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
         <link href="assets/css/barbot.css" rel="stylesheet">
-
-	<link href="assets/css/bootstrap.css" rel="stylesheet">	
-	<link href="assets/css/bootstrap-modal.css" rel="stylesheet">	
 
         <script type="text/template" id="drink_template">
             <section id="<%= key %>">
@@ -87,13 +86,11 @@
                     <h2 class="category_title">Manly Drinks</h2>
                 </div>
             </div>
-            <div class="subnav">
-                <ul class="nav nav-pills" id="drinks-list">
-                    <button class="btn btn-large next-drink">Next!</button>
-                    <button class="btn btn-large prev-drink">Previous!</button>
-                </ul>
-            </div>
-            </header>
+            
+            <ul class="drinks-list nav nav-list">
+            </ul>
+
+	    </header>
 
             <div class="drinkframe">
                 <div id="content">
