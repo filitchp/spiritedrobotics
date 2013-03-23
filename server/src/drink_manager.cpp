@@ -176,12 +176,12 @@ DrinkManager::DrinkManager(const string& rootPath) :
   // B76800   76,800 baud
   // B115200 115,200 baud
 
-  if (cfsetispeed(&newOptions, B9600) == -1)
+  if (cfsetispeed(&newOptions, B115200) == -1)
   {
     cerr << "ERROR: Could not set the input speed" << endl;
   }
 
-  if (cfsetospeed(&newOptions, B9600) == -1)
+  if (cfsetospeed(&newOptions, B115200) == -1)
   {
     cerr << "ERROR: Could not set the output speed" << endl;
   }

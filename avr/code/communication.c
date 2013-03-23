@@ -120,7 +120,7 @@ char Process_Incomming_Data_If_Available()
 
 			Set_Motor1_Velocity(160); //160
             Pour_Drink(time);
-            led_strip_fire(time >> 5);
+            led_strip_fire(time >> 2);
 
 			break;
 
