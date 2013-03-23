@@ -64,6 +64,7 @@
   font-size: 15px;
   text-rendering: optimizelegibility;
   display:inline;
+  clear:left;
 }
 
 .drinktitle
@@ -88,6 +89,28 @@
   display: inline-block;
   clear: left;
   float: left;
+}
+
+.nav-button-container
+{
+  clear: left;
+  float: left;
+  display:inline-block;
+  width:100%;
+  position: absolute;
+  bottom:20px;
+  position: absolute;
+  bottom:20px;
+}
+
+.nav-button
+{
+  clear: none;
+  height:100%;
+  position:relative;
+  display:inline-block;
+  float: left;
+  width: 33%;
 }
 
 .drinkimage
@@ -130,19 +153,6 @@
     overflow: hidden;
     position: absolute;
     top:0; bottom: 0; right: 0; left: 0;
-}
-
-.btn-drink-make
-{
-  font-family: 'Oswald',Arial,sans-serif;
-  font-weight: 500;
-  font-size: 20px;
-  text-rendering: optimizelegibility;
-  text-align:center;
-  width: 100%;
-  position: absolute;
-  bottom:0;
-  border-radius: 0px;
 }
 
 hr.drinkbreak
