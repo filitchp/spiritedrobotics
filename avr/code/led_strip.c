@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include <avr/io.h>
-#include <avr/delay.h>
-
 #include "definitions.h"
-#include "led_strip.h"
+#include <util/delay.h>
+#include <avr/interrupt.h>
 
+#include "led_strip.h"
 
 /**************************************************
  *		   LED Strip API		  *
@@ -14,7 +14,8 @@ LightStrip base;
 LightStrip top;
 LightStrip led_strip;
 unsigned int state_firing_time;
-unsigned int state_counter;
+volatile unsigned int state_counter;
+unsigned int last_counter;
 unsigned int saved_counter;
 size_t state;
 #define STANDBY 0
@@ -22,105 +23,125 @@ size_t state;
 
 void init_led_strip()
 {
-    
-    LightStrip* strip = &led_strip;
-    int num_leds_on_strip = 20;
-    saved_counter = 0;
 
-    if (strip == 0)
-    {
-       	// throw error
-	return;
-    }
+	LightStrip* strip = &led_strip;
+	int num_leds_on_strip = 20;
+	saved_counter = 0;
 
-    SPI_MasterInit();
+	if (strip == 0)
+	{
+		// throw error
+		return;
+	}
 
-    strip->lights = (Light*) malloc( num_leds_on_strip * sizeof(Light));
+	SPI_MasterInit();
 
-    if (strip->lights == 0)
-    {
-	// error allocating memory.
-	// we should do something to alert the user
-    }
-    else
-    {
-	strip->num_lights = num_leds_on_strip;
 
-	int i;
-	for (i=0; i<strip->num_lights; ++i)
-	    set_led_color(strip, i, 0, 0, 0);
-    }
+	// Enable the interrupt
+	TIMSK2 |= (1<<TOIE2);
 
-    Write_To_Led_Strip(strip);
-    Write_To_Led_Strip(strip);
+	// Tick every 10ms is 78 cycles of timer 2 with a 1024 prescaler (Tck @ 8MHz)
+	// Set the clock source and prescaler
+	TCCR2B |= (1<<CS22) | (1<<CS21) | (1<<CS20); 
 
-    get_base_subset(strip, &base);
-    get_top_subset(strip, &top);
-    set_top(strip, 20,20,20);
-    //TODO start timer
+	// set the sate counter to zero
+	state_counter = 0;
+	last_counter = 1;
+
+	// Sweet malloc bro (fix this so it is constant)
+	strip->lights = (Light*) malloc( num_leds_on_strip * sizeof(Light));
+
+	if (strip->lights == 0)
+	{
+		// error allocating memory.
+		// we should do something to alert the user
+	}
+	else
+	{
+		strip->num_lights = num_leds_on_strip;
+
+		int i;
+		for (i=0; i<strip->num_lights; ++i)
+			set_led_color(strip, i, 0, 0, 0);
+	}
+
+	Write_To_Led_Strip(strip);
+	Write_To_Led_Strip(strip);
+
+	get_base_subset(strip, &base);
+	get_top_subset(strip, &top);
+	set_top(strip, 20,20,20);
 }
 
-void led_strip_standby(){
-    LightStrip* strip = &led_strip;
-    set_top(strip, strip->lights[12].red / 10, strip->lights[12].green / 10, strip->lights[12].blue / 10);
-    state_counter = saved_counter;
-    state = STANDBY;
+void led_strip_standby()
+{
+	LightStrip* strip = &led_strip;
+	set_top(strip, strip->lights[1].red / 10, strip->lights[1].green / 10, strip->lights[1].blue / 10);
+	state_counter = saved_counter;
+	state = STANDBY;
 }
 
-void led_strip_fire(unsigned int time){
-    LightStrip* strip = &led_strip;
-    saved_counter = state_counter;
-    state_counter = 0;
-    state_firing_time = (time);
-    set_top(strip, strip->lights[0].red * 10, strip->lights[0].green * 10, strip->lights[0].blue* 10);
-    set_base(strip, strip->lights[0].red * 10, strip->lights[0].green * 10, strip->lights[0].blue * 10);
-    state = FIRING;
+void led_strip_fire(unsigned int time)
+{
+	LightStrip* strip = &led_strip;
+	saved_counter = state_counter;
+	state_counter = 0;
+	state_firing_time = (time);
+	set_top(strip, strip->lights[0].red * 10, strip->lights[0].green * 10, strip->lights[0].blue* 10);
+	set_base(strip, strip->lights[0].red * 10, strip->lights[0].green * 10, strip->lights[0].blue * 10);
+	state = FIRING;
 }
 
-void led_strip_update(){
-    state_counter += 1;
-    _delay_ms(65);
+void led_strip_update()
+{
+	// if the state counter has not transitioned, nothing to do
+	if (last_counter == state_counter) { return; }	
+	
+	last_counter = state_counter;
+	double static led_counter = 0;
 
-    switch (state)
-    {
-        case STANDBY:
-            rainbow(&base, state_counter/3, 42);
-        break;
-        case FIRING:
-            drain(&top, state_counter, state_firing_time, (&base)->lights[0]);
-        break;
-    }
+	if (state_counter % 16 == 0)
+	{
+		led_counter += 1;
+	}
 
-    Write_To_Led_Strip(&led_strip);
+	switch (state)
+	{
+		case STANDBY:
+			rainbow(&base, led_counter, 42);
+			break;
+		case FIRING:
+			drain(&top, state_counter, state_firing_time, (&base)->lights[0]);
+			break;
+	}
+
+	Write_To_Led_Strip(&led_strip);
 }
 
 void set_led_color(LightStrip* strip, size_t index, unsigned char red, unsigned char green, unsigned char blue)
 {
-    if (index >= strip->num_lights)
+	if (index >= strip->num_lights)
 		return;
 
-    strip->lights[index].red = red;
-    strip->lights[index].green = green;
-    strip->lights[index].blue = blue;
+	strip->lights[index].red = red;
+	strip->lights[index].green = green;
+	strip->lights[index].blue = blue;
 }
 
 void Write_To_Led_Strip(LightStrip* lights)
 {
-    int i;
-    for (i=0; i<lights->num_lights; ++i)
-    {
-	send_next_light(&lights->lights[i]);
-    }
+	int i;
+	for (i=0; i<lights->num_lights; ++i)
+	{
+		send_next_light(&lights->lights[i]);
+	}
 
-    send_end_of_sequence();
+	send_end_of_sequence();
 }
 
 /**************************************************
  *		  Color Paterns			  *
  **************************************************/
-
-const float one_third = 1.0 / 3.0;
-const float two_thirds = 2.0 / 3.0;
 
 unsigned char get_brightness(unsigned int p)
 {
@@ -138,10 +159,10 @@ unsigned char get_brightness(unsigned int p)
 void rainbow(LightStrip* strip, unsigned int counter, unsigned int spread)
 {
 	const unsigned int cycle_length = 384;
-    size_t num_lights = strip->num_lights;
-    unsigned int c = counter % cycle_length;
+	size_t num_lights = strip->num_lights;
+	unsigned int c = counter % cycle_length;
 
-    size_t i;
+	size_t i;
 	for (i=0; i<num_lights; ++i)
 	{
 		unsigned int cycle_position = (((cycle_length * i * 10) / (num_lights * (spread + 1))) + c) % cycle_length;
@@ -154,69 +175,69 @@ void rainbow(LightStrip* strip, unsigned int counter, unsigned int spread)
 
 void mod_rainbow(LightStrip* strip, unsigned int counter)
 {
-    LightStrip base;
-    get_base_subset(strip, &base);
-    
-    LightStrip top;
-    get_top_subset(strip, &top);
-    
-    rainbow(&base,counter,50);
-    fill(&top, counter, 300, (&base)->lights[0]);
+	LightStrip base;
+	get_base_subset(strip, &base);
+
+	LightStrip top;
+	get_top_subset(strip, &top);
+
+	rainbow(&base,counter,50);
+	fill(&top, counter, 300, (&base)->lights[0]);
 }
 
 void fill(LightStrip* strip, unsigned int counter, unsigned int total, Light mimic)
 {
-    unsigned int red = mimic.red;
-    unsigned int green = mimic.green;
-    unsigned int blue = mimic.blue;
+	unsigned int red = mimic.red;
+	unsigned int green = mimic.green;
+	unsigned int blue = mimic.blue;
 
-   //if(red+green+blue == 0){ red = 127; green = 127; blue = 127; }
+	//if(red+green+blue == 0){ red = 127; green = 127; blue = 127; }
 
-    unsigned int c = counter; //% total;
+	unsigned int c = counter; //% total;
 
-    size_t i;
+	size_t i;
 
-    for (i=0; i<((c * (strip->num_lights + 1)) /total); i++){
-        strip->lights[i].red = red;
-        strip->lights[i].green = green;
-        strip->lights[i].blue = blue;
-    }
+	for (i=0; i<((c * (strip->num_lights + 1)) /total); i++){
+		strip->lights[i].red = red;
+		strip->lights[i].green = green;
+		strip->lights[i].blue = blue;
+	}
 
-    for(;i < strip->num_lights; i++){
-        strip->lights[i].red = 0;
-        strip->lights[i].green = 0;
-        strip->lights[i].blue = 0;
-    }
+	for(;i < strip->num_lights; i++){
+		strip->lights[i].red = 0;
+		strip->lights[i].green = 0;
+		strip->lights[i].blue = 0;
+	}
 
 }
 
 void drain(LightStrip* strip, unsigned int counter, unsigned int total, Light mimic)
 {
-    unsigned int red = mimic.red;
-    unsigned int green = mimic.green;
-    unsigned int blue = mimic.blue;
+	unsigned int red = mimic.red;
+	unsigned int green = mimic.green;
+	unsigned int blue = mimic.blue;
 
-   //if(red+green+blue == 0){ red = 127; green = 127; blue = 127; }
-    
+	//if(red+green+blue == 0){ red = 127; green = 127; blue = 127; }
 
 
-    unsigned int c = 0;
-    if (total >= counter) { c = total - counter; } //% total;
 
-    size_t i;
-    unsigned int num = strip->num_lights;
+	unsigned int c = 0;
+	if (total >= counter) { c = total - counter; } //% total;
 
-    for (i=0; i<((c * (strip->num_lights + 1)) / total); i++){
-        strip->lights[i].red = red;
-        strip->lights[i].green = green;
-        strip->lights[i].blue = blue;
-    }
+	size_t i;
+	unsigned int num = strip->num_lights;
 
-    for(;i < strip->num_lights; i++){
-        strip->lights[i].red = 0;
-        strip->lights[i].green = 0;
-        strip->lights[i].blue = 0;
-    }
+	for (i=0; i<((c * (strip->num_lights + 1)) / (total+1)); i++){
+		strip->lights[i].red = red;
+		strip->lights[i].green = green;
+		strip->lights[i].blue = blue;
+	}
+
+	for(;i < strip->num_lights; i++){
+		strip->lights[i].red = 0;
+		strip->lights[i].green = 0;
+		strip->lights[i].blue = 0;
+	}
 
 }
 
@@ -229,63 +250,63 @@ void drain(LightStrip* strip, unsigned int counter, unsigned int total, Light mi
 void set_left(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
 {
 	size_t i;
-    for (i=0; i<=3; i++){
-        strip->lights[i].red = red;
-        strip->lights[i].green = green;
-        strip->lights[i].blue = blue;
-    }
+	for (i=0; i<=3; i++){
+		strip->lights[i].red = red;
+		strip->lights[i].green = green;
+		strip->lights[i].blue = blue;
+	}
 }
 
 void set_front(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
 {
 	size_t i;
-     for (i=4; i<=7; i++){
-        strip->lights[i].red = red;
-        strip->lights[i].green = green;
-        strip->lights[i].blue = blue;
-    }
+	for (i=4; i<=7; i++){
+		strip->lights[i].red = red;
+		strip->lights[i].green = green;
+		strip->lights[i].blue = blue;
+	}
 }
 
 void set_right(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
- {
+{
 	size_t i;
-    for (i=8; i<=11; i++){
-        strip->lights[i].red = red;
-        strip->lights[i].green = green;
-        strip->lights[i].blue = blue;
-     }
+	for (i=8; i<=11; i++){
+		strip->lights[i].red = red;
+		strip->lights[i].green = green;
+		strip->lights[i].blue = blue;
+	}
 }
 
 void set_top(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
 { 
 	size_t i;
-    for (i=12; i<=19; i++){
-        strip->lights[i].red = red;
-        strip->lights[i].green = green;
-        strip->lights[i].blue = blue;
-     }
+	for (i=12; i<=19; i++){
+		strip->lights[i].red = red;
+		strip->lights[i].green = green;
+		strip->lights[i].blue = blue;
+	}
 }
 
 void set_base(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
 {
 	size_t i;
-    for (i=0; i<=11; i++){
-        strip->lights[i].red = red;
-        strip->lights[i].green = green;
-        strip->lights[i].blue = blue;
-     }
+	for (i=0; i<=11; i++){
+		strip->lights[i].red = red;
+		strip->lights[i].green = green;
+		strip->lights[i].blue = blue;
+	}
 }  
 
 void get_base_subset(LightStrip* strip, LightStrip* subset)
 {
-    subset->lights = strip->lights;
-    subset->num_lights = 12;
+	subset->lights = strip->lights;
+	subset->num_lights = 12;
 } 
 
 void get_top_subset(LightStrip* strip, LightStrip* subset)
 {
-    subset->lights = strip->lights+12;
-    subset->num_lights = 8;
+	subset->lights = strip->lights+12;
+	subset->num_lights = 8;
 } 
 
 /**************************************************
@@ -294,21 +315,21 @@ void get_top_subset(LightStrip* strip, LightStrip* subset)
 
 void send_next_light(Light* light)
 {
-    unsigned char enable = 0x80;
+	unsigned char enable = 0x80;
 
-    SPI_MasterTransmit(enable | (*light).green);
-    SPI_MasterTransmit(enable | (*light).red);
-    SPI_MasterTransmit(enable | (*light).blue);
+	SPI_MasterTransmit(enable | (*light).green);
+	SPI_MasterTransmit(enable | (*light).red);
+	SPI_MasterTransmit(enable | (*light).blue);
 }
 
 void send_end_of_sequence()
 {
-    char zero = 0x00;
-    int i;
-    for (i=0; i<3; i++)
-    {
-	SPI_MasterTransmit(zero);
-    }
+	char zero = 0x00;
+	int i;
+	for (i=0; i<3; i++)
+	{
+		SPI_MasterTransmit(zero);
+	}
 }
 
 
@@ -318,32 +339,41 @@ void send_end_of_sequence()
 
 void SPI_MasterInit(void)
 {
-    // !!!!! add 4.7K isolation resistors to MISO MOSI ASND SCK LINES TO PREVENT INTERFERENCE DURING PROGRAMMING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	// !!!!! add 4.7K isolation resistors to MISO MOSI ASND SCK LINES TO PREVENT INTERFERENCE DURING PROGRAMMING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    /* Set MOSI and SCK output */
-    DDR_SPI |= (1<<DD_MOSI)|(1<<DD_SCK);
-    /* Set MISO to input */
-    DDR_SPI &=~ (1<<DD_MISO);
+	/* Set MOSI and SCK output */
+	DDR_SPI |= (1<<DD_MOSI)|(1<<DD_SCK);
+	/* Set MISO to input */
+	DDR_SPI &=~ (1<<DD_MISO);
 
-    /* Enable SPI, Master, set clock rate */
-    SPCR =  (1<<SPE)	| // SPI Enable
-	    //(1<<DORD)	| // Reverse data order
-	    (1<<MSTR)	| // SPI Master mode
-	   //(1<<CPOL)	| // Reverse the clock polarity
-	   //(1<<SPR1)	| // Sets the spi clock frequency
-	   (1<<SPR0)	; // Sets the spi clock frequency
+	/* Enable SPI, Master, set clock rate */
+	SPCR =  (1<<SPE)	| // SPI Enable
+		//(1<<DORD)	| // Reverse data order
+		(1<<MSTR)	| // SPI Master mode
+		//(1<<CPOL)	| // Reverse the clock polarity
+		//(1<<SPR1)	| // Sets the spi clock frequency
+		(1<<SPR0)	; // Sets the spi clock frequency
 
 	//SPSR |= (1<<SPI2X); // Run the SPI twice as fast
 }
 
 void SPI_MasterTransmit(unsigned char cData)
 {
-    /* Start transmission */
-    SPDR = cData;
-    /* Wait for transmission complete */
-    // There is an interrupt bit that can be set.
-    // We can use this if we want to free up the processor
-    while(!(SPSR & (1<<SPIF)))
-    {}
+	/* Start transmission */
+	SPDR = cData;
+	/* Wait for transmission complete */
+	// There is an interrupt bit that can be set.
+	// We can use this if we want to free up the processor
+	while(!(SPSR & (1<<SPIF)))
+	{}
+}
+
+ISR (TIMER2_OVF_vect)
+{
+	// overflow will occur in 78 tics (10ms)
+	TCNT2 = 0xFF - 78;
+
+	// increment the state counter
+	state_counter += 1;
 }
 

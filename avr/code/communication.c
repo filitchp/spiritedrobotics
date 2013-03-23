@@ -108,18 +108,19 @@ char Process_Incomming_Data_If_Available()
 	switch(receive_buffer[1])
 	{
 		case COMMAND_POUR_DRINK: 
-			if (received_bytes != 4)
+			if (received_bytes != 5)
 				return FAILURE;
 
-			Send_Response_Byte(receive_buffer[2]);
-			Set_Motor1_Velocity(200);
+			Send_Response_Bytes2(receive_buffer[2], receive_buffer[3]);
 
 			PORTB &= ~(1<<2);
             
             unsigned int time;
-			time =(((unsigned int)receive_buffer[2])<<9);
-            Start_Motor_Timer(time);
-            led_strip_fire(time >> 6);
+			time =(((unsigned int)receive_buffer[2])<<7) | ((unsigned int)receive_buffer[3]);
+
+			Set_Motor1_Velocity(160); //160
+            Pour_Drink(time);
+            led_strip_fire(time >> 5);
 
 			break;
 
@@ -296,3 +297,14 @@ void Send_Response_Byte(unsigned char data)
 	Add_To_Personal_Out_Buffer(FOOTER);
 	Set_Personal_Out_Buffer_Ready_To_Write();
 }
+
+void Send_Response_Bytes2(unsigned char data1, unsigned char data2)
+{
+	Add_To_Personal_Out_Buffer(HEADER_MASTER);
+	Add_To_Personal_Out_Buffer(data1);
+	Add_To_Personal_Out_Buffer(data2);
+	Add_To_Personal_Out_Buffer(my_address);
+	Add_To_Personal_Out_Buffer(FOOTER);
+	Set_Personal_Out_Buffer_Ready_To_Write();
+}
+

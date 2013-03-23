@@ -115,7 +115,6 @@ $(function()
         },
         render: function(){
             console.log("Making " + this.model.get("key"));
-            $("#drinks-list").append("<li><a href=\"#" + this.model.get("key") + "\">" + this.model.get("name") + "</a></li>");
             var ingredients = this.model.get("ingredients");
             var ingredientHtml = '';
             var ingredientTemplate = _.template($("#ingredient_template").html());

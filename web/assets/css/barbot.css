@@ -19,6 +19,8 @@
   font-family: 'Oswald',Arial,sans-serif;
   font-weight: 500;
   font-size: 24px;
+  margin-left:24px;
+  margin-top:12px;
   text-rendering: optimizelegibility;
 }
 
@@ -27,6 +29,10 @@
   font-family: 'Oxygen',Arial,sans-serif;
   font-size: 16px;
   text-rendering: optimizelegibility;
+  border-color: black;
+  border-left:2px;
+  border-style: solid;
+  padding-left: 12px;
 }
 
 .ingrval
@@ -39,23 +45,25 @@
 
 .ingredientstable
 {
-    width:100%;
     background: none;
-    margin: 0;
+    width: 100%;
+    margin-left:30px;
 }
 
 .ingredientstable td
 {
-    padding-top: 6px;
+    padding-top: 2px;
     padding-right: 4px;
 }
 
 .descriptiontext
 {
   margin: 10px 0;
+  float: left;
   font-family: 'Oxygen',Arial,sans-serif;
   font-size: 15px;
   text-rendering: optimizelegibility;
+  display:inline;
 }
 
 .drinktitle
@@ -66,7 +74,7 @@
   font-size: 36px;
   text-shadow: -2px 2px 0 #612c0c;
   text-rendering: optimizelegibility;
-  margin-left: 20px;
+  margin-bottom:0px;
 }
 
 .drinksubtitle
@@ -77,6 +85,9 @@
   font-size: 24px;
   margin-top: 12px;
   text-rendering: optimizelegibility;
+  display: inline-block;
+  clear: left;
+  float: left;
 }
 
 .drinkimage
@@ -86,11 +97,14 @@
 
 .imageframe
 {
-    width: 70%;
+    width: 30%;
+    padding-top:12px;
+    padding-left:24px;
     margin-top:12px;
-    margin-left:24px;
+    margin-left:12px;
     display: inline-block;
     position: relative;
+    float: left;
     overflow: hidden;
 }
 
@@ -101,21 +115,16 @@
     content: '';
 }
 
-.buttonframe
+.rightframe
 {
-    width: 70%;
-    margin-left:24px;
-    display: inline-block;
-    position: relative;
+    width:40%;
+    padding-top:12px;
+    padding-left:18px;
+    float: left;
     overflow: hidden;
+    position: relative;
 }
 
-.buttonframe:after
-{
-    padding-top: 20%;
-    display: block;
-    content: '';
-}
 .imageframeinner
 {
     overflow: hidden;
@@ -129,9 +138,10 @@
   font-weight: 500;
   font-size: 20px;
   text-rendering: optimizelegibility;
-  text-align:left;
+  text-align:center;
   width: 100%;
-  margin-bottom: 24px;
+  position: absolute;
+  bottom:0;
   border-radius: 0px;
 }
 
@@ -141,10 +151,11 @@ hr.drinkbreak
   border-bottom: 3px solid #45515F;
 }
 
-.footertext
+.drinkframe
 {
-  margin: 10px 0;
-  font-family: 'Oxygen',Arial,sans-serif;
-  font-size: 12px;
-  text-rendering: optimizelegibility;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 60%;
 }

@@ -6,7 +6,8 @@
  **************************************************/
 
 #define F_CPU 8000000
-#define BAUD 9600
+//#define BAUD 9600
+#define BAUD 115200 
 
 
 #define DDR_SPI DDRB
