@@ -1,0 +1,12 @@
++----------------------------------------------------------+
+|    ID|                   KEY|                  NAME|FLOW |
++----------------------------------------------------------+
+|     1|              LIGHTRUM|             Light Rum|1000*|
+|     3|        CRANBERRYJUICE|       Cranberry Juice|1000*|
+|     5|          SWEETANDSOUR|          Sweet & Sour|1000*|
+|     4|               WHISKEY|               Whiskey|1000*|
+|     2|                	WATER|                 Water|1000*|
+|     6|                 VODKA|                 Vodka|1000*|
+|     7|                  NILL|                  NILL|2000*|
+|     8|                  NIDL|                 nilll|2000*|
++----------------------------------------------------------+

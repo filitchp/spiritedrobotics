@@ -1,0 +1,13 @@
+{
+  "key" : "VODKASHOT",
+  "customer" : "shot ",
+  "date" : 1364089506,
+  "ingredients" : 
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : 4
+    }
+  ]
+}

@@ -1,0 +1,12 @@
++--------------------------------------------------------+
+|    ID|                    KEY|               NAME|FLOW |
++--------------------------------------------------------+
+|     1|                DARKRUM|           Dark Rum|2200*|
+|     2|            ORANGEJUICE|       Orange Juice|2200*|
+|     3|              LIMEJUICE|         Lime Juice|1500*|
+|     4|                WHISKEY|            Whiskey|2200*|
+|     5|                  VODKA|              Vodka|2200*|
+|     6|                    GIN|                Gin|2200*|
+|     7|        AMARETTOLIQUEUR|           Amaretto|1800*|
+|     8|         CRANBERRYJUICE|          Cranberry|2200*|
++--------------------------------------------------------+

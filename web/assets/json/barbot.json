@@ -4,51 +4,51 @@
   [
     {
       "id" : 1,
-      "key" : "DARKRUM",
-      "name" : "Dark Rum",
-      "flowRate" : 2200
-    },
-    {
-      "id" : 2,
-      "key" : "ORANGEJUICE",
-      "name" : "Orange Juice",
-      "flowRate" : 2200
+      "key" : "LIGHTRUM",
+      "name" : "Light Rum",
+      "flowRate" : 1500
     },
     {
       "id" : 3,
-      "key" : "LIMEJUICE",
-      "name" : "Lime Juice",
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "flowRate" : 1500
+    },
+    {
+      "id" : 5,
+      "key" : "SWEETANDSOUR",
+      "name" : "Sweet & Sour",
       "flowRate" : 1500
     },
     {
       "id" : 4,
       "key" : "WHISKEY",
       "name" : "Whiskey",
-      "flowRate" : 2200
+      "flowRate" : 1500
     },
     {
-      "id" : 5,
-      "key" : "VODKA",
-      "name" : "Vodka",
-      "flowRate" : 2200
+      "id" : 2,
+      "key" : "COKE",
+      "name" : "Coke",
+      "flowRate" : 1500
     },
     {
       "id" : 6,
-      "key" : "GIN",
-      "name" : "Gin",
-      "flowRate" : 2200
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "flowRate" : 1500
     },
     {
       "id" : 7,
-      "key" : "AMARETTOLIQUEUR",
-      "name" : "Amaretto",
-      "flowRate" : 1800
+      "key" : "NILL",
+      "name" : "NILL",
+      "flowRate" : 2000
     },
     {
       "id" : 8,
-      "key" : "CRANBERRYJUICE",
-      "name" : "Cranberry",
-      "flowRate" : 2200
+      "key" : "NIDL",
+      "name" : "nilll",
+      "flowRate" : 2000
     }
   ]
 }

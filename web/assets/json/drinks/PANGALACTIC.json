@@ -4,18 +4,13 @@
   "ingredients" :
   [
     {
-      "key" : "GIN",
-      "name" : "Gin",
-      "amount" : "1"
-    },
-    {
-      "key" : "DARKRUM",
-      "name" : "Dark Rum",
-      "amount" : "1"
-    },
-    {
       "key" : "VODKA",
       "name" : "Vodka",
+      "amount" : "1"
+    },
+    {
+      "key" : "LIGHTRUM",
+      "name" : "Light Rum",
       "amount" : "1"
     },
     {
@@ -24,25 +19,20 @@
       "amount" : "1"
     },
     {
-      "key" : "LIMEJUICE",
-      "name" : "Lime Juice",
-      "amount" : "0.5"
-    },
-    {
-      "key" : "ORANGEJUICE",
-      "name" : "Orange Juice",
-      "amount" : "0.5"
+      "key" : "SWEETANDSOUR",
+      "name" : "Sweet & Sour",
+      "amount" : "1"
     },
     {
       "key" : "CRANBERRYJUICE",
       "name" : "Cranberry Juice",
       "amount" : "1.5"
     },
-	{
-	  "key" : "AMARETTOLIQUEUR",
-	  "name" : "Amaretto Liqueur",
-	  "amount" : "0.5"
-	}
+    {
+      "key" : "COKE",
+      "name" : "Coke",
+      "amount" : "1.5"
+    }
   ],
   "description" : "Like having your brains smashed out by a slice of lemon wrapped around a large gold brick.",
   "imagePath" : "assets/img/drinks/pangalactic.jpg",

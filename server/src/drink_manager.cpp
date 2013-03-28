@@ -626,7 +626,7 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
   if (bytesWritten > 0)
   {
     cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
-    readData(500);
+    readData(10);
   }
   else
   {
@@ -808,7 +808,7 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
       {
         cout << "Wrote " << (unsigned) bytesWritten << " bytes" << endl;
 
-        readData(500);
+        readData(10);
       }
       else
       {
