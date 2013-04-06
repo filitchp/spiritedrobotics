@@ -1,1 +1,8 @@
-{{https://raw.github.com/wiki/filitchp/opencv-histlib/img/barbot.jpg | BarBot}}
+= Spirited Robotics
+== Introduction
+This project contains the source and designs for Spirited Robotics robotic bartender named the [[http://youtu.be/Smgeb5rSSXo|Santa Barbot]].  
+
+{{https://raw.github.com/wiki/filitchp/spiritedrobotics/img/barbot.jpg | Santa BarBot Picture}}
+
+== System Diagram
+{{https://raw.github.com/wiki/filitchp/spiritedrobotics/img/systemDiagram.png | Santa BarBot System Diagram}}
