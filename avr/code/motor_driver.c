@@ -132,6 +132,17 @@ void Pour_Drink(unsigned int time)
 
 }
 
+void Stop_Pouring(void)
+{
+	// Turn off the clock 
+	TCCR1B &= ~((1<<CS12) | (1<<CS11) | (1<<CS10));
+
+	Set_Motor1_Velocity(0);
+	PORTB |= (1<<2);
+	led_strip_standby();
+	reversing = FALSE;
+}
+
 void Start_Motor_Timer(unsigned int time)
 {
 	unsigned int result = 0xFFFF;
