@@ -9,9 +9,6 @@
 
 
 
-
-
-
 // Constants
 #define RECEIVE_BUFFER_LENGTH 16
 #define PERSONAL_OUTPUT_BUFFER_LENGTH 16
@@ -30,6 +27,8 @@ static const unsigned char FOOTER  = 0xCF;
 // Error Codes
 static const unsigned char RESPONSE_OK  = 0x3F;
 
+// Generic Commands
+#define COMMAND_E_STOP 0x01
 
 // Commands
 #define COMMAND_POUR_DRINK 0x40
@@ -107,6 +106,26 @@ char Process_Incomming_Data_If_Available()
 
 	switch(receive_buffer[1])
 	{
+		case COMMAND_E_STOP:
+			if (received_bytes != 5)
+				return FAILURE;
+
+			Stop_Pouring();
+
+			// If addressed to all nodes, pass the packet along with address += 1
+			if (receive_buffer[0] == HEADER_ALL)
+			{
+				Add_To_Personal_Out_Buffer(HEADER_ALL);
+				Add_To_Personal_Out_Buffer(COMMAND_E_STOP);
+				Add_To_Personal_Out_Buffer(FOOTER);
+				Set_Personal_Out_Buffer_Ready_To_Write();
+			}
+			else
+			{
+				Send_Response_Byte(0);
+			}
+
+			break;
 		case COMMAND_POUR_DRINK: 
 			if (received_bytes != 5)
 				return FAILURE;
