@@ -19,6 +19,7 @@ void Set_Motor1_Velocity(int velocity);
 void Set_Motor2_Velocity(int velocity);
 
 void Pour_Drink(unsigned int time);
+void Stop_Pouring(void);
 void Start_Motor_Timer(unsigned int time);
 void Blocking_Wait_For_Motor_Timer_Complete();
 
