@@ -176,12 +176,12 @@ DrinkManager::DrinkManager(const string& rootPath) :
   // B76800   76,800 baud
   // B115200 115,200 baud
 
-  if (cfsetispeed(&newOptions, B115200) == -1)
+  if (cfsetispeed(&newOptions, B38400) == -1)
   {
     cerr << "ERROR: Could not set the input speed" << endl;
   }
 
-  if (cfsetospeed(&newOptions, B115200) == -1)
+  if (cfsetospeed(&newOptions, B38400) == -1)
   {
     cerr << "ERROR: Could not set the output speed" << endl;
   }
@@ -637,18 +637,20 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
   return true;
 }
 
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 bool DrinkManager::sendInitMessage()
 {
 
   cout << "Initializing towers..." << endl;
-  static unsigned char INIT_ADDRESS = 0x80;
-  static unsigned char INIT_COMMAND = 0x02;
+  static unsigned char COMMAND_HEADER = 0x80;
+  static unsigned char REASSIGN_ADDRESS_COMMAND = 0x02;
 
   unsigned char msg[4];
-  msg[0] = INIT_ADDRESS;
-  msg[1] = INIT_COMMAND;
+  msg[0] = COMMAND_HEADER;
+  msg[1] = REASSIGN_ADDRESS_COMMAND;
   msg[2] = 0x01;
-  msg[3] = 0xC0;
+  msg[3] = 0xC0; // TODO: compute checksum
 
   cout << "Init tower message: " << endl;
   for (int i = 0; i < 4; ++i)
@@ -668,7 +670,38 @@ bool DrinkManager::sendInitMessage()
 }
 
 //------------------------------------------------------------------------------
-// For debugging and calibrating each tower
+//------------------------------------------------------------------------------
+bool DrinkManager::sendHaltMessage()
+{
+
+  cout << "Halting towers..." << endl;
+  static unsigned char COMMAND_HEADER = 0x80;
+  static unsigned char FORCE_HALT_COMMAND = 0x01;
+
+  unsigned char msg[3];
+  msg[0] = COMMAND_HEADER;
+  msg[1] = FORCE_HALT_COMMAND;
+  msg[2] = 0xC0; // TODO: compute checksum
+
+  cout << "Halt tower message: " << endl;
+  for (int i = 0; i < 3; ++i)
+  {
+    printf("%d : %2X\n", i, msg[i]);
+  }
+
+  ssize_t bytesWritten = write(mFd, msg, 3);
+
+  if (bytesWritten != 3)
+  {
+    cout << "ERROR: could not send bytes to halt tower" << endl;
+    return false;
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+// Initializes the system
 //------------------------------------------------------------------------------
 bool DrinkManager::initTowers()
 {
@@ -679,6 +712,29 @@ bool DrinkManager::initTowers()
   }
 
   if (!sendInitMessage())
+  {
+    return false;
+  }
+
+  readData(500);
+
+  cout << "=====================" << endl;
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+// Initializes the system
+//------------------------------------------------------------------------------
+bool DrinkManager::haltTowers()
+{
+  if (mFd <= 0)
+  {
+    cerr << "ERROR: serial port is not open" << endl;
+    return false;
+  }
+
+  if (!sendHaltMessage())
   {
     return false;
   }

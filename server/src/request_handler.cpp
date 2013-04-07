@@ -120,6 +120,7 @@ void request_handler::handle_request(const request& req, reply& rep)
   const string approve_order_path("/approveOrder");
   const string test_tower_path("/testTower");
   const string init_addresses_path("/initTowers");
+  const string halt_addresses_path("/haltTowers");
 
   string path("");
   string query("");
@@ -201,11 +202,48 @@ void request_handler::handle_request(const request& req, reply& rep)
   {
     handleInitRoutineRequest(rep);
   }
+  else if (path == halt_addresses_path)
+  {
+    handleHaltRoutineRequest(rep);
+  }
   else
   {
     // The request was for a file...
     handle_file_request(path_and_query, req, rep);
   }
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void request_handler::handleHaltRoutineRequest(reply& rep)
+{
+
+  bool success = false;
+
+  if (mDrinkManager.haltTowers())
+  {
+    success = true;
+  }
+
+  if (success)
+  {
+    string successMessage = "{\"result\" : true}";
+    rep.content.append(successMessage.c_str(), successMessage.size());
+  }
+  else
+  {
+    string errorMessage = "{\"result\" : false}";
+    rep.content.append(errorMessage.c_str(), errorMessage.size());
+  }
+
+  rep.status = reply::ok;
+
+  rep.headers.resize(2);
+  rep.headers[0].name = "Content-Length";
+  rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+  rep.headers[1].name = "Content-Type";
+  rep.headers[1].value = "application/json";
+
 }
 
 //------------------------------------------------------------------------------

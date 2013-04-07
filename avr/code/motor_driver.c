@@ -12,6 +12,10 @@ volatile bool reversing = FALSE;
 volatile unsigned int remainder_cycles = 0;
 volatile unsigned int cycles_remaining = 0;
 
+static int			pour_pwm = 160;
+static int			reversing_pwm = -200;
+static unsigned int	reversing_time = 0x1200;
+
 
 //This initializes timer 0 (8 bits) to phase correct PWM
 void Init_PWM()
@@ -123,13 +127,45 @@ void Set_Motor2_Velocity(int velocity)
 }
 
 
+bool Set_Pour_Pwm(int pwm)
+{
+	if ( (pwm <= 0) || (pwm >= 255) ) { return FAILURE; }
+	
+	pour_pwm = pwm;
+	return SUCCESS;
+}
+
+bool Set_Reversing_Pwm(int pwm)
+{
+	if ( (pwm > 0) || (pwm <= 255) ) { return FAILURE; }
+	
+	reversing_pwm = pwm;
+	return SUCCESS;
+}
+
+bool Set_Reversing_Time(unsigned int time)
+{
+	reversing_time = time;
+	return SUCCESS;
+}
+
+unsigned int Calculate_Time(unsigned char b1, unsigned char b2)
+{
+	return (((unsigned int)b1)<<7) | ((unsigned int)b2);
+}
+
+
+
+
 void Pour_Drink(unsigned int time)
 {
+	PORTB &= ~(1<<2);
+
+	Set_Motor1_Velocity(pour_pwm); //nominally 160
+
 	cycles_remaining = (time>>12);
 	remainder_cycles = (time<<4);
-
 	Start_Motor_Timer(remainder_cycles);
-
 }
 
 void Stop_Pouring(void)
@@ -153,7 +189,6 @@ void Start_Motor_Timer(unsigned int time)
 
 	// Set the clock to be Fosc / 1024
 	TCCR1B |= ((1<<CS12) | (1<<CS10));
-
 }
 
 void Blocking_Wait_For_Motor_Timer_Complete()
@@ -187,8 +222,8 @@ ISR (TIMER1_OVF_vect)
 		// When the acutal time stops, reverse the motor
 		else
 		{
-			Set_Motor1_Velocity(-200);
-			Start_Motor_Timer(0x1200);
+			Set_Motor1_Velocity(reversing_pwm);
+			Start_Motor_Timer(reversing_time);
 			reversing = TRUE;
 		}
 	}

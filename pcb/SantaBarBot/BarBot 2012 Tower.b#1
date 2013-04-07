@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="6.4">
+<eagle version="6.3">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -122,8 +122,8 @@
 <text x="26.289" y="32.512" size="1.27" layer="1" font="vector" ratio="16">TXD</text>
 <text x="22.987" y="1.016" size="1.27" layer="1" font="vector" ratio="16" rot="R90">TX</text>
 <text x="59.436" y="1.27" size="1.27" layer="1" font="vector" ratio="16" rot="R90">RX</text>
-<dimension x1="0" y1="76.2" x2="76.2" y2="76.2" x3="38.1" y3="80.391" textsize="3.5" layer="20"/>
-<dimension x1="0" y1="0" x2="0" y2="76.2" x3="-5.334" y3="38.1" textsize="3.5" layer="20"/>
+<dimension x1="0" y1="76.2" x2="76.2" y2="76.2" x3="38.1" y3="80.391" layer="20"/>
+<dimension x1="0" y1="0" x2="0" y2="76.2" x3="-5.334" y3="38.1" layer="20"/>
 <circle x="50.673" y="27.686" radius="0.127" width="0.254" layer="1"/>
 <circle x="15.113" y="65.151" radius="0.127" width="0.254" layer="1"/>
 <circle x="15.113" y="62.357" radius="0.127" width="0.254" layer="1"/>
@@ -142,7 +142,6 @@
 <hole x="72.39" y="3.81" drill="3.2"/>
 <hole x="3.81" y="3.81" drill="3.2"/>
 <rectangle x1="51.054" y1="15.494" x2="52.238909375" y2="16.1798" layer="16"/>
-<dimension x1="57.15" y1="-7.62" x2="57.023" y2="-0.127" x3="77.064965625" y3="-3.53488125" textsize="1.778" layer="16"/>
 </plain>
 <libraries>
 <library name="SparkFun-DigitalIC">
@@ -3211,6 +3210,18 @@ This Sunstone Circuits 2 Layer .DRU has been set to cover our minimum requiremen
 <wire x1="9.398" y1="37.846" x2="12.64" y2="37.846" width="0.254" layer="1"/>
 </signal>
 </signals>
+<errors>
+<approved hash="4,1,fb461e31e215059c"/>
+<approved hash="4,1,926df0b06f46afdf"/>
+<approved hash="4,1,fddbbc50400a037f"/>
+<approved hash="4,1,0266015a2bdc10cc"/>
+<approved hash="19,16,822bb3e25520d12f"/>
+<approved hash="19,16,408c93898cde15e6"/>
+<approved hash="19,16,a6308ecb94cc5a19"/>
+<approved hash="19,16,5da9762c2be8036d"/>
+<approved hash="19,16,11a1dd5db85fc2de"/>
+<approved hash="19,16,97ca92ae949191f5"/>
+</errors>
 </board>
 </drawing>
 </eagle>

@@ -43,6 +43,7 @@ class request_handler : private boost::noncopyable
     void handle_file_request(std::string& request_path, const request& req, reply& rep);
 
     void handleInitRoutineRequest(reply& rep);
+    void handleHaltRoutineRequest(reply& rep);
     void handleDrinkListRequest(reply& rep);
     void handlePendingOrdersRequest(reply& rep);
     void handleApprovedOrdersRequest(reply& rep);

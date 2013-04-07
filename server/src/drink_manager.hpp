@@ -39,7 +39,9 @@ class DrinkManager
     void printAllDrinkSummary(std::ostream& os) const;
 
     bool initTowers();
+    bool haltTowers();
     bool sendInitMessage();
+    bool sendHaltMessage();
 
   private:
 

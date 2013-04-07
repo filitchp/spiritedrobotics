@@ -29,10 +29,20 @@ static const unsigned char RESPONSE_OK  = 0x3F;
 
 // Generic Commands
 #define COMMAND_E_STOP 0x01
-
-// Commands
-#define COMMAND_POUR_DRINK 0x40
 #define COMMAND_REASSIGN_ADDRESS 0x02
+
+// Tower Commands
+#define COMMAND_POUR_DRINK 0x40
+#define COMMAND_SET_POUR_PWM 0x41
+#define COMMAND_SET_REVERSING_TIME 0x42
+#define COMMAND_SET_REVERSING_PWM 0x43
+#define COMMAND_RESET_ERROR_LIGHT 0x44
+
+// Responses
+#define RESPONSE_SUCCESS 0xFE
+#define RESPONSE_FAILURE 0xFF
+
+
 
 // Receiveing data
 static unsigned char my_address = 0;
@@ -89,6 +99,7 @@ void initialize_communication()
 void set_my_address(unsigned char address)
 {
 	my_address = address;
+	
 }
 
 bool ready_to_process_incomming_data()
@@ -99,71 +110,114 @@ bool ready_to_process_incomming_data()
 char Process_Incomming_Data_If_Available()
 {
 	if (!incomming_data_ready_for_processing) { return SUCCESS; }
-	else { incomming_data_ready_for_processing = FALSE; }
+	else { incomming_data_ready_for_processing = FALSE; } // reset flag
 
-	if (received_bytes < 3) { return FAILURE; }
+	if (received_bytes < 3) { return FAILURE; } // minimum number of bytes of a packet
 
+	unsigned char	response_data[8];
+	unsigned int	num_response_bytes = 0;
+
+	bool addressed_to_all = (receive_buffer[0] == HEADER_ALL);
+	bool success = SUCCESS;
 
 	switch(receive_buffer[1])
 	{
 		case COMMAND_E_STOP:
-			if (received_bytes != 5)
-				return FAILURE;
+			if (received_bytes != 3) { success = FAILURE; break; }
 
-			Stop_Pouring();
-
-			// If addressed to all nodes, pass the packet along with address += 1
-			if (receive_buffer[0] == HEADER_ALL)
-			{
-				Add_To_Personal_Out_Buffer(HEADER_ALL);
-				Add_To_Personal_Out_Buffer(COMMAND_E_STOP);
-				Add_To_Personal_Out_Buffer(FOOTER);
-				Set_Personal_Out_Buffer_Ready_To_Write();
-			}
-			else
-			{
-				Send_Response_Byte(0);
-			}
+			Stop_Pouring();	
 
 			break;
+
+		case COMMAND_SET_POUR_PWM:
+			if (received_bytes != 4) { success = FAILURE; break; }
+
+			Set_Pour_Pwm(receive_buffer[2]);
+
+			break;
+
+		case COMMAND_SET_REVERSING_PWM:
+			if (received_bytes != 4) { success = FAILURE; break; }
+
+			Set_Reversing_Pwm(receive_buffer[2]);
+
+			break;
+
+		case COMMAND_SET_REVERSING_TIME:
+			if (received_bytes != 4) { success = FAILURE; break; }
+
+			unsigned int time_to_reverse = Calculate_Time(receive_buffer[2], receive_buffer[3]);
+			Set_Reversing_Time(time_to_reverse);
+
+			break;
+
 		case COMMAND_POUR_DRINK: 
-			if (received_bytes != 5)
-				return FAILURE;
+			if (received_bytes != 5) { success = FAILURE; break; }
 
-			Send_Response_Bytes2(receive_buffer[2], receive_buffer[3]);
+			response_data[0] = receive_buffer[2];
+			response_data[1] = receive_buffer[3];
+			num_response_bytes = 2;
 
-			PORTB &= ~(1<<2);
-            
-            unsigned int time;
-			time =(((unsigned int)receive_buffer[2])<<7) | ((unsigned int)receive_buffer[3]);
+            unsigned int time = Calculate_Time(receive_buffer[2], receive_buffer[3]);
 
-			Set_Motor1_Velocity(160); //160
             Pour_Drink(time);
             led_strip_fire(time >> 2);
 
 			break;
 
+		case COMMAND_RESET_ERROR_LIGHT:
+			if (received_bytes != 3) { success = FAILURE; break; }
+
+			PORTB |= (1<<0);
+
+			break;
+
 		case COMMAND_REASSIGN_ADDRESS:
-			if (received_bytes != 4)
-				return FAILURE;
+			if (received_bytes != 4) { success = FAILURE; break; }
 
 			PORTB &= ~(1<<1);
 			set_my_address(receive_buffer[2]);
 
 			// If addressed to command, pass the packet along with address += 1
-			if (receive_buffer[0] == HEADER_ALL)
-			{
-				Add_To_Personal_Out_Buffer(HEADER_ALL);
-				Add_To_Personal_Out_Buffer(COMMAND_REASSIGN_ADDRESS);
-				Add_To_Personal_Out_Buffer(receive_buffer[2] + 1);
-				Add_To_Personal_Out_Buffer(FOOTER);
-				Set_Personal_Out_Buffer_Ready_To_Write();
-			}
+			receive_buffer[2] += 1;
+
 			break;
+
 		default:
-			//Send_Response_Byte(receive_buffer[1]);
+
+			success = FAILURE;
+
+			// don't pass the bad packet along
+			addressed_to_all = FALSE;
+
+			// set error light
 			PORTB &= ~(1<<0);
 			break;
+	}
+
+	// If addressed to all nodes, pass the packet along
+	if (addressed_to_all)
+	{
+		int i;
+		for (i = 0; i < received_bytes; ++i)
+		{ Add_To_Personal_Out_Buffer(receive_buffer[i]); }
+		Set_Personal_Out_Buffer_Ready_To_Write();
+	}
+	else // send a response byte
+	{
+		Add_To_Personal_Out_Buffer(HEADER_MASTER);
+
+		unsigned char response_status = (success) ? RESPONSE_SUCCESS : RESPONSE_FAILURE;
+		Add_To_Personal_Out_Buffer(response_status);
+		Add_To_Personal_Out_Buffer(my_address);
+		Add_To_Personal_Out_Buffer(receive_buffer[1]); // The command
+
+		int i;
+		for (i = 0; i < num_response_bytes; ++i)
+		{ Add_To_Personal_Out_Buffer(response_data[i]); }
+
+		Add_To_Personal_Out_Buffer(FOOTER);
+		Set_Personal_Out_Buffer_Ready_To_Write();
 	}
 
 	return SUCCESS;
