@@ -19,7 +19,7 @@ $(function()
         model: Barbot,
         events: {
             'click .click-to-test' : 'test',
-            'click .click-to-init' : 'init'
+            'click .click-to-init' : 'init',
             'click .click-to-stop' : 'stop'
         },
         test: function(){

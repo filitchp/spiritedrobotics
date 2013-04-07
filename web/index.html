@@ -3,9 +3,13 @@
     <head>
         <meta charset="utf-8">
         <title>Santa Barbot</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
         <meta name="description" content="Santa Barbot drink menu">
         <meta name="author" content="Spirited Robotics">
+
+        <style>
+            body {overflow:hidden}
+        </style>
 
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -36,16 +40,14 @@
                 <%= description %>
             </div>
             <div class="nav-button-container">
-                <button class="nav-button btn btn-large btn-drink-last prev-drink" href="#">&lt;</button>
-                <button class="nav-button btn btn-large btn-drink-make click-to-modal" href="#<%= key %>">ORDER IT!</button>
-                <button class="nav-button btn btn-large btn-drink-next next-drink" href="#">&gt;</button>
+                <button class="nav-button btn btn-large btn-primary btn-drink-last prev-drink" href="#">&lt;</button>
+                <button class="nav-button btn btn-large btn-primary btn-drink-make click-to-modal" href="#<%= key %>">ORDER IT!</button>
+                <button class="nav-button btn btn-large btn-primary btn-drink-next next-drink" href="#">&gt;</button>
             </div>
-        </div>
-        </section>
+            </section>
     </script>
     <script type="text/template" id="drink_list_item_template"> 
-        <hr class="drinkitembreak"/>
-        <li class="drink-list-item"> <a href='#<%=get("key")%>'><%= get("name") %></a> </li>
+        <li class="drink-list-item <%=get("key")%>" href='#<%=get("key")%>'><%= get("name") %></li>
     </script>
     <script type="text/template" id="modal_template"> 
         <div class="modal hide fade" id="order_modal">
@@ -53,13 +55,14 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 class="Modal Header">Order me a <%= get("name") %>!</h3>
             </div>
-            <div class="modal-body center">
+            <div class="modal-body">
                 <div class="row">
-                    <div class="span4 offset1">
-                        <p>WHAT IS YOUR DESIGNATION?</p>
-                        <input type="text" id="customer"></input>
-                        <p><%= FlavorQuestions[Math.floor(Math.random()*FlavorQuestions.length)] %></p>
-                        <input type="text" id="flavor"></input>
+                    <div class="span11 offset1">
+                        <p>WHAT IS YOUR NAME?</p>
+                        <input class="modal-input" type="text" id="customer" width=100% height=20%></input>
+                      <!--  <p><%= FlavorQuestions[Math.floor(Math.random()*FlavorQuestions.length)] %></p>
+                        <input class="modal-input" type="text" id="flavor" width=100%></input>
+                    -->
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -70,46 +73,58 @@
         </script>
         <script type="text/template" id="ingredient_template">
             <tr width="100%">
-                <td width="20%" class="ingrval"><%= amount %></td>
-                <td width="80%" class="ingrname"><%= name %></td>  
+                <td width="28%" class="ingrval"><%= amount %> oz</td>
+                <td width="72%" class="ingrname"><%= name %></td>  
             </tr>
         </script>
 
         <script type="text/template" id="topbar_template">
-            <li><a href="#<%= get("key") %>"><%= get("name") %></a></li>
+           <!-- <li><a href="#<%= get("key") %>"><%= get("name") %></a></li> Nothing for it yet...-->
         </script>
-    </head>
+        
+            </head>
 
-    <body class="preview" data-spy="scroll" data-target=".subnav" data-offset="80">
-
-        <div class="container">
-
-            <!-- Masthead
+    <body>
+         <!-- Masthead
             ================================================== -->
-            <header class="jumbotron subhead" id="overview">
+
+        <div class="topbar">
+                <img src="assets/img/spirited_robotics_logo.png" class="logo" height="100%" />
+        </div>
+        
+        <div class="sub-topbar">
+
+        <ul id="drinks-list" class="drinks-list nav nav-list">
+        
+        </ul>
+       
+         <!--
             <div class="row">
                 <div class="span6">
                     <h2 class="category_title">Manly Drinks</h2>
                 </div>
             </div>
-            
-            <ul class="drinks-list nav nav-list">
-            </ul>
-
-	    </header>
-
-            <div class="drinkframe">
-                <div id="content">
+          -->  
+            <div class="container">
+                <div class="drinkframe">
+                    <div id="content">
+                    </div>
                 </div>
+            </div>
 
+        </div> <!-- topbar -->
+           
+        <div class="container" width=100%>
+           <div id="modal_container">
             </div>
-            <div id="modal_container">
-            </div>
+        </div>
+
+        <div id="preload">
+        </div>
 
             <!-- Footer
             ================================================== -->
 
-        </div><!-- /container -->
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->

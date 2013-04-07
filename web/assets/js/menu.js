@@ -21,7 +21,7 @@ $(function()
       this.current_index = 0;
       this.setElement($("body"));
       this.collection.on({
-          "sync": function(){ self.render(0) }
+          "sync": function(){ self.setHash(window.location.hash) }
       });
     },
     current_index: 0,
@@ -41,32 +41,46 @@ $(function()
     },
     render: function(idx)
     {
+      console.log("Rendering menu idx: " + idx.toString());
       $("#content").empty();
       // Clear the menu
       $(".category_title").html(this.collection.category_title);
       // Render a drink
-        v = new DrinkView({model: this.collection.at(idx)});
+      var drink = this.collection.at(idx); 
+
+      if (drink != null){
+        window.location.hash = "#" + drink.get('key');  
+        v = new DrinkView({model: drink});
         v.render();
+      }
     },
     setHash: function(hash){
-        var target = this.collection.where({ key: hash.substring(1) });
-        console.log(hash);
-        var idx = this.collection.indexOf(target[0]);
-        this.current_index = idx;
-        this.render(idx);
+        var idx = 0;
+        
+        if(hash != ""){
+          var target = this.collection.where({ key: hash.substring(1) });
+          console.log(hash);
+          idx = this.collection.indexOf(target[0]);
+        }
+
+          this.current_index = idx;
+          this.render(idx);
+    },
+    getHash: function(idx){
+        var target = this.collection.at(idx);
+        return target.get("key");
     }
   });
   
-  view = new DrinksView();
-  view3 = new DrinkListView({ collection: drinks, target: view});
+  view = new DrinksView({ collection: drinks });
   drinks.fetch();
+  view3 = new DrinkListView({ collection: drinks, target: view});
   view2 = new CategoryTopbarView({ el: $(".category-topbar"), 
                                    collection: categories });
   
  $(window).on('hashchange', function(){
     view.setHash(window.location.hash);
  });
-
 
   categories.fetch();
 
