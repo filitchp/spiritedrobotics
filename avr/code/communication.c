@@ -29,10 +29,13 @@ static const unsigned char RESPONSE_OK  = 0x3F;
 
 // Generic Commands
 #define COMMAND_E_STOP 0x01
+#define COMMAND_REASSIGN_ADDRESS 0x02
 
 // Commands
 #define COMMAND_POUR_DRINK 0x40
-#define COMMAND_REASSIGN_ADDRESS 0x02
+#define COMMAND_SET_POUR_PWM 0x41
+#define COMMAND_SET_REVERSING_TIME 0x42
+#define COMMAND_SET_REVERSING_PWM 0x43
 
 // Receiveing data
 static unsigned char my_address = 0;
@@ -89,6 +92,7 @@ void initialize_communication()
 void set_my_address(unsigned char address)
 {
 	my_address = address;
+	
 }
 
 bool ready_to_process_incomming_data()
@@ -107,7 +111,7 @@ char Process_Incomming_Data_If_Available()
 	switch(receive_buffer[1])
 	{
 		case COMMAND_E_STOP:
-			if (received_bytes != 5)
+			if (received_bytes != 3)
 				return FAILURE;
 
 			Stop_Pouring();
@@ -126,18 +130,79 @@ char Process_Incomming_Data_If_Available()
 			}
 
 			break;
+		case COMMAND_SET_POUR_PWM:
+			if (received_bytes != 4)
+				return FAILURE;
+
+			Set_Pour_Pwm(receive_buffer[2]);
+
+			// If addressed to all nodes, pass the packet along with address += 1
+			if (receive_buffer[0] == HEADER_ALL)
+			{
+				Add_To_Personal_Out_Buffer(HEADER_ALL);
+				Add_To_Personal_Out_Buffer(COMMAND_SET_POUR_PWM);
+				Add_To_Personal_Out_Buffer(receive_buffer[2]);
+				Add_To_Personal_Out_Buffer(FOOTER);
+				Set_Personal_Out_Buffer_Ready_To_Write();
+			}
+			else
+			{
+				Send_Response_Byte(0);
+			}
+
+			break;
+		case COMMAND_SET_REVERSING_PWM:
+			if (received_bytes != 4)
+				return FAILURE;
+
+			Set_Reversing_Pwm(receive_buffer[2]);
+
+			// If addressed to all nodes, pass the packet along with address += 1
+			if (receive_buffer[0] == HEADER_ALL)
+			{
+				Add_To_Personal_Out_Buffer(HEADER_ALL);
+				Add_To_Personal_Out_Buffer(COMMAND_SET_REVERSING_PWM);
+				Add_To_Personal_Out_Buffer(receive_buffer[2]);
+				Add_To_Personal_Out_Buffer(FOOTER);
+				Set_Personal_Out_Buffer_Ready_To_Write();
+			}
+			else
+			{
+				Send_Response_Byte(0);
+			}
+
+			break;
+		case COMMAND_SET_REVERSING_TIME:
+			if (received_bytes != 4)
+				return FAILURE;
+
+			unsigned int time_to_reverse = Calculate_Time(receive_buffer[2], receive_buffer[3]);
+			Set_Reversing_Time(time_to_reverse);
+
+			// If addressed to all nodes, pass the packet along with address += 1
+			if (receive_buffer[0] == HEADER_ALL)
+			{
+				Add_To_Personal_Out_Buffer(HEADER_ALL);
+				Add_To_Personal_Out_Buffer(COMMAND_SET_REVERSING_TIME);
+				Add_To_Personal_Out_Buffer(receive_buffer[2]);
+				Add_To_Personal_Out_Buffer(receive_buffer[3]);
+				Add_To_Personal_Out_Buffer(FOOTER);
+				Set_Personal_Out_Buffer_Ready_To_Write();
+			}
+			else
+			{
+				Send_Response_Byte(0);
+			}
+
+			break;
 		case COMMAND_POUR_DRINK: 
 			if (received_bytes != 5)
 				return FAILURE;
 
 			Send_Response_Bytes2(receive_buffer[2], receive_buffer[3]);
 
-			PORTB &= ~(1<<2);
-            
-            unsigned int time;
-			time =(((unsigned int)receive_buffer[2])<<7) | ((unsigned int)receive_buffer[3]);
+            unsigned int time = Calculate_Time(receive_buffer[2], receive_buffer[3]);
 
-			Set_Motor1_Velocity(160); //160
             Pour_Drink(time);
             led_strip_fire(time >> 2);
 
