@@ -8,7 +8,7 @@
         <meta name="author" content="Spirited Robotics">
 
         <style>
-            body {overflow:hidden}
+            body { overflow:hidden }
         </style>
 
         <!--[if lt IE 9]>
@@ -56,6 +56,7 @@
                 <h3 class="Modal Header">Order me a <%= get("name") %>!</h3>
             </div>
             <div class="modal-body">
+                <form id="modal-form">
                 <div class="row">
                     <div class="span11 offset1">
                         <p>WHAT IS YOUR NAME?</p>
@@ -66,9 +67,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn btn-primary click-to-order">Order</a>
-                    <a href="#" class="btn close" data-dismiss="modal">Forget it</a>
+                    <button href= "/" type="submit" class="btn btn-primary click-to-order">Order</a>
+                    <button class="btn close" data-dismiss="modal">Forget it</a>
                 </div>
+                </form>
             </div>
         </script>
         <script type="text/template" id="ingredient_template">
@@ -82,7 +84,7 @@
            <!-- <li><a href="#<%= get("key") %>"><%= get("name") %></a></li> Nothing for it yet...-->
         </script>
         
-            </head>
+    </head>
 
     <body>
          <!-- Masthead
@@ -121,7 +123,7 @@
 
         <div id="preload">
         </div>
-
+        <input id="hidden-field" style="display: none;" />
             <!-- Footer
             ================================================== -->
 

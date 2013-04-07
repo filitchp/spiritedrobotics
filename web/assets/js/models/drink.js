@@ -64,7 +64,8 @@ $(function()
         
         },
         events: {
-            'click .click-to-order' : 'order'
+            'click .click-to-order' : 'order',
+            'submit #modal-form' : 'order'
         },
         //TODO replace this with creating an order and posting it...
         order: function(){ 
@@ -73,8 +74,8 @@ $(function()
                 url: "orderPresetDrink",
                 data: {
                     key: this.model.get("key"),
-                    customer: ( $("#order_modal").find("#customer").val() + " " + 
-                    $("#order_modal").find("#flavor").val() )
+                    customer: ( $("#order_modal").find("#customer").val() ) //+ " " + 
+                 //   $("#order_modal").find("#flavor").val() )
                 },
                 success: function(res){
                     if (res.result == true){
@@ -87,6 +88,7 @@ $(function()
                       //  });
                       // MyOrders.add(newOrder);
 
+                        window.location = "";
                         $("#order_modal").modal("hide");
                     }else{
                         console.log("Order could not be placed");
