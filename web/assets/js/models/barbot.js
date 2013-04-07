@@ -20,6 +20,7 @@ $(function()
         events: {
             'click .click-to-test' : 'test',
             'click .click-to-init' : 'init'
+            'click .click-to-stop' : 'stop'
         },
         test: function(){
             $.ajax({
@@ -29,6 +30,19 @@ $(function()
                     tower: $("#test_number").val(),
                     amount: $("#test_amount").val()
                 },
+                success: function(res){
+                    if (res.result == true){
+                      console.log(res.toString());
+                    }else{
+                        alert("ERR");
+                    }
+                }
+            });
+        },
+     	stop: function(){
+            $.ajax({
+                type: "GET",
+                url: "haltTower",
                 success: function(res){
                     if (res.result == true){
                       console.log(res.toString());
