@@ -12,6 +12,25 @@ This project contains the source and designs for Spirited Robotics robotic barte
 * The order server runs on any Linux device that supports Boost v1.46+
 * Finely tuned PWM control for setting pump pressure
 
+== Order Server
+=== Building and running
+Order server code is located in the **//server//** directory.  To build it you must have CMake 2.6+ and the Boost v1.46+ development libraries.  
+{{{
+cd /home/dev/spiritedrobotics/server
+mkdir build
+cd build
+cmake ../src/
+make
+./Order_Server 127.0.0.1 3000 /home/dev/spiritedrobotics/web/
+}}}
+
+| Argument | Description                                         | Example                         |
+| 1        | The IP address of the server                        | 127.0.0.1 (localhost)           |
+| 2        | The port the server will user to accept connections | 3000                            |
+| 3        | The path to the configuration files and content     | /home/dev/spiritedrobotics/web/ |
+
+=== API
+The HTTP JSON API is documented [[https://github.com/filitchp/spiritedrobotics/wiki/Order-Server-API | here]].
+
 == Gallery
-| {{https://raw.github.com/wiki/filitchp/spiritedrobotics/img/01.small.jpg|Late night hacking}} | {{https://raw.github.com/wiki/filitchp/spiritedrobotics/img/02.small.jpg|At Barbot SF 2013}} | {{https://raw.github.com/wiki/filitchp/spiritedrobotics/img/03.small.jpg|At Barbot SF 2013}} |
-| [[https://raw.github.com/wiki/filitchp/spiritedrobotics/img/01.jpg|Large version]] | [[https://raw.github.com/wiki/filitchp/spiritedrobotics/img/02.jpg|Large version]] | [[https://raw.github.com/wiki/filitchp/spiritedrobotics/img/03.jpg|Large version]] |
+| {{https://raw.github.com/wiki/filitchp/spiritedrobotics/img/01.jpg|Late night hacking}} | {{https://raw.github.com/wiki/filitchp/spiritedrobotics/img/02.jpg|At Barbot SF 2013}} | {{https://raw.github.com/wiki/filitchp/spiritedrobotics/img/03.jpg|At Barbot SF 2013}} |
