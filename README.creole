@@ -2,7 +2,9 @@
 == Introduction
 This project contains the source and designs for Spirited Robotics robotic bartender named the [[http://youtu.be/Smgeb5rSSXo|Santa Barbot]].  
 
-{{https://raw.github.com/wiki/filitchp/spiritedrobotics/img/barbot.jpg | Santa BarBot Picture}}
-
 == System Diagram
 {{https://raw.github.com/wiki/filitchp/spiritedrobotics/img/systemDiagram.png | Santa BarBot System Diagram}}
+
+== Gallery
+| {{https://raw.github.com/wiki/filitchp/spiritedrobotics/img/01.small.jpg|Late night hacking}} | {{https://raw.github.com/wiki/filitchp/spiritedrobotics/img/02.small.jpg|At Barbot SF 2013}} | {{https://raw.github.com/wiki/filitchp/spiritedrobotics/img/03.small.jpg|At Barbot SF 2013}} |
+| [[https://raw.github.com/wiki/filitchp/spiritedrobotics/img/01.jpg|Large version]] | [[https://raw.github.com/wiki/filitchp/spiritedrobotics/img/02.jpg|Large version]] | [[https://raw.github.com/wiki/filitchp/spiritedrobotics/img/03.jpg|Large version]] |
