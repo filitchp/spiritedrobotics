@@ -1,0 +1,45 @@
+\documentclass[11pt,a4paper]{memoir}
+\setstocksize{52mm}{90mm}
+\setpagecc{52mm}{90mm}{*}
+\settypeblocksize{52mm}{90mm}{*}
+\setulmargins{0mm}{*}{*}
+\setlrmargins{0mm}{*}{*}
+\setheadfoot{0pt}{0pt}
+\setheaderspaces{0pt}{*}{*}
+\checkandfixthelayout[fixed]
+\pagestyle{empty} 
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{background}
+\definecolor{Blue}{HTML}{4380D3}
+\definecolor{DarkBlue}{HTML}{05316D}
+\definecolor{Gray}{RGB}{220,220,220}
+\backgroundsetup{
+scale=1,
+angle=0,
+opacity=1,
+contents={\begin{tikzpicture}[remember picture,overlay]
+ \path [left color = DarkBlue, right color = DarkBlue] (current page.south west)rectangle (current page.north east);   % Adjust the position of the logo.
+\end{tikzpicture}}
+}
+\color{Gray}
+
+\begin{document}
+\hspace{-1\parindent}\hspace{0.2mm} 
+\includegraphics[width=0.8\linewidth]{spirited_robotics_logo.png}
+\hspace{-1\parindent}\hspace{-0.207\linewidth} 
+\raisebox{0.55em}{\tiny www.spiritedrobotics.com}
+
+\vspace{2em}
+
+Founded with singular purpose...
+
+\hspace{0.05\linewidth}THE INEBRIATION OF ALL MANKIND
+
+
+
+\vspace{4em}
+
+\hspace{-1\parindent}\hspace{0.5mm} {\tiny  booking@spiritedrobotics.com } 
+\hspace{0.34\linewidth} {\tiny 805-380-5312}
+\end{document}
