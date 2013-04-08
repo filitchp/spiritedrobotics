@@ -36,6 +36,7 @@ static const unsigned char RESPONSE_OK  = 0x3F;
 #define COMMAND_SET_POUR_PWM 0x41
 #define COMMAND_SET_REVERSING_TIME 0x42
 #define COMMAND_SET_REVERSING_PWM 0x43
+#define COMMAND_RESET_ERROR_LIGHT 0x44
 
 // Responses
 #define RESPONSE_SUCCESS 0xFE
@@ -161,6 +162,13 @@ char Process_Incomming_Data_If_Available()
 
             Pour_Drink(time);
             led_strip_fire(time >> 2);
+
+			break;
+
+		case COMMAND_RESET_ERROR_LIGHT:
+			if (received_bytes != 3) { success = FAILURE; break; }
+
+			PORTB |= (1<<0);
 
 			break;
 
