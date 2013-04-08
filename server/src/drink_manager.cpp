@@ -734,7 +734,7 @@ bool DrinkManager::haltTowers()
     return false;
   }
 
-  if (!sendInitMessage())
+  if (!sendHaltMessage())
   {
     return false;
   }
