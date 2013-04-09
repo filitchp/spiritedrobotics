@@ -50,6 +50,7 @@ class request_handler : private boost::noncopyable
     void handleOrderPresetDrinkRequest(std::map<std::string, std::string>& queryMap, reply& rep);
     void handleApproveOrderRequest(std::map<std::string, std::string>& queryMap, reply& rep);
     void handleTestTowerRequest(std::map<std::string, std::string>& queryMap, reply& rep);
+    void handleReverseTimeRequest(std::map<std::string, std::string>& queryMap, reply& rep);
 
 };
 

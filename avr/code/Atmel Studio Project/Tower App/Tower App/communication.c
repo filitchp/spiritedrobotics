@@ -43,6 +43,7 @@ static const unsigned char RESPONSE_OK  = 0x3F;
 #define RESPONSE_FAILURE 0xFF
 
 
+
 // Receiveing data
 static unsigned char my_address = 0;
 static unsigned char receive_buffer[RECEIVE_BUFFER_LENGTH];
@@ -131,19 +132,19 @@ char Process_Incomming_Data_If_Available()
 		case COMMAND_SET_POUR_PWM:
 			if (received_bytes != 4) { success = FAILURE; break; }
 
-			Set_Pour_Pwm((int)(receive_buffer[2]));
+			Set_Pour_Pwm(receive_buffer[2]);
 
 			break;
 
 		case COMMAND_SET_REVERSING_PWM:
 			if (received_bytes != 4) { success = FAILURE; break; }
 
-			Set_Reversing_Pwm((int)(receive_buffer[2])); // This is made negative in this function
+			Set_Reversing_Pwm(receive_buffer[2]);
 
 			break;
 
 		case COMMAND_SET_REVERSING_TIME:
-			if (received_bytes != 5) { success = FAILURE; break; }
+			if (received_bytes != 4) { success = FAILURE; break; }
 
 			unsigned int time_to_reverse = Calculate_Time(receive_buffer[2], receive_buffer[3]);
 			Set_Reversing_Time(time_to_reverse);
@@ -206,7 +207,7 @@ char Process_Incomming_Data_If_Available()
 	{
 		Add_To_Personal_Out_Buffer(HEADER_MASTER);
 
-		unsigned char response_status = (success == FAILURE) ? RESPONSE_SUCCESS : RESPONSE_FAILURE;
+		unsigned char response_status = (success) ? RESPONSE_SUCCESS : RESPONSE_FAILURE;
 		Add_To_Personal_Out_Buffer(response_status);
 		Add_To_Personal_Out_Buffer(my_address);
 		Add_To_Personal_Out_Buffer(receive_buffer[1]); // The command

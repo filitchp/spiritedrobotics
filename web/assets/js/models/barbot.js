@@ -42,7 +42,7 @@ $(function()
      	stop: function(){
             $.ajax({
                 type: "GET",
-                url: "haltTower",
+                url: "haltTowers",
                 success: function(res){
                     if (res.result == true){
                       console.log(res.toString());
