@@ -559,6 +559,87 @@ vector<unsigned char> DrinkManager::constructTowerMessage(
   return message;
 }
 
+
+//------------------------------------------------------------------------------
+// For debugging and calibrating each tower
+//
+// BYTE 1 - Header = 0x80 (header byte for all)
+// BYTE 2 - Command type = 0x40 (Pour drink)
+// BYTE 3 - Command data = amount x flowRate
+// BYTE 4 - Footer + checksum
+//------------------------------------------------------------------------------
+bool DrinkManager::setTowerReverseTime(unsigned char towerId, float amount)
+{
+
+  if (towerId != 0)
+  {
+    if ((mpBarbot->isTowerIdValid(towerId) == false))
+    {
+      return false;
+    }
+  }
+
+  if (mFd <= 0)
+  {
+    cerr << "ERROR: serial port is not open" << endl;
+    return false;
+  }
+
+  float flowRate = 0;
+
+  if (towerId != 0)
+  {
+    Tower tower = mpBarbot->getTowerById(towerId);
+
+    flowRate = tower.getFlowRate();
+  }
+  else
+  {
+    cerr << "ERROR: we do not have a tower with that ID" << endl;
+    return false;
+  }
+
+  if (amount < 0)
+  {
+    return false;
+  }
+
+  static unsigned char COMMAND = 0x42;
+
+  vector<unsigned char> message = constructTowerMessage(
+    towerId, COMMAND, amount, flowRate);
+
+  unsigned char msg[5];
+
+  unsigned i = 0;
+  BOOST_FOREACH(unsigned char byteToSend, message)
+  {
+    printf("%2X ", byteToSend);
+    cout <<  endl;
+
+    msg[i] = byteToSend;
+
+    ++i;
+  }
+
+  size_t bytesWritten = write(mFd, msg, 5);
+
+  if (bytesWritten > 0)
+  {
+    cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
+    readData(1000);
+  }
+  else
+  {
+    cout << "ERROR: Could not write any bytes" << endl;
+    return false;
+  }
+
+  return true;
+}
+
+
+
 //------------------------------------------------------------------------------
 // For debugging and calibrating each tower
 //
@@ -626,7 +707,7 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
   if (bytesWritten > 0)
   {
     cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
-    readData(10);
+    readData(1000);
   }
   else
   {

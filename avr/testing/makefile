@@ -19,5 +19,8 @@ check_baud:
 set_baud_9600:
 	stty -F /dev/ttyUSB0 9600
 
+set_baud_38400:
+	stty -F /dev/ttyUSB0 38400
+
 set_baud_115200:
 	stty -F /dev/ttyUSB0 115200 
