@@ -100,6 +100,8 @@
   width:100%;
   position: absolute;
   left:0px;
+  margin-left:20px;
+  padding-right:10px;
   bottom:20px;
 }
 
@@ -109,7 +111,8 @@
   position:relative;
   display:inline-block;
   float: left;
-  width: 33%;
+  width: 30%;
+  margin-right:10px;
 }
 
 .drinkimage
