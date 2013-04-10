@@ -1,0 +1,27 @@
+{
+  "key" : "SUPERNOVA",
+  "name" : "Super Nova",
+  "ingredients" :
+  [
+	{
+		"key" : "VODKA",
+		"name" : "Vodka",
+		"amount" : "1"
+	},
+	{
+		"key" : "BLUECURACAO",
+		"name" : "Blue Curacao",
+		"amount" : "1"
+	},
+	{
+		"key" : "TANG",
+		"name" : "Tang",
+		"amount" : "2"
+	}
+  ],
+  "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],
+  "description" : "",
+  "imagePath" : "assets/img/drinks/superNova2druskloSquare.jpg",
+  "attribution" : "Image by Drusklo on Flickr",
+  "type" : "Highball"
+}

@@ -1,0 +1,22 @@
+{
+  "key" : "RUSSIANCOSMONAUT",
+  "name" : "Russian Cosmonaut",
+  "ingredients" :
+  [
+	{
+		"key" : "VODKA",
+		"name" : "Vodka",
+		"amount" : "1"
+	},
+	{
+		"key" : "TANG",
+		"name" : "Tang",
+		"amount" : "3"
+	}
+  ],
+  "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],
+  "description" : "",
+  "imagePath" : "assets/img/drinks/russianCosmonautVerselloSquare.jpg",
+  "attribution" : "Image by Versello on Flickr",
+  "type" : "Lowball"
+}

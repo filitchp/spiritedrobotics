@@ -1,0 +1,22 @@
+{
+  "key" : "REDPLANET",
+  "name" : "Red Planet",
+  "ingredients" :
+  [
+	{
+		"key" : "VODKA",
+		"name" : "Vodka",
+		"amount" : "1"
+	},
+	{
+		"key" : "CRANBERRYJUICE",
+		"name" : "Cranberry Juice",
+		"amount" : "3"
+	}
+  ],
+  "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],
+  "description" : "",
+  "imagePath" : "assets/img/drinks/vodkaCranberry3MoneyBlogNewzSquare.jpg",
+  "attribution" : "Image by MoneyBlogNewz on Flickr",
+  "type" : "Highball"
+}

@@ -1,53 +1,53 @@
 {
-  "description":"This file is read by the server on startup to configure the system. The following values were arbitrarily chosen for software testing",
+  "description":"Yuris Night 2013 Setup",
   "towers" :
   [
     {
       "id" : 1,
-      "key" : "LIGHTRUM",
-      "name" : "Light Rum",
-      "flowRate" : 1500
-    },
-    {
-      "id" : 3,
-      "key" : "CRANBERRYJUICE",
-      "name" : "Cranberry Juice",
-      "flowRate" : 1500
-    },
-    {
-      "id" : 5,
-      "key" : "SWEETANDSOUR",
-      "name" : "Sweet & Sour",
-      "flowRate" : 1500
-    },
-    {
-      "id" : 4,
-      "key" : "WHISKEY",
-      "name" : "Whiskey",
-      "flowRate" : 1500
-    },
-    {
-      "id" : 2,
-      "key" : "COKE",
-      "name" : "Coke",
-      "flowRate" : 1500
-    },
-    {
-      "id" : 6,
       "key" : "VODKA",
       "name" : "Vodka",
       "flowRate" : 1500
     },
     {
+      "id" : 2,
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "flowRate" : 1500
+    },
+    {
+      "id" : 3,
+      "key" : "BLUECURACAO",
+      "name" : "Blue Curacao",
+      "flowRate" : 1500
+    },
+    {
+      "id" : 4,
+      "key" : "TANG",
+      "name" : "Tang",
+      "flowRate" : 1500
+    },
+    {
+      "id" : 5,
+      "key" : "DARKRUM",
+      "name" : "Dark Rum",
+      "flowRate" : 1500
+    },
+    {
+      "id" : 6,
+      "key" : "IRISHCREAM",
+      "name" : "Bailey's",
+      "flowRate" : 1500
+    },
+    {
       "id" : 7,
-      "key" : "NILL",
-      "name" : "NILL",
+      "key" : "WHISKEY",
+      "name" : "Whiskey",
       "flowRate" : 2000
     },
     {
       "id" : 8,
-      "key" : "NIDL",
-      "name" : "nilll",
+      "key" : "COFFEELIQUEUR",
+      "name" : "Kahlua",
       "flowRate" : 2000
     }
   ]

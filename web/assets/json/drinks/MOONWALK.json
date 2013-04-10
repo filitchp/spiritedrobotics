@@ -1,0 +1,27 @@
+{
+  "key" : "MOONWALK",
+  "name" : "Moonwalk",
+  "ingredients" :
+  [
+	{
+		"key" : "VODKA",
+		"name" : "Vodka",
+		"amount" : "5"
+	},
+	{
+		"key" : "COFFEELIQUEUR",
+		"name" : "Kahlua",
+		"amount" : "2"
+	},
+	{
+		"key" : "IRISHCREAM",
+		"name" : "Bailey's Irish Cream",
+		"amount" : "3"
+	}
+  ],
+  "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],
+  "description" : "",
+  "imagePath" : "assets/img/drinks/whiteRussianTau_Zero.jpg",
+  "attribution" : "Image by Tau Zero on Flickr",
+  "type" : "Lowball"
+}
