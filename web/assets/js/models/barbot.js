@@ -19,7 +19,7 @@ $(function()
         model: Barbot,
         events: {
             'click .click-to-test' : 'test',
-            'click .click-to-init' : 'init'
+            'click .click-to-init' : 'init',
             'click .click-to-stop' : 'stop'
         },
         test: function(){
@@ -42,7 +42,7 @@ $(function()
      	stop: function(){
             $.ajax({
                 type: "GET",
-                url: "haltTower",
+                url: "haltTowers",
                 success: function(res){
                     if (res.result == true){
                       console.log(res.toString());
