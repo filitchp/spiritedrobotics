@@ -24,6 +24,7 @@
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/filesystem.hpp>
 
 #include "mime_types.hpp"
 #include "reply.hpp"
@@ -571,11 +572,23 @@ void request_handler::handle_file_request(
   {
     rep.content.append(buf, is.gcount());
   }
-  rep.headers.resize(2);
+
+  rep.headers.resize(3);
   rep.headers[0].name = "Content-Length";
   rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
   rep.headers[1].name = "Content-Type";
   rep.headers[1].value = mime_types::extension_to_type(extension);
+  rep.headers[2].name = "Last-Modified";
+    
+  boost::filesystem::path p(full_path.c_str());
+  try{
+    std::time_t t = boost::filesystem::last_write_time(p);
+    std::string time = std::ctime(&t);
+    rep.headers[2].value = time.substr(0,time.size()-1);
+  }catch (boost::filesystem::filesystem_error &e){ 
+    rep.headers[2].value = boost::lexical_cast<string>("error");
+  } 
+
 }
 
 //------------------------------------------------------------------------------

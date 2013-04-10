@@ -58,10 +58,14 @@ $(function()
             var modalTemplate = _.template($("#modal_template").html());
             this.$el.html(modalTemplate(this.model));
             $("#modal_container").html(this.$el);
+            $("#order_modal").on("shown", function(){ $("#customer").focus() });
             $("#order_modal").modal();
+            $(window).on('hashchange', function() { $("#order_modal").modal('hide'); } );
+        
         },
         events: {
-            'click .click-to-order' : 'order'
+            'click .click-to-order' : 'order',
+            'submit #modal-form' : 'order'
         },
         //TODO replace this with creating an order and posting it...
         order: function(){ 
@@ -70,8 +74,8 @@ $(function()
                 url: "orderPresetDrink",
                 data: {
                     key: this.model.get("key"),
-                    customer: ( $("#order_modal").find("#customer").val() + " " + 
-                    $("#order_modal").find("#flavor").val() )
+                    customer: ( $("#order_modal").find("#customer").val() ) //+ " " + 
+                 //   $("#order_modal").find("#flavor").val() )
                 },
                 success: function(res){
                     if (res.result == true){
@@ -84,6 +88,7 @@ $(function()
                       //  });
                       // MyOrders.add(newOrder);
 
+                        window.location = "";
                         $("#order_modal").modal("hide");
                     }else{
                         console.log("Order could not be placed");
@@ -119,6 +124,10 @@ $(function()
             var ingredientHtml = '';
             var ingredientTemplate = _.template($("#ingredient_template").html());
             var drinkTemplate = _.template($("#drink_template").html()); 
+            
+            $("#drinks-list li").removeClass("selected");
+            $("#drinks-list ." + this.model.get("key")).addClass("selected");
+            
             $.each(ingredients, function (i,ingr)
             {
                 var ingrVars = 
@@ -153,24 +162,24 @@ $(function()
         initialize: function() {
             var self = this;
             this.collection.on({
-                "sync": function() { self.render(0) }
+                "sync": function() { self.render() }
             });
         },
         render: function() {
             var drinkListItemTemplate = _.template($("#drink_list_item_template").html());
-            var list = $(".drinks-list");
+            var list = $("#drinks-list");
             this.collection.each(function(drink, i){ 
                 var poped = drinkListItemTemplate(drink);
                 list.append(poped);
+                $("#preload").append("<img src=\"" + drink.get("imagePath") + "\" width=\"1\" height=\"1\"/>");
             });
-            this.renderMain(10);
-            this.setElement($(".drinks-list"));
+            this.setElement($("#drinks-list"));
         },
-        renderMain: function(idx){
-            $("#content").empty();
-            v = new DrinkView({model:this.collection.at(idx)});
-            v.render();
+        events: {
+            'click .drink-list-item' : function(ev){ 
+                window.location.hash = $(ev.target).attr("href");
+                console.log("list click event recieved");
+            }
         }
-
     });
 });
