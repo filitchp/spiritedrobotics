@@ -31,6 +31,7 @@ class DrinkManager
     bool addOrder(std::string drinkKey, std::string customerName, unsigned timestamp);
     bool approveOrder(std::string drinkKey, std::string customerName, unsigned timestamp);
     bool testTower(unsigned char towerId, float amount);
+    bool setTowerReverseTime(unsigned char towerId, float amount);
 
     void normalizeDrink(Drink& d, float normalizedAmount);
     void printAllDrinkIngredients(std::ostream& os) const;

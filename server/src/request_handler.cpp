@@ -121,6 +121,7 @@ void request_handler::handle_request(const request& req, reply& rep)
   const string test_tower_path("/testTower");
   const string init_addresses_path("/initTowers");
   const string halt_addresses_path("/haltTowers");
+  const string reverse_time_path("/setTowerReverseTime");
 
   string path("");
   string query("");
@@ -205,6 +206,9 @@ void request_handler::handle_request(const request& req, reply& rep)
   else if (path == halt_addresses_path)
   {
     handleHaltRoutineRequest(rep);
+  }
+  else if (path == reverse_time_path){
+    handleReverseTimeRequest(queryMap,rep);
   }
   else
   {
@@ -345,6 +349,75 @@ void request_handler::handleTestTowerRequest(map<string, string>& queryMap, repl
   rep.headers[1].name = "Content-Type";
   rep.headers[1].value = "application/json";
 }
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void request_handler::handleReverseTimeRequest(map<string, string>& queryMap, reply& rep)
+{
+  bool success = false;
+
+  if (queryMap.size())
+  {
+    string towerIdStr;
+    string amountStr;
+
+    if (queryMap.find("tower") != queryMap.end())
+    {
+      towerIdStr = queryMap["tower"];
+    }
+
+    if (queryMap.find("amount") != queryMap.end())
+    {
+      amountStr = queryMap["amount"];
+    }
+
+    if (towerIdStr.size() && amountStr.size())
+    {
+      cout << "towerIdStr " << towerIdStr << endl;
+      cout << "amountStr " << amountStr << endl;
+
+      unsigned towerId;
+      istringstream ( towerIdStr ) >> towerId;
+
+      float amount = boost::lexical_cast<float>(amountStr);
+
+      // If we have a drink key, a customer name, and a timestamp
+      if ((towerId >= 0) && (amount > 0))
+      {
+        cout << "towerId " << towerId << endl;
+        cout << "amount " << amount << endl;
+
+        if (mDrinkManager.setTowerReverseTime(towerId, amount))
+        {
+          success = true;
+        }
+      }
+    }
+  }
+
+  if (success)
+  {
+    cout << "SUCCESS" << endl;
+    string successMessage = "{\"result\" : true}";
+    rep.content.append(successMessage.c_str(), successMessage.size());
+  }
+  else
+  {
+    cout << "FAILURE" << endl;
+    string errorMessage = "{\"result\" : false}";
+    rep.content.append(errorMessage.c_str(), errorMessage.size());
+  }
+
+  rep.status = reply::ok;
+
+  rep.headers.resize(2);
+  rep.headers[0].name = "Content-Length";
+  rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+  rep.headers[1].name = "Content-Type";
+  rep.headers[1].value = "application/json";
+}
+
+
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
