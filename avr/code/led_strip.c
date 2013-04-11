@@ -168,8 +168,8 @@ void rainbow(LightStrip* strip, unsigned int counter, unsigned int spread)
 		unsigned int cycle_position = (((cycle_length * i * 10) / (num_lights * (spread + 1))) + c) % cycle_length;
 
 		strip->lights[i].red   = get_brightness(cycle_position); 
-		strip->lights[i].green = get_brightness((cycle_position + 128)%384); 
-		strip->lights[i].blue  = get_brightness((cycle_position + 256)%384); 
+		strip->lights[i].green = get_brightness((cycle_position + 128)%cycle_length); 
+		strip->lights[i].blue  = get_brightness((cycle_position + 256)%cycle_length); 
 	}
 }
 
