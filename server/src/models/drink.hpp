@@ -29,6 +29,8 @@ class Drink
     const std::string& getName() const;
 
     std::vector<Ingredient> getIngredients() const;
+    
+    std::vector<std::string> getCategories() const;
 
     const std::string& getDescription() const;
 
@@ -43,6 +45,8 @@ class Drink
   private:
 
     void addIngredient(Ingredient& ingredient);
+
+    void addCategory(std::string category);
 
     // The unique drink key
     std::string mKey;
@@ -61,6 +65,9 @@ class Drink
 
     // The ingredient in the drink
     std::vector<Ingredient> mIngredients;
+    
+    // The categories the drink belongs to
+    std::vector<std::string> mCategories;
 };
 
 #endif // DRINK_HPP

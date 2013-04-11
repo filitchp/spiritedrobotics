@@ -116,6 +116,21 @@ Drink::Drink(const ptree& pt)
   {
     cerr << "ERROR: Could not read ingredient properties" << endl;
   }
+  
+  try
+  {
+    //For each category
+    BOOST_FOREACH (const ptree::value_type& node, pt.get_child("categories"))
+    {
+       std::string category = node.second.data();
+       addCategory(category);
+    }
+  } 
+  catch (boost::exception& e)
+  {
+    cerr << "ERROR: Could not read category properties" << endl;
+  }
+  
 }
 
 //------------------------------------------------------------------------------
@@ -136,6 +151,10 @@ void Drink::addIngredient(Ingredient& ingredient)
   }
 
   mIngredients.push_back(ingredient);
+}
+
+void Drink::addCategory(std::string category){
+  mCategories.push_back(category);
 }
 
 //------------------------------------------------------------------------------
@@ -227,6 +246,14 @@ vector<Ingredient> Drink::getIngredients() const
 {
   return mIngredients;
 }
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+vector<std::string> Drink::getCategories() const
+{
+  return mCategories;
+}
+
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------

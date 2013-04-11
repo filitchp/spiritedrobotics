@@ -269,7 +269,15 @@ void DrinkManager::createAvailableDrinkList()
   BOOST_FOREACH(const Drink& drink, mAllDrinks)
   {
 
-    bool valid = true;
+    bool valid = false;
+    
+    //TODO remove this and put it with a generic route -Andrew
+    BOOST_FOREACH(const std::string category, drink.getCategories())
+    {
+       if (category == "SPACE"){
+         valid = true;
+       }
+    }
 
     BOOST_FOREACH(const Ingredient& ing, drink.getIngredients())
     {
@@ -279,6 +287,7 @@ void DrinkManager::createAvailableDrinkList()
         //cout<<"This ingredient Doesn't exist!! "<<ing.getKey()<<" for "<<drink.getName()<<endl;
       }
     }
+
 
     if (valid)
     {
@@ -333,11 +342,11 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
 
     if (type == DrinkTypeShot)
     {
-      normalizeDrink(drink, 4);
+      normalizeDrink(drink, 3);
     }
     else if (type == DrinkTypeLowBall)
     {
-      normalizeDrink(drink, 8);
+      normalizeDrink(drink, 5);
     }
     else if (type == DrinkTypeHighBall)
     {
