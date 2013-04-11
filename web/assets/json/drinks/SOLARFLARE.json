@@ -11,12 +11,12 @@
 	{
 		"key" : "TANG",
 		"name" : "Tang",
-		"amount" : "3"
+		"amount" : "0.5"
 	},
 	{
 		"key" : "CRANBERRYJUICE",
 		"name" : "Cranberry Juice",
-		"amount" : "1"
+		"amount" : "2"
 	}
   ],
   "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],
