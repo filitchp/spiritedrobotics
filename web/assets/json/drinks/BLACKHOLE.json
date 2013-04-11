@@ -6,7 +6,7 @@
 	{
 		"key" : "DARKRUM",
 		"name" : "Spiced Rum",
-		"amount" : "1"
+		"amount" : "1.5"
 	},
 	{
 		"key" : "BLUECURACAO",
@@ -16,7 +16,12 @@
 	{
 		"key" : "CRANBERRYJUICE",
 		"name" : "Cranberry Juice",
-		"amount" : "3"
+		"amount" : "2.5"
+	},
+	{
+		"key" : "LIMEJUICE",
+		"name" : "Lime Juice",
+		"amount" : "0.5"
 	}
   ],
   "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],

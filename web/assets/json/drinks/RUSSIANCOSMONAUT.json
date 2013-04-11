@@ -6,12 +6,22 @@
 	{
 		"key" : "VODKA",
 		"name" : "Vodka",
-		"amount" : "1"
+		"amount" : "1.5"
 	},
 	{
-		"key" : "TANG",
-		"name" : "Tang",
+		"key" : "BLUECURACAO",
+		"name" : "Blue Curacao",
+		"amount" : "0.5"
+	},
+	{
+		"key" : "CRANBERRYJUICE",
+		"name" : "Cranberry Juice",
 		"amount" : "3"
+	},
+	{
+		"key" : "LIMEJUICE",
+		"name" : "Lime Juice",
+		"amount" : "0.5"
 	}
   ],
   "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],

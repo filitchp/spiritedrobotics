@@ -1,0 +1,27 @@
+{
+  "key" : "ZEROGRAVITY",
+  "name" : "Zero Gravity",
+  "ingredients" :
+  [
+	{
+		"key" : "WHISKEY",
+		"name" : "Whiskey",
+		"amount" : "2"
+	},
+	{
+		"key" : "BLUECURACAO",
+		"name" : "Blue Curacao",
+		"amount" : "1"
+	},
+	{
+		"key" : "LIMEJUICE",
+		"name" : "Lime Juice",
+		"amount" : "1"
+	}
+  ],
+  "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],
+  "description" : "",
+  "imagePath" : "assets/img/drinks/SolarFlare_KurisuSquare.jpg",
+  "attribution" : "Image by Kurisu on Flickr",
+  "type" : "Lowball"
+}
