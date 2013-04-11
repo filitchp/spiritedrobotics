@@ -10,13 +10,13 @@
  *		   LED Strip API		  *
  **************************************************/
 
-LightStrip base;
-LightStrip top;
-LightStrip led_strip;
-unsigned int state_firing_time;
-volatile unsigned int state_counter;
-unsigned int last_counter;
-unsigned int saved_counter;
+LIGHTSTRIP base;
+LIGHTSTRIP top;
+LIGHTSTRIP led_strip;
+uint16_t state_firing_time;
+volatile uint16_t state_counter;
+uint16_t last_counter;
+uint16_t saved_counter;
 size_t state;
 #define STANDBY 0
 #define FIRING 1
@@ -24,8 +24,8 @@ size_t state;
 void init_led_strip()
 {
 
-	LightStrip* strip = &led_strip;
-	int num_leds_on_strip = 20;
+	LIGHTSTRIP* strip = &led_strip;
+	 int16_t  num_leds_on_strip = 20;
 	saved_counter = 0;
 
 	if (strip == 0)
@@ -49,7 +49,7 @@ void init_led_strip()
 	last_counter = 1;
 
 	// Sweet malloc bro (fix this so it is constant)
-	strip->lights = (Light*) malloc( num_leds_on_strip * sizeof(Light));
+	strip->lights = (LIGHT*) malloc( num_leds_on_strip * sizeof(LIGHT));
 
 	if (strip->lights == 0)
 	{
@@ -60,7 +60,7 @@ void init_led_strip()
 	{
 		strip->num_lights = num_leds_on_strip;
 
-		int i;
+		 int16_t  i;
 		for (i=0; i<strip->num_lights; ++i)
 			set_led_color(strip, i, 0, 0, 0);
 	}
@@ -75,15 +75,15 @@ void init_led_strip()
 
 void led_strip_standby()
 {
-	LightStrip* strip = &led_strip;
+	LIGHTSTRIP* strip = &led_strip;
 	set_top(strip, strip->lights[1].red / 10, strip->lights[1].green / 10, strip->lights[1].blue / 10);
 	state_counter = saved_counter;
 	state = STANDBY;
 }
 
-void led_strip_fire(unsigned int time)
+void led_strip_fire(uint16_t time)
 {
-	LightStrip* strip = &led_strip;
+	LIGHTSTRIP* strip = &led_strip;
 	saved_counter = state_counter;
 	state_counter = 0;
 	state_firing_time = (time);
@@ -118,7 +118,7 @@ void led_strip_update()
 	Write_To_Led_Strip(&led_strip);
 }
 
-void set_led_color(LightStrip* strip, size_t index, unsigned char red, unsigned char green, unsigned char blue)
+void set_led_color(LIGHTSTRIP* strip, size_t index, uint8_t red, uint8_t green, uint8_t blue)
 {
 	if (index >= strip->num_lights)
 		return;
@@ -128,9 +128,9 @@ void set_led_color(LightStrip* strip, size_t index, unsigned char red, unsigned 
 	strip->lights[index].blue = blue;
 }
 
-void Write_To_Led_Strip(LightStrip* lights)
+void Write_To_Led_Strip(LIGHTSTRIP* lights)
 {
-	int i;
+	 int16_t  i;
 	for (i=0; i<lights->num_lights; ++i)
 	{
 		send_next_light(&lights->lights[i]);
@@ -143,29 +143,29 @@ void Write_To_Led_Strip(LightStrip* lights)
  *		  Color Paterns			  *
  **************************************************/
 
-unsigned char get_brightness(unsigned int p)
+uint8_t get_brightness(uint16_t p)
 {
-	unsigned char out;
+	uint8_t out;
 	if (p < 128)
-		out = (unsigned char) p;
+		out = (uint8_t) p;
 	else if (p < 256)
-		out = (unsigned char)(255 - p);
+		out = (uint8_t)(255 - p);
 	else
-		out = (unsigned char)0;
+		out = (uint8_t)0;
 
 	return out / 10;
 }
 
-void rainbow(LightStrip* strip, unsigned int counter, unsigned int spread)
+void rainbow(LIGHTSTRIP* strip, uint16_t counter, uint16_t spread)
 {
-	const unsigned int cycle_length = 384;
+	const uint16_t cycle_length = 384;
 	size_t num_lights = strip->num_lights;
-	unsigned int c = counter % cycle_length;
+	uint16_t c = counter % cycle_length;
 
 	size_t i;
 	for (i=0; i<num_lights; ++i)
 	{
-		unsigned int cycle_position = (((cycle_length * i * 10) / (num_lights * (spread + 1))) + c) % cycle_length;
+		uint16_t cycle_position = (((cycle_length * i * 10) / (num_lights * (spread + 1))) + c) % cycle_length;
 
 		strip->lights[i].red   = get_brightness(cycle_position); 
 		strip->lights[i].green = get_brightness((cycle_position + 128)%cycle_length); 
@@ -173,27 +173,27 @@ void rainbow(LightStrip* strip, unsigned int counter, unsigned int spread)
 	}
 }
 
-void mod_rainbow(LightStrip* strip, unsigned int counter)
+void mod_rainbow(LIGHTSTRIP* strip, uint16_t counter)
 {
-	LightStrip base;
+	LIGHTSTRIP base;
 	get_base_subset(strip, &base);
 
-	LightStrip top;
+	LIGHTSTRIP top;
 	get_top_subset(strip, &top);
 
 	rainbow(&base,counter,50);
 	fill(&top, counter, 300, (&base)->lights[0]);
 }
 
-void fill(LightStrip* strip, unsigned int counter, unsigned int total, Light mimic)
+void fill(LIGHTSTRIP* strip, uint16_t counter, uint16_t total, LIGHT mimic)
 {
-	unsigned int red = mimic.red;
-	unsigned int green = mimic.green;
-	unsigned int blue = mimic.blue;
+	uint16_t red = mimic.red;
+	uint16_t green = mimic.green;
+	uint16_t blue = mimic.blue;
 
 	//if(red+green+blue == 0){ red = 127; green = 127; blue = 127; }
 
-	unsigned int c = counter; //% total;
+	uint16_t c = counter; //% total;
 
 	size_t i;
 
@@ -211,21 +211,21 @@ void fill(LightStrip* strip, unsigned int counter, unsigned int total, Light mim
 
 }
 
-void drain(LightStrip* strip, unsigned int counter, unsigned int total, Light mimic)
+void drain(LIGHTSTRIP* strip, uint16_t counter, uint16_t total, LIGHT mimic)
 {
-	unsigned int red = mimic.red;
-	unsigned int green = mimic.green;
-	unsigned int blue = mimic.blue;
+	uint16_t red = mimic.red;
+	uint16_t green = mimic.green;
+	uint16_t blue = mimic.blue;
 
 	//if(red+green+blue == 0){ red = 127; green = 127; blue = 127; }
 
 
 
-	unsigned int c = 0;
+	uint16_t c = 0;
 	if (total >= counter) { c = total - counter; } //% total;
 
 	size_t i;
-	unsigned int num = strip->num_lights;
+	uint16_t num = strip->num_lights;
 
 	for (i=0; i<((c * (strip->num_lights + 1)) / (total+1)); i++){
 		strip->lights[i].red = red;
@@ -247,7 +247,7 @@ void drain(LightStrip* strip, unsigned int counter, unsigned int total, Light mi
  **************************************************/
 
 
-void set_left(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
+void set_left(LIGHTSTRIP* strip, uint8_t red, uint8_t green, uint8_t blue)
 {
 	size_t i;
 	for (i=0; i<=3; i++){
@@ -257,7 +257,7 @@ void set_left(LightStrip* strip, unsigned char red, unsigned char green, unsigne
 	}
 }
 
-void set_front(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
+void set_front(LIGHTSTRIP* strip, uint8_t red, uint8_t green, uint8_t blue)
 {
 	size_t i;
 	for (i=4; i<=7; i++){
@@ -267,7 +267,7 @@ void set_front(LightStrip* strip, unsigned char red, unsigned char green, unsign
 	}
 }
 
-void set_right(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
+void set_right(LIGHTSTRIP* strip, uint8_t red, uint8_t green, uint8_t blue)
 {
 	size_t i;
 	for (i=8; i<=11; i++){
@@ -277,7 +277,7 @@ void set_right(LightStrip* strip, unsigned char red, unsigned char green, unsign
 	}
 }
 
-void set_top(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
+void set_top(LIGHTSTRIP* strip, uint8_t red, uint8_t green, uint8_t blue)
 { 
 	size_t i;
 	for (i=12; i<=19; i++){
@@ -287,7 +287,7 @@ void set_top(LightStrip* strip, unsigned char red, unsigned char green, unsigned
 	}
 }
 
-void set_base(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
+void set_base(LIGHTSTRIP* strip, uint8_t red, uint8_t green, uint8_t blue)
 {
 	size_t i;
 	for (i=0; i<=11; i++){
@@ -297,13 +297,13 @@ void set_base(LightStrip* strip, unsigned char red, unsigned char green, unsigne
 	}
 }  
 
-void get_base_subset(LightStrip* strip, LightStrip* subset)
+void get_base_subset(LIGHTSTRIP* strip, LIGHTSTRIP* subset)
 {
 	subset->lights = strip->lights;
 	subset->num_lights = 12;
 } 
 
-void get_top_subset(LightStrip* strip, LightStrip* subset)
+void get_top_subset(LIGHTSTRIP* strip, LIGHTSTRIP* subset)
 {
 	subset->lights = strip->lights+12;
 	subset->num_lights = 8;
@@ -313,9 +313,9 @@ void get_top_subset(LightStrip* strip, LightStrip* subset)
  *		 Helper Functions		  *
  * *************************************************/
 
-void send_next_light(Light* light)
+void send_next_light(LIGHT* light)
 {
-	unsigned char enable = 0x80;
+	uint8_t enable = 0x80;
 
 	SPI_MasterTransmit(enable | (*light).green);
 	SPI_MasterTransmit(enable | (*light).red);
@@ -324,8 +324,8 @@ void send_next_light(Light* light)
 
 void send_end_of_sequence()
 {
-	char zero = 0x00;
-	int i;
+	uint8_t zero = 0x00;
+	 int16_t  i;
 	for (i=0; i<3; i++)
 	{
 		SPI_MasterTransmit(zero);
@@ -357,7 +357,7 @@ void SPI_MasterInit(void)
 	//SPSR |= (1<<SPI2X); // Run the SPI twice as fast
 }
 
-void SPI_MasterTransmit(unsigned char cData)
+void SPI_MasterTransmit(uint8_t cData)
 {
 	/* Start transmission */
 	SPDR = cData;

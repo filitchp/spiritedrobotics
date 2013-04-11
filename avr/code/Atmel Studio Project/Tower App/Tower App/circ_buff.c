@@ -7,7 +7,7 @@ void Init_Reset_CircBuff(CircBuff* buff)
 	buff->count = 0;
 }
 
-bool Enqueue_Value(CircBuff* buff, unsigned char value)
+bool Enqueue_Value(CircBuff* buff, uint8_t value)
 {
 	if (buff->count >= BUFF_CAPACITY - 1) { return FAILURE; }
 
@@ -17,7 +17,7 @@ bool Enqueue_Value(CircBuff* buff, unsigned char value)
 
 	return SUCCESS;
 }
-bool Dequeue_Value(CircBuff* buff, unsigned char* value)
+bool Dequeue_Value(CircBuff* buff, uint8_t* value)
 {
 	if (buff->count == 0) { return FAILURE; }
 

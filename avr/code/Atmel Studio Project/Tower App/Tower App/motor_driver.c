@@ -6,15 +6,15 @@
 #include "motor_driver.h"
 #include "led_strip.h"
 
-volatile bool reversing = FALSE;
+volatile bool reversing = false;
 
 // Motor stuff
-volatile unsigned int remainder_cycles = 0;
-volatile unsigned int cycles_remaining = 0;
+volatile uint16_t remainder_cycles = 0;
+volatile uint16_t cycles_remaining = 0;
 
-static volatile int				pour_pwm = 160;
-static volatile int				reversing_pwm = -200;
-static volatile unsigned int	reversing_time = 0x056E;
+static volatile  int16_t 	pour_pwm = 160;
+static volatile  int16_t 	reversing_pwm = -200;
+static volatile uint16_t	reversing_time = 0x056E;
 
 
 //This initializes timer 0 (8 bits) to phase correct PWM
@@ -40,7 +40,7 @@ void Init_PWM()
 	TCCR0A &= ~( (1<<COM0B0) | (1<<COM0B1) );
 
 	// for towers to prevent spilling
-	reversing = FALSE;
+	reversing = false;
 }
 
 void Init_Motor1()
@@ -66,7 +66,7 @@ void Init_Motor2()
 	TCCR0A |= (1<<COM0A1);
 }
 
-void Set_Motor1_Velocity(int velocity)
+void Set_Motor1_Velocity( int16_t  velocity)
 {
 
 	// Max velocity is 255, we are going to limit it to 254
@@ -96,7 +96,7 @@ void Set_Motor1_Velocity(int velocity)
 	}
 }
 
-void Set_Motor2_Velocity(int velocity)
+void Set_Motor2_Velocity( int16_t  velocity)
 {
 
 	// Max velocity is 255, we are going to limit it to 254
@@ -127,37 +127,37 @@ void Set_Motor2_Velocity(int velocity)
 }
 
 
-bool Set_Pour_Pwm(int pwm)
+bool Set_Pour_Pwm( int16_t pwmDutyCycle )
 {
-	if ( (pwm <= 0) || (pwm >= 255) ) { return FAILURE; }
+	if ( (pwmDutyCycle <= 0) || (pwmDutyCycle >= 255) ) { return FAILURE; }
 	
-	pour_pwm = pwm;
+	pour_pwm = pwmDutyCycle;
 	return SUCCESS;
 }
 
-bool Set_Reversing_Pwm(int pwm)
+bool Set_Reversing_Pwm( int16_t pwmDutyCycle )
 {
-	if ( (pwm <= 0) || (pwm >= 255) ) { return FAILURE; }
+	if ( (pwmDutyCycle <= 0) || (pwmDutyCycle >= 255) ) { return FAILURE; }
 	
-	reversing_pwm = -pwm;
+	reversing_pwm = -pwmDutyCycle;
 	return SUCCESS;
 }
 
-bool Set_Reversing_Time(unsigned int time)
+bool Set_Reversing_Time( uint16_t reversingTime )
 {
-	reversing_time = time;
+	reversing_time = reversingTime;
 	return SUCCESS;
 }
 
-unsigned int Calculate_Time(unsigned char b1, unsigned char b2)
+uint16_t Calculate_Time( uint8_t timeHighByte, uint8_t timeLowByte )
 {
-	return (((unsigned int)b1)<<7) | ((unsigned int)b2);
+	return (((uint16_t)timeHighByte)<<7) | ((uint16_t)timeLowByte);
 }
 
 
 
 
-void Pour_Drink(unsigned int time)
+void Pour_Drink(uint16_t time)
 {
 	PORTB &= ~(1<<2);
 
@@ -176,12 +176,12 @@ void Stop_Pouring(void)
 	Set_Motor1_Velocity(0);
 	PORTB |= (1<<2);
 	led_strip_standby();
-	reversing = FALSE;
+	reversing = false;
 }
 
-void Start_Motor_Timer(unsigned int time)
+void Start_Motor_Timer(uint16_t time)
 {
-	unsigned int result = 0xFFFF;
+	uint16_t result = 0xFFFF;
 	result -= time;
 
 	// Set the timer value
@@ -210,21 +210,21 @@ ISR (TIMER1_OVF_vect)
 	if (cycles_remaining == 0)
 	{
 		// This is happens after we reverse the motor 
-		if (reversing == TRUE)
+		if (reversing == true)
 		{
 			// Turn off the clock 
 			TCCR1B &= ~((1<<CS12) | (1<<CS11) | (1<<CS10));
 			Set_Motor1_Velocity(0);
 			PORTB |= (1<<2);
 			led_strip_standby();
-			reversing = FALSE;
+			reversing = false;
 		}
 		// When the acutal time stops, reverse the motor
 		else
 		{
 			Set_Motor1_Velocity(reversing_pwm);
 			Start_Motor_Timer(reversing_time);
-			reversing = TRUE;
+			reversing = true;
 		}
 	}
 	else

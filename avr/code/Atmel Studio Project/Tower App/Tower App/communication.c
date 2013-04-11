@@ -13,19 +13,19 @@
 #define RECEIVE_BUFFER_LENGTH 16
 #define PERSONAL_OUTPUT_BUFFER_LENGTH 16
 
-static const unsigned char MASK_DATA_TYPE = 0x80;
-static const unsigned char MASK_HEADER_FOOTER = 0x40;
-static const unsigned char MASK_ADDRESS = 0x3F;
-static const unsigned char MASK_COMMAND_TYPE = 0x40;
+static const uint8_t MASK_DATA_TYPE = 0x80;
+static const uint8_t MASK_HEADER_FOOTER = 0x40;
+static const uint8_t MASK_ADDRESS = 0x3F;
+static const uint8_t MASK_COMMAND_TYPE = 0x40;
 
 
 // Packet Stuff
-static const unsigned char HEADER_ALL = 0x80;
-static const unsigned char HEADER_MASTER = 0xBF;
-static const unsigned char FOOTER  = 0xCF;
+static const uint8_t HEADER_ALL = 0x80;
+static const uint8_t HEADER_MASTER = 0xBF;
+static const uint8_t FOOTER  = 0xCF;
 
 // Error Codes
-static const unsigned char RESPONSE_OK  = 0x3F;
+static const uint8_t RESPONSE_OK  = 0x3F;
 
 // Generic Commands
 #define COMMAND_E_STOP 0x01
@@ -44,22 +44,22 @@ static const unsigned char RESPONSE_OK  = 0x3F;
 
 
 // Receiveing data
-static unsigned char my_address = 0;
-static unsigned char receive_buffer[RECEIVE_BUFFER_LENGTH];
-static bool	receiving_data = FALSE;
-static int received_bytes = 0;
-volatile bool incomming_data_ready_for_processing = FALSE;
+static uint8_t my_address = 0;
+static uint8_t receive_buffer[RECEIVE_BUFFER_LENGTH];
+static bool	receiving_data = false;
+static int16_t received_bytes = 0;
+volatile bool incomming_data_ready_for_processing = false;
 
 // Output buffer
 static CircBuff output_buff;
-static bool can_load_new_packet_into_output_buffer = TRUE;
-static unsigned char checksum = 0;
+static bool can_load_new_packet_into_output_buffer = true;
+static uint8_t checksum = 0;
 
 // Personal output buffer
-static unsigned char personal_output_buffer[PERSONAL_OUTPUT_BUFFER_LENGTH];
-static unsigned char personal_output_buffer_bytes = 0;
+static uint8_t personal_output_buffer[PERSONAL_OUTPUT_BUFFER_LENGTH];
+static uint8_t personal_output_buffer_bytes = 0;
 
-static bool personal_out_buffer_ready_to_write = FALSE;
+static bool personal_out_buffer_ready_to_write = false;
 
 
 
@@ -95,7 +95,7 @@ void initialize_communication()
 	Init_Reset_CircBuff(&output_buff);
 }
 
-void set_my_address(unsigned char address)
+void set_my_address(uint8_t address)
 {
 	my_address = address;
 	
@@ -106,15 +106,15 @@ bool ready_to_process_incomming_data()
 	return incomming_data_ready_for_processing; 
 }
 
-char Process_Incomming_Data_If_Available()
+bool Process_Incomming_Data_If_Available()
 {
 	if (!incomming_data_ready_for_processing) { return SUCCESS; }
-	else { incomming_data_ready_for_processing = FALSE; } // reset flag
+	else { incomming_data_ready_for_processing = false; } // reset flag
 
 	if (received_bytes < 3) { return FAILURE; } // minimum number of bytes of a packet
 
-	unsigned char	response_data[8];
-	unsigned int	num_response_bytes = 0;
+	uint8_t	response_data[8];
+	uint16_t	num_response_bytes = 0;
 
 	bool addressed_to_all = (receive_buffer[0] == HEADER_ALL);
 	bool success = SUCCESS;
@@ -131,21 +131,21 @@ char Process_Incomming_Data_If_Available()
 		case COMMAND_SET_POUR_PWM:
 			if (received_bytes != 4) { success = FAILURE; break; }
 
-			Set_Pour_Pwm((int)(receive_buffer[2]));
+			Set_Pour_Pwm(( int16_t )(receive_buffer[2]));
 
 			break;
 
 		case COMMAND_SET_REVERSING_PWM:
 			if (received_bytes != 4) { success = FAILURE; break; }
 
-			Set_Reversing_Pwm((int)(receive_buffer[2])); // This is made negative in this function
+			Set_Reversing_Pwm(( int16_t )(receive_buffer[2])); // This is made negative in this function
 
 			break;
 
 		case COMMAND_SET_REVERSING_TIME:
 			if (received_bytes != 5) { success = FAILURE; break; }
 
-			unsigned int time_to_reverse = Calculate_Time(receive_buffer[2], receive_buffer[3]);
+			uint16_t time_to_reverse = Calculate_Time(receive_buffer[2], receive_buffer[3]);
 			Set_Reversing_Time(time_to_reverse);
 
 			break;
@@ -157,7 +157,7 @@ char Process_Incomming_Data_If_Available()
 			response_data[1] = receive_buffer[3];
 			num_response_bytes = 2;
 
-            unsigned int time = Calculate_Time(receive_buffer[2], receive_buffer[3]);
+            uint16_t time = Calculate_Time(receive_buffer[2], receive_buffer[3]);
 
             Pour_Drink(time);
             led_strip_fire(time >> 2);
@@ -187,7 +187,7 @@ char Process_Incomming_Data_If_Available()
 			success = FAILURE;
 
 			// don't pass the bad packet along
-			addressed_to_all = FALSE;
+			addressed_to_all = false;
 
 			// set error light
 			PORTB &= ~(1<<0);
@@ -197,7 +197,7 @@ char Process_Incomming_Data_If_Available()
 	// If addressed to all nodes, pass the packet along
 	if (addressed_to_all)
 	{
-		int i;
+		 int16_t  i;
 		for (i = 0; i < received_bytes; ++i)
 		{ Add_To_Personal_Out_Buffer(receive_buffer[i]); }
 		Set_Personal_Out_Buffer_Ready_To_Write();
@@ -206,12 +206,12 @@ char Process_Incomming_Data_If_Available()
 	{
 		Add_To_Personal_Out_Buffer(HEADER_MASTER);
 
-		unsigned char response_status = (success == FAILURE) ? RESPONSE_SUCCESS : RESPONSE_FAILURE;
+		uint8_t response_status = (success == FAILURE) ? RESPONSE_SUCCESS : RESPONSE_FAILURE;
 		Add_To_Personal_Out_Buffer(response_status);
 		Add_To_Personal_Out_Buffer(my_address);
 		Add_To_Personal_Out_Buffer(receive_buffer[1]); // The command
 
-		int i;
+		 int16_t  i;
 		for (i = 0; i < num_response_bytes; ++i)
 		{ Add_To_Personal_Out_Buffer(response_data[i]); }
 
@@ -221,7 +221,6 @@ char Process_Incomming_Data_If_Available()
 
 	return SUCCESS;
 }
-
 
 
 void Transmit_Data_If_Available()
@@ -234,7 +233,7 @@ void Transmit_Data_If_Available()
 	// Check for data in buffer AND empty transmit buffer	
 	if ( (output_buff.count != 0) && (UCSR0A & (1<<UDRE0) ) )
 	{
-		unsigned char data = 0;
+		uint8_t data = 0;
 		if(Dequeue_Value(&output_buff, &data) == FAILURE) { return; }
 
 		// Put data into buffer, this sends the data
@@ -243,7 +242,7 @@ void Transmit_Data_If_Available()
 }
 
 
-void blocking_transmit_byte(unsigned char data)
+void blocking_transmit_byte(uint8_t data)
 {
 	/* Wait for empty transmit buffer */
 	while ( !(UCSR0A & (1<<UDRE0) ) ) {}
@@ -252,7 +251,7 @@ void blocking_transmit_byte(unsigned char data)
 	UDR0 = data;
 }
 
-unsigned char blocking_receive_byte()
+uint8_t blocking_receive_byte()
 {
 	/* Wait for data to be received */
 	while ( !(UCSR0A & (1<<RXC0)) ) {}
@@ -269,7 +268,7 @@ ISR(USART_RX_vect)
 {
 
 	// store the byte from the receive buffer 
-	unsigned char data = UDR0;
+	uint8_t data = UDR0;
 
 	if (data & MASK_DATA_TYPE) // Control Data
 	{
@@ -282,31 +281,31 @@ ISR(USART_RX_vect)
 				++received_bytes;
 
 				// Reset the recieveing data flag
-				receiving_data = FALSE;
+				receiving_data = false;
 
 				// Set the ready flag	
-				incomming_data_ready_for_processing = TRUE;
+				incomming_data_ready_for_processing = true;
 
 
 			}
 			else // Pass the byte along
 			{
 				Enqueue_Value(&output_buff, data);
-				can_load_new_packet_into_output_buffer = TRUE;
+				can_load_new_packet_into_output_buffer = true;
 			}
 		}
 		else // Header byte
 		{
-			char address = data & MASK_ADDRESS;
+			uint8_t address = data & MASK_ADDRESS;
 			if ((address == my_address) || (address == 0)) // Node needs to save this data
 			{
 				// TODO: we need to talk about what happens if we get another packet before we handle the first one. 
-				incomming_data_ready_for_processing = FALSE;
+				incomming_data_ready_for_processing = false;
 
 
 				// reset the received byte count and set receiving data flag
 				received_bytes = 0;
-				receiving_data = TRUE;
+				receiving_data = true;
 
 				// Add byte to the buffer
 				receive_buffer[received_bytes] = data;
@@ -314,7 +313,7 @@ ISR(USART_RX_vect)
 			}
 			else // pass the header through 
 			{
-				can_load_new_packet_into_output_buffer = FALSE;
+				can_load_new_packet_into_output_buffer = false;
 				Enqueue_Value(&output_buff, data);
 			}
 		}
@@ -334,34 +333,34 @@ ISR(USART_RX_vect)
 }
 
 
-void Add_To_Personal_Out_Buffer(unsigned char data)
+void Add_To_Personal_Out_Buffer(uint8_t data)
 {
-	personal_out_buffer_ready_to_write = FALSE;
+	personal_out_buffer_ready_to_write = false;
 	personal_output_buffer[personal_output_buffer_bytes] = data;
 	++personal_output_buffer_bytes;
 }
 void Set_Personal_Out_Buffer_Ready_To_Write()
 {
-	personal_out_buffer_ready_to_write = TRUE;
+	personal_out_buffer_ready_to_write = true;
 }
 
 
 void Load_Personal_Out_Buffer_Into_Transmit_Buffer_If_Ready()
 {
-	if(personal_out_buffer_ready_to_write == FALSE) { return; }
+	if(personal_out_buffer_ready_to_write == false) { return; }
 
-	int i=0;
+	 int16_t  i=0;
 	for (i=0; i<personal_output_buffer_bytes; ++i)
 	{
 		Enqueue_Value(&output_buff, personal_output_buffer[i]);
 	}	
 
 	personal_output_buffer_bytes = 0;
-	personal_out_buffer_ready_to_write = FALSE;
+	personal_out_buffer_ready_to_write = false;
 }
 
 
-void Send_Response_Byte(unsigned char data)
+void Send_Response_Byte(uint8_t data)
 {
 	Add_To_Personal_Out_Buffer(HEADER_MASTER);
 	Add_To_Personal_Out_Buffer(data);
@@ -370,7 +369,7 @@ void Send_Response_Byte(unsigned char data)
 	Set_Personal_Out_Buffer_Ready_To_Write();
 }
 
-void Send_Response_Bytes2(unsigned char data1, unsigned char data2)
+void Send_Response_Bytes2(uint8_t data1, uint8_t data2)
 {
 	Add_To_Personal_Out_Buffer(HEADER_MASTER);
 	Add_To_Personal_Out_Buffer(data1);

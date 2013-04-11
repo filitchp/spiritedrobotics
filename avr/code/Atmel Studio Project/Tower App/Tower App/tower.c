@@ -11,7 +11,7 @@
 #include "motor_driver.h"
 #include "communication.h"
 
-int main (void)
+ int16_t  main (void)
 {	
 	sei(); // Enable Global Interrupts
 
@@ -32,7 +32,7 @@ int main (void)
 
     led_strip_standby();
 
-	unsigned int counter = 0;
+	uint16_t counter = 0;
 	for (;;)
 	{
 		if(Process_Incomming_Data_If_Available() == FAILURE)
@@ -51,11 +51,11 @@ LED Test
 	DDRB |= (1<<0) | (1<<1) | (1<<2);
 
 	LightStrip led_strip;
-	int num_leds_on_strip = 20;
+	 int16_t  num_leds_on_strip = 20;
 
 	init_led_strip(&led_strip, num_leds_on_strip);
 
-	unsigned int counter = 0;
+	uint16_t counter = 0;
 	for (;;)
 	{
 		//Toggle the led
@@ -76,7 +76,7 @@ Receive Test
 	// Turn all of the LEDs on
 	PORTB &= ~( (1<<0) | (1<<1) | (1<<2) );
 
-	unsigned char received_byte;
+	uint8_t received_byte;
 
 	for (;;) // Loop forever 
 	{ 
@@ -103,8 +103,8 @@ Transmit Test
 	// Turn all of the LEDs off
 	PORTB |= (1<<0) | (1<<1) | (1<<2);
 
-	unsigned char received_byte;
-	unsigned char sending_byte;
+	uint8_t received_byte;
+	uint8_t sending_byte;
 
 	for (;;) // Loop forever 
 	{ 
@@ -139,8 +139,8 @@ Transmit Test
 
 
 	// PWM stuff for motor
-	int velocity = 255;
-	int vel_delta = 1;
+	 int16_t  velocity = 255;
+	 int16_t  vel_delta = 1;
 	Init_PWM();
 	Init_Motor1();
 	Set_Motor1_Velocity(velocity);
@@ -153,9 +153,9 @@ Transmit Test
 	PORTB &= ~( (1<<0) | (1<<1) | (1<<2) );
 
 
-	unsigned int counter = 0;
-	unsigned char lights = 0;
-	unsigned char last_lights = 0;
+	uint16_t counter = 0;
+	uint8_t lights = 0;
+	uint8_t last_lights = 0;
 	for (;;)
 	{
 		counter += 1;
