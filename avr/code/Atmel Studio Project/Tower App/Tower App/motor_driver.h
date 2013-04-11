@@ -2,7 +2,7 @@
 #define _MOTOR_DRIVER_H_
 
 #include <stdlib.h>
-#include <stdbool.h>
+
 /**************************************************
  *	     This code is designed to		  *
  *	     drive the L293			  *

@@ -12,9 +12,9 @@ volatile bool reversing = FALSE;
 volatile unsigned int remainder_cycles = 0;
 volatile unsigned int cycles_remaining = 0;
 
-static int			pour_pwm = 160;
-static int			reversing_pwm = -200;
-static unsigned int	reversing_time = 0x1200;
+static volatile int				pour_pwm = 160;
+static volatile int				reversing_pwm = -200;
+static volatile unsigned int	reversing_time = 0x056E;
 
 
 //This initializes timer 0 (8 bits) to phase correct PWM
@@ -137,9 +137,9 @@ bool Set_Pour_Pwm(int pwm)
 
 bool Set_Reversing_Pwm(int pwm)
 {
-	if ( (pwm > 0) || (pwm <= 255) ) { return FAILURE; }
+	if ( (pwm <= 0) || (pwm >= 255) ) { return FAILURE; }
 	
-	reversing_pwm = pwm;
+	reversing_pwm = -pwm;
 	return SUCCESS;
 }
 
