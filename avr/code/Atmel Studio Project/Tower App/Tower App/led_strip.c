@@ -111,6 +111,10 @@ void led_set_current_pattern(e_LIGHT_PATTERN targetPattern)
 		case LIGHT_PATTERN_DRAIN:
 			//no init needed?
 			break;
+		case LIGHT_PATTERN_FILL_TOWERS_INCREMENTALLY:
+			#warning "Not general case! Update LIGHT_PATTERN_FILL_TOWERS_INCREMENTALLY init handling"
+			set_all_led_colors(&led_strip, 0x00, 0x00, 0x00);	//for first tower ONLY!!!
+			break;
 		default:
 			set_all_led_colors(&led_strip, 0x00, 0x00, 0x00);	//turn off all LEDs
 			set_led_color(&led_strip, 0, 0xFF, 0x00, 0x00);		//make LED1 (index 0) red
@@ -170,6 +174,13 @@ void led_strip_update()
 		case LIGHT_PATTERN_DRAIN:
 			//make the LED strip match our virtual model
 			//write_to_led_strip(&led_strip);
+			break;
+		case LIGHT_PATTERN_FILL_TOWERS_INCREMENTALLY:
+			if (_10_ms_counter_ticks >= 2)	//20ms has elapsed
+			{
+				//check current LightStrip* status
+				//turn on next LED in sequence
+			}
 			break;
 		case LIGHT_PATTERN_INVALID:
 			//handle invalid case
