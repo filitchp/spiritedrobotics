@@ -10,22 +10,23 @@
  *		   LED Strip API		  *
  **************************************************/
 
-LightStrip base;
-LightStrip top;
-LightStrip led_strip;
-unsigned int state_firing_time;
-volatile unsigned int state_counter;
-unsigned int last_counter;
-unsigned int saved_counter;
-size_t state;
+//LIGHTSTRIP base;
+//LIGHTSTRIP top;
+LIGHTSTRIP led_strip;
+e_LIGHT_PATTERN current_pattern;
+uint16_t state_firing_time;
+volatile uint16_t _10_ms_counter_ticks;
+uint16_t last_counter;
+uint16_t saved_counter;
+size_t led_pattern_state;
 #define STANDBY 0
 #define FIRING 1
 
 void init_led_strip()
 {
 
-	LightStrip* strip = &led_strip;
-	int num_leds_on_strip = 20;
+	LIGHTSTRIP* strip = &led_strip;
+	 int16_t  num_leds_on_strip = 20;
 	saved_counter = 0;
 
 	if (strip == 0)
@@ -45,11 +46,11 @@ void init_led_strip()
 	TCCR2B |= (1<<CS22) | (1<<CS21) | (1<<CS20); 
 
 	// set the sate counter to zero
-	state_counter = 0;
+	_10_ms_counter_ticks = 0;
 	last_counter = 1;
 
 	// Sweet malloc bro (fix this so it is constant)
-	strip->lights = (Light*) malloc( num_leds_on_strip * sizeof(Light));
+	strip->lights = (LIGHT*) malloc( num_leds_on_strip * sizeof(LIGHT));
 
 	if (strip->lights == 0)
 	{
@@ -59,66 +60,131 @@ void init_led_strip()
 	else
 	{
 		strip->num_lights = num_leds_on_strip;
-
-		int i;
-		for (i=0; i<strip->num_lights; ++i)
-			set_led_color(strip, i, 0, 0, 0);
+		set_all_led_colors(&led_strip, 0x00, 0x00, 0x7F);
 	}
 
-	Write_To_Led_Strip(strip);
-	Write_To_Led_Strip(strip);
-
-	get_base_subset(strip, &base);
-	get_top_subset(strip, &top);
-	set_top(strip, 20,20,20);
+	write_to_led_strip(strip);
 }
 
 void led_strip_standby()
 {
-	LightStrip* strip = &led_strip;
-	set_top(strip, strip->lights[1].red / 10, strip->lights[1].green / 10, strip->lights[1].blue / 10);
-	state_counter = saved_counter;
-	state = STANDBY;
+	#warning "Deprecated: Do not use. Fuck the police."
+	LIGHTSTRIP* strip = &led_strip;
+	set_top_led_colors(strip, strip->lights[1].red / 10, strip->lights[1].green / 10, strip->lights[1].blue / 10);
+	_10_ms_counter_ticks = saved_counter;
+	led_pattern_state = STANDBY;
 }
 
-void led_strip_fire(unsigned int time)
+void led_strip_fire(uint16_t time)
 {
-	LightStrip* strip = &led_strip;
-	saved_counter = state_counter;
-	state_counter = 0;
+	#warning "Deprecated: Do not use. I'm so alone."
+	LIGHTSTRIP* strip = &led_strip;
+	saved_counter = _10_ms_counter_ticks;
+	_10_ms_counter_ticks = 0;
 	state_firing_time = (time);
-	set_top(strip, strip->lights[0].red * 10, strip->lights[0].green * 10, strip->lights[0].blue* 10);
-	set_base(strip, strip->lights[0].red * 10, strip->lights[0].green * 10, strip->lights[0].blue * 10);
-	state = FIRING;
+	set_top_led_colors(strip, strip->lights[0].red * 10, strip->lights[0].green * 10, strip->lights[0].blue* 10);
+	set_base_led_colors(strip, strip->lights[0].red * 10, strip->lights[0].green * 10, strip->lights[0].blue * 10);
+	led_pattern_state = FIRING;
 }
 
-void led_strip_update()
+/* Changes the LED Pattern State, and performs any initialization needed for that pattern state.
+*/
+void led_set_current_pattern(e_LIGHT_PATTERN targetPattern)
 {
-	// if the state counter has not transitioned, nothing to do
-	if (last_counter == state_counter) { return; }	
+	current_pattern = targetPattern;
+	_10_ms_counter_ticks = 0;
 	
-	last_counter = state_counter;
+	switch (current_pattern)
+	{
+		case LIGHT_PATTERN_ALL_RED:
+			set_all_led_colors(&led_strip, 0x7F, 0x00, 0x00);
+			break;
+		case LIGHT_PATTERN_ALL_GREEN:
+			set_all_led_colors(&led_strip, 0x00, 0x7F, 0x00);
+			break;
+		case LIGHT_PATTERN_ALL_BLUE:
+			set_all_led_colors(&led_strip, 0x00, 0x00, 0x7F);
+			break;
+		case LIGHT_PATTERN_ALL_OFF:
+			set_all_led_colors(&led_strip, 0x00, 0x00, 0x00);
+			break;
+		case LIGHT_PATTERN_DRAIN:
+			//no init needed?
+			break;
+		default:
+			set_all_led_colors(&led_strip, 0x00, 0x00, 0x00);	//turn off all LEDs
+			set_led_color(&led_strip, 0, 0xFF, 0x00, 0x00);		//make LED1 (index 0) red
+			current_pattern = LIGHT_PATTERN_INVALID;
+			break;
+	}
+	
+	//make the LED strip match our virtual model
+	write_to_led_strip(&led_strip);
+	
+	return;
+}
+
+/* Updates the LEDs with their correct values based upon time elapsed and current Pattern State
+*/
+void led_strip_update_v1()
+{
+	#warning "This function is Deprecated. Fuck me, right?"
+	// if the state counter has not transitioned, nothing to do
+	if (last_counter == _10_ms_counter_ticks) { return; }	
+	
+	last_counter = _10_ms_counter_ticks;
 	double static led_counter = 0;
 
-	if (state_counter % 16 == 0)
+	if (_10_ms_counter_ticks % 16 == 0)
 	{
 		led_counter += 1;
 	}
 
-	switch (state)
+	switch (led_pattern_state)
 	{
 		case STANDBY:
-			rainbow(&base, led_counter, 42);
+			//rainbow(&base, led_counter, 42);
 			break;
 		case FIRING:
-			drain(&top, state_counter, state_firing_time, (&base)->lights[0]);
+			//drain(&top, _10_ms_counter_ticks, state_firing_time, (&base)->lights[0]);
 			break;
 	}
 
-	Write_To_Led_Strip(&led_strip);
+	write_to_led_strip(&led_strip);
 }
 
-void set_led_color(LightStrip* strip, size_t index, unsigned char red, unsigned char green, unsigned char blue)
+/*
+*/
+void led_strip_update()
+{
+	switch (current_pattern)
+	{
+		case LIGHT_PATTERN_ALL_RED:
+			break;
+		case LIGHT_PATTERN_ALL_GREEN:
+			break;
+		case LIGHT_PATTERN_ALL_BLUE:
+			break;
+		case LIGHT_PATTERN_ALL_OFF:
+			break;
+		case LIGHT_PATTERN_DRAIN:
+			//make the LED strip match our virtual model
+			//write_to_led_strip(&led_strip);
+			break;
+		case LIGHT_PATTERN_INVALID:
+			//handle invalid case
+			break;
+		default:
+			//should not be possible to get here, should end up in LIGHT_PATTERN_INVALID
+			break;
+	}
+	
+	return;
+}
+
+/* This function updates an individual LED's color behavior IN OUR VIRTUAL MODEL ONLY. write_to_led_strip() must be called to make the actual LEDs match our virtual model.
+*/
+void set_led_color(LIGHTSTRIP* strip, size_t index, uint8_t red, uint8_t green, uint8_t blue)
 {
 	if (index >= strip->num_lights)
 		return;
@@ -128,9 +194,11 @@ void set_led_color(LightStrip* strip, size_t index, unsigned char red, unsigned 
 	strip->lights[index].blue = blue;
 }
 
-void Write_To_Led_Strip(LightStrip* lights)
+/* This function writes to the LED strip, causing the behavior of the LEDs to match the behavior specified in our Virtual Model (LIGHTSTRIP*)
+*/
+void write_to_led_strip(LIGHTSTRIP* lights)
 {
-	int i;
+	 int16_t  i;
 	for (i=0; i<lights->num_lights; ++i)
 	{
 		send_next_light(&lights->lights[i]);
@@ -139,61 +207,49 @@ void Write_To_Led_Strip(LightStrip* lights)
 	send_end_of_sequence();
 }
 
-/**************************************************
- *		  Color Paterns			  *
- **************************************************/
-
-unsigned char get_brightness(unsigned int p)
+uint8_t get_brightness(uint16_t p)
 {
-	unsigned char out;
+	uint8_t out;
 	if (p < 128)
-		out = (unsigned char) p;
+		out = (uint8_t) p;
 	else if (p < 256)
-		out = (unsigned char)(255 - p);
+		out = (uint8_t)(255 - p);
 	else
-		out = (unsigned char)0;
+		out = (uint8_t)0;
 
 	return out / 10;
 }
 
-void rainbow(LightStrip* strip, unsigned int counter, unsigned int spread)
-{
-	const unsigned int cycle_length = 384;
-	size_t num_lights = strip->num_lights;
-	unsigned int c = counter % cycle_length;
+/**************************************************
+ *		  Color Patterns	  *
+ **************************************************/
 
-	size_t i;
+void rainbow(LIGHTSTRIP* strip, uint16_t counter, uint16_t spread)
+{
+	const uint16_t cycle_length = 384;
+	int16_t num_lights = strip->num_lights;
+	uint16_t c = counter % cycle_length;
+
+	int16_t i;
 	for (i=0; i<num_lights; ++i)
 	{
-		unsigned int cycle_position = (((cycle_length * i * 10) / (num_lights * (spread + 1))) + c) % cycle_length;
+		uint16_t cycle_position = (((cycle_length * i * 10) / (num_lights * (spread + 1))) + c) % cycle_length;
 
 		strip->lights[i].red   = get_brightness(cycle_position); 
-		strip->lights[i].green = get_brightness((cycle_position + 128)%384); 
-		strip->lights[i].blue  = get_brightness((cycle_position + 256)%384); 
+		strip->lights[i].green = get_brightness((cycle_position + 128)%cycle_length); 
+		strip->lights[i].blue  = get_brightness((cycle_position + 256)%cycle_length); 
 	}
 }
 
-void mod_rainbow(LightStrip* strip, unsigned int counter)
+void fill(LIGHTSTRIP* strip, uint16_t counter, uint16_t total, LIGHT mimic)
 {
-	LightStrip base;
-	get_base_subset(strip, &base);
-
-	LightStrip top;
-	get_top_subset(strip, &top);
-
-	rainbow(&base,counter,50);
-	fill(&top, counter, 300, (&base)->lights[0]);
-}
-
-void fill(LightStrip* strip, unsigned int counter, unsigned int total, Light mimic)
-{
-	unsigned int red = mimic.red;
-	unsigned int green = mimic.green;
-	unsigned int blue = mimic.blue;
+	uint16_t red = mimic.red;
+	uint16_t green = mimic.green;
+	uint16_t blue = mimic.blue;
 
 	//if(red+green+blue == 0){ red = 127; green = 127; blue = 127; }
 
-	unsigned int c = counter; //% total;
+	uint16_t c = counter; //% total;
 
 	size_t i;
 
@@ -211,21 +267,21 @@ void fill(LightStrip* strip, unsigned int counter, unsigned int total, Light mim
 
 }
 
-void drain(LightStrip* strip, unsigned int counter, unsigned int total, Light mimic)
+void drain(LIGHTSTRIP* strip, uint16_t counter, uint16_t total, LIGHT mimic)
 {
-	unsigned int red = mimic.red;
-	unsigned int green = mimic.green;
-	unsigned int blue = mimic.blue;
+	uint16_t red = mimic.red;
+	uint16_t green = mimic.green;
+	uint16_t blue = mimic.blue;
 
 	//if(red+green+blue == 0){ red = 127; green = 127; blue = 127; }
 
 
 
-	unsigned int c = 0;
+	uint16_t c = 0;
 	if (total >= counter) { c = total - counter; } //% total;
 
 	size_t i;
-	unsigned int num = strip->num_lights;
+	
 
 	for (i=0; i<((c * (strip->num_lights + 1)) / (total+1)); i++){
 		strip->lights[i].red = red;
@@ -243,67 +299,82 @@ void drain(LightStrip* strip, unsigned int counter, unsigned int total, Light mi
 
 
 /**************************************************
- *		  Color Patern Helpers	  *
+ *		  Color Pattern Helpers	  *
  **************************************************/
 
-
-void set_left(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
+void set_left_led_colors(LIGHTSTRIP* strip, uint8_t red_color_brightness, uint8_t green_color_brightness, uint8_t blue_color_brightness)
 {
 	size_t i;
-	for (i=0; i<=3; i++){
-		strip->lights[i].red = red;
-		strip->lights[i].green = green;
-		strip->lights[i].blue = blue;
+	for (i=0; i<=3; i++)
+	{
+		strip->lights[i].red = red_color_brightness;
+		strip->lights[i].green = green_color_brightness;
+		strip->lights[i].blue = blue_color_brightness;
 	}
 }
 
-void set_front(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
+void set_front_led_colors(LIGHTSTRIP* strip, uint8_t red_color_brightness, uint8_t green_color_brightness, uint8_t blue_color_brightness)
 {
 	size_t i;
-	for (i=4; i<=7; i++){
-		strip->lights[i].red = red;
-		strip->lights[i].green = green;
-		strip->lights[i].blue = blue;
+	for (i=4; i<=7; i++)
+	{
+		strip->lights[i].red = red_color_brightness;
+		strip->lights[i].green = green_color_brightness;
+		strip->lights[i].blue = blue_color_brightness;
 	}
 }
 
-void set_right(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
+void set_right_led_colors(LIGHTSTRIP* strip, uint8_t red_color_brightness, uint8_t green_color_brightness, uint8_t blue_color_brightness)
 {
 	size_t i;
-	for (i=8; i<=11; i++){
-		strip->lights[i].red = red;
-		strip->lights[i].green = green;
-		strip->lights[i].blue = blue;
+	for (i=8; i<=11; i++)
+	{
+		strip->lights[i].red = red_color_brightness;
+		strip->lights[i].green = green_color_brightness;
+		strip->lights[i].blue = blue_color_brightness;
 	}
 }
 
-void set_top(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
+void set_top_led_colors(LIGHTSTRIP* strip, uint8_t red_color_brightness, uint8_t green_color_brightness, uint8_t blue_color_brightness)
 { 
 	size_t i;
-	for (i=12; i<=19; i++){
-		strip->lights[i].red = red;
-		strip->lights[i].green = green;
-		strip->lights[i].blue = blue;
+	for (i=12; i<=19; i++)
+	{
+		strip->lights[i].red = red_color_brightness;
+		strip->lights[i].green = green_color_brightness;
+		strip->lights[i].blue = blue_color_brightness;
 	}
 }
 
-void set_base(LightStrip* strip, unsigned char red, unsigned char green, unsigned char blue)
+void set_base_led_colors(LIGHTSTRIP* strip, uint8_t red_color_brightness, uint8_t green, uint8_t blue)
 {
 	size_t i;
-	for (i=0; i<=11; i++){
-		strip->lights[i].red = red;
+	for (i=0; i<=11; i++)
+	{
+		strip->lights[i].red = red_color_brightness;
 		strip->lights[i].green = green;
 		strip->lights[i].blue = blue;
 	}
 }  
 
-void get_base_subset(LightStrip* strip, LightStrip* subset)
+void set_all_led_colors(LIGHTSTRIP* strip, uint8_t red_color_brightness, uint8_t green_color_brightness, uint8_t blue_color_brightness)
+{
+	size_t i;
+	for (i=0; i<=19; i++)
+	{
+		strip->lights[i].red = red_color_brightness;
+		strip->lights[i].green = green_color_brightness;
+		strip->lights[i].blue = blue_color_brightness;
+	}
+}
+
+void get_base_subset(LIGHTSTRIP* strip, LIGHTSTRIP* subset)
 {
 	subset->lights = strip->lights;
 	subset->num_lights = 12;
 } 
 
-void get_top_subset(LightStrip* strip, LightStrip* subset)
+void get_top_subset(LIGHTSTRIP* strip, LIGHTSTRIP* subset)
 {
 	subset->lights = strip->lights+12;
 	subset->num_lights = 8;
@@ -313,9 +384,9 @@ void get_top_subset(LightStrip* strip, LightStrip* subset)
  *		 Helper Functions		  *
  * *************************************************/
 
-void send_next_light(Light* light)
+void send_next_light(LIGHT* light)
 {
-	unsigned char enable = 0x80;
+	uint8_t enable = 0x80;
 
 	SPI_MasterTransmit(enable | (*light).green);
 	SPI_MasterTransmit(enable | (*light).red);
@@ -324,8 +395,8 @@ void send_next_light(Light* light)
 
 void send_end_of_sequence()
 {
-	char zero = 0x00;
-	int i;
+	uint8_t zero = 0x00;
+	 int16_t  i;
 	for (i=0; i<3; i++)
 	{
 		SPI_MasterTransmit(zero);
@@ -357,7 +428,7 @@ void SPI_MasterInit(void)
 	//SPSR |= (1<<SPI2X); // Run the SPI twice as fast
 }
 
-void SPI_MasterTransmit(unsigned char cData)
+void SPI_MasterTransmit(uint8_t cData)
 {
 	/* Start transmission */
 	SPDR = cData;
@@ -374,6 +445,6 @@ ISR (TIMER2_OVF_vect)
 	TCNT2 = 0xFF - 78;
 
 	// increment the state counter
-	state_counter += 1;
+	_10_ms_counter_ticks += 1;
 }
 

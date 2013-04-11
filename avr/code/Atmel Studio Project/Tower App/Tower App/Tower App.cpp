@@ -8,7 +8,7 @@
 /*
 #include <avr/io.h>
 
-int main(void)
+ int16_t  main(void)
 {
     while(1)
     {

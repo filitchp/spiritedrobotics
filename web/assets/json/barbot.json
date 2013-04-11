@@ -10,8 +10,8 @@
     },
     {
       "id" : 2,
-      "key" : "CRANBERRYJUICE",
-      "name" : "Cranberry Juice",
+      "key" : "DARKRUM",
+      "name" : "Spiced Rum",
       "flowRate" : 1500
     },
     {
@@ -22,33 +22,33 @@
     },
     {
       "id" : 4,
-      "key" : "TANG",
-      "name" : "Tang",
+      "key" : "IRISHCREAM",
+      "name" : "Bailey's Irish Cream",
       "flowRate" : 1500
     },
     {
       "id" : 5,
-      "key" : "DARKRUM",
-      "name" : "Dark Rum",
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
       "flowRate" : 1500
     },
     {
       "id" : 6,
-      "key" : "IRISHCREAM",
-      "name" : "Bailey's",
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
       "flowRate" : 1500
     },
     {
       "id" : 7,
       "key" : "WHISKEY",
       "name" : "Whiskey",
-      "flowRate" : 2000
+      "flowRate" : 1500
     },
     {
       "id" : 8,
-      "key" : "COFFEELIQUEUR",
-      "name" : "Kahlua",
-      "flowRate" : 2000
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "flowRate" : 1500
     }
   ]
 }
