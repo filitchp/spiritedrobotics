@@ -3,7 +3,7 @@
 
 #include "definitions.h"
 
-#define BUFF_CAPACITY 64
+#define BUFF_CAPACITY 128
 
 typedef struct
 {

@@ -175,7 +175,8 @@ void Stop_Pouring(void)
 
 	Set_Motor1_Velocity(0);
 	PORTB |= (1<<2);
-	led_strip_standby();
+	#warning "Deprecated Function Call to led_strip_standby"
+	//led_strip_standby();
 	reversing = false;
 }
 
@@ -216,7 +217,8 @@ ISR (TIMER1_OVF_vect)
 			TCCR1B &= ~((1<<CS12) | (1<<CS11) | (1<<CS10));
 			Set_Motor1_Velocity(0);
 			PORTB |= (1<<2);
-			led_strip_standby();
+			#warning "Deprecated Function Call to led_strip_standby"
+			//led_strip_standby();
 			reversing = false;
 		}
 		// When the acutal time stops, reverse the motor
