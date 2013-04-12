@@ -9,14 +9,14 @@
 		"amount" : "3"
 	},
 	{
-		"key" : "BLUECURACAO",
-		"name" : "Blue Curacao",
+	  "key" : "BLUEBERRYJUICE",
+		"name" : "Blueberry Juice",
 		"amount" : "1"
 	}
   ],
   "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],
   "description" : "",
-  "imagePath" : "assets/img/drinks/palebluedot.jpg",
-  "attribution" : "Flickr",
+  "imagePath" : "assets/img/drinks/BlueDrinksjonSquare.jpg",
+  "attribution" : "Image by sjon on Flickr",
   "type" : "Lowball"
 }

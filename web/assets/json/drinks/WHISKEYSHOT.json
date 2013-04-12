@@ -9,6 +9,7 @@
       "amount" : "1"
     }
   ],
+  "categories" : ["SHOTS"],
   "description" : "Whiskey, neat.",
   "imagePath" : "assets/img/drinks/whiskeyshot.jpg",
   "type" : "Shot"

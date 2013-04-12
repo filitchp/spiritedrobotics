@@ -14,6 +14,7 @@
       "amount" : "2"
     }
   ],
+  "categories" : ["COCKTAILS"],
   "description" : "The cocktail owes its name to the use of vodka, a stereotypical Russian spirit, and the blackness of the coffee liqueur.",
   "imagePath" : "assets/img/drinks/blackrussian.jpg",
   "type" : "Lowball"

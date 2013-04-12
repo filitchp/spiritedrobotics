@@ -9,6 +9,7 @@
       "amount" : "1"
     }
   ],
+  "categories" : ["SHOTS"],
   "description" : "Gin, neat.",
   "imagePath" : "assets/img/drinks/ginshot.jpg",
   "type" : "Shot"

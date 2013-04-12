@@ -14,6 +14,7 @@
       "amount" : "2"
     }
   ],
+  "categories" : ["COCKTAILS"],
   "description" : "The Manhattan is subject to considerable variation and innovation, and is often a way for the best bartenders to show off their creativity.",
   "imagePath" : "assets/img/drinks/manhattan.jpg",
   "type" : "Lowball"

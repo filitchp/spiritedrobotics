@@ -14,6 +14,7 @@
       "amount" : "3"
     }
   ],
+  "categories" : ["COCKTAILS"],
   "description" : "Vodka Martini, shaken not stirred. --James Bond",
   "imagePath" : "assets/img/drinks/vodkamartini.jpg",
   "type" : "Lowball"

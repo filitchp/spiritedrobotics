@@ -9,6 +9,7 @@
       "amount" : "1"
     }
   ],
+  "categories" : ["SHOTS"],
   "description" : "Fifteen men on a dead man's chest. Yo-ho-ho, and a bottle of rum!",
   "imagePath" : "assets/img/drinks/lightrumshot.jpg",
   "type" : "Shot"

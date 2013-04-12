@@ -19,6 +19,7 @@
       "amount" : "1"
     }
   ],
+  "categories" : ["COCKTAILS"],
   "description" : "A Moscow Mule is a buck or mule cocktail made with vodka, ginger beer and lime which was popular during the vodka craze in the United States during the 1950s. The name refers to the popular perception of vodka as a Russian product.",
   "imagePath" : "assets/img/drinks/moscowmule.jpg",
   "type" : "Lowball"

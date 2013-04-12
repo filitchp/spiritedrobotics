@@ -14,6 +14,7 @@
 	  "amount" : "1"
 	}
   ],
+  "categories" : ["COCKTAILS"],
   "description" : "A 'melt in your mouth' shot.",
   "imagePath" : "assets/img/drinks/m&m.jpg",
   "type" : "Shot"

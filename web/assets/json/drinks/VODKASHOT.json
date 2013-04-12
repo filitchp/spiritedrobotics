@@ -9,6 +9,7 @@
       "amount" : "1"
     }
   ],
+  "categories" : ["SHOTS"],
   "description" : "In Soviet Russia, vodka drinks you!",
   "imagePath" : "assets/img/drinks/vodkashot.jpg",
   "type" : "Shot"
