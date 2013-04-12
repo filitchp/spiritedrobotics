@@ -1,0 +1,53 @@
+\documentclass[10pt,a4paper]{memoir}
+\setstocksize{52mm}{90mm}
+\setpagecc{52mm}{90mm}{*}
+\settypeblocksize{52mm}{90mm}{*}
+\setulmargins{0mm}{*}{*}
+\setlrmargins{0mm}{*}{*}
+\setheadfoot{0pt}{0pt}
+\setheaderspaces{0pt}{*}{*}
+\checkandfixthelayout[fixed]
+\pagestyle{empty} 
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{background}
+\usepackage{wrapfig}
+\usepackage{tabu}
+\definecolor{Blue}{HTML}{4380D3}
+\definecolor{DarkBlue}{HTML}{05316D}
+\definecolor{Gray}{RGB}{220,220,220}
+\backgroundsetup{
+scale=1,
+angle=0,
+opacity=1,
+contents={\begin{tikzpicture}[remember picture,overlay]
+ \path [left color = DarkBlue, right color = DarkBlue] (current page.south west)rectangle (current page.north east);   % Adjust the position of the logo.
+\end{tikzpicture}}
+}
+\color{Gray}
+
+\begin{document}
+\hspace{-4mm} \begin{minipage}[t][25mm][t]{0.34196\linewidth}
+
+  \raisebox{-6.5mm}{ \includegraphics[width=\linewidth]{../logo/SpiritedRoboticsLogo2_0_card_logo.png}
+}
+\end{minipage} \hspace{3mm} \raisebox{14mm}{\begin{minipage}[b][20mm][t]{0.57804\linewidth}%
+
+\vspace{6mm}
+{Founded with singular purpose...}
+
+\vspace{4mm}
+
+\hspace{0.05\linewidth} THE INEBRIATION OF 
+
+\hspace{0.47\linewidth}ALL MANKIND
+
+\end{minipage}}
+
+\vspace{8mm}
+
+\hfill spiritedrobotics.com
+
+\noindent805-380-5312 \hfill  booking@spiritedrobotics.com 
+
+\end{document}

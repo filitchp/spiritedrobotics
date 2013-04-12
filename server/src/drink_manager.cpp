@@ -351,7 +351,7 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
     }
     else if (type == DrinkTypeHighBall)
     {
-      normalizeDrink(drink, 8);
+      normalizeDrink(drink, 7);
     }
 
     mAllDrinks.push_back(drink);
