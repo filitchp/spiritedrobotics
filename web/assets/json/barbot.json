@@ -6,49 +6,49 @@
       "id" : 1,
       "key" : "VODKA",
       "name" : "Vodka",
-      "flowRate" : 1500
+      "flowRate" : 2500
     },
     {
       "id" : 2,
       "key" : "DARKRUM",
       "name" : "Spiced Rum",
-      "flowRate" : 1500
+      "flowRate" : 2500
     },
     {
       "id" : 3,
       "key" : "BLUECURACAO",
       "name" : "Blue Curacao",
-      "flowRate" : 1500
+      "flowRate" : 2500
     },
     {
       "id" : 4,
       "key" : "IRISHCREAM",
       "name" : "Bailey's Irish Cream",
-      "flowRate" : 1500
+      "flowRate" : 2500
     },
     {
       "id" : 5,
       "key" : "ORANGEJUICE",
       "name" : "Orange Juice",
-      "flowRate" : 1500
+      "flowRate" : 2500
     },
     {
       "id" : 6,
       "key" : "CRANBERRYJUICE",
       "name" : "Cranberry Juice",
-      "flowRate" : 1500
+      "flowRate" : 2500
     },
     {
       "id" : 7,
       "key" : "WHISKEY",
       "name" : "Whiskey",
-      "flowRate" : 1500
+      "flowRate" : 2500
     },
     {
       "id" : 8,
       "key" : "LIMEJUICE",
       "name" : "Lime Juice",
-      "flowRate" : 1500
+      "flowRate" : 2500
     }
   ]
 }
