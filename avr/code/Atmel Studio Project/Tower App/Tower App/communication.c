@@ -51,6 +51,13 @@ static bool	receiving_data = false;
 static int16_t received_bytes = 0;
 volatile bool incomming_data_ready_for_processing = false;
 
+uint8_t get_my_address()
+{
+	return my_address;
+}
+
+
+
 // Output buffer
 static CircBuff output_buff;
 static bool can_load_new_packet_into_output_buffer = true;
@@ -169,6 +176,7 @@ bool Process_Incomming_Data_If_Available()
 
             uint16_t time = Calculate_Time(incoming_data_buffer[2], incoming_data_buffer[3]);
 
+			led_set_pattern_firing(time);
             Pour_Drink(time);
 			#warning "Deprecated Function Call to led_strip_fire"
             //led_strip_fire(time >> 2);

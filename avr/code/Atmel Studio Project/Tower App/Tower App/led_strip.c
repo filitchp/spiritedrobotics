@@ -18,9 +18,14 @@ uint16_t state_firing_time;
 volatile uint16_t _10_ms_counter_ticks;
 uint16_t last_counter;
 uint16_t saved_counter;
+uint16_t color_offset_maintainer = 0;
 size_t led_pattern_state;
 #define STANDBY 0
 #define FIRING 1
+
+LIGHT_PATTERN_FILL_TOWERS_INCREMENTALLY_DATA lp_fill_incremental_data;
+LIGHT_PATTERN_PRE_POUR_FILL_TOWERS_DATA lp_pre_pour_data;
+LIGHT_PATTERN_POUR_DRAIN_TOWERS_DATA lp_pour_drain_data;
 
 void init_led_strip()
 {
@@ -60,8 +65,10 @@ void init_led_strip()
 	else
 	{
 		strip->num_lights = num_leds_on_strip;
-		set_all_led_colors(&led_strip, 0x00, 0x00, 0x7F);
 	}
+
+	led_set_current_pattern(LIGHT_PATTERN_ALL_BLUE);
+
 
 	write_to_led_strip(strip);
 }
@@ -87,23 +94,31 @@ void led_strip_fire(uint16_t time)
 	led_pattern_state = FIRING;
 }
 
+void led_set_pattern_firing(uint16_t time)
+{
+	state_firing_time = (time);
+	led_set_current_pattern( LIGHT_PATTERN_POUR_DRAIN_TOWERS);
+}
 /* Changes the LED Pattern State, and performs any initialization needed for that pattern state.
 */
 void led_set_current_pattern(e_LIGHT_PATTERN targetPattern)
 {
 	current_pattern = targetPattern;
+	uint16_t old_counter_tics = _10_ms_counter_ticks;
+	color_offset_maintainer += old_counter_tics;
+	color_offset_maintainer = color_offset_maintainer % 384;
 	_10_ms_counter_ticks = 0;
 	
 	switch (current_pattern)
 	{
 		case LIGHT_PATTERN_ALL_RED:
-			set_all_led_colors(&led_strip, 0x7F, 0x00, 0x00);
+			set_all_led_colors(&led_strip, 0x3F, 0x00, 0x00);
 			break;
 		case LIGHT_PATTERN_ALL_GREEN:
-			set_all_led_colors(&led_strip, 0x00, 0x7F, 0x00);
+			set_all_led_colors(&led_strip, 0x00, 0x3F, 0x00);
 			break;
 		case LIGHT_PATTERN_ALL_BLUE:
-			set_all_led_colors(&led_strip, 0x00, 0x00, 0x7F);
+			set_all_led_colors(&led_strip, 0x00, 0x00, 0x3F);
 			break;
 		case LIGHT_PATTERN_ALL_OFF:
 			set_all_led_colors(&led_strip, 0x00, 0x00, 0x00);
@@ -112,12 +127,38 @@ void led_set_current_pattern(e_LIGHT_PATTERN targetPattern)
 			//no init needed?
 			break;
 		case LIGHT_PATTERN_FILL_TOWERS_INCREMENTALLY:
-			#warning "Not general case! Update LIGHT_PATTERN_FILL_TOWERS_INCREMENTALLY init handling"
 			set_all_led_colors(&led_strip, 0x00, 0x00, 0x00);	//for first tower ONLY!!!
+			lp_fill_incremental_data.time_between_updates = 5;
+			lp_fill_incremental_data.time_waiting = lp_fill_incremental_data.time_between_updates  * 10 * 4; 
+			lp_fill_incremental_data.color_index_delta = 40;
+
+			lp_fill_incremental_data.index = 0;
+			lp_fill_incremental_data.time_until_switch = lp_fill_incremental_data.time_between_updates * (1 + get_my_address()*2);
+			lp_fill_incremental_data.color_index = color_offset_maintainer;
+
+			break;
+		case LIGHT_PATTERN_PRE_POUR_FILL_TOWERS:
+			set_all_led_colors(&led_strip, 0x00, 0x00, 0x00);	//for first tower ONLY!!!
+			lp_pre_pour_data.time_between_updates = 10;
+			lp_pre_pour_data.color_index_delta = 40;
+
+			lp_pre_pour_data.index = 0;
+			lp_pre_pour_data.time_until_switch = 0;
+			lp_fill_incremental_data.color_index = color_offset_maintainer;
+
+			break;
+		case LIGHT_PATTERN_POUR_DRAIN_TOWERS:
+			set_all_led_colors(&led_strip, 0x7F, 0x7F, 0x7F);	//for first tower ONLY!!!
+
+			lp_pour_drain_data.time_between_updates = state_firing_time / 48;
+
+			lp_pour_drain_data.index = 19;
+			lp_pour_drain_data.time_until_switch = lp_pour_drain_data.time_between_updates;
+
 			break;
 		default:
 			set_all_led_colors(&led_strip, 0x00, 0x00, 0x00);	//turn off all LEDs
-			set_led_color(&led_strip, 0, 0xFF, 0x00, 0x00);		//make LED1 (index 0) red
+			set_led_color(&led_strip, 0, 0x3F, 0x00, 0x00);		//make LED1 (index 0) red
 			current_pattern = LIGHT_PATTERN_INVALID;
 			break;
 	}
@@ -176,11 +217,129 @@ void led_strip_update()
 			//write_to_led_strip(&led_strip);
 			break;
 		case LIGHT_PATTERN_FILL_TOWERS_INCREMENTALLY:
-			if (_10_ms_counter_ticks >= 2)	//20ms has elapsed
+			if (_10_ms_counter_ticks >= lp_fill_incremental_data.time_until_switch)
 			{
-				//check current LightStrip* status
-				//turn on next LED in sequence
+				if (lp_fill_incremental_data.index == 0)
+				{
+					int i;
+					for (i=4; i<8; ++i)
+					{
+						rainbow_individual(&(led_strip.lights[i]), lp_fill_incremental_data.color_index);
+					}
+					lp_fill_incremental_data.index += 1;
+					lp_fill_incremental_data.color_index += 5;
+					lp_fill_incremental_data.time_until_switch += lp_fill_incremental_data.time_between_updates;
+				}
+				else if (lp_fill_incremental_data.index == 1)
+				{
+					int i;
+					for (i=0; i<4; ++i)
+					{
+						rainbow_individual(&led_strip.lights[i], lp_fill_incremental_data.color_index);
+					}
+					for (i=8; i<12; ++i)
+					{
+						rainbow_individual(&led_strip.lights[i], lp_fill_incremental_data.color_index);
+					}
+					lp_fill_incremental_data.index += 1;
+					lp_fill_incremental_data.color_index += 5;
+					lp_fill_incremental_data.time_until_switch += lp_fill_incremental_data.time_between_updates;
+				}
+				else if (lp_fill_incremental_data.index == 9)
+				{
+					rainbow_individual(&led_strip.lights[19], lp_fill_incremental_data.color_index);
+
+					lp_fill_incremental_data.index = 0;
+					lp_fill_incremental_data.color_index += lp_fill_incremental_data.color_index_delta;
+					lp_fill_incremental_data.time_until_switch += lp_fill_incremental_data.time_waiting;
+				}
+				else
+				{
+					rainbow_individual(&led_strip.lights[lp_fill_incremental_data.index + 10 ], lp_fill_incremental_data.color_index);
+					lp_fill_incremental_data.index += 1;
+					lp_fill_incremental_data.color_index += 5;
+					lp_fill_incremental_data.time_until_switch += lp_fill_incremental_data.time_between_updates;
+				}
+
+				write_to_led_strip(&led_strip);
 			}
+				
+			break;	
+		case LIGHT_PATTERN_PRE_POUR_FILL_TOWERS:
+			if (_10_ms_counter_ticks >= lp_pre_pour_data.time_until_switch)
+			{
+				if (lp_pre_pour_data.index == 0)
+				{
+					int i;
+					for (i=4; i<8; ++i)
+					{
+						rainbow_individual(&(led_strip.lights[i]), lp_pre_pour_data.color_index);
+					}
+					lp_pre_pour_data.index += 1;
+					lp_pre_pour_data.time_until_switch += lp_pre_pour_data.time_between_updates;
+				}
+				else if (lp_pre_pour_data.index == 1)
+				{
+					int i;
+					for (i=0; i<4; ++i)
+					{
+						rainbow_individual(&led_strip.lights[i], lp_pre_pour_data.color_index);
+					}
+					for (i=8; i<12; ++i)
+					{
+						rainbow_individual(&led_strip.lights[i], lp_pre_pour_data.color_index);
+					}
+					lp_pre_pour_data.index += 1;
+					lp_pre_pour_data.time_until_switch += lp_pre_pour_data.time_between_updates;
+				}
+				else if (lp_pre_pour_data.index == 9)
+				{
+					rainbow_individual(&led_strip.lights[19], lp_pre_pour_data.color_index);
+
+					lp_pre_pour_data.index += 1;
+					lp_pre_pour_data.color_index += lp_pre_pour_data.color_index_delta;
+					lp_pre_pour_data.time_until_switch += lp_pre_pour_data.time_between_updates;
+				}
+				else if (lp_pre_pour_data.index == 10)
+				{
+					set_all_led_colors(&led_strip, 0,0,0);
+					lp_pre_pour_data.index += 1;
+				}
+				else if (lp_pre_pour_data.index == 11)
+				{
+					// do nothing
+					return;
+				}
+				else
+				{
+					rainbow_individual(&led_strip.lights[lp_pre_pour_data.index + 10 ], lp_pre_pour_data.color_index);
+					lp_pre_pour_data.index += 1;
+					lp_pre_pour_data.time_until_switch += lp_pre_pour_data.time_between_updates;
+				}
+
+				write_to_led_strip(&led_strip);
+			}
+
+			break;
+
+		case LIGHT_PATTERN_POUR_DRAIN_TOWERS:
+			if (_10_ms_counter_ticks >= lp_pour_drain_data.time_until_switch )
+			{
+				if (lp_pour_drain_data.index >= 12)
+				{
+					set_led_color(&led_strip, lp_pour_drain_data.index, 0x00, 0x00, 0x00);		
+
+					lp_pour_drain_data.index -= 1;
+					lp_pour_drain_data.time_until_switch += lp_pour_drain_data.time_between_updates;
+				}
+				else
+				{
+					//do nothing
+				}
+
+				write_to_led_strip(&led_strip);
+			}
+
 			break;
 		case LIGHT_PATTERN_INVALID:
 			//handle invalid case
@@ -234,6 +393,17 @@ uint8_t get_brightness(uint16_t p)
 /**************************************************
  *		  Color Patterns	  *
  **************************************************/
+
+void rainbow_individual(LIGHT* light, uint16_t counter)
+{
+		const uint16_t cycle_length = 384;
+		uint16_t cycle_position = (counter % cycle_length);
+
+		light->red   = get_brightness(cycle_position); 
+		light->green = get_brightness((cycle_position + 128)%cycle_length); 
+		light->blue  = get_brightness((cycle_position + 256)%cycle_length); 
+}
+
 
 void rainbow(LIGHTSTRIP* strip, uint16_t counter, uint16_t spread)
 {

@@ -6,6 +6,7 @@
  **************************************************/
 void initialize_communication();
 void set_my_address(uint8_t address);
+uint8_t get_my_address();
 
 bool Process_Incomming_Data_If_Available();
 void Transmit_Data_If_Available();

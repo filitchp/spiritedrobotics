@@ -32,13 +32,43 @@ typedef enum
 	LIGHT_PATTERN_ALL_OFF	= 0x03,
 	LIGHT_PATTERN_DRAIN		= 0x04,
 	LIGHT_PATTERN_FILL_TOWERS_INCREMENTALLY = 0x05,
+	LIGHT_PATTERN_PRE_POUR_FILL_TOWERS = 0x06,
+	LIGHT_PATTERN_POUR_DRAIN_TOWERS = 0x07,
 	LIGHT_PATTERN_INVALID	= 0xFF
 } e_LIGHT_PATTERN;
 
 typedef struct LIGHT_PATTERN_FILL_TOWERS_INCREMENTALLY_STRUCT
 {
-	
+	uint8_t		index;
+	uint16_t	time_until_switch;
+	uint16_t	color_index;
+
+	uint16_t	time_between_updates;
+	uint16_t	time_waiting;
+	uint16_t	color_index_delta;
+
 } LIGHT_PATTERN_FILL_TOWERS_INCREMENTALLY_DATA;
+
+typedef struct LIGHT_PATTERN_PRE_POUR_FILL_TOWERS_STRUCT
+{
+	uint8_t		index;
+	uint16_t	time_until_switch;
+	uint16_t	color_index;
+
+	uint16_t	time_between_updates;
+	uint16_t	color_index_delta;
+
+} LIGHT_PATTERN_PRE_POUR_FILL_TOWERS_DATA;
+
+typedef struct LIGHT_PATTERN_POUR_DRAIN_TOWERS_STRUCT
+{
+	uint8_t		index;
+	uint16_t	time_until_switch;
+
+	uint16_t	time_between_updates;
+
+} LIGHT_PATTERN_POUR_DRAIN_TOWERS_DATA;
+
 
 /**************************************************
  *		   LED Strip API		  *
@@ -51,6 +81,8 @@ void led_strip_update();
 
 void led_set_current_pattern(e_LIGHT_PATTERN targetPattern);
 
+void led_set_pattern_firing(uint16_t time);
+
 void set_led_color(LIGHTSTRIP* strip, size_t index, uint8_t red, uint8_t green, uint8_t blue);
 
 void write_to_led_strip(LIGHTSTRIP* lights);
@@ -60,6 +92,7 @@ void write_to_led_strip(LIGHTSTRIP* lights);
  *		  Color Paterns			  *
  **************************************************/
 
+void rainbow_individual(LIGHT* light, uint16_t counter);
 void rainbow(LIGHTSTRIP* strip, uint16_t counter, uint16_t spread);
 void mod_rainbow(LIGHTSTRIP* strip, uint16_t counter);
 void fill(LIGHTSTRIP* strip, uint16_t counter, uint16_t total, LIGHT mimic);
