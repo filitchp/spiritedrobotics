@@ -99,6 +99,7 @@ $(function()
                     console.log("Order failed");
                 }
             });
+            return false;
         }
     });
     //--------------------------------------------------------

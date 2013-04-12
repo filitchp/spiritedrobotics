@@ -234,6 +234,8 @@ hr.drinkitembreak
 
 .modal{
     left:0;
+    margin-left:0;
+    width:100%
 }
 
 .modal-input{
