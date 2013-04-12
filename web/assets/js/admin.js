@@ -7,4 +7,6 @@ $(function()
     view2.render();
 
     window.setInterval(function(){ orders.fetch() } , 3000 );
+
+    $(".foo_button").on('click', function(ev){ alert(ev.target.id) } );
 });
