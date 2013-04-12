@@ -16,14 +16,14 @@
     },
     {
       "id" : 3,
-      "key" : "BLUECURACAO",
-      "name" : "Blue Curacao",
+      "key" : "GINGERBEER",
+      "name" : "Ginger Beer",
       "flowRate" : 1500
     },
     {
       "id" : 4,
-      "key" : "IRISHCREAM",
-      "name" : "Bailey's Irish Cream",
+      "key" : "GIN",
+      "name" : "Gin",
       "flowRate" : 1500
     },
     {
