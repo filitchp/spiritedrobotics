@@ -34,6 +34,7 @@
       "amount" : "0.25"
     }
   ],
+  "categories" : ["COCKTAILS"],
   "description" : "Variation. The Long Beach iced tea is a delightful variation of the Long Island iced tea.",
   "imagePath" : "assets/img/drinks/longbeachicedtea.jpg",
   "type" : "Highball"

@@ -9,8 +9,8 @@
 		"amount" : "1"
 	},
 	{
-		"key" : "BLUECURACAO",
-		"name" : "Blue Curacao",
+    "key" : "BLUEBERRYJUICE",
+		"name" : "Blueberry Juice",
 		"amount" : "1"
 	},
 	{
@@ -25,7 +25,7 @@
 	}
   ],
   "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],
-  "description" : "",
+  "description" : "A supernova is an extremely bright stellar explosion that causes a burst of radiation that often briefly outshines an entire galaxy.  This drink is your key to stellar night.  ",
   "imagePath" : "assets/img/drinks/superNova2druskloSquare.jpg",
   "attribution" : "Image by Drusklo on Flickr",
   "type" : "Highball"

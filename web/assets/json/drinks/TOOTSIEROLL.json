@@ -19,6 +19,7 @@
 	  "amount" : "1"
 	}
   ],
+  "categories" : ["COCKTAILS"],
   "description" : "A nostalgic treat.",
   "imagePath" : "assets/img/drinks/tootsieroll.jpg",
   "type" : "Shot"

@@ -14,7 +14,8 @@
       "amount" : "3"
 	}
   ],
+  "categories" : ["COCKTAILS"],
   "description" : "It's Canadian!",
   "imagePath" : "assets/img/drinks/ryeandginger.jpg",
   "type" : "Lowball"
-}
+}

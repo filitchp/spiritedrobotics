@@ -19,6 +19,7 @@
 	  "amount" : "0.5"
 	}
   ],
+  "categories" : ["COCKTAILS"],
   "description" : "The wonderful fruity flavors of the popular Kamikaze cocktail in the form of a shot. You may also hear this shot referred to as a Bullfrog.",
   "imagePath" : "assets/img/drinks/kamikazeshot.jpg",
   "type" : "Shot"

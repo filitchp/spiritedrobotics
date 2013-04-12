@@ -1,6 +1,6 @@
 {
-  "key" : "ALBERT6",
-  "name" : "Albert 6",
+  "key" : "ALBERTVI",
+  "name" : "Albert VI",
   "ingredients" :
   [
     {
@@ -16,11 +16,11 @@
     {
       "key" : "ORANGEJUICE",
       "name" : "Orange Juice",
-      "amount" : "1"
+      "amount" : "3"
     }
   ],
   "categories" : ["COCKTAILS", "MANLYDRINKS", "SPACE", "NERDCRED"],
-  "description" : "",
+  "description" : "Yorick, also called Albert VI, along with 11 mouse crewmates, became the first animals to survive rocket flight on 20 September 1951.  This drink is in his memory.",
   "imagePath" : "assets/img/drinks/brassmonkey.jpg",
   "type" : "Highball"
 }

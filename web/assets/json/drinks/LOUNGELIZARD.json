@@ -19,6 +19,7 @@
 	  "amount" : "8"
 	}
   ],
+  "categories" : ["COCKTAILS"],
   "description" : "A drink for the thoroughly indoctrinated lounge lizard.",
   "imagePath" : "assets/img/drinks/loungelizard.jpg",
   "type" : "Highball"
