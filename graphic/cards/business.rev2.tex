@@ -1,4 +1,4 @@
-\documentclass[10pt,a4paper]{memoir}
+\documentclass[11pt,a4paper]{memoir}
 \setstocksize{52mm}{90mm}
 \setpagecc{52mm}{90mm}{*}
 \settypeblocksize{52mm}{90mm}{*}
@@ -26,28 +26,35 @@ contents={\begin{tikzpicture}[remember picture,overlay]
 }
 \color{Gray}
 
+\usepackage{DejaVuSerif}
+\usepackage[T1]{fontenc}
+
 \begin{document}
-\hspace{-4mm} \begin{minipage}[t][25mm][t]{0.34196\linewidth}
-
-  \raisebox{-6.5mm}{ \includegraphics[width=\linewidth]{../logo/SpiritedRoboticsLogo2_0_card_logo.png}
+\hspace{-5mm} \begin{minipage}[t][25mm][t]{0.34196\linewidth}
+  \raisebox{0mm}{ \includegraphics[width=\linewidth]{../logo/SpiritedRoboticsLogo2_0_card_logo.png}
 }
-\end{minipage} \hspace{3mm} \raisebox{14mm}{\begin{minipage}[b][20mm][t]{0.57804\linewidth}%
+\end{minipage} \hspace{4.2mm} \raisebox{14mm}{\begin{minipage}[b][20mm][t]{0.57804\linewidth}%
 
-\vspace{6mm}
-{Founded with singular purpose...}
+\vspace{7.0mm}
 
-\vspace{4mm}
+{Founded with 
 
-\hspace{0.05\linewidth} THE INEBRIATION OF 
+singular purpose...}
 
-\hspace{0.47\linewidth}ALL MANKIND
+\vspace{5.4mm}
+
+\hspace{0\linewidth}\textbf{THE INEBRIATION OF}
+
+\vspace{1mm}
+
+\hspace{0.16\linewidth}\textbf{ALL MANKIND}
 
 \end{minipage}}
 
-\vspace{8mm}
+\vspace{10mm}
+{\tiny
+\hfill spiritedrobotics.com\hspace{1mm}
 
-\hfill spiritedrobotics.com
-
-\noindent805-380-5312 \hfill  booking@spiritedrobotics.com 
-
+\vspace{-1mm}
+\noindent \hspace{1mm} 805-380-5312 \hfill booking@spiritedrobotics.com}
 \end{document}
