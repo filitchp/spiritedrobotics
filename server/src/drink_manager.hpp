@@ -41,8 +41,11 @@ class DrinkManager
 
     bool initTowers();
     bool haltTowers();
+    bool initLights();
     bool sendInitMessage();
     bool sendHaltMessage();
+    bool sendFireLightsMessage();
+    bool sendPassiveLightsMessage();
 
   private:
 

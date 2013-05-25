@@ -1,0 +1,91 @@
++------------------------------------------------------------------------------------+
+|                           KEY|                                  NAME|INGR|TYPE|MAKE|
++------------------------------------------------------------------------------------+
+|                    BLACKMAGIC|                           Black Magic|   3|   1|    |
+|            KEYWESTSCREWDRIVER|                  Key West Screwdriver|   3|   2|    |
+|                  AMARETTOSOUR|                         Amaretto Sour|   2|   1|    |
+|                   TOOTSIEROLL|                          Tootsie Roll|   3|   0|    |
+|                 DARKANDSTORMY|                       Dark and Stormy|   2|   2|    |
+|                  MEXICANSCREW|                         Mexican Screw|   2|   2|    |
+|                   BRASSMONKEY|                          Brass Monkey|   3|   2|  x |
+|           MOSCOWMULEWITHLEMON|              Moscow Mule (sub. lemon)|   3|   1|    |
+|                  BLACKRUSSIAN|                         Black Russian|   2|   1|    |
+|            BLACKMAGICWITHLIME|               Black Magic (sub. lime)|   3|   1|    |
+|                   WHISKEYSHOT|                               Whiskey|   1|   0|    |
+|  LONGISLANDICEDTEAWITHDARKRUM|  Long Island Iced Tea (sub. dark rum)|   7|   2|    |
+|                  VODKASUNRISE|                         Vodka Sunrise|   3|   2|    |
+|                TEQUILASUNRISE|                       Tequila Sunrise|   3|   2|    |
+|                    CAPECODDER|                           Cape Codder|   3|   2|    |
+|                     REDPLANET|                            Red Planet|   3|   2|  x |
+|            CHURCHILLWITHLEMON|                Churchill (sub. lemon)|   4|   1|    |
+|                    SOLARFLARE|                           Solar Flare|   4|   2|  x |
+|                   SCREWDRIVER|                           Screwdriver|   2|   2|    |
+|                    GINGINMULE|                          Gin-Gin Mule|   3|   1|    |
+|                        ALBERT|                                Albert|   3|   2|    |
+|                VODKACRANBERRY|                       Vodka Cranberry|   2|   2|    |
+|                  RYEANDGINGER|                        Rye and Ginger|   2|   1|    |
+|                       GINSHOT|                                   Gin|   1|   0|    |
+|                       MARTINI|                               Martini|   2|   1|    |
+|                   WHISKEYSOUR|                          Whiskey Sour|   2|   1|    |
+|                  COSMOPOLITAN|                          Cosmopolitan|   4|   1|    |
+|                     GODMOTHER|                             Godmother|   2|   1|    |
+|                    REDSNAPPER|                           Red Snapper|   3|   0|    |
+|                   DARKRUMSHOT|                              Dark Rum|   1|   0|    |
+|              RUSSIANCOSMONAUT|                     Russian Cosmonaut|   4|   1|  x |
+|                  SILVERBULLET|                         Silver Bullet|   2|   0|    |
+|                     MANHATTAN|                             Manhattan|   2|   1|    |
+|                     GREYHOUND|                             Greyhound|   2|   2|    |
+|       BRASSMONKEYWITHLIGHTRUM|         Brass Monkey (sub. light rum)|   3|   2|    |
+|                  LOUNGELIZARD|                         Lounge Lizard|   3|   2|    |
+|                    BLUELAGOON|                           Blue Lagoon|   3|   2|    |
+|                     CUBALIBRE|                            Cuba Libre|   3|   2|    |
+|                   PANGALACTIC|           Pan Galactic Gargle Blaster|   7|   2|  x |
+|                     BLACKHOLE|                            Black Hole|   4|   2|  x |
+|                        GIMLET|                                Gimlet|   2|   1|    |
+|                    RUMANDCOKE|                            Rum & Coke|   2|   2|    |
+|                     VODKASHOT|                                 Vodka|   1|   0|    |
+|   LONGBEACHICEDTEAWITHDARKRUM|   Long Beach Iced Tea (sub. dark rum)|   6|   2|    |
+|              FRENCHCONNECTION|                     French Connection|   2|   1|    |
+|                     MARGARITA|                             Margarita|   3|   1|    |
+|      LOUNGELIZARDWITHLIGHTRUM|        Lounge Lizard (sub. light rum)|   3|   2|    |
+|                   FRENCHSCREW|                          French Screw|   2|   2|    |
+|                     SUPERNOVA|                            Super Nova|   4|   2|  x |
+|                      MOONWALK|                              Moonwalk|   3|   1|  x |
+|           WHISKEYSOURWITHLIME|              Whiskey Sour (sub. lime)|   2|   1|    |
+|                     CHURCHILL|                             Churchill|   4|   1|    |
+|             KAMIKAZEWITHLEMON|                 Kamikaze (sub. lemon)|   3|   1|    |
+|               AMARETTOSOURMIX|     Amaretto Sour (sub. sweet & sour)|   2|   1|    |
+|                     BRAVEBULL|                            Brave Bull|   2|   1|    |
+|           CAPECODDERWITHLEMON|              Cape Codder (sub. lemon)|   3|   2|    |
+|                   TEQUILASHOT|                               Tequila|   1|   0|    |
+|              CARIBBEANSUNRISE|                     Caribbean Sunrise|   3|   2|    |
+|        DARKANDSTORMYWITHLEMON|            Dark and Stormy with lemon|   3|   2|    |
+|                  KAMIKAZESHOT|                              Kamikaze|   3|   0|    |
+|         CUBANSCREWWITHDARKRUM|           Cuban Screw (sub. dark rum)|   2|   2|    |
+|         DARKANDSTORMYWITHLIME|             Dark and Stormy with lime|   3|   2|    |
+|                    CUBANSCREW|                           Cuban Screw|   2|   2|    |
+|                 APEROLSUNRISE|                        Aperol Sunrise|   3|   2|    |
+|              LONGBEACHICEDTEA|                   Long Beach Iced Tea|   6|   2|    |
+|         COSMOPOLITANWITHLEMON|             Cosmopolitan (sub. lemon)|   4|   1|    |
+|               GIMLETWITHLEMON|                   Gimlet (sub. lemon)|   2|   1|    |
+|                         MANDM|                                   M&M|   2|   0|    |
+|                   ZEROGRAVITY|                          Zero Gravity|   3|   1|  x |
+|   CARIBBEANSUNRISEWITHDARKRUM|     Caribbean Sunrise (sub. dark rum)|   3|   2|    |
+|                    MOSCOWMULE|                           Moscow Mule|   3|   1|    |
+|                   VODKAGIMLET|                          Vodka Gimlet|   2|   1|    |
+|         CUBALIBREWITHLIGHTRUM|           Cuba Libre (sub. light rum)|   3|   2|    |
+|               AMARETTOSUNRISE|                      Amaretto Sunrise|   3|   2|    |
+|                  LIGHTRUMSHOT|                             Light Rum|   1|   0|    |
+|                      ALBERTVI|                             Albert VI|   3|   2|  x |
+|                  VODKAMARTINI|                         Vodka Martini|   2|   1|    |
+|                   PALEBLUEDOT|                         Pale Blue Dot|   2|   1|  x |
+|          WHISKEYSOURWITHLEMON|             Whiskey Sour (sub. lemon)|   2|   1|    |
+|          AMARETTOSOURWITHLIME|             Amaretto Sour (sub. lime)|   2|   1|    |
+|                WHISKEYANDCOKE|                      Whiskey and Coke|   2|   2|    |
+|           GINGINMULEWITHLEMON|             Gin-Gin Mule (sub. lemon)|   3|   1|    |
+|          VODKAGIMLETWITHLEMON|             Vodka Gimlet (sub. lemon)|   2|   1|    |
+|                     GODFATHER|                             Godfather|   2|   1|    |
+|                      KAMIKAZE|                              Kamikaze|   3|   1|    |
+|         LEFTHANDEDSCREWDRIVER|               Left Handed Screwdriver|   2|   2|    |
+|        RUMANDCOKEWITHLIGHTRUM|           Rum & Coke (sub. light rum)|   2|   2|    |
++------------------------------------------------------------------------------------+

@@ -762,6 +762,72 @@ bool DrinkManager::sendInitMessage()
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
+bool DrinkManager::sendFireLightsMessage()
+{
+
+  cout << "Initializing lights..." << endl;
+  static unsigned char COMMAND_HEADER = 0x80;
+  static unsigned char SET_LIGHT_COMMAND = 0x45;
+
+  unsigned char msg[4];
+  msg[0] = COMMAND_HEADER;
+  msg[1] = SET_LIGHT_COMMAND;
+  msg[2] = 0x06;
+  msg[3] = 0xC5; // TODO: compute checksum
+
+  cout << "Init lights message: " << endl;
+  for (int i = 0; i < 4; ++i)
+  {
+    printf("%d : %2X\n", i, msg[i]);
+  }
+
+  ssize_t bytesWritten = write(mFd, msg, 4);
+
+  if (bytesWritten != 4)
+  {
+    cout << "ERROR: could not send bytes to init tower" << endl;
+    return false;
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+bool DrinkManager::sendPassiveLightsMessage()
+{
+
+  cout << "Passive lights..." << endl;
+  static unsigned char COMMAND_HEADER = 0x80;
+  static unsigned char SET_LIGHT_COMMAND = 0x45;
+
+  unsigned char msg[4];
+  msg[0] = COMMAND_HEADER;
+  msg[1] = SET_LIGHT_COMMAND;
+  msg[2] = 0x05;
+  msg[3] = 0xC5; // TODO: compute checksum
+
+  cout << "Passive lights message: " << endl;
+  for (int i = 0; i < 4; ++i)
+  {
+    printf("%d : %2X\n", i, msg[i]);
+  }
+
+  ssize_t bytesWritten = write(mFd, msg, 4);
+
+  if (bytesWritten != 4)
+  {
+    cout << "ERROR: could not send bytes to init tower" << endl;
+    return false;
+  }
+
+  return true;
+}
+
+
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 bool DrinkManager::sendHaltMessage()
 {
 
@@ -808,6 +874,29 @@ bool DrinkManager::initTowers()
   }
 
   readData(500);
+
+  cout << "=====================" << endl;
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+// Initializes the lights
+//------------------------------------------------------------------------------
+bool DrinkManager::initLights()
+{
+  if (mFd <= 0)
+  {
+    cerr << "ERROR: serial port is not open" << endl;
+    return false;
+  }
+
+  if (!sendFireLightsMessage())
+  {
+    return false;
+  }
+
+  readData(20);
 
   cout << "=====================" << endl;
 
@@ -913,6 +1002,13 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
 
   vector<Ingredient> ingredients = theOrderToMake.getIngredients();
 
+  sendFireLightsMessage();
+
+  sleep(1);
+  usleep(250000);
+
+  float maxAmount = 0;
+
   BOOST_FOREACH(const Ingredient& i, ingredients)
   {
     Tower t = mpBarbot->getTowerByIngredientKey(i.getKey());
@@ -920,6 +1016,10 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
     unsigned towerID = t.getTowerId();
     float flowRate = t.getFlowRate();
     float amount = i.getAmount();
+  
+    if (amount > maxAmount){
+      maxAmount = amount;
+    }
 
     //testTower(towerID, i.getAmount());
 
@@ -968,6 +1068,10 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
       usleep(amountToSleep);
     }
   }
+ 
+  sleep(6 * maxAmount);
+
+  sendPassiveLightsMessage();
 
   ofstream drinkRecord;
 

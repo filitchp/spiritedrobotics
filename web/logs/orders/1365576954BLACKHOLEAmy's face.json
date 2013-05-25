@@ -1,0 +1,23 @@
+{
+  "key" : "BLACKHOLE",
+  "customer" : "Amy's face",
+  "date" : 1365576954,
+  "ingredients" : 
+  [
+    {
+      "key" : "DARKRUM",
+      "name" : "Spiced Rum",
+      "amount" : 1.6
+    },
+    {
+      "key" : "BLUECURACAO",
+      "name" : "Blue Curacao",
+      "amount" : 1.6
+    },
+    {
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "amount" : 4.8
+    }
+  ]
+}
