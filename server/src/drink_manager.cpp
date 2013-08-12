@@ -274,7 +274,7 @@ void DrinkManager::createAvailableDrinkList()
     //TODO remove this and put it with a generic route -Andrew
     BOOST_FOREACH(const std::string category, drink.getCategories())
     {
-       if ((category == "SPACE") /*|| (category == "COCKTAILS")*/)
+       if ((category == "SPACE") || (category == "COCKTAILS"))
        {
          valid = true;
        }

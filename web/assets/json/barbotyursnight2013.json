@@ -1,0 +1,54 @@
+{
+  "description":"Yuris Night 2013 Setup",
+  "towers" :
+  [
+    {
+      "id" : 1,
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 2,
+      "key" : "DARKRUM",
+      "name" : "Spiced Rum",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 3,
+      "key" : "BLUEBERRYJUICE",
+      "name" : "Blueberry Juice",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 4,
+      "key" : "IRISHCREAM",
+      "name" : "Bailey's Irish Cream",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 5,
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 6,
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 7,
+      "key" : "WHISKEY",
+      "name" : "Whiskey",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 8,
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "flowRate" : 2000
+    }
+  ]
+}
