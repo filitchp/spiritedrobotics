@@ -12,7 +12,6 @@
 #include <stdio.h>    // Standard input/output definitions
 #include <string.h>   // String function definitions
 
-#include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -32,9 +31,13 @@ using namespace std;
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-DrinkManager::DrinkManager(const string& rootPath) :
-  mRootPath(rootPath)
+DrinkManager::DrinkManager(const string& rootPath, boost::asio::io_service& io) :
+  mRootPath(rootPath),
+  mBusy(true),
+  mCurrentIngredientIndex(0),
+  mTimer(io)
 {
+
   stringstream configFilePath(stringstream::out);
   configFilePath << rootPath << "/assets/json/barbot.json";
 
@@ -159,78 +162,82 @@ DrinkManager::DrinkManager(const string& rootPath) :
   else
   {
 
-  cout << "Opened " << serialDevice << endl;
+    cout << "Opened " << serialDevice << endl;
 
-  // Non-Blocking mode
-  fcntl(mFd, F_SETFL, FNDELAY);
+    // Non-Blocking mode
+    fcntl(mFd, F_SETFL, FNDELAY);
 
-  // Get the current options for the port...
-  // (and save them so we can write them back on close)
-  tcgetattr(mFd, &mOriginalOptions);
+    // Get the current options for the port...
+    // (and save them so we can write them back on close)
+    tcgetattr(mFd, &mOriginalOptions);
 
-  struct termios newOptions;
+    struct termios newOptions;
 
-  // Set serial speed
-  // B9600      9600 baud
-  // B19200    19200 baud
-  // B38400    38400 baud
-  // B57600   57,600 baud
-  // B76800   76,800 baud
-  // B115200 115,200 baud
+    // Set serial speed
+    // B9600      9600 baud
+    // B19200    19200 baud
+    // B38400    38400 baud
+    // B57600   57,600 baud
+    // B76800   76,800 baud
+    // B115200 115,200 baud
 
-  if (cfsetispeed(&newOptions, B38400) == -1)
-  {
-    cerr << "ERROR: Could not set the input speed" << endl;
+    if (cfsetispeed(&newOptions, B38400) == -1)
+    {
+      cerr << "ERROR: Could not set the input speed" << endl;
+    }
+
+    if (cfsetospeed(&newOptions, B38400) == -1)
+    {
+      cerr << "ERROR: Could not set the output speed" << endl;
+    }
+
+    //--------------------
+    // Control mode flags
+    //--------------------
+
+    // Disable hardware flow control
+    newOptions.c_cflag &= ~CRTSCTS;
+
+    // No parity (8N1)
+    newOptions.c_cflag &= ~PARENB;
+    newOptions.c_cflag &= ~CSTOPB;
+    newOptions.c_cflag &= ~CSIZE;
+    newOptions.c_cflag |= CS8;
+
+    // Enable the receiver and set local mode...
+    newOptions.c_cflag |= (CLOCAL | CREAD);
+
+    //------------------
+    // Input mode flags
+    //------------------
+
+    // Disable software flow control
+    newOptions.c_iflag &= ~(IXON | IXOFF | IXANY);
+
+    //-------------------
+    // Output mode flags
+    //-------------------
+
+    // Raw output
+    newOptions.c_oflag &= ~OPOST;
+
+    //------------------
+    // Local mode flags
+    //------------------
+
+    // Raw mode (disable canonical mode, don't echo, and disable signals)
+    newOptions.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+
+    // Set the new options for the port...
+    if (tcsetattr(mFd, TCSAFLUSH, &newOptions) == -1)
+    {
+      cerr << "ERROR: Could not set the options for the serial port" << endl;
+    }
   }
 
-  if (cfsetospeed(&newOptions, B38400) == -1)
-  {
-    cerr << "ERROR: Could not set the output speed" << endl;
-  }
+  // The system has initialized so we're no longer busy
+  mBusy = false;
 
-  //--------------------
-  // Control mode flags
-  //--------------------
-
-  // Disable hardware flow control
-  newOptions.c_cflag &= ~CRTSCTS;
-
-  // No parity (8N1)
-  newOptions.c_cflag &= ~PARENB;
-  newOptions.c_cflag &= ~CSTOPB;
-  newOptions.c_cflag &= ~CSIZE;
-  newOptions.c_cflag |= CS8;
-
-  // Enable the receiver and set local mode...
-  newOptions.c_cflag |= (CLOCAL | CREAD);
-
-  //------------------
-  // Input mode flags
-  //------------------
-
-  // Disable software flow control
-  newOptions.c_iflag &= ~(IXON | IXOFF | IXANY);
-
-  //-------------------
-  // Output mode flags
-  //-------------------
-
-  // Raw output
-  newOptions.c_oflag &= ~OPOST;
-
-  //------------------
-  // Local mode flags
-  //------------------
-
-  // Raw mode (disable canonical mode, don't echo, and disable signals)
-  newOptions.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
-
-  // Set the new options for the port...
-  if (tcsetattr(mFd, TCSAFLUSH, &newOptions) == -1)
-  {
-    cerr << "ERROR: Could not set the options for the serial port" << endl;
-  }
-  }
 }
 
 //------------------------------------------------------------------------------
@@ -572,7 +579,6 @@ vector<unsigned char> DrinkManager::constructTowerMessage(
   return message;
 }
 
-
 //------------------------------------------------------------------------------
 // For debugging and calibrating each tower
 //
@@ -650,8 +656,6 @@ bool DrinkManager::setTowerReverseTime(unsigned char towerId, float amount)
 
   return true;
 }
-
-
 
 //------------------------------------------------------------------------------
 // For debugging and calibrating each tower
@@ -737,27 +741,31 @@ bool DrinkManager::sendInitMessage()
 {
 
   cout << "Initializing towers..." << endl;
-  static unsigned char COMMAND_HEADER = 0x80;
-  static unsigned char REASSIGN_ADDRESS_COMMAND = 0x02;
 
-  unsigned char msg[4];
-  msg[0] = COMMAND_HEADER;
-  msg[1] = REASSIGN_ADDRESS_COMMAND;
-  msg[2] = 0x01;
-  msg[3] = 0xC0; // TODO: compute checksum
-
-  cout << "Init tower message: " << endl;
-  for (int i = 0; i < 4; ++i)
+  if (mFd > 0)
   {
-    printf("%d : %2X\n", i, msg[i]);
-  }
+    static unsigned char COMMAND_HEADER = 0x80;
+    static unsigned char REASSIGN_ADDRESS_COMMAND = 0x02;
 
-  ssize_t bytesWritten = write(mFd, msg, 4);
+    unsigned char msg[4];
+    msg[0] = COMMAND_HEADER;
+    msg[1] = REASSIGN_ADDRESS_COMMAND;
+    msg[2] = 0x01;
+    msg[3] = 0xC0; // TODO: compute checksum
 
-  if (bytesWritten != 4)
-  {
-    cout << "ERROR: could not send bytes to init tower" << endl;
-    return false;
+    cout << "Init tower message: " << endl;
+    for (int i = 0; i < 4; ++i)
+    {
+      printf("%d : %2X\n", i, msg[i]);
+    }
+
+    ssize_t bytesWritten = write(mFd, msg, 4);
+
+    if (bytesWritten != 4)
+    {
+      cout << "ERROR: could not send bytes to init tower" << endl;
+      return false;
+    }
   }
 
   return true;
@@ -769,27 +777,31 @@ bool DrinkManager::sendFireLightsMessage()
 {
 
   cout << "Initializing lights..." << endl;
-  static unsigned char COMMAND_HEADER = 0x80;
-  static unsigned char SET_LIGHT_COMMAND = 0x45;
 
-  unsigned char msg[4];
-  msg[0] = COMMAND_HEADER;
-  msg[1] = SET_LIGHT_COMMAND;
-  msg[2] = 0x06;
-  msg[3] = 0xC5; // TODO: compute checksum
-
-  cout << "Init lights message: " << endl;
-  for (int i = 0; i < 4; ++i)
+  if (mFd > 0)
   {
-    printf("%d : %2X\n", i, msg[i]);
-  }
+    static unsigned char COMMAND_HEADER = 0x80;
+    static unsigned char SET_LIGHT_COMMAND = 0x45;
 
-  ssize_t bytesWritten = write(mFd, msg, 4);
+    unsigned char msg[4];
+    msg[0] = COMMAND_HEADER;
+    msg[1] = SET_LIGHT_COMMAND;
+    msg[2] = 0x06;
+    msg[3] = 0xC5; // TODO: compute checksum
 
-  if (bytesWritten != 4)
-  {
-    cout << "ERROR: could not send bytes to init tower" << endl;
-    return false;
+    cout << "Init lights message: " << endl;
+    for (int i = 0; i < 4; ++i)
+    {
+      printf("%d : %2X\n", i, msg[i]);
+    }
+
+    ssize_t bytesWritten = write(mFd, msg, 4);
+
+    if (bytesWritten != 4)
+    {
+      cout << "ERROR: could not send bytes to init tower" << endl;
+      return false;
+    }
   }
 
   return true;
@@ -801,33 +813,35 @@ bool DrinkManager::sendPassiveLightsMessage()
 {
 
   cout << "Passive lights..." << endl;
-  static unsigned char COMMAND_HEADER = 0x80;
-  static unsigned char SET_LIGHT_COMMAND = 0x45;
 
-  unsigned char msg[4];
-  msg[0] = COMMAND_HEADER;
-  msg[1] = SET_LIGHT_COMMAND;
-  msg[2] = 0x05;
-  msg[3] = 0xC5; // TODO: compute checksum
-
-  cout << "Passive lights message: " << endl;
-  for (int i = 0; i < 4; ++i)
+  if (mFd > 0)
   {
-    printf("%d : %2X\n", i, msg[i]);
-  }
+    static unsigned char COMMAND_HEADER = 0x80;
+    static unsigned char SET_LIGHT_COMMAND = 0x45;
 
-  ssize_t bytesWritten = write(mFd, msg, 4);
+    unsigned char msg[4];
+    msg[0] = COMMAND_HEADER;
+    msg[1] = SET_LIGHT_COMMAND;
+    msg[2] = 0x05;
+    msg[3] = 0xC5; // TODO: compute checksum
 
-  if (bytesWritten != 4)
-  {
-    cout << "ERROR: could not send bytes to init tower" << endl;
-    return false;
+    cout << "Passive lights message: " << endl;
+    for (int i = 0; i < 4; ++i)
+    {
+      printf("%d : %2X\n", i, msg[i]);
+    }
+
+    ssize_t bytesWritten = write(mFd, msg, 4);
+
+    if (bytesWritten != 4)
+    {
+      cout << "ERROR: could not send bytes to init tower" << endl;
+      return false;
+    }
   }
 
   return true;
 }
-
-
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
@@ -985,105 +999,141 @@ int DrinkManager::readData(long msTimeout)
 }
 
 //------------------------------------------------------------------------------
+// WARNING: only use this with the timer and make sure you set the busy flag
+// before executing this
+//------------------------------------------------------------------------------
+void DrinkManager::timerOperationIngredient()
+{
+
+  Ingredient i = mCurrentIngredients[mCurrentIngredientIndex];
+
+  Tower t = mpBarbot->getTowerByIngredientKey(i.getKey());
+
+  unsigned towerID = t.getTowerId();
+  float flowRate = t.getFlowRate();
+  float amount = i.getAmount();
+
+  cout << "  Ingredient key = " << i.getKey() << endl;
+  cout << "  Ingredient amt = " << setprecision(3) << i.getAmount() << endl;
+
+  static unsigned char POUR_DRINK_COMMAND = 0x40;
+
+  vector<unsigned char> message = constructTowerMessage(
+    towerID,
+    POUR_DRINK_COMMAND,
+    amount,
+    flowRate);
+
+  unsigned char msg[5];
+
+  unsigned j = 0;
+  BOOST_FOREACH(unsigned char byteToSend, message)
+  {
+    printf("  %d : %02X ", j, byteToSend);
+    cout << endl;
+
+    msg[j] = byteToSend;
+
+    ++j;
+  }
+
+  if (mFd > 0)
+  {
+    size_t bytesWritten = write(mFd, msg, 5);
+
+    if (bytesWritten > 0)
+    {
+      cout << "Wrote " << (unsigned) bytesWritten << " bytes" << endl;
+
+      readData(10);
+    }
+    else
+    {
+      cout << "ERROR: Could not write any bytes" << endl;
+    }
+  }
+
+  // Figure out the time to wait before the next operation
+  unsigned waitMilliseconds = amount*1000;
+
+  cout << "Waiting for " << waitMilliseconds << " milliseconds" << endl;
+
+  mTimer.expires_at(mTimer.expires_at() + boost::posix_time::milliseconds(waitMilliseconds));
+
+  mCurrentIngredientIndex++;
+
+  // Do we have more ingredients?
+  if (mCurrentIngredientIndex == mCurrentIngredients.size())
+  {
+    // Wind down after the delay
+    mTimer.async_wait(boost::bind(&DrinkManager::timerOperationWindDown, this));
+  }
+  else
+  {
+    // Fire up the next ingredient after the delay
+    mTimer.async_wait(boost::bind(&DrinkManager::timerOperationIngredient, this));
+  }
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::timerOperationWindDown()
+{
+  sendPassiveLightsMessage();
+
+  // We're done, clean-up
+  mBusy = false;
+  mCurrentIngredientIndex = 0;
+  mCurrentIngredients.clear();
+}
+
+//------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned timestamp)
 {
   string orderId = Order::generateOrderId(drinkKey, customerName, timestamp);
+
+  // Cannot make the drink, the system is busy
+  if (mBusy)
+  {
+    cout << "ERROR: The system is currently busy making a drink" << endl;
+    return false;
+  }
 
   map<string, Order>::iterator it = mPendingOrders.find(orderId);
 
   // If the order does not exist
   if (it == mPendingOrders.end())
   {
+    cout << "ERROR: The order is not part of the pending orders" << endl;
     return false;
   }
 
-  // MAKE THE DRINK HERE!
+  //---------------------------------------------------
+  // The drink making process officially starts here!
+  //---------------------------------------------------
+  // Lock out external interaction with the nodes
+  mBusy = true;
+
   Order theOrderToMake = it->second;
 
-  cout << "Order key = " << theOrderToMake.getDrinkKey() << endl;
+  cout << "Started making " << theOrderToMake.getDrinkKey() << endl;
 
-  vector<Ingredient> ingredients = theOrderToMake.getIngredients();
+  mCurrentIngredients = theOrderToMake.getIngredients();
+  mCurrentIngredientIndex = 0;
 
-  sendFireLightsMessage();
-
-  sleep(1);
-  usleep(250000);
-
-  float maxAmount = 0;
-
-  BOOST_FOREACH(const Ingredient& i, ingredients)
-  {
-    Tower t = mpBarbot->getTowerByIngredientKey(i.getKey());
-
-    unsigned towerID = t.getTowerId();
-    float flowRate = t.getFlowRate();
-    float amount = i.getAmount();
-  
-    if (amount > maxAmount){
-      maxAmount = amount;
-    }
-
-    //testTower(towerID, i.getAmount());
-
-    cout << "  Ingredient key = " << i.getKey() << endl;
-    cout << "  Ingredient amt = " << setprecision(3) << i.getAmount() << endl;
-
-    static unsigned char POUR_DRINK_COMMAND = 0x40;
-
-    vector<unsigned char> message = constructTowerMessage(
-      towerID,
-      POUR_DRINK_COMMAND,
-      amount,
-      flowRate);
-
-    unsigned char msg[5];
-
-    unsigned j = 0;
-    BOOST_FOREACH(unsigned char byteToSend, message)
-    {
-      printf("  %d : %02X ", j, byteToSend);
-      cout << endl;
-
-      msg[j] = byteToSend;
-
-      ++j;
-    }
-
-    if (mFd > 0)
-    {
-      size_t bytesWritten = write(mFd, msg, 5);
-
-      if (bytesWritten > 0)
-      {
-        cout << "Wrote " << (unsigned) bytesWritten << " bytes" << endl;
-
-        readData(10);
-      }
-      else
-      {
-        cout << "ERROR: Could not write any bytes" << endl;
-        return false;
-      }
-
-      unsigned amountToSleep = (unsigned) (amount * 1000.0f);
-
-      usleep(amountToSleep);
-    }
-  }
- 
-  sleep(6 * maxAmount);
-
-  sendPassiveLightsMessage();
-
+  //---------------
+  // Log the drink
+  //---------------
   ofstream drinkRecord;
 
   stringstream orderPathSS(stringstream::out);
   orderPathSS << mRootPath << "/logs/orders/" << it->first;
 
-  if (mFd > 0)
+  if (mFd <= 0)
   {
     // If we never successfully opened the serial port we'll assume this is just a debug log
+    // so put the term 'debug' into the filename
     orderPathSS << ".debug";
   }
 
@@ -1098,6 +1148,15 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
   mApprovedOrders.insert(pair<string, Order>(it->first, it->second));
 
   mPendingOrders.erase(it);
+
+  // Make the lights look pretty to build suspense
+  sendFireLightsMessage();
+
+  // Start the timer
+  mTimer.expires_from_now(boost::posix_time::milliseconds(2250));
+
+  //mTimer = boost::asio::deadline_timer(mIo, boost::posix_time::seconds(2));
+  mTimer.async_wait(boost::bind(&DrinkManager::timerOperationIngredient, this));
 
   return true;
 

@@ -24,7 +24,7 @@ server::server(
     mAcceptor(mIOService),
     mConnectionManager(),
     mpNewConnection(),
-    mDrinkManager(doc_root),
+    mDrinkManager(doc_root, mIOService),
     mRequestHandler(doc_root, mDrinkManager)
 {
 

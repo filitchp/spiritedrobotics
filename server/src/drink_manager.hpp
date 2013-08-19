@@ -11,6 +11,11 @@
 #include "models/order.hpp"
 
 
+#include <iostream>
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+
 //------------------------------------------------------------------------------
 // Describes the recipe for a drink
 //------------------------------------------------------------------------------
@@ -18,7 +23,7 @@ class DrinkManager
 {
   public:
 
-    DrinkManager(const std::string& rootPath);
+    DrinkManager(const std::string& rootPath, boost::asio::io_service& io);
     ~DrinkManager();
 
     void outputDrinkList(std::ostream& s, unsigned indent);
@@ -47,11 +52,28 @@ class DrinkManager
     bool sendFireLightsMessage();
     bool sendPassiveLightsMessage();
 
+    // Callback that starts pouring an ingredient after a timer has elapsed
+    void timerOperationIngredient();
+
+    // Callback that gets run after all ingredients have been poured
+    void timerOperationWindDown();
+
   private:
 
     // Serial port file descriptor
     int mFd;
     struct termios mOriginalOptions;
+
+    // Determines if the system is currently busy (making a drink or performing a light show)
+    bool mBusy;
+
+    // The current set of ingredients being served (when the system is busy making a drink these ingredients are used)
+    std::vector<Ingredient> mCurrentIngredients;
+    int mCurrentIngredientIndex;
+
+    //boost::asio::io_service mIo;
+
+    boost::asio::deadline_timer mTimer;
 
     // The working path (all input/output files are relative to this path)
     std::string mRootPath;

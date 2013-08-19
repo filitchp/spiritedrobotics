@@ -43,18 +43,15 @@ int main(int argc, char* argv[])
     // Check command line arguments.
     if (argc != 4)
     {
-      cerr << "Usage: http_server <address> <port> <doc_root>\n";
+      cerr << "Usage: ./Order_Server <address> <port> <doc_root>" << endl;
       cerr << "  For IPv4, try:\n";
-      cerr << "    receiver 0.0.0.0 80 .\n";
+      cerr << "    ./Order_Server 0.0.0.0 3000 PATH_TO_WEB_DIRECTORY" << endl;
       cerr << "  For IPv6, try:\n";
-      cerr << "    receiver 0::0 80 .\n";
+      cerr << "    ./Order_Server 0::0 3000 PATH_TO_WEB_DIRECTORY" << endl;
       cerr <<  endl;
-      cerr << "Known Working Example: 127.0.0.1 3000 /var/www/spiritedrobotics/web/" << endl;
+      cerr << "Example: ./Order_Server 127.0.0.1 3000 /var/www/spiritedrobotics/web/" << endl;
       return 1;
     }
-
-//    boost_asio
-//    serial_port port(my_io_service, name);
 
     // Initialize the server.
     http::server::server s(argv[1], argv[2], argv[3]);
