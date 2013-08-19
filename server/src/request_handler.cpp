@@ -207,7 +207,8 @@ void request_handler::handle_request(const request& req, reply& rep)
   {
     handleHaltRoutineRequest(rep);
   }
-  else if (path == reverse_time_path){
+  else if (path == reverse_time_path)
+  {
     handleReverseTimeRequest(queryMap,rep);
   }
   else
