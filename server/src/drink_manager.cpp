@@ -156,6 +156,8 @@ DrinkManager::DrinkManager(const string& rootPath) :
   {
     cerr << "ERROR: could not open " << serialDevice << endl;
   }
+  else
+  {
 
   cout << "Opened " << serialDevice << endl;
 
@@ -227,6 +229,7 @@ DrinkManager::DrinkManager(const string& rootPath) :
   if (tcsetattr(mFd, TCSAFLUSH, &newOptions) == -1)
   {
     cerr << "ERROR: Could not set the options for the serial port" << endl;
+  }
   }
 }
 
@@ -1076,7 +1079,15 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
   ofstream drinkRecord;
 
   stringstream orderPathSS(stringstream::out);
-  orderPathSS << mRootPath << "/logs/orders/" << it->first << ".json";
+  orderPathSS << mRootPath << "/logs/orders/" << it->first;
+
+  if (mFd > 0)
+  {
+    // If we never successfully opened the serial port we'll assume this is just a debug log
+    orderPathSS << ".debug";
+  }
+
+  orderPathSS << ".json";
 
   drinkRecord.open(orderPathSS.str().c_str());
 
@@ -1115,27 +1126,6 @@ bool DrinkManager::addOrder(string drinkKey, string customerName, unsigned times
   {
     return false;
   }
-
-  // use to generate the tower message
-    //according to the protocol documnted here: https://github.com/filitchp/spiritedrobotics/wiki/Node-Communication-Protocol
-//  unsigned chksum = 0; //xor of all nibbles,
-//  BOOST_FOREACH(const Ingredient& ing, ingredients)
-//  {
-//    //is there a more direct way to do this?
-//    unsigned towerID = (mpBarbot->getTowerByIngredientKey(ing.getKey())).getTowerId();
-//
-//    //header byte
-//    unsigned tByte = (towerID << 2) | (0x01);
-//    chksum ^= (tByte & 0x0F) ^ (tByte >> 4); // because xor is distributive and associative, it should be fine to do it this way.
-//    towerMessage.push_back(tByte);
-//
-//    //protocol incomplete? to be completed following discussion with paul/ryan
-//
-//    //footer byte
-//    tByte = (0x03)|(chksum & 0x0F);//just in case
-//    towerMessage.push_back(tByte);
-//
-//  }
 
   Order newOrder(drinkKey, customerName, timestamp, ingredients, towerMessage);
 
@@ -1267,5 +1257,4 @@ void DrinkManager::outputDrinkList(ostream& s, unsigned indent)
   s << p << "]" << endl;
 
 }
-
 
