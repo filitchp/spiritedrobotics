@@ -12,6 +12,18 @@
     <link href="assets/css/bootswatch.css" rel="stylesheet">
     <link href="assets/css/barbot.css" rel="stylesheet">
 
+    <script type="text/template" id="status_success_template">
+      <span class="label label-success"><%= get("status") %></span>
+    </script>
+    
+    <script type="text/template" id="status_warning_template">
+      <span class="label label-warning"><%= get("status") %></span>
+    </script>
+    
+    <script type="text/template" id="status_important_template">
+      <span class="label label-important"><%= get("status") %></span>
+    </script>
+
     <script type="text/template" id="order_template">
     <div class="row-fluid">
       <div class="span12" style="padding:46px">
@@ -19,7 +31,7 @@
       </div>
     </div>
     </script>
-    
+
     <script type="text/template" id="debug_template">
     <div class="row-fluid">
       <div class="span12" style="padding:46px">
@@ -38,8 +50,34 @@
 
   </head>
   <body class="preview">
+  
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="row">
+        <div class="span4">
+          <h2 style="margin-left: 20px; margin-top: 16px; font-size: 26px">Admin Console</h2>
+        </div>
+        <div class="span8" style="margin-left: 20px; margin-top: 22px;">
+          <table cellpadding="4px" style="background-color: transparent;">
+            <tr>
+              <td>
+                <b>Status</b> 
+              </td>
+              <td>
+                <div id="system-status-container"></div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+    
     <div id="orders-list">
     </div>
+    
+    
+    
     <div id="debug-container">
     </div>
 
@@ -48,6 +86,8 @@
     <script src="assets/js/application.js"></script>
     <script src="assets/js/underscore-min.js"></script>
     <script src="assets/js/backbone.js"></script>
+    
+    <script src="assets/js/models/status.js"></script>
     <script src="assets/js/models/order.js"></script>
     <script src="assets/js/models/barbot.js"></script>
     <script src="assets/js/admin.js"></script>

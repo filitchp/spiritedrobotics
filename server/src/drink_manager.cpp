@@ -1088,8 +1088,12 @@ void DrinkManager::timerOperationWindDown()
 }
 
 //------------------------------------------------------------------------------
+// Return status
+//  1 - Success
+//  0 - Order does not exist
+// -1 - System is busy
 //------------------------------------------------------------------------------
-bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned timestamp)
+int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned timestamp)
 {
   string orderId = Order::generateOrderId(drinkKey, customerName, timestamp);
 
@@ -1097,7 +1101,7 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
   if (mBusy)
   {
     cout << "ERROR: The system is currently busy making a drink" << endl;
-    return false;
+    return -1;
   }
 
   map<string, Order>::iterator it = mPendingOrders.find(orderId);
@@ -1106,7 +1110,7 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
   if (it == mPendingOrders.end())
   {
     cout << "ERROR: The order is not part of the pending orders" << endl;
-    return false;
+    return 0;
   }
 
   //---------------------------------------------------
@@ -1158,7 +1162,7 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
   //mTimer = boost::asio::deadline_timer(mIo, boost::posix_time::seconds(2));
   mTimer.async_wait(boost::bind(&DrinkManager::timerOperationIngredient, this));
 
-  return true;
+  return 1;
 
 }
 
@@ -1315,5 +1319,26 @@ void DrinkManager::outputDrinkList(ostream& s, unsigned indent)
 
   s << p << "]" << endl;
 
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::outputSystemStatus(ostream& s, unsigned indent)
+{
+
+  string p = string(indent, ' ');
+
+  s << p << "{" << endl;
+  s << p << "  \"status\" : ";
+  if (mBusy)
+  {
+   s << "\"Busy\"" << endl;
+  }
+  else
+  {
+    s << "\"Idle\"" << endl;
+  }
+
+  s << p << "}" << endl;
 }
 

@@ -27,6 +27,7 @@ class DrinkManager
     ~DrinkManager();
 
     void outputDrinkList(std::ostream& s, unsigned indent);
+    void outputSystemStatus(std::ostream& s, unsigned indent);
 
     void outputPendingOrders(std::ostream& s, unsigned indent);
     void outputApprovedOrders(std::ostream& s, unsigned indent);
@@ -34,7 +35,7 @@ class DrinkManager
     bool getIngredientsForDrinkKey(std::string key, std::vector<Ingredient>& ingredients);
 
     bool addOrder(std::string drinkKey, std::string customerName, unsigned timestamp);
-    bool approveOrder(std::string drinkKey, std::string customerName, unsigned timestamp);
+    int approveOrder(std::string drinkKey, std::string customerName, unsigned timestamp);
     bool testTower(unsigned char towerId, float amount);
     bool setTowerReverseTime(unsigned char towerId, float amount);
 

@@ -1,8 +1,8 @@
 $(function()
 {
-    //------------------------------------
-    // This model describes a single order
-    //------------------------------------
+    //----------------------------------------
+    // This model describes the BarBot system
+    //----------------------------------------
     Barbot = Backbone.Model.extend(
     {
         defaults: {
@@ -39,7 +39,7 @@ $(function()
                 }
             });
         },
-     	stop: function(){
+     	  stop: function(){
             $.ajax({
                 type: "GET",
                 url: "haltTowers",
@@ -64,7 +64,6 @@ $(function()
                     }
                 }
             });
-
         },
         render: function(){
             var template = _.template($("#debug_template").html());
