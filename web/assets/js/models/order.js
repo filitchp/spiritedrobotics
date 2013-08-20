@@ -36,11 +36,6 @@ $(function()
     url:"approvedOrders"
   });
 
-//  MyOrders = Backbone.Collection.extend(
-//  {
-//    model: Order
-//  });
-
   OrderView = Backbone.View.extend(
   {
     tagName: 'div',
