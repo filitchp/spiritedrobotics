@@ -72,7 +72,9 @@ class DrinkManager
     std::vector<Ingredient> mCurrentIngredients;
     int mCurrentIngredientIndex;
 
-    //boost::asio::io_service mIo;
+    // The number of milliseconds to wait to start the next pump
+    const int mIngredientOffsetTimeMs;
+    int mLastIngredientWaitMs;
 
     boost::asio::deadline_timer mTimer;
 

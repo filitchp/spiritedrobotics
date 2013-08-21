@@ -35,7 +35,8 @@ DrinkManager::DrinkManager(const string& rootPath, boost::asio::io_service& io) 
   mRootPath(rootPath),
   mBusy(true),
   mCurrentIngredientIndex(0),
-  mTimer(io)
+  mTimer(io),
+  mIngredientOffsetTimeMs(2000)
 {
 
   stringstream configFilePath(stringstream::out);
@@ -1070,11 +1071,9 @@ void DrinkManager::timerOperationIngredient()
   }
 
   // Figure out the time to wait before the next operation
-  unsigned waitMilliseconds = amount*2000;
+  //unsigned waitMilliseconds = amount*2000;
 
-  cout << "Waiting for " << waitMilliseconds << " milliseconds" << endl;
 
-  mTimer.expires_at(mTimer.expires_at() + boost::posix_time::milliseconds(waitMilliseconds));
 
   mCurrentIngredientIndex++;
 
@@ -1082,11 +1081,15 @@ void DrinkManager::timerOperationIngredient()
   if (mCurrentIngredientIndex == mCurrentIngredients.size())
   {
     // No more ingredients, wind down after the last delay
+    mTimer.expires_at(mTimer.expires_at() + boost::posix_time::milliseconds(mLastIngredientWaitMs));
+    cout << "Waiting for " << mLastIngredientWaitMs << " ms" << endl;
     mTimer.async_wait(boost::bind(&DrinkManager::timerOperationWindDown, this));
   }
   else
   {
     // Fire up the next ingredient after the delay
+    mTimer.expires_at(mTimer.expires_at() + boost::posix_time::milliseconds(mIngredientOffsetTimeMs));
+    cout << "Waiting for " << mIngredientOffsetTimeMs << " ms" << endl;
     mTimer.async_wait(boost::bind(&DrinkManager::timerOperationIngredient, this));
   }
 }
@@ -1142,6 +1145,34 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
   mCurrentIngredients = theOrderToMake.getIngredients();
   mCurrentIngredientIndex = 0;
 
+  int lastEndTimeIndex = 0;
+  int index = 0;
+  float lastEndTimeMs = 0;
+
+  vector<float> ingredientEndTimesMs;
+
+  // Figure out which ingredient will stop pouring last
+  BOOST_FOREACH(const Ingredient& i, mCurrentIngredients)
+  {
+
+    float endTimeMs = (float)(index*mIngredientOffsetTimeMs) + i.getAmount()*2000.0f;
+
+    if (endTimeMs >= lastEndTimeMs)
+    {
+      lastEndTimeMs = endTimeMs;
+      lastEndTimeIndex = index;
+    }
+
+    // DEBUG
+    cout << i.getName() << "(" << i.getAmount() << " oz) " << endTimeMs << " ms"  << endl;
+
+    ++index;
+  }
+
+  mLastIngredientWaitMs = lastEndTimeMs - (mCurrentIngredients.size()-1)*mIngredientOffsetTimeMs;
+
+  cout << "mLastIngredientWaitMs = " << mLastIngredientWaitMs << " ms" << endl;
+
   //---------------
   // Log the drink
   //---------------
@@ -1173,9 +1204,8 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
   sendFireLightsMessage();
 
   // Start the timer
-  mTimer.expires_from_now(boost::posix_time::milliseconds(2250));
+  mTimer.expires_from_now(boost::posix_time::milliseconds(3000));
 
-  //mTimer = boost::asio::deadline_timer(mIo, boost::posix_time::seconds(2));
   mTimer.async_wait(boost::bind(&DrinkManager::timerOperationIngredient, this));
 
   return 1;
