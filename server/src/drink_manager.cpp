@@ -1070,11 +1070,6 @@ void DrinkManager::timerOperationIngredient()
     }
   }
 
-  // Figure out the time to wait before the next operation
-  //unsigned waitMilliseconds = amount*2000;
-
-
-
   mCurrentIngredientIndex++;
 
   // Do we have more ingredients?
@@ -1149,13 +1144,13 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
   int index = 0;
   float lastEndTimeMs = 0;
 
-  vector<float> ingredientEndTimesMs;
+  static const float estimatedTimeAmoutRatio = 4000.0f;
 
   // Figure out which ingredient will stop pouring last
   BOOST_FOREACH(const Ingredient& i, mCurrentIngredients)
   {
 
-    float endTimeMs = (float)(index*mIngredientOffsetTimeMs) + i.getAmount()*2000.0f;
+    float endTimeMs = (float)(index*mIngredientOffsetTimeMs) + i.getAmount()*estimatedTimeAmoutRatio;
 
     if (endTimeMs >= lastEndTimeMs)
     {
@@ -1164,14 +1159,14 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
     }
 
     // DEBUG
-    cout << i.getName() << "(" << i.getAmount() << " oz) " << endTimeMs << " ms"  << endl;
+    //cout << i.getName() << "(" << i.getAmount() << " oz) " << endTimeMs << " ms"  << endl;
 
     ++index;
   }
 
   mLastIngredientWaitMs = lastEndTimeMs - (mCurrentIngredients.size()-1)*mIngredientOffsetTimeMs;
 
-  cout << "mLastIngredientWaitMs = " << mLastIngredientWaitMs << " ms" << endl;
+  //cout << "mLastIngredientWaitMs = " << mLastIngredientWaitMs << " ms" << endl;
 
   //---------------
   // Log the drink
