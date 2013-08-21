@@ -646,7 +646,7 @@ bool DrinkManager::setTowerReverseTime(unsigned char towerId, float amount)
   if (bytesWritten > 0)
   {
     cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
-    readData(1000);
+    readData(200);
   }
   else
   {
@@ -724,7 +724,7 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
   if (bytesWritten > 0)
   {
     cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
-    readData(1000);
+    readData(200);
   }
   else
   {
@@ -879,18 +879,18 @@ bool DrinkManager::sendHaltMessage()
 //------------------------------------------------------------------------------
 bool DrinkManager::initTowers()
 {
-  if (mFd <= 0)
-  {
-    cerr << "ERROR: serial port is not open" << endl;
-    return false;
-  }
+  cout << "=====================" << endl;
+  cout << "      initTowers     " << endl;
+  cout << "=====================" << endl;
 
-  if (!sendInitMessage())
+  if (mFd > 0)
   {
-    return false;
+    if (!sendInitMessage())
+    {
+      return false;
+    }
+    readData(200);
   }
-
-  readData(500);
 
   cout << "=====================" << endl;
 
@@ -902,18 +902,19 @@ bool DrinkManager::initTowers()
 //------------------------------------------------------------------------------
 bool DrinkManager::initLights()
 {
-  if (mFd <= 0)
-  {
-    cerr << "ERROR: serial port is not open" << endl;
-    return false;
-  }
+  cout << "=====================" << endl;
+  cout << "      initLights     " << endl;
+  cout << "=====================" << endl;
 
-  if (!sendFireLightsMessage())
+  if (mFd > 0)
   {
-    return false;
-  }
+    if (!sendFireLightsMessage())
+    {
+      return false;
+    }
 
-  readData(20);
+    readData(200);
+  }
 
   cout << "=====================" << endl;
 
@@ -925,20 +926,27 @@ bool DrinkManager::initLights()
 //------------------------------------------------------------------------------
 bool DrinkManager::haltTowers()
 {
-  if (mFd <= 0)
-  {
-    cerr << "ERROR: serial port is not open" << endl;
-    return false;
-  }
-
-  if (!sendHaltMessage())
-  {
-    return false;
-  }
-
-  readData(500);
 
   cout << "=====================" << endl;
+  cout << "      haltTowers     " << endl;
+  cout << "=====================" << endl;
+
+  if (mFd > 0)
+  {
+    if (!sendHaltMessage())
+    {
+      return false;
+    }
+
+    // See if the system has any data for us
+    readData(200);
+  }
+
+  // Cancel the timer
+  mTimer.cancel();
+
+  // Window down immediately
+  timerOperationWindDown();
 
   return true;
 }
@@ -999,11 +1007,19 @@ int DrinkManager::readData(long msTimeout)
 }
 
 //------------------------------------------------------------------------------
-// WARNING: only use this with the timer and make sure you set the busy flag
-// before executing this
+// WARNING: only use this with mTimer and make sure the busy flag is set
+// before executing this method
 //------------------------------------------------------------------------------
 void DrinkManager::timerOperationIngredient()
 {
+
+  // Just in case: make sure the current ingredient is set
+  if (mCurrentIngredientIndex >= mCurrentIngredients.size())
+  {
+    // Internal error... wind down the system immediately
+    timerOperationWindDown();
+    return;
+  }
 
   Ingredient i = mCurrentIngredients[mCurrentIngredientIndex];
 
@@ -1045,7 +1061,7 @@ void DrinkManager::timerOperationIngredient()
     {
       cout << "Wrote " << (unsigned) bytesWritten << " bytes" << endl;
 
-      readData(10);
+      readData(200);
     }
     else
     {
@@ -1054,7 +1070,7 @@ void DrinkManager::timerOperationIngredient()
   }
 
   // Figure out the time to wait before the next operation
-  unsigned waitMilliseconds = amount*1000;
+  unsigned waitMilliseconds = amount*2000;
 
   cout << "Waiting for " << waitMilliseconds << " milliseconds" << endl;
 
@@ -1065,7 +1081,7 @@ void DrinkManager::timerOperationIngredient()
   // Do we have more ingredients?
   if (mCurrentIngredientIndex == mCurrentIngredients.size())
   {
-    // Wind down after the delay
+    // No more ingredients, wind down after the last delay
     mTimer.async_wait(boost::bind(&DrinkManager::timerOperationWindDown, this));
   }
   else

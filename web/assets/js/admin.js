@@ -11,6 +11,9 @@ $(function()
   debugView = new DebugView();
   debugView.render();
   
+  qucikAccessButtonView = new QuickAccessButtonView();
+  qucikAccessButtonView.render();
+  
   // Create the system status model
   systemStatus = new SystemStatus();
   systemStatus.fetch();
