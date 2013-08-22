@@ -123,6 +123,7 @@ void request_handler::handle_request(const request& req, reply& rep)
   const string init_addresses_path("/initTowers");
   const string halt_addresses_path("/haltTowers");
   const string reverse_time_path("/setTowerReverseTime");
+  const string set_lights_path("/setLights");
 
   string path("");
   string query("");
@@ -211,6 +212,10 @@ void request_handler::handle_request(const request& req, reply& rep)
   else if (path == halt_addresses_path)
   {
     handleHaltRoutineRequest(rep);
+  }
+  else if (path == set_lights_path)
+  {
+    handleSetLightsRequest(queryMap,rep);
   }
   else if (path == reverse_time_path)
   {
@@ -358,6 +363,66 @@ void request_handler::handleTestTowerRequest(map<string, string>& queryMap, repl
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
+void request_handler::handleSetLightsRequest(map<string, string>& queryMap, reply& rep)
+{
+  bool success = false;
+
+  if (queryMap.size())
+  {
+    string modeStr;
+
+    if (queryMap.find("mode") != queryMap.end())
+    {
+      modeStr = queryMap["mode"];
+    }
+
+    if (modeStr.size())
+    {
+      cout << "modeStr " << modeStr << endl;
+
+      unsigned mode;
+      istringstream ( modeStr ) >> mode;
+
+      switch(mode)
+      {
+        case 0:
+          if (mDrinkManager.sendPassiveLightsMessage())
+          {
+            success = true;
+          }
+          break;
+        case 1:
+          if (mDrinkManager.sendFireLightsMessage())
+          {
+            success = true;
+          }
+          break;
+      }
+    }
+  }
+
+  if (success)
+  {
+    string successMessage = "{\"result\" : true}";
+    rep.content.append(successMessage.c_str(), successMessage.size());
+  }
+  else
+  {
+    string errorMessage = "{\"result\" : false}";
+    rep.content.append(errorMessage.c_str(), errorMessage.size());
+  }
+
+  rep.status = reply::ok;
+
+  rep.headers.resize(2);
+  rep.headers[0].name = "Content-Length";
+  rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+  rep.headers[1].name = "Content-Type";
+  rep.headers[1].value = "application/json";
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void request_handler::handleReverseTimeRequest(map<string, string>& queryMap, reply& rep)
 {
   bool success = false;
@@ -422,8 +487,6 @@ void request_handler::handleReverseTimeRequest(map<string, string>& queryMap, re
   rep.headers[1].name = "Content-Type";
   rep.headers[1].value = "application/json";
 }
-
-
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------

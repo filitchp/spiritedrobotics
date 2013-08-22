@@ -581,16 +581,11 @@ vector<unsigned char> DrinkManager::constructTowerMessage(
 }
 
 //------------------------------------------------------------------------------
-// For debugging and calibrating each tower
-//
-// BYTE 1 - Header = 0x80 (header byte for all)
-// BYTE 2 - Command type = 0x40 (Pour drink)
-// BYTE 3 - Command data = amount x flowRate
-// BYTE 4 - Footer + checksum
 //------------------------------------------------------------------------------
 bool DrinkManager::setTowerReverseTime(unsigned char towerId, float amount)
 {
 
+  // Check if the tower is valid (0 is valid because it's the broadcast id)
   if (towerId != 0)
   {
     if ((mpBarbot->isTowerIdValid(towerId) == false))
@@ -669,6 +664,7 @@ bool DrinkManager::setTowerReverseTime(unsigned char towerId, float amount)
 bool DrinkManager::testTower(unsigned char towerId, float amount)
 {
 
+  // Check if the tower is valid (0 is valid because it's the broadcast id)
   if (towerId != 0)
   {
     if ((mpBarbot->isTowerIdValid(towerId) == false))
@@ -677,60 +673,62 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
     }
   }
 
-  if (mFd <= 0)
-  {
-    cerr << "ERROR: serial port is not open" << endl;
-    return false;
-  }
-
-  float flowRate = 0;
-
-  if (towerId != 0)
-  {
-    Tower tower = mpBarbot->getTowerById(towerId);
-
-    flowRate = tower.getFlowRate();
-  }
-  else
-  {
-    cerr << "ERROR: we do not have a tower with that ID" << endl;
-    return false;
-  }
-
-  if (amount < 0)
+  if (mBusy)
   {
     return false;
   }
 
-  static unsigned char POUR_DRINK_COMMAND = 0x40;
-
-  vector<unsigned char> message = constructTowerMessage(
-    towerId, POUR_DRINK_COMMAND, amount, flowRate);
-
-  unsigned char msg[5];
-
-  unsigned i = 0;
-  BOOST_FOREACH(unsigned char byteToSend, message)
+  if (mFd > 0)
   {
-    printf("%2X ", byteToSend);
-    cout <<  endl;
+    float flowRate = 0;
 
-    msg[i] = byteToSend;
+    if (towerId != 0)
+    {
+      Tower tower = mpBarbot->getTowerById(towerId);
 
-    ++i;
-  }
+      flowRate = tower.getFlowRate();
+    }
+    else
+    {
+      cerr << "ERROR: we do not have a tower with that ID" << endl;
+      return false;
+    }
 
-  size_t bytesWritten = write(mFd, msg, 5);
+    if (amount < 0)
+    {
+      return false;
+    }
 
-  if (bytesWritten > 0)
-  {
-    cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
-    readData(200);
-  }
-  else
-  {
-    cout << "ERROR: Could not write any bytes" << endl;
-    return false;
+    static unsigned char POUR_DRINK_COMMAND = 0x40;
+
+    vector<unsigned char> message = constructTowerMessage(
+      towerId, POUR_DRINK_COMMAND, amount, flowRate);
+
+    unsigned char msg[5];
+
+    unsigned i = 0;
+    BOOST_FOREACH(unsigned char byteToSend, message)
+    {
+      printf("%2X ", byteToSend);
+      cout <<  endl;
+
+      msg[i] = byteToSend;
+
+      ++i;
+    }
+
+    size_t bytesWritten = write(mFd, msg, 5);
+
+    if (bytesWritten > 0)
+    {
+      cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
+      readData(200);
+    }
+    else
+    {
+      cout << "ERROR: Could not write any bytes" << endl;
+      return false;
+    }
   }
 
   return true;
@@ -742,6 +740,11 @@ bool DrinkManager::sendInitMessage()
 {
 
   cout << "Initializing towers..." << endl;
+
+  if (mBusy)
+  {
+    return false;
+  }
 
   if (mFd > 0)
   {
@@ -779,6 +782,11 @@ bool DrinkManager::sendFireLightsMessage()
 
   cout << "Initializing lights..." << endl;
 
+  if (mBusy)
+  {
+    return false;
+  }
+
   if (mFd > 0)
   {
     static unsigned char COMMAND_HEADER = 0x80;
@@ -815,6 +823,11 @@ bool DrinkManager::sendPassiveLightsMessage()
 
   cout << "Passive lights..." << endl;
 
+  if (mBusy)
+  {
+    return false;
+  }
+
   if (mFd > 0)
   {
     static unsigned char COMMAND_HEADER = 0x80;
@@ -850,26 +863,29 @@ bool DrinkManager::sendHaltMessage()
 {
 
   cout << "Halting towers..." << endl;
-  static unsigned char COMMAND_HEADER = 0x80;
-  static unsigned char FORCE_HALT_COMMAND = 0x01;
 
-  unsigned char msg[3];
-  msg[0] = COMMAND_HEADER;
-  msg[1] = FORCE_HALT_COMMAND;
-  msg[2] = 0xC0; // TODO: compute checksum
-
-  cout << "Halt tower message: " << endl;
-  for (int i = 0; i < 3; ++i)
+  if (mFd > 0)
   {
-    printf("%d : %2X\n", i, msg[i]);
-  }
+    static unsigned char COMMAND_HEADER = 0x80;
+    static unsigned char FORCE_HALT_COMMAND = 0x01;
 
-  ssize_t bytesWritten = write(mFd, msg, 3);
+    unsigned char msg[3];
+    msg[0] = COMMAND_HEADER;
+    msg[1] = FORCE_HALT_COMMAND;
+    msg[2] = 0xC0; // TODO: compute checksum
 
-  if (bytesWritten != 3)
-  {
-    cout << "ERROR: could not send bytes to halt tower" << endl;
-    return false;
+    for (int i = 0; i < 3; ++i)
+    {
+      printf("%d : %2X\n", i, msg[i]);
+    }
+
+    ssize_t bytesWritten = write(mFd, msg, 3);
+
+    if (bytesWritten != 3)
+    {
+      cout << "ERROR: could not send bytes to halt tower" << endl;
+      return false;
+    }
   }
 
   return true;
@@ -883,6 +899,11 @@ bool DrinkManager::initTowers()
   cout << "=====================" << endl;
   cout << "      initTowers     " << endl;
   cout << "=====================" << endl;
+
+  if (mBusy)
+  {
+    return false;
+  }
 
   if (mFd > 0)
   {
@@ -1199,7 +1220,7 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
   sendFireLightsMessage();
 
   // Start the timer
-  mTimer.expires_from_now(boost::posix_time::milliseconds(3000));
+  mTimer.expires_from_now(boost::posix_time::milliseconds(2800));
 
   mTimer.async_wait(boost::bind(&DrinkManager::timerOperationIngredient, this));
 

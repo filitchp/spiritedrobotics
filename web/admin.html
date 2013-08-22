@@ -33,8 +33,8 @@
     </script>
 
     <script type="text/template" id="quick_access_buttons_template">
-      <a class="btn btn-large click-to-init">Init</a>
-      <a class="btn btn-important btn-large click-to-stop">Stop</a>
+      <a class="btn btn-success btn-large click-to-init">Init</a>
+      <a class="btn btn-danger btn-large click-to-stop">Stop</a>
     </script>
     
     <script type="text/template" id="debug_template">
@@ -44,6 +44,17 @@
         Amount:    <input type="text" id="test_amount"/>
         <a class="btn btn-large click-to-test">Test</a>
       </div>
+      <div class="span12" style="padding:46px">
+        <div class="btn-toolbar">
+
+          <div class="btn-group">
+            <a class="btn btn-large disabled" style="color: black;">Lights</a>
+            <a class="btn btn-large click-passive-lights">Passive</a>
+
+            <a class="btn btn-large click-fire-lights">Fire</a>
+          </div>
+        </div>
+      </div>
     </div>
     </script>
 
@@ -51,6 +62,7 @@
   <body class="preview">
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
+        
         <div class="row">
           <div class="span4">
             <h2 style="margin-left: 20px; margin-top: 16px; font-size: 26px">Admin Console</h2>

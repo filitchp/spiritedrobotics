@@ -22,6 +22,8 @@ $(function()
     events:
     {
       'click .click-to-test': 'test',
+      'click .click-passive-lights': 'passiveLights',
+      'click .click-fire-lights': 'fireLights',
     },
     test: function()
     {
@@ -36,14 +38,55 @@ $(function()
         },
         success: function(res)
         {
-          if (res.result == true)
+          if (res.result !== true)
           {
-            console.log(res.toString());
+            alert("test error");
           }
-          else
+        },
+        error: function(data)
+        {
+          alert("test error");
+          console.log(data);
+        }
+      });
+    },
+    passiveLights: function()
+    {
+      $.ajax(
+      {
+        type: "GET",
+        url: "setLights?mode=0",
+        success: function(res)
+        {
+          if (res.result !== true)
           {
-            alert("ERR");
+            alert("passiveLights error");
           }
+        },
+        error: function(data)
+        {
+          alert("passiveLights error");
+          console.log(data);
+        }
+      });
+    },
+    fireLights: function()
+    {
+      $.ajax(
+      {
+        type: "GET",
+        url: "setLights?mode=1",
+        success: function(res)
+        {
+          if (res.result !== true)
+          {
+            alert("fireLights error");
+          }
+        },
+        error: function(data)
+        {
+          alert("fireLights error");
+          console.log(data);
         }
       });
     },
