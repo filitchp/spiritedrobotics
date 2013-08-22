@@ -29,6 +29,9 @@ using namespace boost::filesystem;
 using boost::property_tree::ptree;
 using namespace std;
 
+#define COM_LIGHT_MODE_PASSIVE 0x05
+#define COM_LIGHT_MODE_FIRE 0x06
+
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 DrinkManager::DrinkManager(const string& rootPath, boost::asio::io_service& io) :
@@ -642,7 +645,7 @@ bool DrinkManager::setTowerReverseTime(unsigned char towerId, float amount)
   if (bytesWritten > 0)
   {
     cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
-    readData(200);
+    comReadData(200);
   }
   else
   {
@@ -722,7 +725,7 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
     if (bytesWritten > 0)
     {
       cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
-      readData(200);
+      comReadData(200);
     }
     else
     {
@@ -736,15 +739,94 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-bool DrinkManager::sendInitMessage()
+bool DrinkManager::sendFireLightsMessage()
 {
 
-  cout << "Initializing towers..." << endl;
+  cout << "Fire lights..." << endl;
 
   if (mBusy)
   {
     return false;
   }
+
+  return comSetLightsMode((unsigned char)COM_LIGHT_MODE_FIRE);
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+bool DrinkManager::sendPassiveLightsMessage()
+{
+
+  cout << "Passive lights..." << endl;
+
+  if (mBusy)
+  {
+    return false;
+  }
+
+  return comSetLightsMode((unsigned char)COM_LIGHT_MODE_PASSIVE);
+}
+
+//------------------------------------------------------------------------------
+// Initializes the system
+//------------------------------------------------------------------------------
+bool DrinkManager::initTowers()
+{
+  cout << "=====================" << endl;
+  cout << "      initTowers     " << endl;
+  cout << "=====================" << endl;
+
+  if (mBusy)
+  {
+    return false;
+  }
+
+  if (!comInitMessage())
+  {
+    return false;
+  }
+
+  comReadData(200);
+
+  cout << "=====================" << endl;
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+// Initializes the system
+//------------------------------------------------------------------------------
+bool DrinkManager::haltTowers()
+{
+
+  cout << "=====================" << endl;
+  cout << "      haltTowers     " << endl;
+  cout << "=====================" << endl;
+
+  if (mFd > 0)
+  {
+    if (!comHaltMessage())
+    {
+      return false;
+    }
+
+    // See if the system has any data for us
+    comReadData(200);
+  }
+
+  // Cancel the timer
+  mTimer.cancel();
+
+  // Window down immediately
+  timerOperationWindDown();
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+bool DrinkManager::comInitMessage()
+{
 
   if (mFd > 0)
   {
@@ -776,67 +858,24 @@ bool DrinkManager::sendInitMessage()
 }
 
 //------------------------------------------------------------------------------
+// This is a low-level private method that is not concerned if there is
+// anything currently executed
 //------------------------------------------------------------------------------
-bool DrinkManager::sendFireLightsMessage()
+bool DrinkManager::comSetLightsMode(unsigned char mode)
 {
-
-  cout << "Initializing lights..." << endl;
-
-  if (mBusy)
-  {
-    return false;
-  }
-
   if (mFd > 0)
   {
+
+    // TODO: is it necessary to lock communication to serial or are we ok since
+    //       this entire process runs on a single thread?
+
     static unsigned char COMMAND_HEADER = 0x80;
     static unsigned char SET_LIGHT_COMMAND = 0x45;
 
     unsigned char msg[4];
     msg[0] = COMMAND_HEADER;
     msg[1] = SET_LIGHT_COMMAND;
-    msg[2] = 0x06;
-    msg[3] = 0xC5; // TODO: compute checksum
-
-    cout << "Init lights message: " << endl;
-    for (int i = 0; i < 4; ++i)
-    {
-      printf("%d : %2X\n", i, msg[i]);
-    }
-
-    ssize_t bytesWritten = write(mFd, msg, 4);
-
-    if (bytesWritten != 4)
-    {
-      cout << "ERROR: could not send bytes to init tower" << endl;
-      return false;
-    }
-  }
-
-  return true;
-}
-
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
-bool DrinkManager::sendPassiveLightsMessage()
-{
-
-  cout << "Passive lights..." << endl;
-
-  if (mBusy)
-  {
-    return false;
-  }
-
-  if (mFd > 0)
-  {
-    static unsigned char COMMAND_HEADER = 0x80;
-    static unsigned char SET_LIGHT_COMMAND = 0x45;
-
-    unsigned char msg[4];
-    msg[0] = COMMAND_HEADER;
-    msg[1] = SET_LIGHT_COMMAND;
-    msg[2] = 0x05;
+    msg[2] = mode;
     msg[3] = 0xC5; // TODO: compute checksum
 
     cout << "Passive lights message: " << endl;
@@ -849,7 +888,7 @@ bool DrinkManager::sendPassiveLightsMessage()
 
     if (bytesWritten != 4)
     {
-      cout << "ERROR: could not send bytes to init tower" << endl;
+      cout << "ERROR: could not set lights mode" << endl;
       return false;
     }
   }
@@ -858,12 +897,10 @@ bool DrinkManager::sendPassiveLightsMessage()
 }
 
 //------------------------------------------------------------------------------
+// Here we don't care if the system is busy or not, make it HALT NOW!
 //------------------------------------------------------------------------------
-bool DrinkManager::sendHaltMessage()
+bool DrinkManager::comHaltMessage()
 {
-
-  cout << "Halting towers..." << endl;
-
   if (mFd > 0)
   {
     static unsigned char COMMAND_HEADER = 0x80;
@@ -892,91 +929,9 @@ bool DrinkManager::sendHaltMessage()
 }
 
 //------------------------------------------------------------------------------
-// Initializes the system
-//------------------------------------------------------------------------------
-bool DrinkManager::initTowers()
-{
-  cout << "=====================" << endl;
-  cout << "      initTowers     " << endl;
-  cout << "=====================" << endl;
-
-  if (mBusy)
-  {
-    return false;
-  }
-
-  if (mFd > 0)
-  {
-    if (!sendInitMessage())
-    {
-      return false;
-    }
-    readData(200);
-  }
-
-  cout << "=====================" << endl;
-
-  return true;
-}
-
-//------------------------------------------------------------------------------
-// Initializes the lights
-//------------------------------------------------------------------------------
-bool DrinkManager::initLights()
-{
-  cout << "=====================" << endl;
-  cout << "      initLights     " << endl;
-  cout << "=====================" << endl;
-
-  if (mFd > 0)
-  {
-    if (!sendFireLightsMessage())
-    {
-      return false;
-    }
-
-    readData(200);
-  }
-
-  cout << "=====================" << endl;
-
-  return true;
-}
-
-//------------------------------------------------------------------------------
-// Initializes the system
-//------------------------------------------------------------------------------
-bool DrinkManager::haltTowers()
-{
-
-  cout << "=====================" << endl;
-  cout << "      haltTowers     " << endl;
-  cout << "=====================" << endl;
-
-  if (mFd > 0)
-  {
-    if (!sendHaltMessage())
-    {
-      return false;
-    }
-
-    // See if the system has any data for us
-    readData(200);
-  }
-
-  // Cancel the timer
-  mTimer.cancel();
-
-  // Window down immediately
-  timerOperationWindDown();
-
-  return true;
-}
-
-//------------------------------------------------------------------------------
 // Get data back from the system
 //------------------------------------------------------------------------------
-int DrinkManager::readData(long msTimeout)
+int DrinkManager::comReadData(long msTimeout)
 {
 
   if (mFd <= 0)
@@ -1083,7 +1038,7 @@ void DrinkManager::timerOperationIngredient()
     {
       cout << "Wrote " << (unsigned) bytesWritten << " bytes" << endl;
 
-      readData(200);
+      comReadData(200);
     }
     else
     {
@@ -1114,7 +1069,7 @@ void DrinkManager::timerOperationIngredient()
 //------------------------------------------------------------------------------
 void DrinkManager::timerOperationWindDown()
 {
-  sendPassiveLightsMessage();
+  comSetLightsMode((unsigned char)COM_LIGHT_MODE_PASSIVE);
 
   // We're done, clean-up
   mBusy = false;
@@ -1217,7 +1172,7 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
   mPendingOrders.erase(it);
 
   // Make the lights look pretty to build suspense
-  sendFireLightsMessage();
+  comSetLightsMode((unsigned char)COM_LIGHT_MODE_FIRE);
 
   // Start the timer
   mTimer.expires_from_now(boost::posix_time::milliseconds(2800));

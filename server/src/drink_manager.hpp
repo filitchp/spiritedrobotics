@@ -42,14 +42,13 @@ class DrinkManager
     void normalizeDrink(Drink& d, float normalizedAmount);
     void printAllDrinkIngredients(std::ostream& os) const;
 
-    int readData(long msTimeout);
+    int comReadData(long msTimeout);
     void printAllDrinkSummary(std::ostream& os) const;
 
     bool initTowers();
     bool haltTowers();
-    bool initLights();
-    bool sendInitMessage();
-    bool sendHaltMessage();
+    bool comInitMessage();
+    bool comHaltMessage();
     bool sendFireLightsMessage();
     bool sendPassiveLightsMessage();
 
@@ -103,6 +102,8 @@ class DrinkManager
           unsigned char command,
           float amount,
           float flowRate);
+
+    bool comSetLightsMode(unsigned char mode);
 
 };
 
