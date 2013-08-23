@@ -7,6 +7,12 @@
  *
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
+@font-face
+{
+  font-family: Oswald;
+  src: url(../fonts/Oswald-Regular.otf);
+}
+
 article,
 aside,
 details,
@@ -205,7 +211,7 @@ textarea {
 }
 body {
   margin: 0;
-  font-family: Georgia, Utopia, Palatino, 'Palatino Linotype', serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 15px;
   line-height: 20px;
   color: #ece9d7;
@@ -3729,7 +3735,7 @@ input[type="submit"].btn.btn-mini {
 .navbar-search .search-query {
   margin-bottom: 0;
   padding: 4px 14px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Arial, sans-serif;
   font-size: 13px;
   font-weight: normal;
   line-height: 1;
@@ -5196,7 +5202,7 @@ blockquote.pull-right {
   margin-top: 24px;
 }
 .navbar .navbar-search .search-query {
-  font-family: Georgia, Utopia, Palatino, 'Palatino Linotype', serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 15px;
   line-height: 20px;
   -webkit-box-shadow: none;
@@ -5562,7 +5568,7 @@ input,
 button,
 select,
 textarea {
-  font-family: 'Oxygen',Arial,sans-serif;
+  font-family: 'Oswald',Arial,sans-serif;
 }
 legend {
   border-bottom: none;
