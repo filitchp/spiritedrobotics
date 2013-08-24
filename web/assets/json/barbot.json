@@ -1,5 +1,5 @@
 {
-  "description":"Pauls Garage Testing",
+  "description":"Pauls Bday Party List A",
   "towers" :
   [
     {
@@ -16,12 +16,36 @@
     },
     {
       "id" : 3,
+      "key" : "GIN",
+      "name" : "Gin",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 4,
+      "key" : "LIGHTRUM",
+      "name" : "Light Rum",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 5,
       "key" : "ORANGEJUICE",
       "name" : "Orange Juice",
       "flowRate" : 2000
     },
     {
-      "id" : 4,
+      "id" : 6,
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 7,
+      "key" : "ORANGELIQUEUR",
+      "name" : "Orange Liqueur",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 8,
       "key" : "LIMEJUICE",
       "name" : "Lime Juice",
       "flowRate" : 2000
