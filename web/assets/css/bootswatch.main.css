@@ -10,7 +10,20 @@
 @font-face
 {
   font-family: Oswald;
+  src: url(../fonts/Oswald-Light.otf);
+}
+
+@font-face
+{
+  font-family: OswaldBold;
   src: url(../fonts/Oswald-Regular.otf);
+}
+
+@font-face {
+  font-family: 'Oxygen';
+  font-style: normal;
+  font-weight: 400;
+  src:  url(../fonts/Oxygen.woff) format('woff');
 }
 
 article,
@@ -2706,7 +2719,8 @@ button.close {
 }
 .btn-large {
   padding: 11px 19px;
-  font-size: 18.75px;
+  font-family: 'OswaldBold',Arial,sans-serif;
+  font-size: 22px;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
@@ -3052,7 +3066,7 @@ input[type="submit"].btn.btn-mini {
   font-size: 12.75px;
 }
 .btn-group > .btn-large {
-  font-size: 18.75px;
+  font-size: 20px;
 }
 .btn-group > .btn:first-child {
   margin-left: 0;
@@ -5568,11 +5582,11 @@ input,
 button,
 select,
 textarea {
-  font-family: 'Oswald',Arial,sans-serif;
+  font-family: Arial,sans-serif;
 }
 legend {
   border-bottom: none;
-  font-family: 'Oswald',Arial,sans-serif;
+  font-family: Arial,sans-serif;
   color: #e36b23;
   text-shadow: -2px 2px 0 #612c0c;
 }

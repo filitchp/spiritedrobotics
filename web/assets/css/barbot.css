@@ -59,10 +59,10 @@
 
 .descriptiontext
 {
-  margin: 10px 0;
+  margin: 16px 0;
   float: left;
   font-family: 'Oxygen',Arial,sans-serif;
-  font-size: 15px;
+  font-size: 18px;
   text-rendering: optimizelegibility;
   display:inline;
   clear:left;
@@ -71,9 +71,9 @@
 .drinktitle
 {
   color: #e36b23;
-  font-family: 'Oswald',Arial,sans-serif;
+  font-family: 'OswaldBold',Arial,sans-serif;
   font-weight: 500;
-  font-size: 36px;
+  font-size: 32px;
   text-shadow: -2px 2px 0 #612c0c;
   text-rendering: optimizelegibility;
   margin-bottom:0px;
@@ -85,7 +85,7 @@
   font-family: 'Oswald',Arial,sans-serif;
   font-weight: 500;
   font-size: 24px;
-  margin-top: 12px;
+  margin-top: 14px;
   text-rendering: optimizelegibility;
   display: inline-block;
   clear: left;
@@ -113,6 +113,8 @@
   float: left;
   width: 30%;
   margin-right:10px;
+  font-family: 'OswaldBold',Arial,sans-serif;
+  font-size: 22px;
 }
 
 .drinkimage
@@ -179,9 +181,10 @@ hr.drinkbreak
     width: 25%;
     position: absolute;
     padding-bottom:100px;
-    margin-left:0px;
+    padding-left: 10px;
+    margin-left:0px;  
     overflow:hidden;
-    padding-right:10%;
+    padding-right:14px;
 }
 
 hr.drinkitembreak
@@ -194,12 +197,13 @@ hr.drinkitembreak
 {
   font-family: 'Oswald',Arial,sans-serif;
   font-weight: 500;
-  font-style: bold;
-  font-size: 24px;
+  font-size: 26px;
   width:100%;
   border-bottom: 3px solid #45515F;
-  padding-bottom:10%;
-  padding-top:10%;
+  padding-bottom:34px;
+  padding-top:34px;
+  padding-left: 14px;
+  padding-right: 14px;
 }
 
 .selected
@@ -243,8 +247,8 @@ hr.drinkitembreak
 }
 
 input[type="text"]{
-    font-size:32pt;
-    height:32pt;
+    font-size:36pt;
+    height:36pt;
 }
 
 div#preload { display: none; }
