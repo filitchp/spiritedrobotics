@@ -1,0 +1,23 @@
+{
+  "key" : "KAMIKAZESHOT",
+  "customer" : "cami",
+  "date" : 1377401325,
+  "ingredients" : 
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : 2.18
+    },
+    {
+      "key" : "ORANGELIQUEUR",
+      "name" : "Orange Liqueur",
+      "amount" : 0.545
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : 0.273
+    }
+  ]
+}
