@@ -18,13 +18,14 @@ namespace server {
 server::server(
     const std::string& address,
     const std::string& port,
-    const std::string& doc_root)
+    const std::string& doc_root,
+    bool demoMode)
   : mIOService(),
     mSignals(mIOService),
     mAcceptor(mIOService),
     mConnectionManager(),
     mpNewConnection(),
-    mDrinkManager(doc_root, mIOService),
+    mDrinkManager(doc_root, mIOService, demoMode),
     mRequestHandler(doc_root, mDrinkManager)
 {
 

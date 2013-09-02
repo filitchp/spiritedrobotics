@@ -23,7 +23,7 @@ class DrinkManager
 {
   public:
 
-    DrinkManager(const std::string& rootPath, boost::asio::io_service& io);
+    DrinkManager(const std::string& rootPath, boost::asio::io_service& io, bool demoMode);
     ~DrinkManager();
 
     void outputDrinkList(std::ostream& s, unsigned indent);
@@ -63,6 +63,8 @@ class DrinkManager
     // Serial port file descriptor
     int mFd;
     struct termios mOriginalOptions;
+
+    bool mDemoMode;
 
     // Determines if the system is currently busy (making a drink or performing a light show)
     bool mBusy;
