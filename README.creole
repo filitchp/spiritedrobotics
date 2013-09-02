@@ -35,7 +35,7 @@ make
 | 2        | The port the server will user to accept connections | 3000                            |
 | 3        | The path to the configuration files and content     | /home/dev/spiritedrobotics/web/ |
 
-To access the server with this configuration simply point your web browser to **http://127.0.0.1:3000**
+To access the server with this configuration simply point your web browser to http://127.0.0.1:3000
 
 === API
 The HTTP JSON API is documented [[https://github.com/filitchp/spiritedrobotics/wiki/Order-Server-API | here]].
