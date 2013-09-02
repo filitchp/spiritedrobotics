@@ -19,8 +19,8 @@
       "amount" : "1"
     }
   ],
-  "categories" : ["COCKTAILS"],
+  "categories" : ["COCKTAILS", "NERDCRED"],
   "description" : "Brass Monkey. That funky monkey. --Beastie Boys",
-  "imagePath" : "assets/img/drinks/brassmonkey.png",
+  "imagePath" : "assets/img/drinks/orangebubbles.jpg",
   "type" : "Highball"
 }

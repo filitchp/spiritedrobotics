@@ -249,7 +249,7 @@ hr.drinkbreak
     bottom: 0;
     right: 10px;
     height: 100%;
-    width: 50%;
+    width: 60%;
     top:  40px;
 /*    border-left: 3px solid #45515F;*/
 /*    padding-left:10px;*/
@@ -257,12 +257,12 @@ hr.drinkbreak
 
 .drinks-list
 {
-    width: 50%;
+    width: 40%;
     position: absolute;
     padding: 0px;
     margin-left:0px;  
     overflow:hidden;
-    border-right: 3px solid #4b4b4b;
+    border-right: 10px solid #4b4b4b;
 }
 
 hr.drinkitembreak
