@@ -13,10 +13,16 @@ This project contains the source and designs for Spirited Robotics robotic barte
 * Finely tuned PWM control for setting pump pressure
 
 == Order Server
+=== Dependencies
+The server depends on make, cmake, g++, and boost.  On an Ubuntu 12.04 (or similar) system run the following to satisfy all dependencies.  
+{{{
+sudo apt-get install make cmake g++ libboost1.48-all-dev
+}}}
+
 === Building and running
 Order server code is located in the **//server//** directory.  To build it you must have CMake 2.6+ and the Boost v1.46+ development libraries.  
 {{{
-cd /home/dev/spiritedrobotics/server
+cd ~/spiritedrobotics/server
 mkdir build
 cd build
 cmake ../src/
@@ -28,6 +34,8 @@ make
 | 1        | The IP address of the server                        | 127.0.0.1 (localhost)           |
 | 2        | The port the server will user to accept connections | 3000                            |
 | 3        | The path to the configuration files and content     | /home/dev/spiritedrobotics/web/ |
+
+To access the server with this configuration simply point your web browser to **http://127.0.0.1:3000**
 
 === API
 The HTTP JSON API is documented [[https://github.com/filitchp/spiritedrobotics/wiki/Order-Server-API | here]].
