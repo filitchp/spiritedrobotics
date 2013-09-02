@@ -1,22 +1,56 @@
+.red{
+color: white;
+background: red;
+}
+.orange{
+color: orange
+}
+.yellow{
+color: yellow
+}
+.green{
+color: green
+}
+.blue{
+color: blue
+}
+.purple{
+color: purple
+}
+.brown {
+color: brown
+}
+.black {
+color: black
+}
+
+
 
 .ingredients
 {
   list-style-type: none;
   margin: 0;
-  display: block;
+  padding-left: 29px;
+  width:  100%;
+  position: relative;
 }
 
 .ingredients > li
 {
-  margin: 0px 0px 0px 0px;
-  padding: 0px 0px 0px 0px;
-  display: inline-block;
+
+  display: inline;
+  float:  left;
+  color:  #222;
+  width:  33%;
+  font-family: 'Open Sans',Arial,sans-serif;
+  line-height: 1.7em;
+  
 }
 
 .ingredientssubtitle
 {
   color: #e36b23;
-  font-family: 'Oswald',Arial,sans-serif;
+  font-family: 'Open Sans',Arial,sans-serif;
   font-weight: 500;
   font-size: 24px;
   margin-left:24px;
@@ -26,22 +60,25 @@
 
 .ingrname
 {
-  font-family: 'Oxygen',Arial,sans-serif;
+  font-family: 'Open Sans',Arial,sans-serif;
   font-size: 16px;
   text-rendering: optimizelegibility;
-  border-left:2px;
+  border-left:0px;
   border-top:0px;
   border-bottom:0px;
   border-style: solid;
-  padding-left: 12px;
+  padding-left: 2px;
+  color:  #222;
 }
 
 .ingrval
 {
-  font-family: 'Oswald',Arial,sans-serif;
+  font-family: 'Open Sans',Arial,sans-serif;
   font-weight: bold;
   font-size: 16px;
   text-rendering: optimizelegibility;
+  color:  #222;
+  
 }
 
 .ingredientstable
@@ -59,63 +96,94 @@
 
 .descriptiontext
 {
-  margin: 16px 0;
-  float: left;
-  font-family: 'Oxygen',Arial,sans-serif;
-  font-size: 18px;
+  margin: 8px 31px;
+/*  float: left;*/
+  font-family: 'Open Sans',Arial,sans-serif;
+  font-size: 16px;
   text-rendering: optimizelegibility;
-  display:inline;
-  clear:left;
+  color:  #222;
 }
 
 .drinktitle
 {
-  color: #e36b23;
-  font-family: 'OswaldBold',Arial,sans-serif;
-  font-weight: 500;
+  color: #fff;
+  font-family: 'MontserratBold',Arial,sans-serif;
+  font-weight: normal;
   font-size: 32px;
-  text-shadow: -2px 2px 0 #612c0c;
+  top:  145px;
+  text-align: center;
+  position:  relative;
+  text-shadow: none;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin: 0px 30px;
+/*  text-shadow: -2px 2px 0 #612c0c;
   text-rendering: optimizelegibility;
-  margin-bottom:0px;
+  margin-bottom:0px;*/
 }
 
 .drinksubtitle
 {
-  color: #e36b23;
-  font-family: 'Oswald',Arial,sans-serif;
-  font-weight: 500;
-  font-size: 24px;
-  margin-top: 14px;
-  text-rendering: optimizelegibility;
-  display: inline-block;
-  clear: left;
-  float: left;
+  color: #bbb;
+  font-family: 'Montserrat',Arial,sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 17px;
+  display: block;
+  margin: 30px 30px 0px 30px;
+  border-bottom: 2px solid #ddd;
+  width: 90%;
+  padding-bottom: 5px;
+}
+
+
+.btn-clear{
+	background: none;
+	background-color: none;
+	color: #aaa;
+	font-size: 13px;
 }
 
 .nav-button-container
 {
-  clear: left;
-  float: left;
-  display:inline-block;
+/*  clear: left;*/
+/*  float: left;*/
+  display:block;
   width:100%;
   position: absolute;
-  left:0px;
-  margin-left:20px;
-  padding-right:10px;
-  bottom:20px;
+  top: 285px;
+  margin:  0 auto;
+  left:  13px;
+  right:  0px;
+  background: black;
+  height: 70px;
 }
 
-.nav-button
+.nav-button, .nav-button:hover
 {
-  height:100%;
-  position:relative;
-  display:inline-block;
-  float: left;
-  width: 30%;
-  margin-right:10px;
-  font-family: 'OswaldBold',Arial,sans-serif;
-  font-size: 22px;
+  height: 50px;
+  position: absolute;
+  margin: 0 auto;
+  left:  0px;
+  right:  0px;
+/*  float: left;*/
+  width: 50%;
+  font-family: 'Montserrat',Arial,sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  background-color: #1cc09f;
+  -webkit-box-shadow: 0px !important;
+  -moz-box-shadow: 0px !important;
+  box-shadow: 0px !important;
+  border: 0px;
+  color: white;
+  border-radius: 2px;
+  margin-top: 10px;
 }
+
+
 
 .drinkimage
 {
@@ -124,15 +192,20 @@
 
 .imageframe
 {
-    width: 30%;
+/*    width: 30%;
     padding-top:12px;
     padding-left:24px;
     margin-top:12px;
     margin-left:12px;
     display: inline-block;
     position: relative;
-    float: left;
+    float: left;*/
     overflow: hidden;
+    height: 350px;
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 100% 20%;
 }
 
 .imageframe:after
@@ -144,10 +217,11 @@
 
 .rightframe
 {
-    width:40%;
-    padding-top:12px;
-    padding-left:18px;
-    float: left;
+    width:100%;
+    padding-top:6px;
+    padding-left:0px;
+    padding-bottom: 20px;
+/*    float: left;*/
     overflow: hidden;
     position: relative;
 }
@@ -156,7 +230,11 @@
 {
     overflow: hidden;
     position: absolute;
-    top:0; bottom: 0; right: 0; left: 0;
+    width:  100%;
+    height:  100%;
+    top:0;  left: 0;
+    display:  block;
+    background:  rgba(41,51,54,0.5);
 }
 
 hr.drinkbreak
@@ -169,22 +247,22 @@ hr.drinkbreak
 {
     position: fixed;
     bottom: 0;
-    right: 0;
-    height: 90%;
-    width: 70%;
-    border-left: 3px solid #45515F;
-    padding-left:10px;
+    right: 10px;
+    height: 100%;
+    width: 50%;
+    top:  40px;
+/*    border-left: 3px solid #45515F;*/
+/*    padding-left:10px;*/
 }
 
 .drinks-list
 {
-    width: 25%;
+    width: 50%;
     position: absolute;
-    padding-bottom:100px;
-    padding-left: 10px;
+    padding: 0px;
     margin-left:0px;  
     overflow:hidden;
-    padding-right:14px;
+    border-right: 3px solid #4b4b4b;
 }
 
 hr.drinkitembreak
@@ -195,20 +273,36 @@ hr.drinkitembreak
 
 .drink-list-item
 {
-  font-family: 'Oswald',Arial,sans-serif;
-  font-weight: 500;
-  font-size: 26px;
-  width:100%;
-  border-bottom: 3px solid #45515F;
+  font-family: 'MontserratBold',Arial,sans-serif;
+  font-weight: normal;
+  font-size: 22px;
+  border-bottom: 3px solid #4b4b4b;
   padding-bottom:34px;
   padding-top:34px;
-  padding-left: 14px;
+  padding-left: 44px;
   padding-right: 14px;
+  text-transform: uppercase;
+  letter-spacing:  3px;
+  -webkit-transition:  0.7s;
+  transition: 0.7s;
+  -moz-transition: 0.7s;
 }
 
+#content {
+	padding: 0px 0px 0px 0px;
+	margin-right: -10px;
+	margin-left: 13px;
+	background: white;
+	height: 100%;
+}
 .selected
 {
-    background:#45515F;
+    background:#fff;
+    color:  #000;
+    -webkit-transition:  0.7s;
+    transition: 0.7s;
+    -moz-transition: 0.7s;
+    
 }
 
 .topbar{
@@ -225,8 +319,8 @@ hr.drinkitembreak
 
 .sub-topbar{
     position:absolute;
-    top:10%;
-    height:90%;
+/*    top:10%;*/
+    height:100%;
     width:100%;
     overflow:scroll;
     border-bottom: none;
@@ -239,7 +333,17 @@ hr.drinkitembreak
 .modal{
     left:0;
     margin-left:0;
-    width:100%
+    width:100%;
+    top:  0px !important;
+}
+
+.modal-header, .modal-body, .modal-footer {
+	background-color: #323232 !important;
+}
+
+.modal-footer {
+	text-align: center;
+	margin-top: 70px;
 }
 
 .modal-input{
