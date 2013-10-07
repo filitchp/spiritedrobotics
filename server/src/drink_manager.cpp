@@ -395,15 +395,15 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
 
     if (type == DrinkTypeShot)
     {
-      normalizeDrink(drink, 3);
+      normalizeDrink(drink, 2);
     }
     else if (type == DrinkTypeLowBall)
     {
-      normalizeDrink(drink, 5);
+      normalizeDrink(drink, 4);
     }
     else if (type == DrinkTypeHighBall)
     {
-      normalizeDrink(drink, 7);
+      normalizeDrink(drink, 5.5);
     }
 
     mAllDrinks.push_back(drink);
