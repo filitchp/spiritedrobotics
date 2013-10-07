@@ -57,6 +57,11 @@ DrinkManager::DrinkManager(const string& rootPath, boost::asio::io_service& io, 
   readAllDrinks(drinksPath.str());
   createAvailableDrinkList();
 
+  stringstream imageAttributionPath(stringstream::out);
+  imageAttributionPath << rootPath << "/assets/json/images.json";
+
+  readImageAttribution(imageAttributionPath.str());
+
   if (!mDemoMode)
   {
 
@@ -281,6 +286,30 @@ void DrinkManager::readSystemConfiguration(string systemConfigurationPath)
 
   // Create the system configuration object
   mpBarbot = new BarBot(pt);
+
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::readImageAttribution(string imageAttributionPath)
+{
+  // Create an empty property tree object
+  ptree pt;
+
+  // Parse the system configuration file
+  read_json(imageAttributionPath, pt);
+
+  // Create the system configuration object
+  //Image* img = new Image(pt);
+
+
+  BOOST_FOREACH (const ptree::value_type& node, pt.get_child("images"))
+  {
+    const ptree& imageProps = node.second;
+
+    cout << imageProps.get<string>("filename");
+
+  }
 
 }
 

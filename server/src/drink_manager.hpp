@@ -9,6 +9,7 @@
 #include "models/barbot.hpp"
 #include "models/drink.hpp"
 #include "models/order.hpp"
+#include "models/image.hpp"
 
 
 #include <iostream>
@@ -96,6 +97,8 @@ class DrinkManager
     std::map<std::string, Order> mRejectedOrders;
 
     void readSystemConfiguration(std::string systemConfigurationPath);
+    void readImageAttribution(std::string imageAttributionPath);
+
     void readAllDrinks(std::string systemConfigurationPath);
     void createAvailableDrinkList();
 

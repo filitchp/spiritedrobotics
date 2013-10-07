@@ -26,7 +26,6 @@
   ],
   "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],
   "description" : "",
-  "imagePath" : "assets/img/drinks/SolarFlare_KurisuSquare.jpg",
-  "attribution" : "Image by Kurisu on Flickr",
+  "imagePath" : "assets/img/drinks/solar-flare-flickr.jpg",
   "type" : "Highball"
 }
