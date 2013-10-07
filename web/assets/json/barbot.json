@@ -1,5 +1,5 @@
 {
-  "description":"Pauls Bday Party List A",
+  "description":"Pauls Place Testing October",
   "towers" :
   [
     {
@@ -22,8 +22,8 @@
     },
     {
       "id" : 4,
-      "key" : "GINGERBEER",
-      "name" : "Ginger Beer",
+      "key" : "BLUEBERRYJUICE",
+      "name" : "Blue Berry Juice",
       "flowRate" : 2000
     },
     {
