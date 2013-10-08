@@ -1,7 +1,8 @@
 body {
-	padding-top: 80px;
+	padding-top: 40px !important;
 	padding-bottom: 20px;
 }
+
 
 .navbar a > i {
 	opacity: 0.5;

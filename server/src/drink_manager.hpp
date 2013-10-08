@@ -9,6 +9,7 @@
 #include "models/barbot.hpp"
 #include "models/drink.hpp"
 #include "models/order.hpp"
+#include "models/image.hpp"
 
 
 #include <iostream>
@@ -23,7 +24,7 @@ class DrinkManager
 {
   public:
 
-    DrinkManager(const std::string& rootPath, boost::asio::io_service& io);
+    DrinkManager(const std::string& rootPath, boost::asio::io_service& io, bool demoMode);
     ~DrinkManager();
 
     void outputDrinkList(std::ostream& s, unsigned indent);
@@ -64,6 +65,8 @@ class DrinkManager
     int mFd;
     struct termios mOriginalOptions;
 
+    bool mDemoMode;
+
     // Determines if the system is currently busy (making a drink or performing a light show)
     bool mBusy;
 
@@ -94,6 +97,8 @@ class DrinkManager
     std::map<std::string, Order> mRejectedOrders;
 
     void readSystemConfiguration(std::string systemConfigurationPath);
+    void readImageAttribution(std::string imageAttributionPath);
+
     void readAllDrinks(std::string systemConfigurationPath);
     void createAvailableDrinkList();
 

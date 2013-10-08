@@ -31,7 +31,8 @@ class server : private boost::noncopyable
     explicit server(
       const std::string& address,
       const std::string& port,
-      const std::string& doc_root);
+      const std::string& doc_root,
+      bool demo);
 
     /// Run the server's io_service loop.
     void run();

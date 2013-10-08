@@ -34,14 +34,18 @@ using namespace std;
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-DrinkManager::DrinkManager(const string& rootPath, boost::asio::io_service& io) :
+DrinkManager::DrinkManager(const string& rootPath, boost::asio::io_service& io, bool demoMode) :
   mRootPath(rootPath),
   mBusy(true),
   mCurrentIngredientIndex(0),
   mTimer(io),
-  mIngredientOffsetTimeMs(2000)
+  mIngredientOffsetTimeMs(2000),
+  mDemoMode(demoMode)
 {
 
+  //--------------------------------------------
+  // Read configuration files and setup system
+  //--------------------------------------------
   stringstream configFilePath(stringstream::out);
   configFilePath << rootPath << "/assets/json/barbot.json";
 
@@ -53,189 +57,200 @@ DrinkManager::DrinkManager(const string& rootPath, boost::asio::io_service& io) 
   readAllDrinks(drinksPath.str());
   createAvailableDrinkList();
 
-  stringstream logsPathSS(stringstream::out);
-  logsPathSS << rootPath << "/logs";
+  stringstream imageAttributionPath(stringstream::out);
+  imageAttributionPath << rootPath << "/assets/json/images.json";
 
-  stringstream ordersPathSS(stringstream::out);
-  ordersPathSS << logsPathSS.str() << "/orders";
+  readImageAttribution(imageAttributionPath.str());
 
-  stringstream debugPathSS(stringstream::out);
-  debugPathSS << logsPathSS.str() << "/debug";
-
-  path logsPath(logsPathSS.str());
-  path ordersPath(ordersPathSS.str());
-  path debugPath(debugPathSS.str());
-
-  try
-  {
-    // Have to create directories one level at a time...
-    if (!exists(logsPath))
-    {
-      create_directory(logsPath);
-    }
-
-    if (!exists(ordersPath))
-    {
-      create_directory(ordersPath);
-    }
-
-    if (!exists(debugPath))
-    {
-      create_directory(debugPath);
-    }
-  }
-  catch (const filesystem_error& ex)
-  {
-    cout << ex.what() << endl;
-  }
-
-  // Get current time
-  struct timeval currentTime;
-
-  gettimeofday(&currentTime, NULL);
-
-  //--------------------------------------------
-  // DEBUG configuration (print to console)
-  //--------------------------------------------
-  mpBarbot->printTowerDebug(cout);
-
-  //--------------------------------------------
-  // DEBUG configuration (write to file)
-  //--------------------------------------------
-  ofstream configLog;
-  stringstream configLogSS(stringstream::out);
-
-  configLogSS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
-      << "SystemConfig.txt";
-
-  configLog.open(configLogSS.str().c_str());
-  mpBarbot->printTowerDebug(configLog);
-  configLog.close();
-
-  //--------------------------------------------
-  // DEBUG all drink summary (print to console)
-  //--------------------------------------------
-  printAllDrinkSummary(cout);
-
-  //--------------------------------------------
-  // DEBUG all drink summary (write to file)
-  //--------------------------------------------
-  ofstream allSummaryLog;
-  stringstream allDrinkSummarySS(stringstream::out);
-
-  allDrinkSummarySS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
-      << "AllDrinkSummary.txt";
-
-  allSummaryLog.open(allDrinkSummarySS.str().c_str());
-  printAllDrinkSummary(allSummaryLog);
-  allSummaryLog.close();
-
-  //------------------------------------------------
-  // DEBUG all drink ingredients (print to console)
-  //------------------------------------------------
-  printAllDrinkIngredients(cout);
-
-  //--------------------------------------------
-  // DEBUG all drink ingredients (write to file)
-  //--------------------------------------------
-
-  stringstream allDrinkIngredientsSS(stringstream::out);
-
-  allDrinkIngredientsSS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
-      << "AllDrinkIngredients.txt";
-
-  ofstream allIngredientsLog;
-  allIngredientsLog.open(allDrinkIngredientsSS.str().c_str());
-  printAllDrinkIngredients(allIngredientsLog);
-  allIngredientsLog.close();
-
-  // DEBUG
-  //outputDrinkList(cout, 0);
-
-  // Serial port guide: http://www.easysw.com/~mike/serial/serial.html#2_5_2
-
-  string serialDevice = "/dev/ttyUSB0";
-
-  // USB device
-  mFd = open(serialDevice.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
-
-  if (mFd <= 0)
-  {
-    cerr << "ERROR: could not open " << serialDevice << endl;
-  }
-  else
+  if (!mDemoMode)
   {
 
-    cout << "Opened " << serialDevice << endl;
+    //---------------
+    // Setup logging
+    //---------------
+    stringstream logsPathSS(stringstream::out);
+    logsPathSS << rootPath << "/logs";
 
-    // Non-Blocking mode
-    fcntl(mFd, F_SETFL, FNDELAY);
+    stringstream ordersPathSS(stringstream::out);
+    ordersPathSS << logsPathSS.str() << "/orders";
 
-    // Get the current options for the port...
-    // (and save them so we can write them back on close)
-    tcgetattr(mFd, &mOriginalOptions);
+    stringstream debugPathSS(stringstream::out);
+    debugPathSS << logsPathSS.str() << "/debug";
 
-    struct termios newOptions;
+    path logsPath(logsPathSS.str());
+    path ordersPath(ordersPathSS.str());
+    path debugPath(debugPathSS.str());
 
-    // Set serial speed
-    // B9600      9600 baud
-    // B19200    19200 baud
-    // B38400    38400 baud
-    // B57600   57,600 baud
-    // B76800   76,800 baud
-    // B115200 115,200 baud
-
-    if (cfsetispeed(&newOptions, B38400) == -1)
+    try
     {
-      cerr << "ERROR: Could not set the input speed" << endl;
+      // Have to create directories one level at a time...
+      if (!exists(logsPath))
+      {
+        create_directory(logsPath);
+      }
+
+      if (!exists(ordersPath))
+      {
+        create_directory(ordersPath);
+      }
+
+      if (!exists(debugPath))
+      {
+        create_directory(debugPath);
+      }
+    }
+    catch (const filesystem_error& ex)
+    {
+      cout << ex.what() << endl;
     }
 
-    if (cfsetospeed(&newOptions, B38400) == -1)
+    // Get current time
+    struct timeval currentTime;
+
+    gettimeofday(&currentTime, NULL);
+
+    //--------------------------------------------
+    // DEBUG configuration (print to console)
+    //--------------------------------------------
+    mpBarbot->printTowerDebug(cout);
+
+    //--------------------------------------------
+    // DEBUG configuration (write to file)
+    //--------------------------------------------
+    ofstream configLog;
+    stringstream configLogSS(stringstream::out);
+
+    configLogSS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
+        << "SystemConfig.txt";
+
+    configLog.open(configLogSS.str().c_str());
+    mpBarbot->printTowerDebug(configLog);
+    configLog.close();
+
+    //--------------------------------------------
+    // DEBUG all drink summary (print to console)
+    //--------------------------------------------
+    printAllDrinkSummary(cout);
+
+    //--------------------------------------------
+    // DEBUG all drink summary (write to file)
+    //--------------------------------------------
+    ofstream allSummaryLog;
+    stringstream allDrinkSummarySS(stringstream::out);
+
+    allDrinkSummarySS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
+        << "AllDrinkSummary.txt";
+
+    allSummaryLog.open(allDrinkSummarySS.str().c_str());
+    printAllDrinkSummary(allSummaryLog);
+    allSummaryLog.close();
+
+    //------------------------------------------------
+    // DEBUG all drink ingredients (print to console)
+    //------------------------------------------------
+    printAllDrinkIngredients(cout);
+
+    //--------------------------------------------
+    // DEBUG all drink ingredients (write to file)
+    //--------------------------------------------
+    stringstream allDrinkIngredientsSS(stringstream::out);
+
+    allDrinkIngredientsSS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
+        << "AllDrinkIngredients.txt";
+
+    ofstream allIngredientsLog;
+    allIngredientsLog.open(allDrinkIngredientsSS.str().c_str());
+    printAllDrinkIngredients(allIngredientsLog);
+    allIngredientsLog.close();
+
+    // DEBUG
+    //outputDrinkList(cout, 0);
+
+    // Serial port guide: http://www.easysw.com/~mike/serial/serial.html#2_5_2
+
+    string serialDevice = "/dev/ttyUSB0";
+
+    // USB device
+    mFd = open(serialDevice.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
+
+    if (mFd <= 0)
     {
-      cerr << "ERROR: Could not set the output speed" << endl;
+      cerr << "ERROR: could not open " << serialDevice << endl;
     }
-
-    //--------------------
-    // Control mode flags
-    //--------------------
-
-    // Disable hardware flow control
-    newOptions.c_cflag &= ~CRTSCTS;
-
-    // No parity (8N1)
-    newOptions.c_cflag &= ~PARENB;
-    newOptions.c_cflag &= ~CSTOPB;
-    newOptions.c_cflag &= ~CSIZE;
-    newOptions.c_cflag |= CS8;
-
-    // Enable the receiver and set local mode...
-    newOptions.c_cflag |= (CLOCAL | CREAD);
-
-    //------------------
-    // Input mode flags
-    //------------------
-
-    // Disable software flow control
-    newOptions.c_iflag &= ~(IXON | IXOFF | IXANY);
-
-    //-------------------
-    // Output mode flags
-    //-------------------
-
-    // Raw output
-    newOptions.c_oflag &= ~OPOST;
-
-    //------------------
-    // Local mode flags
-    //------------------
-
-    // Raw mode (disable canonical mode, don't echo, and disable signals)
-    newOptions.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
-
-    // Set the new options for the port...
-    if (tcsetattr(mFd, TCSAFLUSH, &newOptions) == -1)
+    else
     {
-      cerr << "ERROR: Could not set the options for the serial port" << endl;
+
+      cout << "Opened " << serialDevice << endl;
+
+      // Non-Blocking mode
+      fcntl(mFd, F_SETFL, FNDELAY);
+
+      // Get the current options for the port...
+      // (and save them so we can write them back on close)
+      tcgetattr(mFd, &mOriginalOptions);
+
+      struct termios newOptions;
+
+      // Set serial speed
+      // B9600      9600 baud
+      // B19200    19200 baud
+      // B38400    38400 baud
+      // B57600   57,600 baud
+      // B76800   76,800 baud
+      // B115200 115,200 baud
+
+      if (cfsetispeed(&newOptions, B38400) == -1)
+      {
+        cerr << "ERROR: Could not set the input speed" << endl;
+      }
+
+      if (cfsetospeed(&newOptions, B38400) == -1)
+      {
+        cerr << "ERROR: Could not set the output speed" << endl;
+      }
+
+      //--------------------
+      // Control mode flags
+      //--------------------
+
+      // Disable hardware flow control
+      newOptions.c_cflag &= ~CRTSCTS;
+
+      // No parity (8N1)
+      newOptions.c_cflag &= ~PARENB;
+      newOptions.c_cflag &= ~CSTOPB;
+      newOptions.c_cflag &= ~CSIZE;
+      newOptions.c_cflag |= CS8;
+
+      // Enable the receiver and set local mode...
+      newOptions.c_cflag |= (CLOCAL | CREAD);
+
+      //------------------
+      // Input mode flags
+      //------------------
+
+      // Disable software flow control
+      newOptions.c_iflag &= ~(IXON | IXOFF | IXANY);
+
+      //-------------------
+      // Output mode flags
+      //-------------------
+
+      // Raw output
+      newOptions.c_oflag &= ~OPOST;
+
+      //------------------
+      // Local mode flags
+      //------------------
+
+      // Raw mode (disable canonical mode, don't echo, and disable signals)
+      newOptions.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+
+      // Set the new options for the port...
+      if (tcsetattr(mFd, TCSAFLUSH, &newOptions) == -1)
+      {
+        cerr << "ERROR: Could not set the options for the serial port" << endl;
+      }
     }
   }
 
@@ -276,6 +291,30 @@ void DrinkManager::readSystemConfiguration(string systemConfigurationPath)
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
+void DrinkManager::readImageAttribution(string imageAttributionPath)
+{
+  // Create an empty property tree object
+  ptree pt;
+
+  // Parse the system configuration file
+  read_json(imageAttributionPath, pt);
+
+  // Create the system configuration object
+  //Image* img = new Image(pt);
+
+
+  BOOST_FOREACH (const ptree::value_type& node, pt.get_child("images"))
+  {
+    const ptree& imageProps = node.second;
+
+    cout << imageProps.get<string>("filename");
+
+  }
+
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void DrinkManager::createAvailableDrinkList()
 {
   bool allRumIsTheSame = true;
@@ -302,7 +341,6 @@ void DrinkManager::createAvailableDrinkList()
         //cout<<"This ingredient Doesn't exist!! "<<ing.getKey()<<" for "<<drink.getName()<<endl;
       }
     }
-
 
     if (valid)
     {
@@ -357,15 +395,15 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
 
     if (type == DrinkTypeShot)
     {
-      normalizeDrink(drink, 3);
+      normalizeDrink(drink, 2);
     }
     else if (type == DrinkTypeLowBall)
     {
-      normalizeDrink(drink, 5);
+      normalizeDrink(drink, 4);
     }
     else if (type == DrinkTypeHighBall)
     {
-      normalizeDrink(drink, 7);
+      normalizeDrink(drink, 5.5);
     }
 
     mAllDrinks.push_back(drink);
@@ -1187,6 +1225,13 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
 //------------------------------------------------------------------------------
 bool DrinkManager::addOrder(string drinkKey, string customerName, unsigned timestamp)
 {
+
+  if (mDemoMode)
+  {
+    // If we are in demo mode then order never gets added since we are just
+    // showing off the interface
+    return true;
+  }
 
   vector<Ingredient> ingredients;
   vector<unsigned> towerMessage;
