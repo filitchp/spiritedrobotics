@@ -174,14 +174,112 @@
       "photographer" : "Chris Sansenbach",
       "source" : "flickr",
       "username" : "kurisu",
-      "license" : "Creative Commons CC BY-ND 2.0"
+      "license" : "Creative Commons BY-ND 2.0"
     },
     {
       "filename" : "orange-juice-with-red-highball-flickr.jpg",
       "photographer" : "Stuart Webster",
       "source" : "flickr",
       "username" : "stuartwebster",
-      "license" : "Creative Commons CC BY 2.0"
+      "license" : "Creative Commons BY 2.0"
+    },
+    {
+      "filename" : "blue-abstract-flickr.jpg",
+      "photographer" : "Heather, Cast a Line",
+      "source" : "flickr",
+      "username" : "58754750@N08",
+      "license" : "Creative Commons BY-ND 2.0"
+    },
+    {
+      "filename" : "blue-transparent-highball-flickr.jpg",
+      "photographer" : "Jan Jablunka",
+      "source" : "flickr",
+      "username" : "sjon",
+      "license" : "Creative Commons BY 2.0"
+    },
+    {
+      "filename" : "blue-transparent-martini-flickr.jpg",
+      "photographer" : "Norio NAKAYAMA",
+      "source" : "flickr",
+      "username" : "norio-nakayama",
+      "license" : "Creative Commons BY-SA 2.0"
+    },
+    {
+      "filename" : "blue-transparent-lowball-hint-of-purple-flickr.jpg",
+      "photographer" : "Rosana Prada",
+      "source" : "flickr",
+      "username" : "Zanastardust",
+      "license" : "Creative Commons BY 2.0"
+    },
+    {
+      "filename" : "blue-transparent-lowball-flickr.jpg",
+      "photographer" : "Rosana Prada",
+      "source" : "flickr",
+      "username" : "Zanastardust",
+      "license" : "Creative Commons BY 2.0"
+    },
+    {
+      "filename" : "red-lowball-lime-flickr.jpg",
+      "photographer" : "TheCulinaryGeek",
+      "source" : "flickr",
+      "username" : "preppybyday",
+      "license" : "Creative Commons BY 2.0"
+    },
+    {
+      "filename" : "red-highball-lime-flickr.jpg",
+      "photographer" : "TheCulinaryGeek",
+      "source" : "flickr",
+      "username" : "preppybyday",
+      "license" : "Creative Commons BY 2.0"
+    },
+    {
+      "filename" : "orange-juice-red-cocktail-glass-flickr.jpg",
+      "photographer" : "TheCulinaryGeek",
+      "source" : "flickr",
+      "username" : "preppybyday",
+      "license" : "Creative Commons BY 2.0"
+    },
+    {
+      "filename" : "orange-dark-semi-transparent-flickr.jpg",
+      "photographer" : "TheCulinaryGeek",
+      "source" : "flickr",
+      "username" : "preppybyday",
+      "license" : "Creative Commons BY 2.0"
+    },
+    {
+      "filename" : "blue-green-margarita-lime-flickr.jpg",
+      "photographer" : "TheCulinaryGeek",
+      "source" : "flickr",
+      "username" : "preppybyday",
+      "license" : "Creative Commons BY 2.0"
+    },
+    {
+      "filename" : "yellow-transparent-bright-highball-flickr.jpg",
+      "photographer" : "TheCulinaryGeek",
+      "source" : "flickr",
+      "username" : "preppybyday",
+      "license" : "Creative Commons BY 2.0"
+    },
+    {
+      "filename" : "red-daiquiri-cocktail-glass-flickr.jpg",
+      "photographer" : "TheCulinaryGeek",
+      "source" : "flickr",
+      "username" : "preppybyday",
+      "license" : "Creative Commons BY 2.0"
+    },
+    {
+      "filename" : "coffee-liqueur-top-down-martini-flickr.jpg",
+      "photographer" : "kapital",
+      "source" : "flickr",
+      "username" : "kapital",
+      "license" : "Creative Commons BY-SA 2.0"
+    },
+    {
+      "filename" : "coke-highball-flickr.jpg",
+      "photographer" : "Ibrahim Asad",
+      "source" : "flickr",
+      "username" : "thundi",
+      "license" : "Creative Commons BY-ND 2.0"
     }
   ]
 }

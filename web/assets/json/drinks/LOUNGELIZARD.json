@@ -13,14 +13,14 @@
       "name" : "Dark Rum",
       "amount" : "2"
     },
-	{
-	  "key" : "COKE",
-	  "name" : "Coca-Cola",
-	  "amount" : "8"
-	}
+	  {
+	    "key" : "COKE",
+	    "name" : "Coca-Cola",
+	    "amount" : "8"
+	  }
   ],
   "categories" : ["COCKTAILS"],
   "description" : "A drink for the thoroughly indoctrinated lounge lizard.",
-  "imagePath" : "assets/img/drinks/loungelizard.jpg",
+  "imagePath" : "assets/img/drinks/orange-lowball-snapwire.jpg",
   "type" : "Highball"
 }

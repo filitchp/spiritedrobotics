@@ -3,20 +3,19 @@
   "name" : "Pale Blue Dot",
   "ingredients" :
   [
-	{
-		"key" : "IRISHCREAM",
-		"name" : "Bailey's Irish Cream",
-		"amount" : "3"
-	},
-	{
-	  "key" : "BLUEBERRYJUICE",
-		"name" : "Blueberry Juice",
-		"amount" : "1"
-	}
+	  {
+		  "key" : "IRISHCREAM",
+		  "name" : "Bailey's Irish Cream",
+		  "amount" : "3"
+	  },
+	  {
+	    "key" : "BLUEBERRYJUICE",
+		  "name" : "Blueberry Juice",
+		  "amount" : "1"
+	  }
   ],
   "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],
   "description" : "",
-  "imagePath" : "assets/img/drinks/BlueDrinksjonSquare.jpg",
-  "attribution" : "Image by sjon on Flickr",
+  "imagePath" : "assets/img/drinks/blue-transparent-lowball-hint-of-purple-flickr",
   "type" : "Lowball"
 }
