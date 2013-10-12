@@ -24,7 +24,7 @@
 		"amount" : "0.75"
 	}
   ],
-  "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],
+  "categories" : ["COCKTAILS", "SPACE", "NERDCRED", "ORIGINAL"],
   "description" : "",
   "imagePath" : "assets/img/drinks/solar-flare-flickr.jpg",
   "type" : "Highball"

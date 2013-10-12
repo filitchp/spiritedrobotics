@@ -280,6 +280,13 @@
       "source" : "flickr",
       "username" : "thundi",
       "license" : "Creative Commons BY-ND 2.0"
-    }
+    },
+    {
+      "filename" : "purple-close-up-low-ball-flickr.jpg",
+      "photographer" : "Quinn Dombrowski",
+      "source" : "flickr",
+      "username" : "quinndombrowski",
+      "license" : "Creative Commons BY-SA 2.0"
+    }    
   ]
 }

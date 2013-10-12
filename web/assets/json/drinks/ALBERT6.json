@@ -19,7 +19,7 @@
       "amount" : "3"
     }
   ],
-  "categories" : ["COCKTAILS", "MANLYDRINKS", "SPACE", "NERDCRED"],
+  "categories" : ["COCKTAILS", "MANLYDRINKS", "SPACE", "NERDCRED", "ORIGINAL"],
   "description" : "Yorick, also called Albert VI, along with 11 mouse crewmates, became the first animals to survive rocket flight on 20 September 1951.  This drink is in his memory.",
   "imagePath" : "assets/img/drinks/orange-abstract-ice-filckr.jpg",
   "type" : "Highball"
