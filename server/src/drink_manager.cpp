@@ -399,11 +399,13 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
     }
     else if (type == DrinkTypeLowBall)
     {
-      normalizeDrink(drink, 4);
+      // For beta testing we set lowball drinks to 3 oz to test out many different kinds
+      normalizeDrink(drink, 3);
     }
     else if (type == DrinkTypeHighBall)
     {
-      normalizeDrink(drink, 5.5);
+      // For beta testing we set highball drinks to 3 oz to test out many different kinds
+      normalizeDrink(drink, 3);
     }
 
     mAllDrinks.push_back(drink);

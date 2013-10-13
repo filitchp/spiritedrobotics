@@ -1,0 +1,31 @@
+{
+  "key" : "BARBOTSUNRISE",
+  "name" : "BarBot Sunrise",
+  "ingredients" :
+  [
+	{
+		"key" : "VODKA",
+		"name" : "Vodka",
+		"amount" : "1"
+	},
+	{
+    "key" : "GRAPEFRUITJUICE",
+		"name" : "Grapefruit Juice",
+		"amount" : "1"
+	},
+	{
+		"key" : "ORANGEJUICE",
+		"name" : "Orange Juice",
+		"amount" : "2"
+	},
+	{
+		"key" : "LIMEJUICE",
+		"name" : "Lime Juice",
+		"amount" : "0.5"
+	}
+  ],
+  "categories" : ["COCKTAILS", "ORIGINAL"],
+  "description" : "A Spirited Robotics Original!",
+  "imagePath" : "assets/img/drinks/orange-abstract-bright.jpg",
+  "type" : "Highball"
+}

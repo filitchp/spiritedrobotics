@@ -1,0 +1,31 @@
+{
+  "key" : "BRITISHCOWBOY",
+  "name" : "British Cowboy",
+  "ingredients" :
+  [
+	  {
+		  "key" : "GIN",
+		  "name" : "Gin",
+		  "amount" : "1.5"
+	  },
+	  {
+		  "key" : "GRAPEFRUITJUICE",
+		  "name" : "Grapefruit Juice",
+		  "amount" : "1.0"
+	  },
+	  {
+	    "key" : "ORANGEJUICE",
+	    "name" : "Orange Juice",
+	    "amount" : "1.5"
+	  },
+	  {
+      "key" : "DARKRUM",
+      "name" : "Spiced Rum",
+      "amount" : "0.5"
+    }
+  ],
+  "categories" : ["COCKTAILS", "ORIGINAL"],
+  "description" : "This is a Spirited Robotics original",
+  "imagePath" : "assets/img/drinks/orange-juice-red-cocktail-glass-flickr.jpg",
+  "type" : "Highball"
+}

@@ -22,8 +22,8 @@
     },
     {
       "id" : 4,
-      "key" : "COFFEELIQUEUR",
-      "name" : "Coffee Liqueur",
+      "key" : "BLUEBERRYJUICE",
+      "name" : "Blue Berry Juice",
       "flowRate" : 3400
     },
     {
@@ -40,8 +40,8 @@
     },
     {
       "id" : 7,
-      "key" : "GRAPEFRUITJUICE",
-      "name" : "Grapefruit Juice",
+      "key" : "ORANGELIQUEUR",
+      "name" : "Orange Liqueur",
       "flowRate" : 3400
     },
     {
