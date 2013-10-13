@@ -1,0 +1,23 @@
+{
+  "key" : "MOONWALKv2",
+  "customer" : "amy",
+  "date" : 1365579529,
+  "ingredients" : 
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : 1.25
+    },
+    {
+      "key" : "WHISKEY",
+      "name" : "Whiskey",
+      "amount" : 1.25
+    },
+    {
+      "key" : "IRISHCREAM",
+      "name" : "Bailey's Irish Cream",
+      "amount" : 2.5
+    }
+  ]
+}

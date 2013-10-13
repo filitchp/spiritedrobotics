@@ -24,9 +24,9 @@
 		"amount" : "0.5"
 	}
   ],
-  "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],
+  "categories" : ["COCKTAILS", "SPACE", "NERDCRED", "ORIGINAL"],
   "description" : "",
-  "imagePath" : "assets/img/drinks/russianCosmonautVerselloSquare.jpg",
+  "imagePath" : "assets/img/drinks/orange-abstract-bright.jpg",
   "attribution" : "Image by Versello on Flickr",
   "type" : "Lowball"
 }

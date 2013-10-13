@@ -119,9 +119,11 @@ void request_handler::handle_request(const request& req, reply& rep)
   const string approved_orders_path("/approvedOrders");
   const string approve_order_path("/approveOrder");
   const string test_tower_path("/testTower");
+  const string system_status_path("/systemStatus");
   const string init_addresses_path("/initTowers");
   const string halt_addresses_path("/haltTowers");
   const string reverse_time_path("/setTowerReverseTime");
+  const string set_lights_path("/setLights");
 
   string path("");
   string query("");
@@ -199,6 +201,10 @@ void request_handler::handle_request(const request& req, reply& rep)
     //----------------------------------------
     handleTestTowerRequest(queryMap,rep);
   }
+  else if (path == system_status_path)
+  {
+    handleSystemStatusRequest(rep);
+  }
   else if (path == init_addresses_path)
   {
     handleInitRoutineRequest(rep);
@@ -207,7 +213,12 @@ void request_handler::handle_request(const request& req, reply& rep)
   {
     handleHaltRoutineRequest(rep);
   }
-  else if (path == reverse_time_path){
+  else if (path == set_lights_path)
+  {
+    handleSetLightsRequest(queryMap,rep);
+  }
+  else if (path == reverse_time_path)
+  {
     handleReverseTimeRequest(queryMap,rep);
   }
   else
@@ -352,6 +363,66 @@ void request_handler::handleTestTowerRequest(map<string, string>& queryMap, repl
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
+void request_handler::handleSetLightsRequest(map<string, string>& queryMap, reply& rep)
+{
+  bool success = false;
+
+  if (queryMap.size())
+  {
+    string modeStr;
+
+    if (queryMap.find("mode") != queryMap.end())
+    {
+      modeStr = queryMap["mode"];
+    }
+
+    if (modeStr.size())
+    {
+      cout << "modeStr " << modeStr << endl;
+
+      unsigned mode;
+      istringstream ( modeStr ) >> mode;
+
+      switch(mode)
+      {
+        case 0:
+          if (mDrinkManager.sendPassiveLightsMessage())
+          {
+            success = true;
+          }
+          break;
+        case 1:
+          if (mDrinkManager.sendFireLightsMessage())
+          {
+            success = true;
+          }
+          break;
+      }
+    }
+  }
+
+  if (success)
+  {
+    string successMessage = "{\"result\" : true}";
+    rep.content.append(successMessage.c_str(), successMessage.size());
+  }
+  else
+  {
+    string errorMessage = "{\"result\" : false}";
+    rep.content.append(errorMessage.c_str(), errorMessage.size());
+  }
+
+  rep.status = reply::ok;
+
+  rep.headers.resize(2);
+  rep.headers[0].name = "Content-Length";
+  rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+  rep.headers[1].name = "Content-Type";
+  rep.headers[1].value = "application/json";
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void request_handler::handleReverseTimeRequest(map<string, string>& queryMap, reply& rep)
 {
   bool success = false;
@@ -417,13 +488,12 @@ void request_handler::handleReverseTimeRequest(map<string, string>& queryMap, re
   rep.headers[1].value = "application/json";
 }
 
-
-
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 void request_handler::handleApproveOrderRequest(map<string, string>& queryMap, reply& rep)
 {
   bool success = false;
+  string message;
 
   if (queryMap.size())
   {
@@ -449,13 +519,25 @@ void request_handler::handleApproveOrderRequest(map<string, string>& queryMap, r
     // If we have a drink key, a customer name, and a timestamp
     if (drinkKey.size() && customerName.size())
     {
-      cout << "drinkKey" << drinkKey << endl;
-      cout << "customerName" << customerName << endl;
-      cout << "timestamp" << timestamp << endl;
+      //cout << "drinkKey " << drinkKey << endl;
+      //cout << "customerName " << customerName << endl;
+      //cout << "timestamp " << timestamp << endl;
 
-      if (mDrinkManager.approveOrder(drinkKey, customerName, timestamp))
+      int status = mDrinkManager.approveOrder(drinkKey, customerName, timestamp);
+
+      switch(status)
       {
-       success = true;
+        case 1:
+          success = true;
+          break;
+        case 0:
+          message = "That order could not be found";
+          break;
+        case -1:
+          message = "The system is currently busy";
+          break;
+        default:
+          message = "Unknown error";
       }
     }
   }
@@ -467,8 +549,10 @@ void request_handler::handleApproveOrderRequest(map<string, string>& queryMap, r
   }
   else
   {
-    string errorMessage = "{\"result\" : false}";
-    rep.content.append(errorMessage.c_str(), errorMessage.size());
+    stringstream oss(stringstream::out);
+    oss << "{\"result\" : false, \"message\" : \"" << message << "\"}";
+    string message = oss.str();
+    rep.content.append(message.c_str(), message.size());
   }
 
   rep.status = reply::ok;
@@ -489,6 +573,27 @@ void request_handler::handlePendingOrdersRequest(reply& rep)
   stringstream oss(stringstream::out);
 
   mDrinkManager.outputPendingOrders(oss, 0);
+
+  string message = oss.str();
+  rep.content.append(message.c_str(), message.size());
+
+  rep.status = reply::ok;
+
+  rep.headers.resize(2);
+  rep.headers[0].name = "Content-Length";
+  rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+  rep.headers[1].name = "Content-Type";
+  rep.headers[1].value = "application/json";
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void request_handler::handleSystemStatusRequest(reply& rep)
+{
+
+  stringstream oss(stringstream::out);
+
+  mDrinkManager.outputSystemStatus(oss, 0);
 
   string message = oss.str();
   rep.content.append(message.c_str(), message.size());

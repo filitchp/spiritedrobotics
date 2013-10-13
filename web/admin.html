@@ -12,12 +12,29 @@
     <link href="assets/css/bootswatch.css" rel="stylesheet">
     <link href="assets/css/barbot.css" rel="stylesheet">
 
+    <script type="text/template" id="status_success_template">
+      <span class="label label-success"><%= get("status") %></span>
+    </script>
+    
+    <script type="text/template" id="status_warning_template">
+      <span class="label label-warning"><%= get("status") %></span>
+    </script>
+    
+    <script type="text/template" id="status_important_template">
+      <span class="label label-important"><%= get("status") %></span>
+    </script>
+
     <script type="text/template" id="order_template">
     <div class="row-fluid">
       <div class="span12" style="padding:46px">
         <%= get("customer") %>, <%= get("key") %>, <%= get("date") %>   <a class="btn btn-large click-to-approve">Order</a>
       </div>
     </div>
+    </script>
+
+    <script type="text/template" id="quick_access_buttons_template">
+      <a class="btn btn-success btn-large click-to-init">Init</a>
+      <a class="btn btn-danger btn-large click-to-stop">Stop</a>
     </script>
     
     <script type="text/template" id="debug_template">
@@ -26,33 +43,79 @@
         TowerNumber:    <input type="text" id="test_number"/>
         Amount:    <input type="text" id="test_amount"/>
         <a class="btn btn-large click-to-test">Test</a>
-      </div>    
-      <div class="span12" style="padding:46px">
-        <a class="btn btn-large click-to-init">Init</a>
       </div>
       <div class="span12" style="padding:46px">
-        <a class="btn btn-large click-to-stop">Stop</a>
+        <div class="btn-toolbar">
+
+          <div class="btn-group">
+            <a class="btn btn-large disabled" style="color: black;">Lights</a>
+            <a class="btn btn-large click-passive-lights">Passive</a>
+
+            <a class="btn btn-large click-fire-lights">Fire</a>
+          </div>
+        </div>
+      </div>
+      <div class="span12" style="padding:46px">
+        <div class="btn-toolbar">
+          
+            <a class="btn btn-large disabled" style="color: black;">Tower</a>
+            <a class="btn btn-large">1</a>
+            <a class="btn btn-large">2</a>
+            <a class="btn btn-large">3</a>
+            <a class="btn btn-large">4</a>
+            <a class="btn btn-large">5</a>
+            <a class="btn btn-large">6</a>
+            <a class="btn btn-large">7</a>
+            <a class="btn btn-large">8</a>
+          
+        </div>
       </div>
     </div>
     </script>
 
   </head>
   <body class="preview">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        
+        <div class="row">
+          <div class="span4">
+            <h2 style="margin-left: 20px; margin-top: 16px; font-size: 26px">Admin Console</h2>
+          </div>
+          <div class="span4" style="margin-left: 20px; margin-top: 22px;">
+            <table cellpadding="4px" style="background-color: transparent;">
+              <tr>
+                <td>
+                  <b>Status</b> 
+                </td>
+                <td>
+                  <div id="system-status-container"></div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="span4">
+            <div id="quick-access-buttons-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <div id="orders-list">
     </div>
+    
     <div id="debug-container">
     </div>
-
-    <a class="foo_button" id="Bar">Foo</button>
-    <a class="foo_button" id="Bot">Foo</button>
 
     <script src="assets/js/jquery.1.7.2.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/application.js"></script>
     <script src="assets/js/underscore-min.js"></script>
     <script src="assets/js/backbone.js"></script>
+    
+    <script src="assets/js/models/status.js"></script>
     <script src="assets/js/models/order.js"></script>
     <script src="assets/js/models/barbot.js"></script>
     <script src="assets/js/admin.js"></script>
   </body>
-
+</html>

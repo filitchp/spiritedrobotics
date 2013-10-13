@@ -9,7 +9,13 @@
 #include "models/barbot.hpp"
 #include "models/drink.hpp"
 #include "models/order.hpp"
+#include "models/image.hpp"
 
+
+#include <iostream>
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 //------------------------------------------------------------------------------
 // Describes the recipe for a drink
@@ -18,10 +24,11 @@ class DrinkManager
 {
   public:
 
-    DrinkManager(const std::string& rootPath);
+    DrinkManager(const std::string& rootPath, boost::asio::io_service& io, bool demoMode);
     ~DrinkManager();
 
     void outputDrinkList(std::ostream& s, unsigned indent);
+    void outputSystemStatus(std::ostream& s, unsigned indent);
 
     void outputPendingOrders(std::ostream& s, unsigned indent);
     void outputApprovedOrders(std::ostream& s, unsigned indent);
@@ -29,26 +36,49 @@ class DrinkManager
     bool getIngredientsForDrinkKey(std::string key, std::vector<Ingredient>& ingredients);
 
     bool addOrder(std::string drinkKey, std::string customerName, unsigned timestamp);
-    bool approveOrder(std::string drinkKey, std::string customerName, unsigned timestamp);
+    int approveOrder(std::string drinkKey, std::string customerName, unsigned timestamp);
     bool testTower(unsigned char towerId, float amount);
     bool setTowerReverseTime(unsigned char towerId, float amount);
 
     void normalizeDrink(Drink& d, float normalizedAmount);
     void printAllDrinkIngredients(std::ostream& os) const;
 
-    int readData(long msTimeout);
+    int comReadData(long msTimeout);
     void printAllDrinkSummary(std::ostream& os) const;
 
     bool initTowers();
     bool haltTowers();
-    bool sendInitMessage();
-    bool sendHaltMessage();
+    bool comInitMessage();
+    bool comHaltMessage();
+    bool sendFireLightsMessage();
+    bool sendPassiveLightsMessage();
+
+    // Callback that starts pouring an ingredient after a timer has elapsed
+    void timerOperationIngredient();
+
+    // Callback that gets run after all ingredients have been poured
+    void timerOperationWindDown();
 
   private:
 
     // Serial port file descriptor
     int mFd;
     struct termios mOriginalOptions;
+
+    bool mDemoMode;
+
+    // Determines if the system is currently busy (making a drink or performing a light show)
+    bool mBusy;
+
+    // The current set of ingredients being served (when the system is busy making a drink these ingredients are used)
+    std::vector<Ingredient> mCurrentIngredients;
+    int mCurrentIngredientIndex;
+
+    // The number of milliseconds to wait to start the next pump
+    const int mIngredientOffsetTimeMs;
+    int mLastIngredientWaitMs;
+
+    boost::asio::deadline_timer mTimer;
 
     // The working path (all input/output files are relative to this path)
     std::string mRootPath;
@@ -67,6 +97,8 @@ class DrinkManager
     std::map<std::string, Order> mRejectedOrders;
 
     void readSystemConfiguration(std::string systemConfigurationPath);
+    void readImageAttribution(std::string imageAttributionPath);
+
     void readAllDrinks(std::string systemConfigurationPath);
     void createAvailableDrinkList();
 
@@ -75,6 +107,8 @@ class DrinkManager
           unsigned char command,
           float amount,
           float flowRate);
+
+    bool comSetLightsMode(unsigned char mode);
 
 };
 

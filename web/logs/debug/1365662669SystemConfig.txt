@@ -1,0 +1,12 @@
++----------------------------------------------------------+
+|    ID|                   KEY|                  NAME|FLOW |
++----------------------------------------------------------+
+|     1|                 VODKA|                 Vodka|2000*|
+|     2|               DARKRUM|            Spiced Rum|2000*|
+|     3|           BLUECURACAO|          Blue Curacao|2000*|
+|     4|            IRISHCREAM|  Bailey's Irish Cream|2000*|
+|     5|           ORANGEJUICE|          Orange Juice|2000*|
+|     6|        CRANBERRYJUICE|       Cranberry Juice|2000*|
+|     7|               WHISKEY|               Whiskey|2000*|
+|     8|             LIMEJUICE|            Lime Juice|2000*|
++----------------------------------------------------------+

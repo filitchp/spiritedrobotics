@@ -1,54 +1,54 @@
 {
-  "description":"Yuris Night 2013 Setup",
+  "description":"Pauls Place Testing October",
   "towers" :
   [
     {
       "id" : 1,
       "key" : "VODKA",
       "name" : "Vodka",
-      "flowRate" : 2500
+      "flowRate" : 3400
     },
     {
       "id" : 2,
       "key" : "DARKRUM",
       "name" : "Spiced Rum",
-      "flowRate" : 2500
+      "flowRate" : 3400
     },
     {
       "id" : 3,
-      "key" : "BLUEBERRYJUICE",
-      "name" : "Blueberry Juice",
-      "flowRate" : 2500
+      "key" : "GIN",
+      "name" : "Gin",
+      "flowRate" : 3400
     },
     {
       "id" : 4,
-      "key" : "GIN",
-      "name" : "Gin",
-      "flowRate" : 2500
+      "key" : "BLUEBERRYJUICE",
+      "name" : "Blue Berry Juice",
+      "flowRate" : 3400
     },
     {
       "id" : 5,
       "key" : "ORANGEJUICE",
       "name" : "Orange Juice",
-      "flowRate" : 2500
+      "flowRate" : 3400
     },
     {
       "id" : 6,
       "key" : "CRANBERRYJUICE",
       "name" : "Cranberry Juice",
-      "flowRate" : 2500
+      "flowRate" : 3400
     },
     {
       "id" : 7,
-      "key" : "WHISKEY",
-      "name" : "Whiskey",
-      "flowRate" : 2500
+      "key" : "ORANGELIQUEUR",
+      "name" : "Orange Liqueur",
+      "flowRate" : 3400
     },
     {
       "id" : 8,
       "key" : "LIMEJUICE",
       "name" : "Lime Juice",
-      "flowRate" : 2500
+      "flowRate" : 3400
     }
   ]
 }

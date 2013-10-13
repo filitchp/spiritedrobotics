@@ -14,8 +14,8 @@
     "amount" : "1"
   },
   {
-    "key" : "WHISKEY",
-    "name" : "Whiskey",
+    "key" : "GIN",
+    "name" : "Gin",
     "amount" : "0.75"
   },
   {
@@ -29,9 +29,9 @@
     "amount" : "2.25"
   },
 	{
-		"key" : "BLUEBERRYJUICE",
-		"name" : "Blueberry Juice",
-	  "amount" : "1"
+		"key" : "ORANGELIQUEUR",
+		"name" : "Orange Liqueur",
+	  "amount" : "0.25"
 	},
 	{
 	  "key" : "ORANGEJUICE",
@@ -41,7 +41,7 @@
   ],
   "categories" : ["COCKTAILS", "MANLYDRINKS", "NERDCRED", "SPACE"],
   "description" : "Like having your brains smashed out by a slice of lemon wrapped around a large gold brick.",
-  "imagePath" : "assets/img/drinks/pangalactic.jpg",
+  "imagePath" : "assets/img/drinks/clear-martini-splash.jpg",
   "type" : "Highball"
 }
 

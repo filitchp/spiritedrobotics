@@ -1,0 +1,31 @@
+{
+  "key" : "SOLARFLARE",
+  "name" : "Solar Flare",
+  "ingredients" :
+  [
+	{
+		"key" : "VODKA",
+		"name" : "Vodka",
+		"amount" : "2"
+	},
+	{
+		"key" : "ORANGEJUICE",
+		"name" : "Orange Juice",
+		"amount" : "3.5"
+	},
+	{
+		"key" : "LIMEJUICE",
+		"name" : "Lime Juice",
+		"amount" : "1"
+	},
+	{
+		"key" : "CRANBERRYJUICE",
+		"name" : "Cranberry Juice",
+		"amount" : "0.75"
+	}
+  ],
+  "categories" : ["COCKTAILS", "SPACE", "NERDCRED", "ORIGINAL"],
+  "description" : "",
+  "imagePath" : "assets/img/drinks/solar-flare-flickr.jpg",
+  "type" : "Highball"
+}

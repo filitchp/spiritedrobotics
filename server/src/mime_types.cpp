@@ -41,7 +41,7 @@ std::string extension_to_type(const std::string& extension)
     }
   }
 
-  return "text/plain";
+  return "text/html";
 }
 
 } // namespace mime_types

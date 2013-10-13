@@ -12,7 +12,6 @@
 #include <stdio.h>    // Standard input/output definitions
 #include <string.h>   // String function definitions
 
-#include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -30,11 +29,23 @@ using namespace boost::filesystem;
 using boost::property_tree::ptree;
 using namespace std;
 
+#define COM_LIGHT_MODE_PASSIVE 0x05
+#define COM_LIGHT_MODE_FIRE 0x06
+
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-DrinkManager::DrinkManager(const string& rootPath) :
-  mRootPath(rootPath)
+DrinkManager::DrinkManager(const string& rootPath, boost::asio::io_service& io, bool demoMode) :
+  mRootPath(rootPath),
+  mBusy(true),
+  mCurrentIngredientIndex(0),
+  mTimer(io),
+  mIngredientOffsetTimeMs(2000),
+  mDemoMode(demoMode)
 {
+
+  //--------------------------------------------
+  // Read configuration files and setup system
+  //--------------------------------------------
   stringstream configFilePath(stringstream::out);
   configFilePath << rootPath << "/assets/json/barbot.json";
 
@@ -46,188 +57,206 @@ DrinkManager::DrinkManager(const string& rootPath) :
   readAllDrinks(drinksPath.str());
   createAvailableDrinkList();
 
-  stringstream logsPathSS(stringstream::out);
-  logsPathSS << rootPath << "/logs";
+  stringstream imageAttributionPath(stringstream::out);
+  imageAttributionPath << rootPath << "/assets/json/images.json";
 
-  stringstream ordersPathSS(stringstream::out);
-  ordersPathSS << logsPathSS.str() << "/orders";
+  readImageAttribution(imageAttributionPath.str());
 
-  stringstream debugPathSS(stringstream::out);
-  debugPathSS << logsPathSS.str() << "/debug";
-
-  path logsPath(logsPathSS.str());
-  path ordersPath(ordersPathSS.str());
-  path debugPath(debugPathSS.str());
-
-  try
+  if (!mDemoMode)
   {
-    // Have to create directories one level at a time...
-    if (!exists(logsPath))
+
+    //---------------
+    // Setup logging
+    //---------------
+    stringstream logsPathSS(stringstream::out);
+    logsPathSS << rootPath << "/logs";
+
+    stringstream ordersPathSS(stringstream::out);
+    ordersPathSS << logsPathSS.str() << "/orders";
+
+    stringstream debugPathSS(stringstream::out);
+    debugPathSS << logsPathSS.str() << "/debug";
+
+    path logsPath(logsPathSS.str());
+    path ordersPath(ordersPathSS.str());
+    path debugPath(debugPathSS.str());
+
+    try
     {
-      create_directory(logsPath);
+      // Have to create directories one level at a time...
+      if (!exists(logsPath))
+      {
+        create_directory(logsPath);
+      }
+
+      if (!exists(ordersPath))
+      {
+        create_directory(ordersPath);
+      }
+
+      if (!exists(debugPath))
+      {
+        create_directory(debugPath);
+      }
+    }
+    catch (const filesystem_error& ex)
+    {
+      cout << ex.what() << endl;
     }
 
-    if (!exists(ordersPath))
+    // Get current time
+    struct timeval currentTime;
+
+    gettimeofday(&currentTime, NULL);
+
+    //--------------------------------------------
+    // DEBUG configuration (print to console)
+    //--------------------------------------------
+    mpBarbot->printTowerDebug(cout);
+
+    //--------------------------------------------
+    // DEBUG configuration (write to file)
+    //--------------------------------------------
+    ofstream configLog;
+    stringstream configLogSS(stringstream::out);
+
+    configLogSS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
+        << "SystemConfig.txt";
+
+    configLog.open(configLogSS.str().c_str());
+    mpBarbot->printTowerDebug(configLog);
+    configLog.close();
+
+    //--------------------------------------------
+    // DEBUG all drink summary (print to console)
+    //--------------------------------------------
+    printAllDrinkSummary(cout);
+
+    //--------------------------------------------
+    // DEBUG all drink summary (write to file)
+    //--------------------------------------------
+    ofstream allSummaryLog;
+    stringstream allDrinkSummarySS(stringstream::out);
+
+    allDrinkSummarySS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
+        << "AllDrinkSummary.txt";
+
+    allSummaryLog.open(allDrinkSummarySS.str().c_str());
+    printAllDrinkSummary(allSummaryLog);
+    allSummaryLog.close();
+
+    //------------------------------------------------
+    // DEBUG all drink ingredients (print to console)
+    //------------------------------------------------
+    printAllDrinkIngredients(cout);
+
+    //--------------------------------------------
+    // DEBUG all drink ingredients (write to file)
+    //--------------------------------------------
+    stringstream allDrinkIngredientsSS(stringstream::out);
+
+    allDrinkIngredientsSS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
+        << "AllDrinkIngredients.txt";
+
+    ofstream allIngredientsLog;
+    allIngredientsLog.open(allDrinkIngredientsSS.str().c_str());
+    printAllDrinkIngredients(allIngredientsLog);
+    allIngredientsLog.close();
+
+    // DEBUG
+    //outputDrinkList(cout, 0);
+
+    // Serial port guide: http://www.easysw.com/~mike/serial/serial.html#2_5_2
+
+    string serialDevice = "/dev/ttyUSB0";
+
+    // USB device
+    mFd = open(serialDevice.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
+
+    if (mFd <= 0)
     {
-      create_directory(ordersPath);
+      cerr << "ERROR: could not open " << serialDevice << endl;
     }
-
-    if (!exists(debugPath))
+    else
     {
-      create_directory(debugPath);
+
+      cout << "Opened " << serialDevice << endl;
+
+      // Non-Blocking mode
+      fcntl(mFd, F_SETFL, FNDELAY);
+
+      // Get the current options for the port...
+      // (and save them so we can write them back on close)
+      tcgetattr(mFd, &mOriginalOptions);
+
+      struct termios newOptions;
+
+      // Set serial speed
+      // B9600      9600 baud
+      // B19200    19200 baud
+      // B38400    38400 baud
+      // B57600   57,600 baud
+      // B76800   76,800 baud
+      // B115200 115,200 baud
+
+      if (cfsetispeed(&newOptions, B38400) == -1)
+      {
+        cerr << "ERROR: Could not set the input speed" << endl;
+      }
+
+      if (cfsetospeed(&newOptions, B38400) == -1)
+      {
+        cerr << "ERROR: Could not set the output speed" << endl;
+      }
+
+      //--------------------
+      // Control mode flags
+      //--------------------
+
+      // Disable hardware flow control
+      newOptions.c_cflag &= ~CRTSCTS;
+
+      // No parity (8N1)
+      newOptions.c_cflag &= ~PARENB;
+      newOptions.c_cflag &= ~CSTOPB;
+      newOptions.c_cflag &= ~CSIZE;
+      newOptions.c_cflag |= CS8;
+
+      // Enable the receiver and set local mode...
+      newOptions.c_cflag |= (CLOCAL | CREAD);
+
+      //------------------
+      // Input mode flags
+      //------------------
+
+      // Disable software flow control
+      newOptions.c_iflag &= ~(IXON | IXOFF | IXANY);
+
+      //-------------------
+      // Output mode flags
+      //-------------------
+
+      // Raw output
+      newOptions.c_oflag &= ~OPOST;
+
+      //------------------
+      // Local mode flags
+      //------------------
+
+      // Raw mode (disable canonical mode, don't echo, and disable signals)
+      newOptions.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+
+      // Set the new options for the port...
+      if (tcsetattr(mFd, TCSAFLUSH, &newOptions) == -1)
+      {
+        cerr << "ERROR: Could not set the options for the serial port" << endl;
+      }
     }
   }
-  catch (const filesystem_error& ex)
-  {
-    cout << ex.what() << endl;
-  }
 
-  // Get current time
-  struct timeval currentTime;
+  // The system has initialized so we're no longer busy
+  mBusy = false;
 
-  gettimeofday(&currentTime, NULL);
-
-  //--------------------------------------------
-  // DEBUG configuration (print to console)
-  //--------------------------------------------
-  mpBarbot->printTowerDebug(cout);
-
-  //--------------------------------------------
-  // DEBUG configuration (write to file)
-  //--------------------------------------------
-  ofstream configLog;
-  stringstream configLogSS(stringstream::out);
-
-  configLogSS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
-      << "SystemConfig.txt";
-
-  configLog.open(configLogSS.str().c_str());
-  mpBarbot->printTowerDebug(configLog);
-  configLog.close();
-
-  //--------------------------------------------
-  // DEBUG all drink summary (print to console)
-  //--------------------------------------------
-  printAllDrinkSummary(cout);
-
-  //--------------------------------------------
-  // DEBUG all drink summary (write to file)
-  //--------------------------------------------
-  ofstream allSummaryLog;
-  stringstream allDrinkSummarySS(stringstream::out);
-
-  allDrinkSummarySS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
-      << "AllDrinkSummary.txt";
-
-  allSummaryLog.open(allDrinkSummarySS.str().c_str());
-  printAllDrinkSummary(allSummaryLog);
-  allSummaryLog.close();
-
-  //------------------------------------------------
-  // DEBUG all drink ingredients (print to console)
-  //------------------------------------------------
-  printAllDrinkIngredients(cout);
-
-  //--------------------------------------------
-  // DEBUG all drink ingredients (write to file)
-  //--------------------------------------------
-
-  stringstream allDrinkIngredientsSS(stringstream::out);
-
-  allDrinkIngredientsSS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
-      << "AllDrinkIngredients.txt";
-
-  ofstream allIngredientsLog;
-  allIngredientsLog.open(allDrinkIngredientsSS.str().c_str());
-  printAllDrinkIngredients(allIngredientsLog);
-  allIngredientsLog.close();
-
-  // DEBUG
-  //outputDrinkList(cout, 0);
-
-  // Serial port guide: http://www.easysw.com/~mike/serial/serial.html#2_5_2
-
-  string serialDevice = "/dev/ttyUSB0";
-
-  // USB device
-  mFd = open(serialDevice.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
-
-  if (mFd <= 0)
-  {
-    cerr << "ERROR: could not open " << serialDevice << endl;
-  }
-
-  cout << "Opened " << serialDevice << endl;
-
-  // Non-Blocking mode
-  fcntl(mFd, F_SETFL, FNDELAY);
-
-  // Get the current options for the port...
-  // (and save them so we can write them back on close)
-  tcgetattr(mFd, &mOriginalOptions);
-
-  struct termios newOptions;
-
-  // Set serial speed
-  // B9600      9600 baud
-  // B19200    19200 baud
-  // B38400    38400 baud
-  // B57600   57,600 baud
-  // B76800   76,800 baud
-  // B115200 115,200 baud
-
-  if (cfsetispeed(&newOptions, B38400) == -1)
-  {
-    cerr << "ERROR: Could not set the input speed" << endl;
-  }
-
-  if (cfsetospeed(&newOptions, B38400) == -1)
-  {
-    cerr << "ERROR: Could not set the output speed" << endl;
-  }
-
-  //--------------------
-  // Control mode flags
-  //--------------------
-
-  // Disable hardware flow control
-  newOptions.c_cflag &= ~CRTSCTS;
-
-  // No parity (8N1)
-  newOptions.c_cflag &= ~PARENB;
-  newOptions.c_cflag &= ~CSTOPB;
-  newOptions.c_cflag &= ~CSIZE;
-  newOptions.c_cflag |= CS8;
-
-  // Enable the receiver and set local mode...
-  newOptions.c_cflag |= (CLOCAL | CREAD);
-
-  //------------------
-  // Input mode flags
-  //------------------
-
-  // Disable software flow control
-  newOptions.c_iflag &= ~(IXON | IXOFF | IXANY);
-
-  //-------------------
-  // Output mode flags
-  //-------------------
-
-  // Raw output
-  newOptions.c_oflag &= ~OPOST;
-
-  //------------------
-  // Local mode flags
-  //------------------
-
-  // Raw mode (disable canonical mode, don't echo, and disable signals)
-  newOptions.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
-
-  // Set the new options for the port...
-  if (tcsetattr(mFd, TCSAFLUSH, &newOptions) == -1)
-  {
-    cerr << "ERROR: Could not set the options for the serial port" << endl;
-  }
 }
 
 //------------------------------------------------------------------------------
@@ -262,6 +291,30 @@ void DrinkManager::readSystemConfiguration(string systemConfigurationPath)
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
+void DrinkManager::readImageAttribution(string imageAttributionPath)
+{
+  // Create an empty property tree object
+  ptree pt;
+
+  // Parse the system configuration file
+  read_json(imageAttributionPath, pt);
+
+  // Create the system configuration object
+  //Image* img = new Image(pt);
+
+
+  BOOST_FOREACH (const ptree::value_type& node, pt.get_child("images"))
+  {
+    const ptree& imageProps = node.second;
+
+    cout << imageProps.get<string>("filename");
+
+  }
+
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void DrinkManager::createAvailableDrinkList()
 {
   bool allRumIsTheSame = true;
@@ -274,7 +327,7 @@ void DrinkManager::createAvailableDrinkList()
     //TODO remove this and put it with a generic route -Andrew
     BOOST_FOREACH(const std::string category, drink.getCategories())
     {
-       if ((category == "SPACE") /*|| (category == "COCKTAILS")*/)
+       if ((category == "SPACE") || (category == "COCKTAILS"))
        {
          valid = true;
        }
@@ -288,7 +341,6 @@ void DrinkManager::createAvailableDrinkList()
         //cout<<"This ingredient Doesn't exist!! "<<ing.getKey()<<" for "<<drink.getName()<<endl;
       }
     }
-
 
     if (valid)
     {
@@ -343,15 +395,15 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
 
     if (type == DrinkTypeShot)
     {
-      normalizeDrink(drink, 3);
+      normalizeDrink(drink, 2);
     }
     else if (type == DrinkTypeLowBall)
     {
-      normalizeDrink(drink, 5);
+      normalizeDrink(drink, 4);
     }
     else if (type == DrinkTypeHighBall)
     {
-      normalizeDrink(drink, 7);
+      normalizeDrink(drink, 5.5);
     }
 
     mAllDrinks.push_back(drink);
@@ -569,18 +621,12 @@ vector<unsigned char> DrinkManager::constructTowerMessage(
   return message;
 }
 
-
 //------------------------------------------------------------------------------
-// For debugging and calibrating each tower
-//
-// BYTE 1 - Header = 0x80 (header byte for all)
-// BYTE 2 - Command type = 0x40 (Pour drink)
-// BYTE 3 - Command data = amount x flowRate
-// BYTE 4 - Footer + checksum
 //------------------------------------------------------------------------------
 bool DrinkManager::setTowerReverseTime(unsigned char towerId, float amount)
 {
 
+  // Check if the tower is valid (0 is valid because it's the broadcast id)
   if (towerId != 0)
   {
     if ((mpBarbot->isTowerIdValid(towerId) == false))
@@ -637,7 +683,7 @@ bool DrinkManager::setTowerReverseTime(unsigned char towerId, float amount)
   if (bytesWritten > 0)
   {
     cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
-    readData(1000);
+    comReadData(200);
   }
   else
   {
@@ -647,8 +693,6 @@ bool DrinkManager::setTowerReverseTime(unsigned char towerId, float amount)
 
   return true;
 }
-
-
 
 //------------------------------------------------------------------------------
 // For debugging and calibrating each tower
@@ -661,6 +705,7 @@ bool DrinkManager::setTowerReverseTime(unsigned char towerId, float amount)
 bool DrinkManager::testTower(unsigned char towerId, float amount)
 {
 
+  // Check if the tower is valid (0 is valid because it's the broadcast id)
   if (towerId != 0)
   {
     if ((mpBarbot->isTowerIdValid(towerId) == false))
@@ -669,60 +714,62 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
     }
   }
 
-  if (mFd <= 0)
-  {
-    cerr << "ERROR: serial port is not open" << endl;
-    return false;
-  }
-
-  float flowRate = 0;
-
-  if (towerId != 0)
-  {
-    Tower tower = mpBarbot->getTowerById(towerId);
-
-    flowRate = tower.getFlowRate();
-  }
-  else
-  {
-    cerr << "ERROR: we do not have a tower with that ID" << endl;
-    return false;
-  }
-
-  if (amount < 0)
+  if (mBusy)
   {
     return false;
   }
 
-  static unsigned char POUR_DRINK_COMMAND = 0x40;
-
-  vector<unsigned char> message = constructTowerMessage(
-    towerId, POUR_DRINK_COMMAND, amount, flowRate);
-
-  unsigned char msg[5];
-
-  unsigned i = 0;
-  BOOST_FOREACH(unsigned char byteToSend, message)
+  if (mFd > 0)
   {
-    printf("%2X ", byteToSend);
-    cout <<  endl;
+    float flowRate = 0;
 
-    msg[i] = byteToSend;
+    if (towerId != 0)
+    {
+      Tower tower = mpBarbot->getTowerById(towerId);
 
-    ++i;
-  }
+      flowRate = tower.getFlowRate();
+    }
+    else
+    {
+      cerr << "ERROR: we do not have a tower with that ID" << endl;
+      return false;
+    }
 
-  size_t bytesWritten = write(mFd, msg, 5);
+    if (amount < 0)
+    {
+      return false;
+    }
 
-  if (bytesWritten > 0)
-  {
-    cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
-    readData(1000);
-  }
-  else
-  {
-    cout << "ERROR: Could not write any bytes" << endl;
-    return false;
+    static unsigned char POUR_DRINK_COMMAND = 0x40;
+
+    vector<unsigned char> message = constructTowerMessage(
+      towerId, POUR_DRINK_COMMAND, amount, flowRate);
+
+    unsigned char msg[5];
+
+    unsigned i = 0;
+    BOOST_FOREACH(unsigned char byteToSend, message)
+    {
+      printf("%2X ", byteToSend);
+      cout <<  endl;
+
+      msg[i] = byteToSend;
+
+      ++i;
+    }
+
+    size_t bytesWritten = write(mFd, msg, 5);
+
+    if (bytesWritten > 0)
+    {
+      cout << "Wrote " << (unsigned)bytesWritten << " bytes" << endl;
+      comReadData(200);
+    }
+    else
+    {
+      cout << "ERROR: Could not write any bytes" << endl;
+      return false;
+    }
   }
 
   return true;
@@ -730,65 +777,32 @@ bool DrinkManager::testTower(unsigned char towerId, float amount)
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-bool DrinkManager::sendInitMessage()
+bool DrinkManager::sendFireLightsMessage()
 {
 
-  cout << "Initializing towers..." << endl;
-  static unsigned char COMMAND_HEADER = 0x80;
-  static unsigned char REASSIGN_ADDRESS_COMMAND = 0x02;
+  cout << "Fire lights..." << endl;
 
-  unsigned char msg[4];
-  msg[0] = COMMAND_HEADER;
-  msg[1] = REASSIGN_ADDRESS_COMMAND;
-  msg[2] = 0x01;
-  msg[3] = 0xC0; // TODO: compute checksum
-
-  cout << "Init tower message: " << endl;
-  for (int i = 0; i < 4; ++i)
+  if (mBusy)
   {
-    printf("%d : %2X\n", i, msg[i]);
-  }
-
-  ssize_t bytesWritten = write(mFd, msg, 4);
-
-  if (bytesWritten != 4)
-  {
-    cout << "ERROR: could not send bytes to init tower" << endl;
     return false;
   }
 
-  return true;
+  return comSetLightsMode((unsigned char)COM_LIGHT_MODE_FIRE);
 }
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-bool DrinkManager::sendHaltMessage()
+bool DrinkManager::sendPassiveLightsMessage()
 {
 
-  cout << "Halting towers..." << endl;
-  static unsigned char COMMAND_HEADER = 0x80;
-  static unsigned char FORCE_HALT_COMMAND = 0x01;
+  cout << "Passive lights..." << endl;
 
-  unsigned char msg[3];
-  msg[0] = COMMAND_HEADER;
-  msg[1] = FORCE_HALT_COMMAND;
-  msg[2] = 0xC0; // TODO: compute checksum
-
-  cout << "Halt tower message: " << endl;
-  for (int i = 0; i < 3; ++i)
+  if (mBusy)
   {
-    printf("%d : %2X\n", i, msg[i]);
-  }
-
-  ssize_t bytesWritten = write(mFd, msg, 3);
-
-  if (bytesWritten != 3)
-  {
-    cout << "ERROR: could not send bytes to halt tower" << endl;
     return false;
   }
 
-  return true;
+  return comSetLightsMode((unsigned char)COM_LIGHT_MODE_PASSIVE);
 }
 
 //------------------------------------------------------------------------------
@@ -796,18 +810,21 @@ bool DrinkManager::sendHaltMessage()
 //------------------------------------------------------------------------------
 bool DrinkManager::initTowers()
 {
-  if (mFd <= 0)
-  {
-    cerr << "ERROR: serial port is not open" << endl;
-    return false;
-  }
+  cout << "=====================" << endl;
+  cout << "      initTowers     " << endl;
+  cout << "=====================" << endl;
 
-  if (!sendInitMessage())
+  if (mBusy)
   {
     return false;
   }
 
-  readData(500);
+  if (!comInitMessage())
+  {
+    return false;
+  }
+
+  comReadData(200);
 
   cout << "=====================" << endl;
 
@@ -819,20 +836,132 @@ bool DrinkManager::initTowers()
 //------------------------------------------------------------------------------
 bool DrinkManager::haltTowers()
 {
-  if (mFd <= 0)
-  {
-    cerr << "ERROR: serial port is not open" << endl;
-    return false;
-  }
-
-  if (!sendHaltMessage())
-  {
-    return false;
-  }
-
-  readData(500);
 
   cout << "=====================" << endl;
+  cout << "      haltTowers     " << endl;
+  cout << "=====================" << endl;
+
+  if (mFd > 0)
+  {
+    if (!comHaltMessage())
+    {
+      return false;
+    }
+
+    // See if the system has any data for us
+    comReadData(200);
+  }
+
+  // Cancel the timer
+  mTimer.cancel();
+
+  // Window down immediately
+  timerOperationWindDown();
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+bool DrinkManager::comInitMessage()
+{
+
+  if (mFd > 0)
+  {
+    static unsigned char COMMAND_HEADER = 0x80;
+    static unsigned char REASSIGN_ADDRESS_COMMAND = 0x02;
+
+    unsigned char msg[4];
+    msg[0] = COMMAND_HEADER;
+    msg[1] = REASSIGN_ADDRESS_COMMAND;
+    msg[2] = 0x01;
+    msg[3] = 0xC0; // TODO: compute checksum
+
+    cout << "Init tower message: " << endl;
+    for (int i = 0; i < 4; ++i)
+    {
+      printf("%d : %2X\n", i, msg[i]);
+    }
+
+    ssize_t bytesWritten = write(mFd, msg, 4);
+
+    if (bytesWritten != 4)
+    {
+      cout << "ERROR: could not send bytes to init tower" << endl;
+      return false;
+    }
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+// This is a low-level private method that is not concerned if there is
+// anything currently executed
+//------------------------------------------------------------------------------
+bool DrinkManager::comSetLightsMode(unsigned char mode)
+{
+  if (mFd > 0)
+  {
+
+    // TODO: is it necessary to lock communication to serial or are we ok since
+    //       this entire process runs on a single thread?
+
+    static unsigned char COMMAND_HEADER = 0x80;
+    static unsigned char SET_LIGHT_COMMAND = 0x45;
+
+    unsigned char msg[4];
+    msg[0] = COMMAND_HEADER;
+    msg[1] = SET_LIGHT_COMMAND;
+    msg[2] = mode;
+    msg[3] = 0xC5; // TODO: compute checksum
+
+    cout << "Passive lights message: " << endl;
+    for (int i = 0; i < 4; ++i)
+    {
+      printf("%d : %2X\n", i, msg[i]);
+    }
+
+    ssize_t bytesWritten = write(mFd, msg, 4);
+
+    if (bytesWritten != 4)
+    {
+      cout << "ERROR: could not set lights mode" << endl;
+      return false;
+    }
+  }
+
+  return true;
+}
+
+//------------------------------------------------------------------------------
+// Here we don't care if the system is busy or not, make it HALT NOW!
+//------------------------------------------------------------------------------
+bool DrinkManager::comHaltMessage()
+{
+  if (mFd > 0)
+  {
+    static unsigned char COMMAND_HEADER = 0x80;
+    static unsigned char FORCE_HALT_COMMAND = 0x01;
+
+    unsigned char msg[3];
+    msg[0] = COMMAND_HEADER;
+    msg[1] = FORCE_HALT_COMMAND;
+    msg[2] = 0xC0; // TODO: compute checksum
+
+    for (int i = 0; i < 3; ++i)
+    {
+      printf("%d : %2X\n", i, msg[i]);
+    }
+
+    ssize_t bytesWritten = write(mFd, msg, 3);
+
+    if (bytesWritten != 3)
+    {
+      cout << "ERROR: could not send bytes to halt tower" << endl;
+      return false;
+    }
+  }
 
   return true;
 }
@@ -840,7 +969,7 @@ bool DrinkManager::haltTowers()
 //------------------------------------------------------------------------------
 // Get data back from the system
 //------------------------------------------------------------------------------
-int DrinkManager::readData(long msTimeout)
+int DrinkManager::comReadData(long msTimeout)
 {
 
   if (mFd <= 0)
@@ -893,86 +1022,182 @@ int DrinkManager::readData(long msTimeout)
 }
 
 //------------------------------------------------------------------------------
+// WARNING: only use this with mTimer and make sure the busy flag is set
+// before executing this method
 //------------------------------------------------------------------------------
-bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned timestamp)
+void DrinkManager::timerOperationIngredient()
+{
+
+  // Just in case: make sure the current ingredient is set
+  if (mCurrentIngredientIndex >= mCurrentIngredients.size())
+  {
+    // Internal error... wind down the system immediately
+    timerOperationWindDown();
+    return;
+  }
+
+  Ingredient i = mCurrentIngredients[mCurrentIngredientIndex];
+
+  Tower t = mpBarbot->getTowerByIngredientKey(i.getKey());
+
+  unsigned towerID = t.getTowerId();
+  float flowRate = t.getFlowRate();
+  float amount = i.getAmount();
+
+  cout << "  Ingredient key = " << i.getKey() << endl;
+  cout << "  Ingredient amt = " << setprecision(3) << i.getAmount() << endl;
+
+  static unsigned char POUR_DRINK_COMMAND = 0x40;
+
+  vector<unsigned char> message = constructTowerMessage(
+    towerID,
+    POUR_DRINK_COMMAND,
+    amount,
+    flowRate);
+
+  unsigned char msg[5];
+
+  unsigned j = 0;
+  BOOST_FOREACH(unsigned char byteToSend, message)
+  {
+    printf("  %d : %02X ", j, byteToSend);
+    cout << endl;
+
+    msg[j] = byteToSend;
+
+    ++j;
+  }
+
+  if (mFd > 0)
+  {
+    size_t bytesWritten = write(mFd, msg, 5);
+
+    if (bytesWritten > 0)
+    {
+      cout << "Wrote " << (unsigned) bytesWritten << " bytes" << endl;
+
+      comReadData(200);
+    }
+    else
+    {
+      cout << "ERROR: Could not write any bytes" << endl;
+    }
+  }
+
+  mCurrentIngredientIndex++;
+
+  // Do we have more ingredients?
+  if (mCurrentIngredientIndex == mCurrentIngredients.size())
+  {
+    // No more ingredients, wind down after the last delay
+    mTimer.expires_at(mTimer.expires_at() + boost::posix_time::milliseconds(mLastIngredientWaitMs));
+    cout << "Waiting for " << mLastIngredientWaitMs << " ms" << endl;
+    mTimer.async_wait(boost::bind(&DrinkManager::timerOperationWindDown, this));
+  }
+  else
+  {
+    // Fire up the next ingredient after the delay
+    mTimer.expires_at(mTimer.expires_at() + boost::posix_time::milliseconds(mIngredientOffsetTimeMs));
+    cout << "Waiting for " << mIngredientOffsetTimeMs << " ms" << endl;
+    mTimer.async_wait(boost::bind(&DrinkManager::timerOperationIngredient, this));
+  }
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::timerOperationWindDown()
+{
+  comSetLightsMode((unsigned char)COM_LIGHT_MODE_PASSIVE);
+
+  // We're done, clean-up
+  mBusy = false;
+  mCurrentIngredientIndex = 0;
+  mCurrentIngredients.clear();
+}
+
+//------------------------------------------------------------------------------
+// Return status
+//  1 - Success
+//  0 - Order does not exist
+// -1 - System is busy
+//------------------------------------------------------------------------------
+int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned timestamp)
 {
   string orderId = Order::generateOrderId(drinkKey, customerName, timestamp);
+
+  // Cannot make the drink, the system is busy
+  if (mBusy)
+  {
+    cout << "ERROR: The system is currently busy making a drink" << endl;
+    return -1;
+  }
 
   map<string, Order>::iterator it = mPendingOrders.find(orderId);
 
   // If the order does not exist
   if (it == mPendingOrders.end())
   {
-    return false;
+    cout << "ERROR: The order is not part of the pending orders" << endl;
+    return 0;
   }
 
-  // MAKE THE DRINK HERE!
+  //---------------------------------------------------
+  // The drink making process officially starts here!
+  //---------------------------------------------------
+  // Lock out external interaction with the nodes
+  mBusy = true;
+
   Order theOrderToMake = it->second;
 
-  cout << "Order key = " << theOrderToMake.getDrinkKey() << endl;
+  cout << "Started making " << theOrderToMake.getDrinkKey() << endl;
 
-  vector<Ingredient> ingredients = theOrderToMake.getIngredients();
+  mCurrentIngredients = theOrderToMake.getIngredients();
+  mCurrentIngredientIndex = 0;
 
-  BOOST_FOREACH(const Ingredient& i, ingredients)
+  int lastEndTimeIndex = 0;
+  int index = 0;
+  float lastEndTimeMs = 0;
+
+  static const float estimatedTimeAmoutRatio = 4000.0f;
+
+  // Figure out which ingredient will stop pouring last
+  BOOST_FOREACH(const Ingredient& i, mCurrentIngredients)
   {
-    Tower t = mpBarbot->getTowerByIngredientKey(i.getKey());
 
-    unsigned towerID = t.getTowerId();
-    float flowRate = t.getFlowRate();
-    float amount = i.getAmount();
+    float endTimeMs = (float)(index*mIngredientOffsetTimeMs) + i.getAmount()*estimatedTimeAmoutRatio;
 
-    //testTower(towerID, i.getAmount());
-
-    cout << "  Ingredient key = " << i.getKey() << endl;
-    cout << "  Ingredient amt = " << setprecision(3) << i.getAmount() << endl;
-
-    static unsigned char POUR_DRINK_COMMAND = 0x40;
-
-    vector<unsigned char> message = constructTowerMessage(
-      towerID,
-      POUR_DRINK_COMMAND,
-      amount,
-      flowRate);
-
-    unsigned char msg[5];
-
-    unsigned j = 0;
-    BOOST_FOREACH(unsigned char byteToSend, message)
+    if (endTimeMs >= lastEndTimeMs)
     {
-      printf("  %d : %02X ", j, byteToSend);
-      cout << endl;
-
-      msg[j] = byteToSend;
-
-      ++j;
+      lastEndTimeMs = endTimeMs;
+      lastEndTimeIndex = index;
     }
 
-    if (mFd > 0)
-    {
-      size_t bytesWritten = write(mFd, msg, 5);
+    // DEBUG
+    //cout << i.getName() << "(" << i.getAmount() << " oz) " << endTimeMs << " ms"  << endl;
 
-      if (bytesWritten > 0)
-      {
-        cout << "Wrote " << (unsigned) bytesWritten << " bytes" << endl;
-
-        readData(10);
-      }
-      else
-      {
-        cout << "ERROR: Could not write any bytes" << endl;
-        return false;
-      }
-
-      unsigned amountToSleep = (unsigned) (amount * 1000.0f);
-
-      usleep(amountToSleep);
-    }
+    ++index;
   }
 
+  mLastIngredientWaitMs = lastEndTimeMs - (mCurrentIngredients.size()-1)*mIngredientOffsetTimeMs;
+
+  //cout << "mLastIngredientWaitMs = " << mLastIngredientWaitMs << " ms" << endl;
+
+  //---------------
+  // Log the drink
+  //---------------
   ofstream drinkRecord;
 
   stringstream orderPathSS(stringstream::out);
-  orderPathSS << mRootPath << "/logs/orders/" << it->first << ".json";
+  orderPathSS << mRootPath << "/logs/orders/" << it->first;
+
+  if (mFd <= 0)
+  {
+    // If we never successfully opened the serial port we'll assume this is just a debug log
+    // so put the term 'debug' into the filename
+    orderPathSS << ".debug";
+  }
+
+  orderPathSS << ".json";
 
   drinkRecord.open(orderPathSS.str().c_str());
 
@@ -984,7 +1209,15 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
 
   mPendingOrders.erase(it);
 
-  return true;
+  // Make the lights look pretty to build suspense
+  comSetLightsMode((unsigned char)COM_LIGHT_MODE_FIRE);
+
+  // Start the timer
+  mTimer.expires_from_now(boost::posix_time::milliseconds(2800));
+
+  mTimer.async_wait(boost::bind(&DrinkManager::timerOperationIngredient, this));
+
+  return 1;
 
 }
 
@@ -992,6 +1225,13 @@ bool DrinkManager::approveOrder(string drinkKey, string customerName, unsigned t
 //------------------------------------------------------------------------------
 bool DrinkManager::addOrder(string drinkKey, string customerName, unsigned timestamp)
 {
+
+  if (mDemoMode)
+  {
+    // If we are in demo mode then order never gets added since we are just
+    // showing off the interface
+    return true;
+  }
 
   vector<Ingredient> ingredients;
   vector<unsigned> towerMessage;
@@ -1011,27 +1251,6 @@ bool DrinkManager::addOrder(string drinkKey, string customerName, unsigned times
   {
     return false;
   }
-
-  // use to generate the tower message
-    //according to the protocol documnted here: https://github.com/filitchp/spiritedrobotics/wiki/Node-Communication-Protocol
-//  unsigned chksum = 0; //xor of all nibbles,
-//  BOOST_FOREACH(const Ingredient& ing, ingredients)
-//  {
-//    //is there a more direct way to do this?
-//    unsigned towerID = (mpBarbot->getTowerByIngredientKey(ing.getKey())).getTowerId();
-//
-//    //header byte
-//    unsigned tByte = (towerID << 2) | (0x01);
-//    chksum ^= (tByte & 0x0F) ^ (tByte >> 4); // because xor is distributive and associative, it should be fine to do it this way.
-//    towerMessage.push_back(tByte);
-//
-//    //protocol incomplete? to be completed following discussion with paul/ryan
-//
-//    //footer byte
-//    tByte = (0x03)|(chksum & 0x0F);//just in case
-//    towerMessage.push_back(tByte);
-//
-//  }
 
   Order newOrder(drinkKey, customerName, timestamp, ingredients, towerMessage);
 
@@ -1164,4 +1383,24 @@ void DrinkManager::outputDrinkList(ostream& s, unsigned indent)
 
 }
 
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::outputSystemStatus(ostream& s, unsigned indent)
+{
+
+  string p = string(indent, ' ');
+
+  s << p << "{" << endl;
+  s << p << "  \"status\" : ";
+  if (mBusy)
+  {
+   s << "\"Busy\"" << endl;
+  }
+  else
+  {
+    s << "\"Idle\"" << endl;
+  }
+
+  s << p << "}" << endl;
+}
 

@@ -9,7 +9,7 @@
       "amount" : "1"
     },
     {
-      "key" : "ORANGE LIQUEUR",
+      "key" : "ORANGELIQUEUR",
       "name" : "Orange Liqueur",
       "amount" : "1"
     },
@@ -21,6 +21,6 @@
   ],
   "categories" : ["COCKTAILS"],
   "description" : "Variation. 'Kamikaze' is a Japanese word literally meaning 'divine wind'.",
-  "imagePath" : "assets/img/drinks/kamikaze.jpg",
+  "imagePath" : "assets/img/drinks/light-lime-snapwire.jpg",
   "type" : "Lowball"
 }

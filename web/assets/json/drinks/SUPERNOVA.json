@@ -24,7 +24,7 @@
 		"amount" : "0.5"
 	}
   ],
-  "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],
+  "categories" : ["COCKTAILS", "SPACE", "NERDCRED", "ORIGINAL"],
   "description" : "A supernova is an extremely bright stellar explosion that causes a burst of radiation that often briefly outshines an entire galaxy.  This drink is your key to stellar night.  ",
   "imagePath" : "assets/img/drinks/superNova2druskloSquare.jpg",
   "attribution" : "Image by Drusklo on Flickr",
