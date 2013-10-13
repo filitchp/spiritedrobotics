@@ -27,4 +27,9 @@ $(function()
   // Update system status on a timer
   window.setInterval(function(){ systemStatus.fetch() } , 1000 );
 
+    $(".foo_button").on('click', function(ev){ alert( ev.target.id ) } );
+    orders.on('add', function(ev){
+        alert("order aproved: ", ev.target.get("name"));
+        
+    });
 });
