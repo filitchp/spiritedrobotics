@@ -1,0 +1,18 @@
+{
+  "key" : "GREYHOUND",
+  "customer" : "raaaaaaaandy",
+  "date" : 1381641830,
+  "ingredients" : 
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : 0.857
+    },
+    {
+      "key" : "GRAPEFRUITJUICE",
+      "name" : "Grapefruit Juice",
+      "amount" : 2.14
+    }
+  ]
+}

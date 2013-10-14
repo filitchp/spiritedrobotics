@@ -21,7 +21,7 @@
   {
     "key" : "LIMEJUICE",
     "name" : "Lime Juice",
-    "amount" : "1.5"
+    "amount" : "0.75"
   },
   {
     "key" : "CRANBERRYJUICE",
@@ -29,14 +29,14 @@
     "amount" : "2.25"
   },
 	{
-		"key" : "ORANGELIQUEUR",
-		"name" : "Orange Liqueur",
+		"key" : "GRAPEFRUITJUICE",
+		"name" : "Grapefruit Juice",
 	  "amount" : "0.25"
 	},
 	{
 	  "key" : "ORANGEJUICE",
 	  "name" : "Orange Juice",
-	  "amount" : "2"
+	  "amount" : "2.5"
 	}
   ],
   "categories" : ["COCKTAILS", "MANLYDRINKS", "NERDCRED", "SPACE"],

@@ -1,0 +1,23 @@
+{
+  "key" : "BRASSMONKEY",
+  "customer" : "godzilla",
+  "date" : 1381642986,
+  "ingredients" : 
+  [
+    {
+      "key" : "DARKRUM",
+      "name" : "Dark Rum",
+      "amount" : 0.75
+    },
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : 0.75
+    },
+    {
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
+      "amount" : 1.5
+    }
+  ]
+}
