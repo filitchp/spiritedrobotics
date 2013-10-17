@@ -1,0 +1,54 @@
+{
+  "description":"BarBot2013",
+  "towers" :
+  [
+    {
+      "id" : 1,
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 2,
+      "key" : "DARKRUM",
+      "name" : "Dark Rum",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 3,
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 4,
+      "key" : "GIN",
+      "name" : "Gin",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 5,
+      "key" : "TEQUILA",
+      "name" : "Tequila",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 6,
+      "key" : "BLUECURACAO", "ORANGELIQUEUR",
+      "name" : "Orange Liqueur",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 7,
+      "key" : "GINGERBEER",
+      "name" : "Gingerbeer",
+      "flowRate" : 2000
+    },
+    {
+      "id" : 8,
+      "key" : "SWEETANDSOUR",
+      "name" : "Sweet & Sour Mix",
+      "flowRate" : 2000
+    }
+  ]
+}
