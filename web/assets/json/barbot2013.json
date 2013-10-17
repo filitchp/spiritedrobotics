@@ -28,13 +28,13 @@
     },
     {
       "id" : 5,
-      "key" : "TEQUILA",
-      "name" : "Tequila",
+      "key" : "COFFEELIQUEUR",
+      "name" : "Coffee Liqueur",
       "flowRate" : 2000
     },
     {
       "id" : 6,
-      "key" : "BLUECURACAO", "ORANGELIQUEUR",
+      "key" : "ORANGELIQUEUR",
       "name" : "Orange Liqueur",
       "flowRate" : 2000
     },
@@ -46,8 +46,8 @@
     },
     {
       "id" : 8,
-      "key" : "SWEETANDSOUR",
-      "name" : "Sweet & Sour Mix",
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
       "flowRate" : 2000
     }
   ]
