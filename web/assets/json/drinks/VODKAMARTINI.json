@@ -14,8 +14,8 @@
       "amount" : "3"
     }
   ],
-  "categories" : ["COCKTAILS"],
+  "categories" : ["CLASSICS"],
   "description" : "Vodka Martini, shaken not stirred. --James Bond",
   "imagePath" : "assets/img/drinks/clear-martini-splash.jpg",
-  "type" : "Lowball"
+  "type" : "Classics"
 }

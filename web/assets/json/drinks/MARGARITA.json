@@ -19,8 +19,8 @@
 	    "amount" : "4"
 	  }
   ],
-  "categories" : ["COCKTAILS"],
+  "categories" : ["CLASSICS"],
   "description" : "The margarita is a Mexican cocktail consisting of tequila mixed with Cointreau or similar orange-flavoured liqueur and lime or lemon juice, often served with salt on the glass rim. It is the most common tequila-based cocktail in the United States.",
   "imagePath" : "assets/img/drinks/blue-green-margarita-lime-flickr.jpg",
-  "type" : "Lowball"
+  "type" : "Classics"
 }

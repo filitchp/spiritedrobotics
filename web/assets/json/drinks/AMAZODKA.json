@@ -1,0 +1,21 @@
+{
+  "key" : "AMAZODKA",
+  "name" : "Amazodka",
+  "ingredients" :
+  [
+    {
+      "key" : "GUARANASODA",
+      "name" : "Guarana Soda",
+      "amount" : "5"
+    },
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "1"
+	}
+  ],
+  "categories" : ["COCKTAILS", "GIRLYDRINKS", "MANLYDRINKS"],
+  "description" : "",
+  "imagePath" : "",
+  "type" : "Lowball"
+}

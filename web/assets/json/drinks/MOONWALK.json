@@ -19,7 +19,7 @@
 		  "amount" : "1.25"
 	  }
   ],
-  "categories" : ["COCKTAILS", "SPACE", "NERDCRED"],
+  "categories" : ["COCKTAILS", "SPACE", "NERDCRED", "ORIGINAL"],
   "description" : "",
   "imagePath" : "assets/img/drinks/whiteRussianTau_Zero.jpg",
   "attribution" : "Image by Tau Zero on Flickr",

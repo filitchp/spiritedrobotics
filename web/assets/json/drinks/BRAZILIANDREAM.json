@@ -1,0 +1,26 @@
+{
+  "key" : "BRAZILIANDREAM",
+  "name" : "Brazilian Dream",
+  "ingredients" :
+  [
+    {
+      "key" : "GUARANASODA",
+      "name" : "Guarana Soda",
+      "amount" : "3"
+    },
+    {
+      "key" : "LIGHTRUM",
+      "name" : "Light Rum",
+      "amount" : "1"
+    },
+	{
+	  "key" : "ORANGEJUICE",
+	  "name" : "Orange Juice",
+	  "amount" : "1"
+	}
+  ],
+  "categories" : ["COCKTAILS", "GIRLYDRINKS", "MANLYDRINKS"],
+  "description" : "",
+  "imagePath" : "",
+  "type" : "Lowball"
+}

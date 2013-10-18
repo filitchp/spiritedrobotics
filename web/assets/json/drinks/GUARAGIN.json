@@ -1,0 +1,21 @@
+{
+  "key" : "GUARAGIN",
+  "name" : "Guaragin",
+  "ingredients" :
+  [
+    {
+      "key" : "GUARANASODA",
+      "name" : "Guarana Soda",
+      "amount" : "5"
+    },
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "1"
+	}
+  ],
+  "categories" : ["COCKTAILS", "GIRLYDRINKS", "MANLYDRINKS"],
+  "description" : "",
+  "imagePath" : "",
+  "type" : "Lowball"
+}

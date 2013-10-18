@@ -1,0 +1,26 @@
+{
+  "key" : "REDRUM",
+  "name" : "REDRUM",
+  "ingredients" :
+  [
+    {
+      "key" : "DARKRUM",
+      "name" : "Dark Rum",
+      "amount" : "1"
+    },
+	{
+	  "key" : "ORANGEJUICE",
+	  "name" : "Orange Juice",
+	  "amount" : "1"
+	},
+	{
+	  "key" : "GRENADINE",
+	  "name" : "Grenadine",
+	  "amount" : "0.5"
+	}
+  ],
+  "categories" : ["NERDCRED", "ORIGINAL"],
+  "description" : "All work and no play makes Jack a dull boy.",
+  "imagePath" : "assets/img/drinks/redrum.jpg",
+  "type" : "Highball"
+}

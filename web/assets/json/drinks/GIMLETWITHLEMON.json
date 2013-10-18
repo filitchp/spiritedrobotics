@@ -14,8 +14,8 @@
       "amount" : "1"
     }
   ],
-  "categories" : ["COCKTAILS"],
+  "categories" : ["CLASSICS"],
   "description" : "Bartenders often answer requests for the gimlet with a vodka gimlet.",
   "imagePath" : "assets/img/drinks/light-lime-snapwire.jpg",
-  "type" : "Lowball"
+  "type" : "Classics"
 }

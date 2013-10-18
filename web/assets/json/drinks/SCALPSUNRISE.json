@@ -1,0 +1,26 @@
+{
+  "key" : "SCALPSUNRISE",
+  "name" : "Scalp Sunrise",
+  "ingredients" :
+  [
+    {
+      "key" : "GUARANASODA",
+      "name" : "Guarana Soda",
+      "amount" : "3.3"
+    },
+    {
+      "key" : "TEQUILA",
+      "name" : "Tequila",
+      "amount" : "1.3"
+    },
+	{
+	  "key" : "ORANGEJUICE",
+	  "name" : "Orange Juice",
+	  "amount" : "2"
+	}
+  ],
+  "categories" : ["COCKTAILS", "GIRLYDRINKS", "MANLYDRINKS"],
+  "description" : "",
+  "imagePath" : "",
+  "type" : "Lowball"
+}

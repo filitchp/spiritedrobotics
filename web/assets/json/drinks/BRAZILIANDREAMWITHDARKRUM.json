@@ -1,0 +1,26 @@
+{
+  "key" : "BRAZILIANDREAMWITHDARKRUM",
+  "name" : "Brazilian Dream (sub.dark rum) ",
+  "ingredients" :
+  [
+    {
+      "key" : "GUARANASODA",
+      "name" : "Guarana Soda",
+      "amount" : "3"
+    },
+    {
+      "key" : "DARKRUM",
+      "name" : "Dark Rum",
+      "amount" : "1"
+    },
+	{
+	  "key" : "ORANGEJUICE",
+	  "name" : "Orange Juice",
+	  "amount" : "1"
+	}
+  ],
+  "categories" : ["COCKTAILS", "GIRLYDRINKS", "MANLYDRINKS"],
+  "description" : "",
+  "imagePath" : "",
+  "type" : "Lowball"
+}

@@ -16,10 +16,10 @@
 	{
 	  "key" : "CRANBERRYJUICE",
 	  "name" : "Cranberry Juice",
-	  "amount" : "2"
+	  "amount" : "1"
 	}
   ],
-  "categories" : ["COCKTAILS"],
+  "categories" : ["SHOTS"],
   "description" : "Creamy with a bite.",
   "imagePath" : "assets/img/drinks/red-lowball-lime-flickr.jpg",
   "type" : "Shot"

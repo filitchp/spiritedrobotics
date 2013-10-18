@@ -1,0 +1,16 @@
+{
+  "key" : "COKE",
+  "name" : "Coca-Cola",
+  "ingredients" :
+  [
+    {
+      "key" : "COKE",
+      "name" : "Coca-Cola",
+      "amount" : "1"
+    }
+  ],
+  "categories" : ["SHOTS", "GIRLYDRINKS"],
+  "description" : "Classic Coca-Cola, virgin.",
+  "imagePath" : "",
+  "type" : "Highball"
+}

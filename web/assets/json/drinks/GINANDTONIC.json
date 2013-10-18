@@ -1,0 +1,21 @@
+{
+  "key" : "GINANDTONIC",
+  "name" : "Gin and Tonic",
+  "ingredients" :
+  [
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "1"
+    },
+    {
+      "key" : "TONICWATER",
+      "name" : "Tonic Water",
+      "amount" : "2
+    }
+  ],
+  "categories" : ["COCKTAILS", "MANLYDRINKS"],
+  "description" : "A drink for the self-identified dapper gentleman.",
+  "imagePath" : "assets/img/drinks/ginandtonic.jpg",
+  "type" : "Highball"
+}

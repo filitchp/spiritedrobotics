@@ -39,7 +39,7 @@
 	  "amount" : "2.5"
 	}
   ],
-  "categories" : ["COCKTAILS", "MANLYDRINKS", "NERDCRED", "SPACE"],
+  "categories" : ["COCKTAILS", "MANLYDRINKS", "NERDCRED", "SPACE", "ORIGINAL"],
   "description" : "Like having your brains smashed out by a slice of lemon wrapped around a large gold brick.",
   "imagePath" : "assets/img/drinks/clear-martini-splash.jpg",
   "type" : "Highball"
