@@ -14,24 +14,24 @@
       "amount" : "1"
     },
 	  {
-		"key" : "LIGHTRUM",
-		"name" : "Light Rum",
-		"amount" : "1"
-	},
+		  "key" : "LIGHTRUM",
+		  "name" : "Light Rum",
+		  "amount" : "1"
+	  },
 	  {
-		"key" : "GIN",
-		"name" : "Gin", 
-		"amount" : "1"
-	},
+		  "key" : "GIN",
+		  "name" : "Gin", 
+		  "amount" : "1"
+	  },
 	  {
 	    "key" : "BLUECURACAO",
 	    "name" : "Blue Curacao",
 	    "amount" : "1"
-	},
+	  },
 	  {
-		"key" : "SWEETANDSOUR",
-		"name" : "Sweet & Sour Mix",
-		"amount" : "2"
+		  "key" : "SWEETANDSOUR",
+		  "name" : "Sweet & Sour Mix",
+		  "amount" : "2"
 		}
   ],
   "categories" : ["COCKTAILS"],

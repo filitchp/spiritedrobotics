@@ -1,54 +1,54 @@
 {
-  "description":"Pauls Place Testing October",
+  "description":"BarBot2013",
   "towers" :
   [
     {
       "id" : 1,
       "key" : "VODKA",
       "name" : "Vodka",
-      "flowRate" : 3400
+      "flowRate" : 2000
     },
     {
       "id" : 2,
       "key" : "DARKRUM",
-      "name" : "Spiced Rum",
-      "flowRate" : 3400
+      "name" : "Dark Rum",
+      "flowRate" : 2000
     },
     {
       "id" : 3,
-      "key" : "GIN",
-      "name" : "Gin",
-      "flowRate" : 3400
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
+      "flowRate" : 2000
     },
     {
       "id" : 4,
-      "key" : "COFFEELIQUEUR",
-      "name" : "Coffee Liqueur",
-      "flowRate" : 3400
+      "key" : "GIN",
+      "name" : "Gin",
+      "flowRate" : 2000
     },
     {
       "id" : 5,
-      "key" : "ORANGEJUICE",
-      "name" : "Orange Juice",
-      "flowRate" : 3400
+      "key" : "COFFEELIQUEUR",
+      "name" : "Coffee Liqueur",
+      "flowRate" : 2000
     },
     {
       "id" : 6,
-      "key" : "CRANBERRYJUICE",
-      "name" : "Cranberry Juice",
-      "flowRate" : 3400
+      "key" : "ORANGELIQUEUR",
+      "name" : "Orange Liqueur",
+      "flowRate" : 2000
     },
     {
       "id" : 7,
-      "key" : "GRAPEFRUITJUICE",
-      "name" : "Grapefruit Juice",
-      "flowRate" : 3400
+      "key" : "GINGERBEER",
+      "name" : "Gingerbeer",
+      "flowRate" : 2000
     },
     {
       "id" : 8,
       "key" : "LIMEJUICE",
       "name" : "Lime Juice",
-      "flowRate" : 3400
+      "flowRate" : 2000
     }
   ]
 }
