@@ -1,3 +1,36 @@
+
+@font-face
+{
+  font-family: Oswald;
+  src: url(../fonts/Oswald-Light.otf);
+}
+
+@font-face
+{
+  font-family: OswaldBold;
+  src: url(../fonts/Oswald-Regular.otf);
+}
+
+@font-face
+{
+  font-family: Montserrat;
+  src: url(../fonts/Montserrat-Regular.ttf);
+}
+
+@font-face
+{
+  font-family: MontserratBold;
+  src: url(../fonts/Montserrat-Bold.ttf);
+}
+
+
+@font-face {
+  font-family: 'Oxygen';
+  font-style: normal;
+  font-weight: 400;
+  src:  url(../fonts/Oxygen.woff) format('woff');
+}
+
 .red{
 color: white;
 background: red;
@@ -107,7 +140,6 @@ color: black
 
   color: #fff;
   font-family: 'MontserratBold',sans-serif;
-  font-weight: bold;
   font-size: 32px;
   top:  145px;
   text-align: center;
@@ -125,7 +157,7 @@ color: black
 {
   color: #bbb;
   font-family: 'Montserrat',Arial,sans-serif;
-  font-weight: 700;
+  font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 17px;
@@ -284,8 +316,7 @@ hr.drinkitembreak
 
 .drink-list-item
 {
-  font-family: 'MontserratBold',sans-serif;
-  font-weight: bold;
+  font-family: 'Montserrat',sans-serif;
   color:#ece9d7;
   font-size: 22px;
   border-bottom: 3px solid #4b4b4b;
@@ -349,8 +380,7 @@ hr.drinkitembreak
 
 
 .navbar-brand{
-  font-family: 'MontserratBold',sans-serif;
-  font-weight: bold;
+  font-family: 'Montserrat',sans-serif;
   color:#ece9d7;
    font-size: 20px;
    font-weight: bold;
