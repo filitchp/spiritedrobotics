@@ -15,10 +15,7 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <link href="assets/css/bootstrap.css" rel="stylesheet">	
-    <link href="assets/css/bootstrap-modal.css" rel="stylesheet">	 
-    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="assets/css/bootswatch.main.css" rel="stylesheet">	
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">	
     <link href="assets/css/barbot.css" rel="stylesheet">
 
     <script type="text/template" id="drink_template">
@@ -63,7 +60,9 @@
     </script>
     
     <script type="text/template" id="modal_template"> 
-      <div class="modal hide fade in" id="order_modal">
+      <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="order_modal">
+        <div class="modal-dialog">
+        <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h3 class="Modal Header">One more thing!</h3>
@@ -74,7 +73,7 @@
           <div class="modal-body">
             <form id="modal-form">
               <div class="row">
-                <div class="span12">
+                <div class="col-md-12">
                   <input class="modal-input inputs" autocomplete="off" autofocus="autofocus" type="text" id="customer" width=100% height=100%></input>
                 </div>
               </div>
@@ -84,6 +83,8 @@
                 <a class="btn btn-large btn-clear" href="javascript:void();" data-dismiss="modal">Forget it</a>
               </div>
             </form>
+          </div>
+          </div>
           </div>
         </div>
       </script>
@@ -98,25 +99,13 @@
     </head>
 
   <body>
-  
+
   <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-          <div class="container-fluid">
-            <a class="brand" href="#">SANTA BARBOT</a>
-           <!-- <div class="nav-collapse collapse">
-              <p class="navbar-text pull-right">
-                Created by Spirited Robotics
-              </p>-->
-             <!-- <ul class="nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-              </ul>-->
-            <!--</div>--><!--/.nav-collapse -->
-          </div>
-        </div>
-      </div>
-  
+    <div class="navbar-inner">
+            <a class="navbar-brand" href="#">SANTA BARBOT</a>
+    </div>
+  </div>
+
   <!--
     <div class="topbar">
       <img src="assets/img/spirited_robotics_logo.png" class="logo" height="100%" />
@@ -149,7 +138,6 @@
     <input id="hidden-field" style="display: none;" />
     <script src="assets/js/jquery-1.9.1.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/bootstrap-modalmanager.js"></script>
     <script src="assets/js/application.js"></script>
     <script src="assets/js/underscore-min.js"></script>
     <script src="assets/js/backbone.js"></script>
