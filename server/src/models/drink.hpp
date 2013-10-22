@@ -13,8 +13,7 @@ enum
   DrinkTypeShot = 0,
   DrinkTypeLowBall = 1,
   DrinkTypeHighBall = 2,
-  DrinkTypeClassics = 3,
-  DrinkTypeCocktails = 4
+  DrinkTypeDontNormalize = 3
 };
 
 //------------------------------------------------------------------------------

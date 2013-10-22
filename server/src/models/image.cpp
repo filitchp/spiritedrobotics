@@ -19,7 +19,6 @@ struct tower_error: virtual boost::exception { };
 //------------------------------------------------------------------------------
 Image::Image(const ptree& pt)
 {
-
   try
   {
     mPhotographer = pt.get<std::string>("photographer");

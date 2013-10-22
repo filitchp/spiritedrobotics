@@ -13,14 +13,14 @@
       "name" : "Ginger Beer",
       "amount" : "3"
     },
-	{
-	  "key" : "LEMONJUICE",
-	  "name" : "Lemon Juice",
-	  "amount" : "1"
-	}
+    {
+      "key" : "LEMONJUICE",
+      "name" : "Lemon Juice",
+      "amount" : "1"
+    }
   ],
   "categories" : ["COCKTAILS"],
   "description" : "Buck, and also mule, are slightly antiquated names for a family of historic mixed drinks that involve ginger ale or ginger beer, citrus juice, and any of a number of base liquors.",
   "imagePath" : "assets/img/drinks/light-lime-snapwire.jpg",
-  "type" : "Lowball"
+  "type" : "Highball"
 }

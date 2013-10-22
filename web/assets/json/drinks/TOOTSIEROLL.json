@@ -8,16 +8,16 @@
       "name" : "Coffee Liqueur",
       "amount" : "1"
     },
-	{
-	  "key" : "ORANGEJUICE",
-	  "name" : "Orange Juice",
-	  "amount" : "1"
-	},
-	{
-	  "key" : "VODKA",
-	  "name" : "Vodka",
-	  "amount" : "1"
-	}
+    {
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
+      "amount" : "1"
+    },
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "1"
+    }
   ],
   "categories" : "SHOTS",
   "description" : "A nostalgic treat.",

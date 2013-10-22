@@ -1,0 +1,54 @@
+{
+  "description":"Pauls Place Testing October",
+  "towers" :
+  [
+    {
+      "id" : 1,
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "flowRate" : 3400
+    },
+    {
+      "id" : 2,
+      "key" : "DARKRUM",
+      "name" : "Spiced Rum",
+      "flowRate" : 3400
+    },
+    {
+      "id" : 3,
+      "key" : "GIN",
+      "name" : "Gin",
+      "flowRate" : 3400
+    },
+    {
+      "id" : 4,
+      "key" : "COFFEELIQUEUR",
+      "name" : "Coffee Liqueur",
+      "flowRate" : 3400
+    },
+    {
+      "id" : 5,
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
+      "flowRate" : 3400
+    },
+    {
+      "id" : 6,
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "flowRate" : 3400
+    },
+    {
+      "id" : 7,
+      "key" : "GRAPEFRUITJUICE",
+      "name" : "Grapefruit Juice",
+      "flowRate" : 3400
+    },
+    {
+      "id" : 8,
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "flowRate" : 3400
+    }
+  ]
+}

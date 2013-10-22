@@ -3,21 +3,21 @@
   "name" : "Cape Codder (sub. lemon)",
   "ingredients" :
   [
-	{
-		"key" : "VODKA",
-		"name" : "Vodka",
-		"amount" : "1.5"
-	},
-	{
-		"key" : "CRANBERRYJUICE",
-		"name" : "Cranberry Juice",
-		"amount" : "3"
-	},
-	{
-		"key" : "LEMONJUICE",
-		"name" : "Lemon Juice",
-		"amount" : "0.25"
-	}
+	  {
+		  "key" : "VODKA",
+		  "name" : "Vodka",
+		  "amount" : "1.75"
+	  },
+	  {
+		  "key" : "CRANBERRYJUICE",
+		  "name" : "Cranberry Juice",
+		  "amount" : "3"
+	  },
+	  {
+		  "key" : "LEMONJUICE",
+		  "name" : "Lemon Juice",
+		  "amount" : "0.25"
+	  }
   ],
   "categories" : ["COCKTAILS"],
   "description" : "Variation: This drink was conceived in 1945 by the Ocean Spray cranberry grower's cooperative under the name 'Red Devil'.",

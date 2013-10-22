@@ -14,7 +14,7 @@
       "amount" : "1"
     }
   ],
-  "categories" : ["COCKTAILS"],
+  "categories" : ["CLASSICS"],
   "description" : "Delicious and tart!",
   "imagePath" : "assets/img/drinks/whiskeysour.jpg",
   "type" : "Lowball"

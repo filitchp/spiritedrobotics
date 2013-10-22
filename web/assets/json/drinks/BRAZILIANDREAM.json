@@ -13,14 +13,14 @@
       "name" : "Light Rum",
       "amount" : "1"
     },
-	{
-	  "key" : "ORANGEJUICE",
-	  "name" : "Orange Juice",
-	  "amount" : "1"
-	}
+	  {
+	    "key" : "ORANGEJUICE",
+	    "name" : "Orange Juice",
+	    "amount" : "1"
+	  }
   ],
-  "categories" : ["COCKTAILS", "GIRLYDRINKS", "MANLYDRINKS"],
+  "categories" : ["COCKTAILS", "GIRLYDRINKS"],
   "description" : "",
   "imagePath" : "",
-  "type" : "Lowball"
+  "type" : "Highball"
 }

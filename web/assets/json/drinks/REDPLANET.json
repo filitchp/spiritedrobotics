@@ -3,25 +3,24 @@
   "name" : "Red Planet",
   "ingredients" :
   [
-	{
-		"key" : "VODKA",
-		"name" : "Vodka",
-		"amount" : "1.5"
-	},
-	{
-		"key" : "CRANBERRYJUICE",
-		"name" : "Cranberry Juice",
-		"amount" : "3"
-	},
-	{
-		"key" : "LIMEJUICE",
-		"name" : "Lime Juice",
-		"amount" : "0.5"
-	}
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "1.5"
+    },
+    {
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "amount" : "3"
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : "0.5"
+    }
   ],
   "categories" : ["COCKTAILS", "SPACE", "NERDCRED", "ORIGINAL"],
   "description" : "Mars is named after the Roman god of war and it is often described as the Red Planet.  The drink will take you on a trip to the Red Planet and back",
   "imagePath" : "assets/img/drinks/red-martini-snapwire.jpg",
-  "attribution" : "Image by MoneyBlogNewz on Flickr",
   "type" : "Highball"
 }

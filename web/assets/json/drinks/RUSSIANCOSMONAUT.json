@@ -3,30 +3,29 @@
   "name" : "Russian Cosmonaut",
   "ingredients" :
   [
-	{
-		"key" : "VODKA",
-		"name" : "Vodka",
-		"amount" : "1.5"
-	},
-	{
-		"key" : "ORANGEJUICE",
-		"name" : "Orange Juice",
-		"amount" : "0.5"
-	},
-	{
-		"key" : "CRANBERRYJUICE",
-		"name" : "Cranberry Juice",
-		"amount" : "3"
-	},
-	{
-		"key" : "LIMEJUICE",
-		"name" : "Lime Juice",
-		"amount" : "0.5"
-	}
+	  {
+		  "key" : "VODKA",
+		  "name" : "Vodka",
+		  "amount" : "1.5"
+	  },
+	  {
+		  "key" : "ORANGEJUICE",
+		  "name" : "Orange Juice",
+		  "amount" : "0.5"
+	  },
+	  {
+		  "key" : "CRANBERRYJUICE",
+		  "name" : "Cranberry Juice",
+		  "amount" : "3"
+	  },
+	  {
+		  "key" : "LIMEJUICE",
+		  "name" : "Lime Juice",
+		  "amount" : "0.5"
+	  }
   ],
   "categories" : ["COCKTAILS", "SPACE", "NERDCRED", "ORIGINAL"],
   "description" : "",
   "imagePath" : "assets/img/drinks/orange-abstract-bright.jpg",
-  "attribution" : "Image by Versello on Flickr",
-  "type" : "Lowball"
+  "type" : "Highball"
 }

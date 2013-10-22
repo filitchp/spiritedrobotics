@@ -14,8 +14,8 @@
       "amount" : "1"
     }
   ],
-  "categories" : ["CLASSICS"],
+  "categories" : ["MANLYDRINKS", "COCKTAILS"],
   "description" : "A Brave Bull is made by mixing tequila and coffee liqueur. You need to be brave to try this drink.",
   "imagePath" : "assets/img/drinks/coffee-liqueur-top-down-martini-flickr.jpg",
-  "type" : "Classics"
+  "type" : "Lowball"
 }

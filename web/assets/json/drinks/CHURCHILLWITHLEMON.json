@@ -13,19 +13,19 @@
       "name" : "Vermouth",
       "amount" : "1"
     },
-	{
-	  "key" : "LEMONJUICE",
-	  "name" : "Lemon Juice",
-	  "amount" : "1"
-	},
-	{
-	  "key" : "ORANGELIQUEUR",
-	  "name" : "Orange Liqueur",
-	  "amount" : "1"
-	}
+    {
+      "key" : "LEMONJUICE",
+      "name" : "Lemon Juice",
+      "amount" : "1"
+    },
+    {
+      "key" : "ORANGELIQUEUR",
+      "name" : "Orange Liqueur",
+      "amount" : "1"
+    }
   ],
   "categories" : ["CLASSICS"],
   "description" : "Variation. 'When I was younger I made it a rule never to take strong drink before lunch. It is now my rule never to do so before breakfast.' --Winston Churchill",
   "imagePath" : "assets/img/drinks/orange-lowball-snapwire.jpg",
-  "type" : "Classics"
+  "type" : "Lowball"
 }

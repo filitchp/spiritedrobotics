@@ -14,8 +14,8 @@
       "amount" : "1"
 	}
   ],
-  "categories" : ["COCKTAILS", "GIRLYDRINKS", "MANLYDRINKS"],
+  "categories" : ["COCKTAILS", "GIRLYDRINKS"],
   "description" : "",
   "imagePath" : "",
-  "type" : "Lowball"
+  "type" : "Highball"
 }

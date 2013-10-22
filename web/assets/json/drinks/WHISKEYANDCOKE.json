@@ -3,16 +3,16 @@
   "name" : "Whiskey and Coke",
   "ingredients" :
   [
-	{
-		"key" : "WHISKEY",
-		"name" : "Whiskey",
-		"amount" : "1"
-	},
-	{
-		"key" : "COKE",
-		"name" : "Coca-Cola",
-		"amount" : "3"
-	}
+	  {
+		  "key" : "WHISKEY",
+		  "name" : "Whiskey",
+		  "amount" : "1"
+	  },
+	  {
+		  "key" : "COKE",
+		  "name" : "Coca-Cola",
+		  "amount" : "3"
+	  }
   ],
   "categories" : ["COCKTAILS"],
   "description" : "The term 'Jack and Coke' was used in some combined advertising for Jack Daniel's and Coca-Cola, and several products were created as part of this marketing campaign, including bar signs and taps. Around 1996, Jack Daniel's released a canned beverage called 'Jack Daniel's and Cola', a mixed beverage of the same type as Jack and Coke, in several markets in the South Pacific, including Australia and New Zealand.",

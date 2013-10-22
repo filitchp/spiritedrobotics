@@ -87,13 +87,9 @@ Drink::Drink(const ptree& pt)
       //cout << DrinkTypeHighBall << endl;
       mType = DrinkTypeHighBall;
     }
-    else if (type == "Classics")
+    else if (type == "DontNormalize")
     {
-      mType = DrinkTypeClassics;
-    }
-    else if (type == "Cocktails")
-    {
-      mType = DrinkTypeCocktails;
+      mType = DrinkTypeDontNormalize;
     }
     else
     {

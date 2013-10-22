@@ -3,41 +3,41 @@
   "name" : "Pan Galactic Gargle Blaster",
   "ingredients" :
   [
-  {
-    "key" : "DARKRUM",
-    "name" : "Spiced Rum",
-    "amount" : "1"
-  },
-  {
-    "key" : "VODKA",
-    "name" : "Vodka",
-    "amount" : "1"
-  },
-  {
-    "key" : "GIN",
-    "name" : "Gin",
-    "amount" : "0.75"
-  },
-  {
-    "key" : "LIMEJUICE",
-    "name" : "Lime Juice",
-    "amount" : "0.75"
-  },
-  {
-    "key" : "CRANBERRYJUICE",
-    "name" : "Cranberry Juice",
-    "amount" : "2.25"
-  },
-	{
-		"key" : "GRAPEFRUITJUICE",
-		"name" : "Grapefruit Juice",
-	  "amount" : "0.25"
-	},
-	{
-	  "key" : "ORANGEJUICE",
-	  "name" : "Orange Juice",
-	  "amount" : "2.5"
-	}
+    {
+      "key" : "DARKRUM",
+      "name" : "Spiced Rum",
+      "amount" : "1"
+    },
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "1"
+    },
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "0.75"
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : "0.75"
+    },
+    {
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "amount" : "2.25"
+    },
+	  {
+		  "key" : "GRAPEFRUITJUICE",
+		  "name" : "Grapefruit Juice",
+	    "amount" : "0.25"
+	  },
+	  {
+	    "key" : "ORANGEJUICE",
+	    "name" : "Orange Juice",
+	    "amount" : "2.5"
+	  }
   ],
   "categories" : ["COCKTAILS", "MANLYDRINKS", "NERDCRED", "SPACE", "ORIGINAL"],
   "description" : "Like having your brains smashed out by a slice of lemon wrapped around a large gold brick.",

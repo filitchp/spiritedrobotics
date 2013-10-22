@@ -8,19 +8,19 @@
       "name" : "Whiskey",
       "amount" : "1"
     },
-	{
-	  "key" : "AMARETTOLIQUEUR",
-	  "name" : "Amaretto Liqueuer",
-	  "amount" : "1"
-	},
-	{
-	  "key" : "CRANBERRYJUICE",
-	  "name" : "Cranberry Juice",
-	  "amount" : "2"
-	}
+    {
+      "key" : "AMARETTOLIQUEUR",
+      "name" : "Amaretto Liqueuer",
+      "amount" : "1"
+    },
+    {
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "amount" : "2"
+    }
   ],
   "categories" : ["COCKTAILS"],
   "description" : "Creamy with a bite.",
   "imagePath" : "assets/img/drinks/red-lowball-lime-flickr.jpg",
-  "type" : "Lowball"
+  "type" : "Highball"
 }

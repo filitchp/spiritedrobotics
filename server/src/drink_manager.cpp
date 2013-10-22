@@ -299,18 +299,17 @@ void DrinkManager::readImageAttribution(string imageAttributionPath)
   // Parse the system configuration file
   read_json(imageAttributionPath, pt);
 
-  // Create the system configuration object
-  //Image* img = new Image(pt);
-
-
   BOOST_FOREACH (const ptree::value_type& node, pt.get_child("images"))
   {
     const ptree& imageProps = node.second;
 
-    cout << imageProps.get<string>("filename");
+    //cout << imageProps.get<string>("filename");
+    Image newImage(imageProps);
 
+    mImages.insert(std::pair<string, Image>(imageProps.get<string>("filename"), newImage));
   }
 
+  cout << "mImages size " << mImages.size() << endl;
 }
 
 //------------------------------------------------------------------------------
@@ -327,7 +326,7 @@ void DrinkManager::createAvailableDrinkList()
     //TODO remove this and put it with a generic route -Andrew
     BOOST_FOREACH(const std::string category, drink.getCategories())
     {
-       if ((category == "SPACE") || (category == "COCKTAILS"))
+       if ((category == "SPACE") || (category == "COCKTAILS") || (category == "CLASSICS"))
        {
          valid = true;
        }
@@ -399,12 +398,17 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
     }
     else if (type == DrinkTypeLowBall)
     {
-      // For beta testing we set lowball drinks to 3 oz to test out many different kinds
-      normalizeDrink(drink, 3);
+      // For beta testing we set lowball drinks to 4 oz to test out many different kinds
+      normalizeDrink(drink, 3.5);
     }
     else if (type == DrinkTypeHighBall)
     {
-      // For beta testing we set highball drinks to 3 oz to test out many different kinds
+      // For beta testing we set highball drinks to 4 oz to test out many different kinds
+      normalizeDrink(drink, 4.5);
+    }
+    else if (type == DrinkTypeDontNormalize)
+    {
+      // For beta testing we set highball drinks to 4 oz to test out many different kinds
       normalizeDrink(drink, 3);
     }
 

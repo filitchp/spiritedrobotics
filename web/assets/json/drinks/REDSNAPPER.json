@@ -8,16 +8,16 @@
       "name" : "Whiskey",
       "amount" : "1"
     },
-	{
-	  "key" : "AMARETTOLIQUEUR",
-	  "name" : "Amaretto Liqueuer",
-	  "amount" : "1"
-	},
-	{
-	  "key" : "CRANBERRYJUICE",
-	  "name" : "Cranberry Juice",
-	  "amount" : "1"
-	}
+    {
+      "key" : "AMARETTOLIQUEUR",
+      "name" : "Amaretto Liqueuer",
+      "amount" : "1"
+    },
+    {
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "amount" : "1"
+    }
   ],
   "categories" : ["SHOTS"],
   "description" : "Creamy with a bite.",

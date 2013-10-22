@@ -12,10 +12,10 @@
       "key" : "GINGERBEER",
       "name" : "Ginger Beer",
       "amount" : "3"
-	}
+	  }
   ],
   "categories" : ["COCKTAILS"],
   "description" : "It's Canadian!",
   "imagePath" : "assets/img/drinks/orange-lowball-snapwire.jpg",
-  "type" : "Lowball"
+  "type" : "Highball"
 }

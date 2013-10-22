@@ -3,29 +3,29 @@
   "name" : "Solar Flare",
   "ingredients" :
   [
-	{
-		"key" : "VODKA",
-		"name" : "Vodka",
-		"amount" : "2"
-	},
-	{
-		"key" : "ORANGEJUICE",
-		"name" : "Orange Juice",
-		"amount" : "3.5"
-	},
-	{
-		"key" : "LIMEJUICE",
-		"name" : "Lime Juice",
-		"amount" : "1"
-	},
-	{
-		"key" : "CRANBERRYJUICE",
-		"name" : "Cranberry Juice",
-		"amount" : "0.75"
-	}
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "2"
+    },
+    {
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
+      "amount" : "3.5"
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : "1"
+    },
+    {
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "amount" : "0.75"
+    }
   ],
   "categories" : ["COCKTAILS", "SPACE", "NERDCRED", "ORIGINAL"],
-  "description" : "",
+  "description" : "Maybe you don't want to taste your vodka. Maybe it reminds you of your terrible past. Maybe it reminds you that your life isn't going any place vodka also isn't going. Maybe you're overthinking this drink. All I know is, it doesn't taste a whole lot like vodka.",
   "imagePath" : "assets/img/drinks/solar-flare-flickr.jpg",
   "type" : "Highball"
 }
