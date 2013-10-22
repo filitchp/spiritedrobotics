@@ -104,9 +104,10 @@ color: black
 
 .drinktitle
 {
+
   color: #fff;
-  font-family: 'MontserratBold',Arial,sans-serif;
-  font-weight: normal;
+  font-family: 'MontserratBold',sans-serif;
+  font-weight: bold;
   font-size: 32px;
   top:  145px;
   text-align: center;
@@ -237,6 +238,7 @@ color: black
 body{
     height:30px;
     padding:0px;
+    background-color: #323232;
     overflow:hidden;
 }
 
@@ -282,8 +284,9 @@ hr.drinkitembreak
 
 .drink-list-item
 {
-  font-family: 'MontserratBold',Arial,sans-serif;
-  font-weight: normal;
+  font-family: 'MontserratBold',sans-serif;
+  font-weight: bold;
+  color:#ece9d7;
   font-size: 22px;
   border-bottom: 3px solid #4b4b4b;
   padding-bottom:34px;
@@ -291,6 +294,7 @@ hr.drinkitembreak
   padding-left: 44px;
   padding-right: 8px;
   margin:0px;
+  line-height:20px;
   text-transform: uppercase;
   letter-spacing:  3px;
   -webkit-transition:  0.7s;
@@ -345,10 +349,12 @@ hr.drinkitembreak
 
 
 .navbar-brand{
+  font-family: 'MontserratBold',sans-serif;
+  font-weight: bold;
+  color:#ece9d7;
    font-size: 20px;
    font-weight: bold;
    color: #ddd !important;
-   font-family: 'Montserrat', sans-serif;
    text-align: center;
    text-transform: uppercase;
    letter-spacing: 6px; 
