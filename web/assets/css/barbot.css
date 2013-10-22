@@ -24,8 +24,6 @@ color: brown
 color: black
 }
 
-
-
 .ingredients
 {
   list-style-type: none;
@@ -106,9 +104,10 @@ color: black
 
 .drinktitle
 {
+
   color: #fff;
-  font-family: 'MontserratBold',Arial,sans-serif;
-  font-weight: normal;
+  font-family: 'MontserratBold',sans-serif;
+  font-weight: bold;
   font-size: 32px;
   top:  145px;
   text-align: center;
@@ -154,8 +153,6 @@ color: black
   position: absolute;
   top: 285px;
   margin:  0 auto;
-  left:  13px;
-  right:  0px;
   background: black;
   height: 70px;
 }
@@ -219,8 +216,9 @@ color: black
 {
     width:100%;
     padding-top:6px;
-    padding-left:0px;
+    padding-left:6px;
     padding-bottom: 20px;
+    padding-right: 0px;
 /*    float: left;*/
     overflow: hidden;
     position: relative;
@@ -237,6 +235,13 @@ color: black
     background:  rgba(41,51,54,0.5);
 }
 
+body{
+    height:30px;
+    padding:0px;
+    background-color: #323232;
+    overflow:hidden;
+}
+
 hr.drinkbreak
 {
   margin: 10px 0px 4px;
@@ -247,10 +252,13 @@ hr.drinkbreak
 {
     position: fixed;
     bottom: 0;
-    right: 10px;
+    right: 0;
     height: 100%;
-    width: 60%;
-    top:  40px;
+    width: 62%;
+    top:  30px;
+    margin: 0px;
+    padding:0px;
+    background:  #4b4b4b;
 /*    border-left: 3px solid #45515F;*/
 /*    padding-left:10px;*/
 }
@@ -259,28 +267,34 @@ hr.drinkbreak
 {
     width: 40%;
     position: absolute;
-    padding: 0px;
+    padding:0px;
+    top:30px;
+    margin:0px;
     margin-left:0px;  
+    margin-right:0px;
     overflow:hidden;
-    border-right: 10px solid #4b4b4b;
+    border-right: 4px solid #4b4b4b;
 }
 
 hr.drinkitembreak
 {
-  margin: 10px 0px 4px;
+  margin: 0px 0px 0px;
   border-bottom: 3px solid #45515F;
 }
 
 .drink-list-item
 {
-  font-family: 'MontserratBold',Arial,sans-serif;
-  font-weight: normal;
+  font-family: 'MontserratBold',sans-serif;
+  font-weight: bold;
+  color:#ece9d7;
   font-size: 22px;
   border-bottom: 3px solid #4b4b4b;
   padding-bottom:34px;
   padding-top:34px;
   padding-left: 44px;
-  padding-right: 14px;
+  padding-right: 8px;
+  margin:0px;
+  line-height:20px;
   text-transform: uppercase;
   letter-spacing:  3px;
   -webkit-transition:  0.7s;
@@ -290,8 +304,9 @@ hr.drinkitembreak
 
 #content {
 	padding: 0px 0px 0px 0px;
-	margin-right: -10px;
-	margin-left: 13px;
+	margin-right: 0px;
+	margin-left: 10px;
+    border-left: 3px solid #323232;
 	background: white;
 	height: 100%;
 }
@@ -319,7 +334,9 @@ hr.drinkitembreak
 
 .sub-topbar{
     position:absolute;
-/*    top:10%;*/
+    top:0px;
+    padding:0px;
+    margin:0px;
     height:100%;
     width:100%;
     overflow:scroll;
@@ -330,11 +347,46 @@ hr.drinkitembreak
     max-height:100%;
 }
 
+
+.navbar-brand{
+  font-family: 'MontserratBold',sans-serif;
+  font-weight: bold;
+  color:#ece9d7;
+   font-size: 20px;
+   font-weight: bold;
+   color: #ddd !important;
+   text-align: center;
+   text-transform: uppercase;
+   letter-spacing: 6px; 
+   position:relative;
+   padding:5px;
+   height:30px;
+   width:100%;
+}
+
+.navbar{
+    height:30px;
+    right:0;
+    min-height:30px;
+    overflow:hidden;
+}
+
+.navbar-inner{
+    height:30px;
+    right:0;
+    min-height:30px;
+    overflow:hidden;
+}
+
 .modal{
     left:0;
     margin-left:0;
     width:100%;
     top:  0px !important;
+}
+
+.modal-backdrop, .modal-open{
+    overflow:hidden;
 }
 
 .modal-header, .modal-body, .modal-footer {
