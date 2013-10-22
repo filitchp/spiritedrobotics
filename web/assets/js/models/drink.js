@@ -85,7 +85,6 @@ $(function()
 
             // Refresh the interface...
             // This is needed because there are issues with the modal on tablets
-            window.location = "";
             $("#order_modal").modal("hide");
           }
           else
