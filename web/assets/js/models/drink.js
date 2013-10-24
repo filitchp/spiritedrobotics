@@ -47,7 +47,6 @@ $(function()
   FlavorConfirms = [
       "Thank you for your order, <NAME>!",
       "EXTERMINATE. EXTERMINATE! EXTERMINATE!!!",
-      "<NAME>, all our drink are belong to you.",
       "All our drink are belong to <NAME>.",
       "<NAME>: Sending directives to meat puppets.",
       "<NAME>. <NAME>. <NAME>.",
@@ -56,8 +55,9 @@ $(function()
       "Your <ORDER> is currently being processed <br/> by my human appendages.",
       "The <ORDER>? <br/> Well, at least you know your limits.",
       "It's a pleasure to intoxicate the <NAME>.",
-      "<ORDER>, again? <br/> This is really a pain in my diodes.",
-      "<NAME>, your order will be processed." ];
+      "The <ORDER> huh? <br> What are you compensating for <NAME>?",
+      "Oh No. <ORDER>, again? <br/> This is becoming a pain in my diodes.",
+      "<NAME>, your order is of the utmost importance to us." ];
 
   function getFlavorText(name, drink){
      var rawMessage = FlavorConfirms[Math.floor(Math.random()*FlavorConfirms.length)];
@@ -186,6 +186,9 @@ $(function()
         name: this.model.get("name"),
         description: this.model.get("description"),
         imagePath: this.model.get("imagePath"),
+        imageLicense: this.model.get("imageLicense"),
+        imagePhotographer: this.model.get("imagePhotographer"),
+        imageSource: this.model.get("imageSource"),
         ingredients: ingredientHtml
       }
 
@@ -193,6 +196,8 @@ $(function()
       this.$el.html(drinkTemplatePopulated);
       
       $("#content").append(this.$el);
+      $(".drink-popover").popover();
+
       return this;
     }
   });

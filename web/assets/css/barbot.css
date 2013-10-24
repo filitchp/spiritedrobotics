@@ -444,6 +444,9 @@ hr.drinkitembreak
 .btn-modal{
     width:50%;
     float:left;
+    padding-top:10px;
+    padding-bottom:10px;
+    font-size:20px;
     margin-left:10%;
 }
 
@@ -451,6 +454,9 @@ hr.drinkitembreak
     width:20%;
     background: none;
     background-color: none;
+    padding-top:10px;
+    padding-bottom:10px;
+    font-size:20px;
     float:right;
     margin-right:10%;
 }

@@ -24,11 +24,11 @@
         <!--<hr class= "drinkbreak"/> -->
        
         
-        <div class="imageframe" style="background-image: url('<%= imagePath %>')">
+        <div class="imageframe" 
+             style="background-image: url('<%= imagePath %>')">
         
-          <div class="imageframeinner">
-                          <h2 class="drinktitle"><%= name %></h2>
-          
+          <div class="imageframeinner drink-popover" rel="popover" data-html="true" data-placement="auto" data-content="Photographer: <%= imagePhotographer %> <br> License: <%= imageLicense %> <br>Source: <%= imageSource %>" data-trigger="click" data-title="Attribution" data-container="#content" >
+               <h2 class="drinktitle"><%= name %></h2>
           </div>
         </div>
                 <span class="drinksubtitle">Ingredients</span>
@@ -65,7 +65,7 @@
         <div class="modal-content">
         <div class="modal-header">
           <h3 class="modal-headertext">One more thing!</h3>
-          <p>Give us your name so we can call out your drink when it’s ready.</p>
+          <p style="font-size:20px">Give us your name so we can call out your order.</p>
         </div>
         <div class="modal-body">
           <form id="modal-form">
