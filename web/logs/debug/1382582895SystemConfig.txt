@@ -1,0 +1,12 @@
++--------------------------------------------------------+
+|    ID|                  KEY|                 NAME|FLOW |
++--------------------------------------------------------+
+|     1|                VODKA|                Vodka|2000*|
+|     2|              DARKRUM|             Dark Rum|2000*|
+|     3|          ORANGEJUICE|         Orange Juice|2000*|
+|     4|                  GIN|                  Gin|2000*|
+|     5|        COFFEELIQUEUR|       Coffee Liqueur|2000*|
+|     6|        ORANGELIQUEUR|       Orange Liqueur|2000*|
+|     7|           GINGERBEER|           Gingerbeer|2000*|
+|     8|            LIMEJUICE|           Lime Juice|2000*|
++--------------------------------------------------------+
