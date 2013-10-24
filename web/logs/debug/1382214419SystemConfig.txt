@@ -1,0 +1,12 @@
++----------------------------------------------------------+
+|    ID|                   KEY|                  NAME|FLOW |
++----------------------------------------------------------+
+|     1|                 VODKA|                 Vodka|3400*|
+|     2|               DARKRUM|              Dark Rum|3400*|
+|     3|           ORANGEJUICE|          Orange Juice|3400*|
+|     4|            GINGERBEER|           Ginger Beer|3400*|
+|     5|              	WHISKEY|               Whiskey|3400*|
+|     6|        CRANBERRYJUICE|       Cranberry Juice|3400*|
+|     7|         COFFEELIQUEUR|        Coffee Liqueur|3400*|
+|     8|             LIMEJUICE|            Lime Juice|3400*|
++----------------------------------------------------------+

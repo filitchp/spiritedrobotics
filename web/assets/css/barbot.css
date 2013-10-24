@@ -305,7 +305,7 @@ hr.drinkbreak
     margin-left:0px;  
     margin-right:0px;
     overflow:hidden;
-    border-right: 4px solid #4b4b4b;
+    border-right: 1px solid #4b4b4b;
 }
 
 hr.drinkitembreak
@@ -322,8 +322,8 @@ hr.drinkitembreak
   border-bottom: 3px solid #4b4b4b;
   padding-bottom:34px;
   padding-top:34px;
-  padding-left: 44px;
-  padding-right: 8px;
+  padding-left: 22px;
+  padding-right: 30px;
   margin:0px;
   line-height:20px;
   text-transform: uppercase;
@@ -336,8 +336,8 @@ hr.drinkitembreak
 #content {
 	padding: 0px 0px 0px 0px;
 	margin-right: 0px;
-	margin-left: 10px;
-    border-left: 3px solid #323232;
+	margin-left: 5px;
+    border-left: 1px solid #323232;
 	background: white;
 	height: 100%;
 }
@@ -395,14 +395,12 @@ hr.drinkitembreak
 }
 
 .navbar{
-    height:30px;
     right:0;
     min-height:30px;
     overflow:hidden;
 }
 
 .navbar-inner{
-    height:30px;
     right:0;
     min-height:30px;
     overflow:hidden;
