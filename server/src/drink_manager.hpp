@@ -96,8 +96,6 @@ class DrinkManager
     std::map<std::string, Order> mApprovedOrders;
     std::map<std::string, Order> mRejectedOrders;
 
-    std::map<std::string, Image> mImages;
-
     void readSystemConfiguration(std::string systemConfigurationPath);
     void readImageAttribution(std::string imageAttributionPath);
 
