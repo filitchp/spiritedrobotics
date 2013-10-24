@@ -11,7 +11,10 @@ $(function()
       description: "Not Specified",
       key: "NIL",
       ingredients: "NIL",
-      imagePath: "NIL"
+      imagePath: "NIL",
+      imageLicense: "NIL",
+      imagePhotographer: "NIL",
+      imageSource: "NIL"
     },
     initialize: function()
     {
@@ -41,6 +44,28 @@ $(function()
       "WHAT IS PUT ON A TABLE, CUT, BUT NEVER EATEN?",
       "TO ALCOHOL, THE CAUSE AND SOLUTION TO ALL OF LIFE'S _____!" ];
 
+  FlavorConfirms = [
+      "Thank you for your order, <NAME>!",
+      "EXTERMINATE. EXTERMINATE! EXTERMINATE!!!",
+      "<NAME>, all our drink are belong to you.",
+      "All our drink are belong to <NAME>.",
+      "<NAME>: Sending directives to meat puppets.",
+      "<NAME>. <NAME>. <NAME>.",
+      "Excelent choice <NAME>.<br/> <ORDER> is the second best drink there is.",
+      "We aim to serve the <NAME>.",
+      "Your <ORDER> is currently being processed <br/> by my human appendages.",
+      "The <ORDER>? <br/> Well, at least you know your limits.",
+      "It's a pleasure to intoxicate the <NAME>.",
+      "<ORDER>, again? <br/> This is really a pain in my diodes.",
+      "<NAME>, your order will be processed." ];
+
+  function getFlavorText(name, drink){
+     var rawMessage = FlavorConfirms[Math.floor(Math.random()*FlavorConfirms.length)];
+     rawMessage = rawMessage.replace(/<NAME>/g, name);
+     rawMessage = rawMessage.replace(/<ORDER>/g, drink.get('name'));
+     return rawMessage;
+  }
+
   //--------------------------------------------------------
   // This view renders a drink modal
   //--------------------------------------------------------
@@ -68,6 +93,7 @@ $(function()
     },
     order: function()
     { 
+      var drink = this.model;
       $.ajax(
       {
         type: "GET",
@@ -82,10 +108,19 @@ $(function()
           if (res.result == true)
           {
             console.log("Order placed sucessfully");
+            var customername = $("#order_modal").find("#customer").val();
 
-            // Refresh the interface...
-            // This is needed because there are issues with the modal on tablets
             $("#order_modal").modal("hide");
+            $("#splash").fadeIn({
+                duration: 800   
+            });
+
+            console.log(drink);
+
+            $("#splash-text").html(
+                getFlavorText(customername, drink)
+            );
+
           }
           else
           {

@@ -13,6 +13,12 @@
 
 @font-face
 {
+  font-family: OswaldExtraBlack;
+  src: url(../fonts/Oswald-Bold.otf);
+}
+
+@font-face
+{
   font-family: Montserrat;
   src: url(../fonts/Montserrat-Regular.ttf);
 }
@@ -169,12 +175,6 @@ color: black
 }
 
 
-.btn-clear{
-	background: none;
-	background-color: none;
-	color: #aaa;
-	font-size: 13px;
-}
 
 .nav-button-container
 {
@@ -406,28 +406,59 @@ hr.drinkitembreak
     overflow:hidden;
 }
 
-.modal{
-    left:0;
-    margin-left:0;
-    width:100%;
-    top:  0px !important;
-}
-
 .modal-backdrop, .modal-open{
     overflow:hidden;
 }
 
-.modal-header, .modal-body, .modal-footer {
-	background-color: #323232 !important;
+
+.modal-header, .modal-body, .modal-footer, .modal-headertext {
+    background:none;
+    margin:0;
+    padding:0;
+	text-align: center;
+    border:none;
+}
+
+.modal-header, .modal-footer{
+    padding-top:20px;
+    background:none;
+    padding-bottom:10px;
 }
 
 .modal-footer {
+	margin-top: 10px;
+    margin-bottom:20px;
+    width:100%;
+    border:none;
+}
+
+.black-band{
+}
+
+.modal-form, .modal-content {
+    margin:0;
+    padding:0;
 	text-align: center;
-	margin-top: 70px;
+}
+
+.btn-modal{
+    width:50%;
+    float:left;
+    margin-left:10%;
+}
+
+.btn-modal-small{
+    width:20%;
+    background: none;
+    background-color: none;
+    float:right;
+    margin-right:10%;
 }
 
 .modal-input{
-    width:70%;
+    width:80%;
+    margin-top:10px;
+    margin-bottom:10px;
 }
 
 input[type="text"]{
@@ -436,6 +467,46 @@ input[type="text"]{
 }
 
 div#preload { display: none; }
+
+div#splash { 
+    display: none; 
+    position:fixed;
+    top:0;
+    margin0;
+    padding:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:black;
+}
+
+div#logo {
+    width:100%;
+    height:auto;
+    text-align:center;
+    position:fixed;
+    top:15%;
+}
+
+div#splash-text {
+    position:fixed;
+    text-align:center;
+    top:45%;
+    width:100%;
+    background:none;
+    font-size:50px;
+    display:inline;
+}
+
+div#splash-icon {
+    position:fixed;
+    text-align:center;
+    bottom:5%;
+    width:100%;
+    background:none;
+    font-size:96px;
+    display:inline;
+}
 
 * {
    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);

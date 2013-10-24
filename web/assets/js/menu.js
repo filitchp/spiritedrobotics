@@ -45,7 +45,7 @@ $(function()
       $("#content").empty();
       // Clear the menu
       $(".category_title").html(this.collection.category_title);
-      // Render a drink
+      // Render a drink 
       var drink = this.collection.at(idx); 
 
       if (drink != null){
@@ -83,5 +83,12 @@ $(function()
  });
 
   categories.fetch();
+    
+  $("#splash").show();
+  $("#splash").click(function(){
+    $("#splash").fadeOut({
+        duration: 800   
+    });
+  });
 
 });
