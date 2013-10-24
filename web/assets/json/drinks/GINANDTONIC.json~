@@ -1,9 +1,0 @@
-{
-  "key" : "GINANDTONIC",
-  "name" : "Gin and Tonic",
-  
-  "categories" : ["COCKTAILS", "MANLYDRINKS"],
-  "description" : "A drink for the self-identified dapper gentleman.",
-  "imagePath" : "assets/img/drinks/ginandtonic.jpg",
-  "type" : "Highball"
-}

@@ -54,13 +54,16 @@ DrinkManager::DrinkManager(const string& rootPath, boost::asio::io_service& io, 
   stringstream drinksPath(stringstream::out);
   drinksPath << rootPath << "/assets/json/drinks";
 
+  // Read all available drinks into the system
   readAllDrinks(drinksPath.str());
-  createAvailableDrinkList();
 
+  // Read info about the image including attribution
   stringstream imageAttributionPath(stringstream::out);
   imageAttributionPath << rootPath << "/assets/json/images.json";
-
   readImageAttribution(imageAttributionPath.str());
+
+  // The available drink list should be created after image attribution is read
+  createAvailableDrinkList();
 
   if (!mDemoMode)
   {
@@ -303,20 +306,25 @@ void DrinkManager::readImageAttribution(string imageAttributionPath)
   {
     const ptree& imageProps = node.second;
 
-    //cout << imageProps.get<string>("filename");
     Image newImage(imageProps);
 
-    mImages.insert(std::pair<string, Image>(imageProps.get<string>("filename"), newImage));
-  }
+    string filename = imageProps.get<string>("filename");
 
-  cout << "mImages size " << mImages.size() << endl;
+    BOOST_FOREACH(Drink& d, mAllDrinks)
+    {
+      if (d.getImagePath().find(filename) != std::string::npos)
+      {
+        //std::cout << d.getImagePath() << " " << filename << '\n';
+        d.addImage(newImage);
+      }
+    }
+  }
 }
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 void DrinkManager::createAvailableDrinkList()
 {
-  bool allRumIsTheSame = true;
 
   BOOST_FOREACH(const Drink& drink, mAllDrinks)
   {
@@ -408,8 +416,7 @@ void DrinkManager::readAllDrinks(string pathDrinkDirectory)
     }
     else if (type == DrinkTypeDontNormalize)
     {
-      // For beta testing we set highball drinks to 4 oz to test out many different kinds
-      normalizeDrink(drink, 3);
+      // Don't normalize this
     }
 
     mAllDrinks.push_back(drink);

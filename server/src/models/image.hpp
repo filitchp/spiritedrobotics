@@ -13,6 +13,12 @@ class Image
   public:
 
     Image(const boost::property_tree::ptree& pt);
+    Image(Image& image);
+
+    std::string getPhotographer() const;
+    std::string getSource() const;
+    std::string getUsername() const;
+    std::string getLicense() const;
 
   private:
 

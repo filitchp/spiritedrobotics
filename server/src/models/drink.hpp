@@ -7,6 +7,7 @@
 #include <boost/property_tree/ptree.hpp>
 
 #include "models/ingredient.hpp"
+#include "models/image.hpp"
 
 enum
 {
@@ -43,6 +44,8 @@ class Drink
 
     void normalizeIngredient(std::string key, float amount);
 
+    void addImage(Image& image);
+
   private:
 
     void addIngredient(Ingredient& ingredient);
@@ -69,6 +72,8 @@ class Drink
     
     // The categories the drink belongs to
     std::vector<std::string> mCategories;
+
+    Image* mpImage;
 };
 
 #endif // DRINK_HPP

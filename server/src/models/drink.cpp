@@ -16,6 +16,8 @@ using namespace std;
 //------------------------------------------------------------------------------
 Drink::Drink(const ptree& pt)
 {
+  mpImage = NULL;
+
   try
   {
     mKey = pt.get<std::string>("key");
@@ -129,12 +131,11 @@ Drink::Drink(const ptree& pt)
        std::string category = node.second.data();
        addCategory(category);
     }
-  } 
+  }
   catch (boost::exception& e)
   {
     cerr << "ERROR: Could not read category properties" << endl;
   }
-  
 }
 
 //------------------------------------------------------------------------------
@@ -157,7 +158,10 @@ void Drink::addIngredient(Ingredient& ingredient)
   mIngredients.push_back(ingredient);
 }
 
-void Drink::addCategory(std::string category){
+//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+void Drink::addCategory(std::string category)
+{
   mCategories.push_back(category);
 }
 
@@ -174,6 +178,15 @@ void Drink::output(ostream& s, unsigned indent) const
   s << p << "  \"name\" : \""        << mName         << "\"," << endl;
   s << p << "  \"description\" : \"" << mDescription  << "\"," << endl;
   s << p << "  \"imagePath\" : \""   << mImagePath    << "\"," << endl;
+
+  if (mpImage != NULL)
+  {
+    s << p << "  \"imagePhotographer\" : \"" << mpImage->getPhotographer() << "\"," << endl;
+    s << p << "  \"imageUsername\" : \"" << mpImage->getUsername() << "\"," << endl;
+    s << p << "  \"imageLicense\" : \"" << mpImage->getLicense() << "\"," << endl;
+    s << p << "  \"imageSource\" : \"" << mpImage->getSource() << "\"," << endl;
+  }
+
   s << p << "  \"ingredients\" : "  << endl;
   s << p << "  ["  << endl;
 
@@ -277,4 +290,13 @@ void Drink::normalizeIngredient(string key, float amount)
       i.setAmount(amount);
     }
   }
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void Drink::addImage(Image& image)
+{
+  mpImage = new Image(image);
+
+  //cout << mpImage->getPhotographer() << endl;
 }
