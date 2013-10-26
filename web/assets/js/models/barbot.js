@@ -24,7 +24,12 @@ $(function()
       'click .click-to-test': 'test',
       'click .click-passive-lights': 'passiveLights',
       'click .click-fire-lights': 'fireLights',
+      'click .click-fire-tower' : 'testTower'
     },
+    testTower: function(ev)
+    {
+      console.log(ev);
+    }
     test: function()
     {
       $.ajax(
