@@ -28,8 +28,30 @@ $(function()
     },
     testTower: function(ev)
     {
-      console.log(ev);
-    }
+      var towerindex = $(ev.target).data("towerindex");
+      $.ajax(
+      {
+        type: "GET",
+        url: "testTower",
+        data:
+        {
+          tower: towerindex,
+          amount: 0.4
+        },
+        success: function(res)
+        {
+          if (res.result !== true)
+          {
+            alert("test error");
+          }
+        },
+        error: function(data)
+        {
+          alert("test error");
+          console.log(data);
+        }
+      });
+    },
     test: function()
     {
       $.ajax(

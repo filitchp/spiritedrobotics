@@ -17,19 +17,18 @@ $(function()
   // Create the system status model
   systemStatus = new SystemStatus();
   systemStatus.fetch();
+
+  // Create the approved orders list
+  approvedOrders = new ApprovedOrders();
+  approvedOrders.fetch();
   
   // System status view
   systemStatusView = new SystemStatusView({ model: systemStatus });
 
   // Update order on a timer
   window.setInterval(function(){ pendingOrders.fetch() } , 1000 );
+  window.setInterval(function(){ approvedOrders.fetch() } , 1000 );
   
   // Update system status on a timer
   window.setInterval(function(){ systemStatus.fetch() } , 1000 );
-
-    $(".foo_button").on('click', function(ev){ alert( ev.target.id ) } );
-    orders.on('add', function(ev){
-        alert("order aproved: ", ev.target.get("name"));
-        
-    });
 });
