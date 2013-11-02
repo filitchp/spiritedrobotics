@@ -1,0 +1,18 @@
+{
+  "key" : "BLACKRUSSIAN",
+  "customer" : "aaa",
+  "date" : 1382849427,
+  "ingredients" : 
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : 2.14
+    },
+    {
+      "key" : "COFFEELIQUEUR",
+      "name" : "Coffee Liqueur",
+      "amount" : 0.857
+    }
+  ]
+}

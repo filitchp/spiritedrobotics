@@ -1,0 +1,18 @@
+{
+  "key" : "VODKAGIMLET",
+  "customer" : "kate",
+  "date" : 1382841973,
+  "ingredients" : 
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : 2.4
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : 0.6
+    }
+  ]
+}

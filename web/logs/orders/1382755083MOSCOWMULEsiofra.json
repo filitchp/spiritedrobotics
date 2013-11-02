@@ -1,0 +1,23 @@
+{
+  "key" : "MOSCOWMULE",
+  "customer" : "siofra",
+  "date" : 1382755083,
+  "ingredients" : 
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : 1.83
+    },
+    {
+      "key" : "GINGERBEER",
+      "name" : "Ginger Beer",
+      "amount" : 2.75
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : 0.917
+    }
+  ]
+}

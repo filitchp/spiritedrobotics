@@ -1,0 +1,18 @@
+{
+  "key" : "VODKACRANBERRY",
+  "customer" : "testdrink",
+  "date" : 1382856722,
+  "ingredients" : 
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : 1.75
+    },
+    {
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "amount" : 3.5
+    }
+  ]
+}

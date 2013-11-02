@@ -1,0 +1,23 @@
+{
+  "key" : "REDPLANET",
+  "customer" : "anders",
+  "date" : 1382844992,
+  "ingredients" : 
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : 1.58
+    },
+    {
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "amount" : 3.15
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : 0.525
+    }
+  ]
+}

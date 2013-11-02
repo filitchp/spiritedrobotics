@@ -1,0 +1,33 @@
+{
+  "key" : "PANGALACTIC",
+  "customer" : "test",
+  "date" : 1382754945,
+  "ingredients" : 
+  [
+    {
+      "key" : "DARKRUM",
+      "name" : "Spiced Rum",
+      "amount" : 0.733
+    },
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : 0.733
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : 0.55
+    },
+    {
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "amount" : 1.65
+    },
+    {
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
+      "amount" : 1.83
+    }
+  ]
+}
