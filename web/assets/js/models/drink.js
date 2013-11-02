@@ -54,7 +54,7 @@ $(function()
       "We aim to serve the <NAME>.",
       "Your <ORDER> is currently being processed <br/> by my human appendages.",
       "The <ORDER>? <br/> Well, at least you know your limits.",
-      "It's a pleasure to intoxicate the <NAME>.",
+      "It's a pleasure to inebriate the <NAME>.",
       "The <ORDER> huh? <br> What are you compensating for <NAME>?",
       "Oh No. <ORDER>, again? <br/> This is becoming a pain in my diodes.",
       "<NAME>, your order is of the utmost importance to us." ];

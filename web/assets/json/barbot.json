@@ -4,51 +4,51 @@
   [
     {
       "id" : 1,
-      "key" : "VODKA",
-      "name" : "Vodka",
-      "flowRate" : 2800
+      "key" : "GINGERBEER",
+      "name" : "Gingerbeer",
+      "flowRate" : 2178
     },
     {
       "id" : 2,
-      "key" : "DARKRUM",
-      "name" : "Dark Rum",
-      "flowRate" : 2800
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "flowRate" : 2178
     },
     {
       "id" : 3,
       "key" : "WHISKEY",
       "name" : "Whiskey",
-      "flowRate" : 2800
+      "flowRate" : 2178
     },
     {
       "id" : 4,
-      "key" : "CRANBERRYJUICE",
-      "name" : "Cranberry Juice",
-      "flowRate" : 2800
+      "key" : "DARKRUM",
+      "name" : "Dark Rum",
+      "flowRate" : 2178
     },
     {
       "id" : 5,
       "key" : "COFFEELIQUEUR",
       "name" : "Coffee Liqueur",
-      "flowRate" : 2800
+      "flowRate" : 2178
     },
     {
       "id" : 6,
-      "key" : "ORANGEJUICE",
-      "name" : "Orange Juice",
-      "flowRate" : 2800
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "flowRate" : 2178
     },
     {
       "id" : 7,
-      "key" : "GINGERBEER",
-      "name" : "Gingerbeer",
-      "flowRate" : 2800
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "flowRate" : 2178
     },
     {
       "id" : 8,
-      "key" : "LIMEJUICE",
-      "name" : "Lime Juice",
-      "flowRate" : 2800
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
+      "flowRate" : 2178
     }
   ]
 }
