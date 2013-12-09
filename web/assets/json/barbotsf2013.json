@@ -1,5 +1,5 @@
 {
-  "description":"TequilaTestingPauls",
+  "description":"BarBot2013",
   "towers" :
   [
     {
@@ -16,8 +16,8 @@
     },
     {
       "id" : 3,
-      "key" : "TEQUILA",
-      "name" : "Tequila",
+      "key" : "WHISKEY",
+      "name" : "Whiskey",
       "flowRate" : 2178
     },
     {
@@ -28,8 +28,8 @@
     },
     {
       "id" : 5,
-      "key" : "ORANGELIQUEUR",
-      "name" : "Orange Liqueur",
+      "key" : "COFFEELIQUEUR",
+      "name" : "Coffee Liqueur",
       "flowRate" : 2178
     },
     {
