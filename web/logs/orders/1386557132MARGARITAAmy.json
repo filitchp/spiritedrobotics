@@ -1,0 +1,23 @@
+{
+  "key" : "MARGARITA",
+  "customer" : "Amy",
+  "date" : 1386557132,
+  "ingredients" : 
+  [
+    {
+      "key" : "TEQUILA",
+      "name" : "Tequila",
+      "amount" : 2.25
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : 0.964
+    },
+    {
+      "key" : "ORANGELIQUEUR",
+      "name" : "Orange Liqueur",
+      "amount" : 1.29
+    }
+  ]
+}
