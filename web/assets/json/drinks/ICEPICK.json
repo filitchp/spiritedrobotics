@@ -1,0 +1,21 @@
+{
+  "key" : "ICEPICK",
+  "name" : "Ice Pick",
+  "ingredients" :
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "1.5"
+    },
+    {
+      "key" : "ICEDTEA",
+      "name" : "Iced Tea",
+      "amount" : "6"
+    }
+  ],
+  "categories" : ["COCKTAILS"],["WEDDING"],
+  "description" : "",
+  "imagePath" : "assets/img/drinks/.jpg",
+  "type" : "Highball"
+}

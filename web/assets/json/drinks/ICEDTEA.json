@@ -1,0 +1,16 @@
+{
+  "key" : "ICEDTEA",
+  "name" : "Iced Tea",
+  "ingredients" :
+  [
+    {
+      "key" : "ICEDTEA ",
+      "name" : "Iced Tea",
+      "amount" : "1"
+    }
+  ],
+  "categories" : ["VIRGIN"],["WEDDING"],
+  "description" : "A refreshing summertime favorite.",
+  "imagePath" : "assets/img/drinks/.jpg",
+  "type" : "Highball"
+}

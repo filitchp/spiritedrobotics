@@ -1,0 +1,16 @@
+{
+  "key" : "LEMONADE",
+  "name" : "Lemonade",
+  "ingredients" :
+  [
+    {
+      "key" : "LEMONADE",
+      "name" : "Lemonade",
+      "amount" : "1"
+    }
+  ],
+  "categories" : ["VIRGIN"],["WEDDING"],
+  "description" : "A refreshing summer favorite.",
+  "imagePath" : "assets/img/drinks/.jpg",
+  "type" : "Highball"
+}

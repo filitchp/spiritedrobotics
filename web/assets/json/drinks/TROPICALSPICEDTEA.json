@@ -1,0 +1,26 @@
+{
+  "key" : "TROPICALSPICEDTEA",
+  "name" : "Tropical Spiced Tea",
+  "ingredients" :
+  [
+    {
+      "key" : "SPICEDRUM",
+      "name" : "Spiced Rum",
+      "amount" : "1.5"
+    },
+    {
+      "key" : "ICEDTEA",
+      "name" : "Iced Tea",
+      "amount" : "5"
+    },
+    {
+       "key" : "LEMONADE",
+       "name" : "Lemonade",
+       "amount" : "1"
+    }
+  ],
+  "categories" : ["COCKTAILS"],["WEDDING"],
+  "description" : "",
+  "imagePath" : "assets/img/drinks/.jpg",
+  "type" : "Highball"
+}

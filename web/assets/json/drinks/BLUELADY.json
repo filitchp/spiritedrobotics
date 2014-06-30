@@ -1,0 +1,25 @@
+{
+  "key" : "BLUELADY",
+  "name" : "Blue Lady",
+  "ingredients" :
+  [
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "2"
+    },
+    {
+      "key" : "LEMONADE",
+      "name" : "Lemonade",
+      "amount" : "2"
+    },
+    {
+      "key" : "BLUECURACAO",
+      "name" : "Blue Curacao",
+      "amount" : "1"
+  ],
+  "categories" : ["COCKTAILS"],["WEDDING"],
+  "description" : "",
+  "imagePath" : "assets/img/drinks/",
+  "type" : "Highball"
+}

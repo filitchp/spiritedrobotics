@@ -1,0 +1,26 @@
+{
+  "key" : " ROYAL-TEA",
+  "name" : "Royal-Tea",
+  "ingredients" :
+  [
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "2"
+    },
+    {
+      "key" : "LEMONADE",
+      "name" : "Lemonade",
+      "amount" : "2"
+    },
+    {
+      "key" : "ICEDTEA",
+      "name" : "Iced Tea",
+      "amount" : "1",
+    }
+  ],
+  "categories" : ["COCKTAILS"],["WEDDING"],
+  "description" : "",
+  "imagePath" : "assets/img/drinks/",
+  "type" : "Highball"
+}

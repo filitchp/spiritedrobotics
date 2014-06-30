@@ -1,0 +1,26 @@
+{
+  "key" : "GIN-GINMULE",
+  "name" : "Gin-Gin Mule",
+  "ingredients" :
+  [
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "1.5"
+    },
+    {
+      "key" : "GINGERBEER",
+      "name" : "Ginger Beer",
+      "amount" : "2"
+    },
+    {
+      "key" : "LEMONADE",
+      "name" : "Lemonade",
+      "amount" : "0.75"
+    }
+  ],
+  "categories" : ["COCKTAILS"],["WEDDING"],
+  "description" : "Buck, and also mule, are slightly antiquated names for a family of historic mixed drinks that involve ginger ale or ginger beer, citrus juice, and any of a number of base liquors.",
+  "imagePath" : "assets/img/drinks/light-lime-snapwire.jpg",
+  "type" : "Highball"
+}

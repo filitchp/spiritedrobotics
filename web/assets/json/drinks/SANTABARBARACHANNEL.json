@@ -1,0 +1,36 @@
+{
+  "key" : "SANTABARBARACHANNEL",
+  "name" : "Santa Barbara Channel",
+  "ingredients" :
+  [
+    {
+      "key" : "SPICEDRUM",
+      "name" : "Spiced Rum",
+      "amount" : "1"
+    },
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "1"
+    },
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "1"
+    },
+    {
+      "key" : "BLUECURACAO",
+      "name" : "Blue Curacao",
+      "amount" : "1"
+    },
+    {
+       "key" : "LEMONADE",
+       "name" : "Lemonade",
+       "amount" : "4"
+    }
+  ],
+  "categories" : ["COCKTAILS"],["ORIGINAL"],["WEDDING"],
+  "description" : "",
+  "imagePath" : "assets/img/drinks/.jpg",
+  "type" : "Highball"
+}

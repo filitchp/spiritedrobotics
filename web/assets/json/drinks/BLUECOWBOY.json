@@ -1,0 +1,21 @@
+{
+  "key" : "BLUECOWBOY",
+  "name" : "Blue Cowboy",
+  "ingredients" :
+  [
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "2"
+    },
+    {
+      "key" : "BLUECURACAO",
+      "name" : "Blue Curacao",
+      "amount" : "1"
+    }
+  ],
+  "categories" : ["COCKTAILS"],["WEDDING"],
+  "description" : "",
+  "imagePath" : "assets/img/drinks/",
+  "type" : "Lowball"
+}

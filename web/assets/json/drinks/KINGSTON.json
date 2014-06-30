@@ -1,0 +1,31 @@
+{
+  "key" : "KINGSTON",
+  "name" : "Kingston",
+  "ingredients" :
+  [
+    {
+      "key" : "SPICEDRUM",
+      "name" : "Spiced Rum",
+      "amount" : "3"
+    },
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "2"
+    },
+    {
+      "key" : "GRENADINE",
+      "name" : "Grenadine",
+      "amount" : "0.5"
+    },
+    {
+      "key" : "LEMONADE",
+      "name" : "Lemonade",
+      "amount" : "2"
+    }
+  ],
+  "categories" : ["COCKTAILS"],["WEDDING"],
+  "description" : "",
+  "imagePath" : "assets/img/drinks/",
+  "type" : "Highball"
+}

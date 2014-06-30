@@ -1,0 +1,21 @@
+{
+  "key" : "ARNOLDPALMER",
+  "name" : "Arnold Palmer",
+  "ingredients" :
+  [
+    {
+      "key" : "ICEDTEA",
+      "name" : "Iced Tea",
+      "amount" : "1"
+    },
+    {
+      "key" : "LEMONADE",
+      "name" : "Lemonade",
+      "amount" : "1"
+    }
+  ],
+  "categories" : ["VIRGIN"],["WEDDING"],
+  "description" : "Iced tea AND lemonade? Sweet and refreshing.",
+  "imagePath" : "assets/img/drinks/.jpg",
+  "type" : "Highball"
+}

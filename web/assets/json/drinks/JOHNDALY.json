@@ -1,0 +1,26 @@
+{
+  "key" : "JOHNDALY",
+  "name" : "John Daly",
+  "ingredients" :
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "1"
+    },
+    {
+      "key" : "LEMONADE",
+      "name" : "Lemonade",
+      "amount" : "4"
+    },
+    {
+      "key" : "ICEDTEA",
+      "name" : "Iced Tea",
+      "amount" : "4"
+    }
+  ],
+  "categories" : ["COCKTAILS"],["WEDDING"],
+  "description" : "Arnold Palmer -- with a kick.",
+  "imagePath" : "assets/img/drinks/.jpg",
+  "type" : "Highball"
+}
