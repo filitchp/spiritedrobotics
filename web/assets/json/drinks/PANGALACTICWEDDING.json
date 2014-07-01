@@ -1,0 +1,51 @@
+{
+  "key" : "PANGALACTICWEDDINGBLASTER",
+  "name" : "Pan Galactic Gargle Blaster",
+  "ingredients" :
+  [
+    {
+      "key" : "SPICEDRUM",
+      "name" : "Spiced Rum",
+      "amount" : "1"
+    },
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "1"
+    },
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : "1"
+    },
+    {
+      "key" : "LEMONADE",
+      "name" : "Lemonade",
+      "amount" : "1"
+    },
+    {
+      "key" : "ICEDTEA",
+      "name" : "Iced Tea",
+      "amount" : "1"
+    },
+    {
+      "key" : "GRENADINE",
+      "name" : "Grenadine",
+      "amount" : "0.5"
+    },
+    {
+      "key" : "GINGERBEER",
+      "name" : "Gingerbeer",
+      "amount" : "1.5"
+    },
+    {
+      "key" : "BLUECURACAO",
+      "name" : "Blue Curacao",
+      "amount" : "0.5"
+    }
+  ],
+  "categories" : ["COCKTAILS", "MANLYDRINKS", "NERDCRED", "SPACE", "ORIGINAL"],
+  "description" : "Like having your brains smashed out by a slice of lemon wrapped around a large gold brick.",
+  "imagePath" : "assets/img/drinks/clear-martini-splash.jpg",
+  "type" : "Highball"
+}
