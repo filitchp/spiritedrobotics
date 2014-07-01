@@ -1,6 +1,6 @@
 {
-  "key" : "ICEPICK",
-  "name" : "Ice Pick",
+  "key" : "TIPSYQUEEN",
+  "name" : "Tipsy Queen",
   "ingredients" :
   [
     {
@@ -12,6 +12,11 @@
       "key" : "ICEDTEA",
       "name" : "Iced Tea",
       "amount" : "6"
+    },
+    {
+      "key" : "LEMONADE",
+      "name" : "Lemonade",
+      "amount" : "0.5"
     }
   ],
   "categories" : ["COCKTAILS","WEDDING"],

@@ -11,12 +11,12 @@
     {
       "key" : "GINGERBEER",
       "name" : "Ginger Beer",
-      "amount" : "1"
+      "amount" : "2"
     },
     {
       "key" : "LEMONADE",
       "name" : "Lemonade",
-      "amount" : "1"
+      "amount" : "0.75"
     },
     {
       "key" : "BLUECURACAO",

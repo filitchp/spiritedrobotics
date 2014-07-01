@@ -1,0 +1,26 @@
+{
+  "key" : "GAUCHO",
+  "name" : "Gaucho",
+  "ingredients" :
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : "1.5"
+    },
+    {
+      "key" : "LEMONADE",
+      "name" : "Lemonade",
+      "amount" : "3"
+    },
+    {
+      "key" : "BLUECURACAO",
+      "name" : "Blue Curacao",
+      "amount" : "0.5"
+    }
+  ],
+  "categories" : ["COCKTAILS","WEDDING","ORIGINAL"],
+  "description" : "GO GAUCHOS!",
+  "imagePath" : "assets/img/drinks/.jpg",
+  "type" : "Highball"
+}

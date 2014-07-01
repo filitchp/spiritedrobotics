@@ -1,6 +1,6 @@
 {
-  "key" : "FRUITTINGLES",
-  "name" : "Fruit Tingles",
+  "key" : "HORNEDFROG",
+  "name" : "Horned Frog",
   "ingredients" :
   [
     {
@@ -16,7 +16,7 @@
     {
       "key" : "LEMONADE",
       "name" : "Lemonade",
-      "amount" : "4"
+      "amount" : "3"
     },
     {
       "key" : "GRENADINE",
@@ -25,7 +25,7 @@
     }
   ],
   "categories" : ["COCKTAILS","WEDDING"],
-  "description" : "",
+  "description" : "GO FROGS!",
   "imagePath" : "assets/img/drinks/",
   "type" : "Highball"
 }
