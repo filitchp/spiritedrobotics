@@ -1,5 +1,5 @@
 {
-  "description":"TequilaTestingPauls",
+  "description":"AndrewAndAmysWedding",
   "towers" :
   [
     {
@@ -10,44 +10,44 @@
     },
     {
       "id" : 2,
-      "key" : "CRANBERRYJUICE",
-      "name" : "Cranberry Juice",
+      "key" : "LEMONADE",
+      "name" : "Lemonade",
       "flowRate" : 2178
     },
     {
       "id" : 3,
-      "key" : "TEQUILA",
-      "name" : "Tequila",
+      "key" : "ICEDTEA",
+      "name" : "Iced Tea",
       "flowRate" : 2178
     },
     {
       "id" : 4,
-      "key" : "DARKRUM",
-      "name" : "Dark Rum",
+      "key" : "BLUECURACAO",
+      "name" : "Blue Curacao",
       "flowRate" : 2178
     },
     {
       "id" : 5,
-      "key" : "ORANGELIQUEUR",
-      "name" : "Orange Liqueur",
+      "key" : "GRENADINE",
+      "name" : "Grenadine",
       "flowRate" : 2178
     },
     {
       "id" : 6,
+      "key" : "GIN",
+      "name" : "Gin",
+      "flowRate" : 2178
+    },
+    {
+      "id" : 7,
       "key" : "VODKA",
       "name" : "Vodka",
       "flowRate" : 2178
     },
     {
-      "id" : 7,
-      "key" : "LIMEJUICE",
-      "name" : "Lime Juice",
-      "flowRate" : 2178
-    },
-    {
       "id" : 8,
-      "key" : "ORANGEJUICE",
-      "name" : "Orange Juice",
+      "key" : "SPICEDRUM",
+      "name" : "Spiced Rum",
       "flowRate" : 2178
     }
   ]

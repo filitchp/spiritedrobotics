@@ -14,7 +14,7 @@
       "amount" : "5"
     }
   ],
-  "categories" : ["COCKTAILS"],["WEDDING"],
+  "categories" : ["COCKTAILS","WEDDING"],
   "description" : "",
   "imagePath" : "assets/img/drinks/.jpg",
   "type" : "Highball"

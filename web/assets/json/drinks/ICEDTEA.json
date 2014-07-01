@@ -9,7 +9,7 @@
       "amount" : "1"
     }
   ],
-  "categories" : ["VIRGIN"],["WEDDING"],
+  "categories" : ["VIRGIN","WEDDING"],
   "description" : "A refreshing summertime favorite.",
   "imagePath" : "assets/img/drinks/.jpg",
   "type" : "Highball"

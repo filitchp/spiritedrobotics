@@ -14,7 +14,7 @@
       "amount" : "1"
     },
     {
-      "key" : "RUM",
+      "key" : "SPICEDRUM",
       "name" : "Spiced Rum",
       "amount" : "1"
     },
@@ -32,9 +32,9 @@
       "key" : "GRENADINE",
       "name" : "Grenadine",
       "amount" : "0.5"
-    },
+    }
   ],
-  "categories" : ["COCKTAILS"],["WEDDING"],["ORIGINAL"],
+  "categories" : ["COCKTAILS","WEDDING","ORIGINAL"],
   "description" : "",
   "imagePath" : "assets/img/drinks/.jpg",
   "type" : "Highball"

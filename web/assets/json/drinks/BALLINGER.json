@@ -22,8 +22,9 @@
       "key" : "BLUECURACAO",
       "name" : "Blue Curacao",
       "amount" : "0.5"
+    }
   ],
-  "categories" : ["COCKTAILS"], ["WEDDING"],["ORIGINAL"],
+  "categories" : ["COCKTAILS","WEDDING","ORIGINAL"],
   "description" : "Amy & Andrew's favorite drink -- with a colorful citrus twist.",
   "imagePath" : "assets/img/drinks/light-lime-snapwire.jpg",
   "type" : "Highball"

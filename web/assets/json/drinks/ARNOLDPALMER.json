@@ -14,7 +14,7 @@
       "amount" : "1"
     }
   ],
-  "categories" : ["VIRGIN"],["WEDDING"],
+  "categories" : ["VIRGIN","WEDDING"],
   "description" : "Iced tea AND lemonade? Sweet and refreshing.",
   "imagePath" : "assets/img/drinks/.jpg",
   "type" : "Highball"

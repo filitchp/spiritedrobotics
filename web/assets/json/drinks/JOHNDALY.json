@@ -19,7 +19,7 @@
       "amount" : "4"
     }
   ],
-  "categories" : ["COCKTAILS"],["WEDDING"],
+  "categories" : ["COCKTAILS","WEDDING"],
   "description" : "Arnold Palmer -- with a kick.",
   "imagePath" : "assets/img/drinks/.jpg",
   "type" : "Highball"

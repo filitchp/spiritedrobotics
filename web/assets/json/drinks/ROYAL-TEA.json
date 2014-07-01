@@ -16,10 +16,10 @@
     {
       "key" : "ICEDTEA",
       "name" : "Iced Tea",
-      "amount" : "1",
+      "amount" : "1"
     }
   ],
-  "categories" : ["COCKTAILS"],["WEDDING"],
+  "categories" : ["COCKTAILS","WEDDING"],
   "description" : "",
   "imagePath" : "assets/img/drinks/",
   "type" : "Highball"

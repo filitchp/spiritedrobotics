@@ -22,8 +22,9 @@
       "key" : "GRENADINE",
       "name" : "Grenadine",
       "amount" : "0.5"
+    }
   ],
-  "categories" : ["COCKTAILS"],["WEDDING"],
+  "categories" : ["COCKTAILS","WEDDING"],
   "description" : "",
   "imagePath" : "assets/img/drinks/",
   "type" : "Highball"
