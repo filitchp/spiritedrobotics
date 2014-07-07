@@ -1,5 +1,5 @@
 {
-  "key" : " ROYAL-TEA",
+  "key" : "ROYALTEA",
   "name" : "Royal-Tea",
   "ingredients" :
   [
@@ -21,6 +21,6 @@
   ],
   "categories" : ["COCKTAILS","WEDDING"],
   "description" : "",
-  "imagePath" : "assets/img/drinks/",
+  "imagePath" : "assets/img/drinks/iced-tea-1-flickr.jpg",
   "type" : "Highball"
 }
