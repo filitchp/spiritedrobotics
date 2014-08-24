@@ -1,0 +1,12 @@
++----------------------------------------------------+
+|    ID|                KEY|               NAME|FLOW |
++----------------------------------------------------+
+|     1|         GINGERBEER|         Gingerbeer|2178*|
+|     2|           LEMONADE|           Lemonade|2178*|
+|     3|            ICEDTEA|           Iced Tea|2178*|
+|     4|        BLUECURACAO|       Blue Curacao|2178*|
+|     5|          GRENADINE|          Grenadine|2178*|
+|     6|                GIN|                Gin|2178*|
+|     7|              VODKA|              Vodka|2178*|
+|     8|          SPICEDRUM|         Spiced Rum|2178*|
++----------------------------------------------------+

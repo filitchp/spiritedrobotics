@@ -1,0 +1,107 @@
++-----------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                          KEY|                                                                                                             INGREDIENTS|MAKE|
++-----------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                        MANDM|                                                                                AMARETTOLIQUEUER 1oz COFFEELIQUEUER 1oz |    |
+|       DARKANDSTORMYWITHLEMON|                                                                        DARKRUM 1.5oz GINGERBEER 2.5oz LEMONJUICE 0.5oz |    |
+|    BRAZILIANDREAMWITHDARKRUM|                                                                      GUARANASODA 2.7oz DARKRUM 0.9oz ORANGEJUICE 0.9oz |    |
+|                 LOUNGELIZARD|                                                                       AMARETTOLIQUEUR 0.41oz DARKRUM 0.82oz COKE 3.3oz |    |
+|                    CHURCHILL|                                                    WHISKEY 1.8oz VERMOUTH 0.58oz LIMEJUICE 0.58oz ORANGELIQUEUR 0.58oz |    |
+|                 VODKASUNRISE|                                                                         VODKA 1.4oz ORANGEJUICE 2.7oz GRENADINE 0.45oz |    |
+|          MOSCOWMULEWITHLEMON|                                                                         VODKA 1.5oz GINGERBEER 2.2oz LEMONJUICE 0.75oz |    |
+|                BARBOTSUNRISE|                                                          VODKA 1oz GRAPEFRUITJUICE 1oz ORANGEJUICE 2oz LIMEJUICE 0.5oz |    |
+|         VODKAGIMLETWITHLEMON|                                                                                           VODKA 2.8oz LEMONJUICE 0.7oz |    |
+|                 BLACKRUSSIAN|                                                                                          VODKA 2.5oz COFFEELIQUEUR 1oz |  x |
+|                    VODKASHOT|                                                                                                              VODKA 2oz |    |
+|                 LIGHTRUMSHOT|                                                                                                           LIGHTRUM 2oz |    |
+|                   REDSNAPPER|                                                            WHISKEY 0.67oz AMARETTOLIQUEUR 0.67oz CRANBERRYJUICE 0.67oz |    |
+|        LEFTHANDEDSCREWDRIVER|                                                                                              GIN 1.5oz ORANGEJUICE 3oz |    |
+|                  FRENCHSCREW|                                                                                           COGNAC 1.5oz ORANGEJUICE 3oz |    |
+|             RUSSIANCOSMONAUT|                                                   VODKA 1.2oz ORANGEJUICE 0.41oz CRANBERRYJUICE 2.5oz LIMEJUICE 0.41oz |  x |
+|         WHISKEYSOURWITHLEMON|                                                                                         WHISKEY 2.1oz LEMONJUICE 1.4oz |    |
+|       RUMANDCOKEWITHLIGHTRUM|                                                                                                LIGHTRUM 1.5oz COKE 3oz |    |
+|                    GREYHOUND|                                                                                      VODKA 1.3oz GRAPEFRUITJUICE 3.2oz |    |
+|             FRENCHCONNECTION|                                                                                     AMARETTOLIQUEUR 1.8oz COGNAC 1.8oz |    |
+|                      GINBUCK|                                                                            GIN 1.5oz GINGERBEER 2.2oz LIMEJUICE 0.75oz |    |
+|                 RYEANDGINGER|                                                                                         WHISKEY 1.8oz GINGERBEER 2.7oz |  x |
+|            KAMIKAZEWITHLEMON|                                                                       VODKA 1.5oz ORANGELIQUEUR 1.5oz LEMONJUICE 1.5oz |    |
+|                  DARKRUMSHOT|                                                                                                            DARKRUM 2oz |    |
+|                  PANGALACTIC|                            RUM 0.75oz VODKA 0.75oz WHISKEY 0.75oz SWEETANDSOUR 0.38oz CRANBERRYJUICE 0.75oz COKE 1.1oz |    |
+|                   RUMANDCOKE|                                                                                                 DARKRUM 1.5oz COKE 3oz |    |
+|  CARIBBEANSUNRISEWITHDARKRUM|                                                                       DARKRUM 1.4oz ORANGEJUICE 2.7oz GRENADINE 0.45oz |    |
+|                BLUEMARGARITA|                                                                        TEQUILA 1.9oz LIMEJUICE 1.3oz BLUECURACAO 1.3oz |    |
+|        CUBANSCREWWITHDARKRUM|                                                                                          DARKRUM 1.5oz ORANGEJUICE 3oz |  x |
+|                     AMAZODKA|                                                                                         GUARANASODA 3.8oz VODKA 0.75oz |    |
+|      BRASSMONKEYWITHLIGHTRUM|                                                                           LIGHTRUM 1.1oz VODKA 1.1oz ORANGEJUICE 2.2oz |    |
+|                     DAIQUIRI|                                                                          LIGHTRUM 2.2oz LIMEJUICE 1oz GRENADINE 0.25oz |    |
+|            LONGISLANDICEDTEA|              VODKA 0.67oz LIGHTRUM 0.67oz GIN 0.67oz 	TEQUILA 0.67oz ORANGELIQUEUR 0.67oz COKE 0.17oz SWEETANDSOUR 1oz |    |
+|                  TOOTSIEROLL|                                                                   COFFEELIQUEUR 0.67oz ORANGEJUICE 0.67oz VODKA 0.67oz |    |
+|                  PANGALACTIC|    DARKRUM 0.53oz VODKA 0.53oz GIN 0.4oz LIMEJUICE 0.4oz CRANBERRYJUICE 1.2oz GRAPEFRUITJUICE 0.13oz ORANGEJUICE 1.3oz |    |
+|                  WHISKEYSHOT|                                                                                                            WHISKEY 2oz |    |
+|              GIMLETWITHLEMON|                                                                                             GIN 2.8oz LEMONJUICE 0.7oz |    |
+|          WHISKEYSOURWITHLIME|                                                                                          WHISKEY 2.1oz LIMEJUICE 1.4oz |  x |
+|                   MOSCOWMULE|                                                                          VODKA 1.5oz GINGERBEER 2.2oz LIMEJUICE 0.75oz |  x |
+|                    SUPERNOVA|                                                             VODKA 1oz BLUE CURACAO 1oz ORANGEJUICE 2oz LIMEJUICE 0.5oz |    |
+|                 AMARETTOSOUR|                                                                                 AMARETTOLIQUEUR 2.3oz LEMONJUICE 1.2oz |    |
+|               WHISKEYANDCOKE|                                                                                               WHISKEY 1.1oz COKE 3.4oz |    |
+|                  ZEROGRAVITY|                                                                     WHISKEY 1.8oz BLUE CURACAO 0.88oz LIMEJUICE 0.88oz |    |
+|                APEROLSUNRISE|                                                                   TEQUILA 1.4oz ORANGEJUICE 2.7oz ORANGELIQUEUR 0.45oz |    |
+|          CAPECODDERWITHLEMON|                                                                     VODKA 1.6oz CRANBERRYJUICE 2.7oz LEMONJUICE 0.23oz |    |
+|           KEYWESTSCREWDRIVER|                                                                         VODKA 1.5oz ORANGEJUICE 2.8oz LIMEJUICE 0.25oz |  x |
+|        CUBALIBREWITHLIGHTRUM|                                                                             LIGHTRUM 1.4oz COKE 2.8oz LIMEJUICE 0.35oz |    |
+|                    MANHATTAN|                                                                                             WHISKEY 2.5oz VERMOUTH 1oz |    |
+|                 COSMOPOLITAN|                                                 VODKA 1.8oz ORANGELIQUEUR 0.68oz LIMEJUICE 0.68oz CRANBERRYJUICE 1.4oz |    |
+|               BRAZILIANDREAM|                                                                     GUARANASODA 2.7oz LIGHTRUM 0.9oz ORANGEJUICE 0.9oz |    |
+|                  GINANDTONIC|                                                                                               GIN 1.5oz TONICWATER 3oz |    |
+|         AMARETTOSOURWITHLIME|                                                                                  AMARETTOLIQUEUR 2.3oz LIMEJUICE 1.2oz |    |
+|                 SILVERBULLET|                                                                                               GIN 1.3oz WHISKEY 0.67oz |    |
+|             LONGBEACHICEDTEA|                      VODKA 0.86oz LIGHTRUM 0.86oz GIN 0.86oz ORANGELIQUEUR 0.86oz TEQUILA 0.86oz CRANBERRYJUICE 0.21oz |    |
+|                   SOLARFLARE|                                                   VODKA 1.2oz ORANGEJUICE 2.2oz LIMEJUICE 0.62oz CRANBERRYJUICE 0.47oz |  x |
+|               VODKACRANBERRY|                                                                                         VODKA 1.5oz CRANBERRYJUICE 3oz |  x |
+|                    CUBALIBRE|                                                                              DARKRUM 1.4oz COKE 2.8oz LIMEJUICE 0.35oz |    |
+|                    BLACKHOLE|                                                   DARKRUM 1.4oz BLUECURACAO 0.78oz CRANBERRYJUICE 2oz LIMEJUICE 0.39oz |    |
+|        COSMOPOLITANWITHLEMON|                                                VODKA 1.8oz ORANGELIQUEUR 0.68oz LEMONJUICE 0.68oz CRANBERRYJUICE 1.4oz |    |
+|                  BRASSMONKEY|                                                                            DARKRUM 1.1oz VODKA 1.1oz ORANGEJUICE 2.2oz |  x |
+|        DARKANDSTORMYWITHLIME|                                                                         DARKRUM 1.5oz GINGERBEER 2.5oz LIMEJUICE 0.5oz |  x |
+|                    GODFATHER|                                                                                    AMARETTOLIQUEUR 1.8oz WHISKEY 1.8oz |    |
+|                    REDPLANET|                                                                      VODKA 1.4oz CRANBERRYJUICE 2.7oz LIMEJUICE 0.45oz |  x |
+|                     ALBERTVI|                                                                            DARKRUM 0.75oz VODKA 0.75oz ORANGEJUICE 3oz |  x |
+|              AMARETTOSUNRISE|                                                               AMARETTOLIQUEUR 1.4oz ORANGEJUICE 2.7oz GRENADINE 0.45oz |    |
+|                     KAMIKAZE|                                                                        VODKA 1.5oz ORANGELIQUEUR 1.5oz LIMEJUICE 1.5oz |    |
+|                DARKANDSTORMY|                                                                                           DARKRUM 1.5oz GINGERBEER 3oz |  x |
+|                  TEQUILASHOT|                                                                                                            TEQUILA 2oz |    |
+|                 VODKAMARTINI|                                                                                            VODKA 2.8oz VERMOUTH 0.75oz |    |
+|                     MOONWALK|                                                                           VODKA 0.95oz WHISKEY 0.95oz IRISHCREAM 1.6oz |    |
+|             GINBUCKWITHLEMON|                                                                           GIN 1.5oz GINGERBEER 2.2oz LEMONJUICE 0.75oz |    |
+|               TEQUILASUNRISE|                                                                       TEQUILA 1.4oz ORANGEJUICE 2.7oz GRENADINE 0.45oz |    |
+|           CHURCHILLWITHLEMON|                                                   WHISKEY 1.8oz VERMOUTH 0.58oz LEMONJUICE 0.58oz ORANGELIQUEUR 0.58oz |    |
+|           REDSNAPPERCOCKTAIL|                                                               WHISKEY 1.1oz AMARETTOLIQUEUR 1.1oz CRANBERRYJUICE 2.2oz |    |
+|                      MARTINI|                                                                                              GIN 2.8oz VERMOUTH 0.75oz |    |
+|                   BLUELAGOON|                                                                           VODKA 0.75oz BLUECURACAO 0.75oz LEMONADE 3oz |    |
+|                       GINADO|                                 GIN 1.1oz ORANGELIQUEUR 0.38oz CRANBERRYJUICE 0.38oz ORANGEJUICE 1.5oz LIMEJUICE 1.1oz |    |
+|                    BRAVEBULL|                                                                                     TEQUILA 2.6oz COFFEELIQUEUR 0.88oz |    |
+|                   BLACKMAGIC|                                                                     VODKA 2.3oz COFFEELIQUEUR 0.93oz LEMONJUICE 0.23oz |    |
+|                  WHISKEYSOUR|                                                                                       WHISKEY 1.8oz SWEETANDSOUR 1.8oz |    |
+|                      GINSHOT|                                                                                                                GIN 2oz |    |
+|             CARIBBEANSUNRISE|                                                                      LIGHTRUM 1.4oz ORANGEJUICE 2.7oz GRENADINE 0.45oz |    |
+|                BRITISHCOWBOY|                                                          GIN 1.5oz GRAPEFRUITJUICE 1oz ORANGEJUICE 1.5oz DARKRUM 0.5oz |    |
+|                     GUARAGIN|                                                                                           GUARANASODA 3.8oz GIN 0.75oz |    |
+|           BLACKMAGICWITHLIME|                                                                      VODKA 2.3oz COFFEELIQUEUR 0.93oz LIMEJUICE 0.23oz |  x |
+| LONGISLANDICEDTEAWITHDARKRUM|                  VODKA 0.67oz DARKRUM 0.67oz GIN 0.67oz TEQUILA 0.67oz ORANGELIQUEUR 0.67oz COKE 0.17oz SWEETNSOUR 1oz |    |
+|  LONGBEACHICEDTEAWITHDARKRUM|                       VODKA 0.86oz DARKRUM 0.86oz GIN 0.86oz ORANGELIQUEUR 0.86oz TEQUILA 0.86oz CRANBERRYJUICE 0.21oz |    |
+|                  VODKAGIMLET|                                                                                            VODKA 2.8oz LIMEJUICE 0.7oz |  x |
+|                   CAPECODDER|                                                                      VODKA 1.6oz CRANBERRYJUICE 2.7oz LIMEJUICE 0.23oz |  x |
+|                         COKE|                                                                                                             COKE 4.5oz |    |
+|                 KAMIKAZESHOT|                                                                      VODKA 1.5oz ORANGELIQUEUR 0.36oz LIMEJUICE 0.18oz |    |
+|     LOUNGELIZARDWITHLIGHTRUM|                                                                      AMARETTOLIQUEUR 0.41oz LIGHTRUM 0.82oz COKE 3.3oz |    |
+|                    MARGARITA|                                                                     TEQUILA 2.2oz LIMEJUICE 0.96oz ORANGELIQUEUR 1.3oz |    |
+|                  PALEBLUEDOT|                                                                                     IRISHCREAM 3.4oz BLUECURACAO 1.1oz |    |
+|                  SCREWDRIVER|                                                                                            VODKA 1.5oz ORANGEJUICE 3oz |  x |
+|              ELECTRICICEDTEA|                           TEQUILA 0.64oz VODKA 0.64oz LIGHTRUM 0.64oz GIN 0.64oz BLUECURACAO 0.64oz SWEETANDSOUR 1.3oz |    |
+|                       REDRUM|                                                                        DARKRUM 1.8oz ORANGEJUICE 1.8oz GRENADINE 0.9oz |    |
+|                   CUBANSCREW|                                                                                         LIGHTRUM 1.5oz ORANGEJUICE 3oz |    |
+|                       GIMLET|                                                                                              GIN 2.8oz LIMEJUICE 0.7oz |    |
+|              AMARETTOSOURMIX|                                                                                 AMARETTOLIQUEUR 2.5oz SWEETANDSOUR 1oz |    |
+|                    GODMOTHER|                                                                                      AMARETTOLIQUEUR 1.2oz VODKA 2.3oz |    |
+|                 MEXICANSCREW|                                                                                          TEQUILA 1.5oz ORANGEJUICE 3oz |    |
+|                 SCALPSUNRISE|                                                                     GUARANASODA 2.2oz TEQUILA 0.89oz ORANGEJUICE 1.4oz |    |
++-----------------------------------------------------------------------------------------------------------------------------------------------------------+
