@@ -1209,26 +1209,34 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
   mEventQueue.clear();
 
   // Figure out the routine
-
-  if (theOrderToMake.getDrinkKey() == "PANGALACTIC2")
+  if (theOrderToMake.getDrinkKey() == "PANGALACTIC" ||
+      theOrderToMake.getDrinkKey() == "PANGALACTIC1" ||
+      theOrderToMake.getDrinkKey() == "PANGALACTIC2")
   {
 
-    // Initial lights routine
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 2500, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 2000, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    1500, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 1000, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 450, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 450, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 450, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 400, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    300, 0.0f));
+    unsigned delay = 1510;
+    //unsigned total = 0;
 
-    playMusic("motion-study.mp3");
+    for (int v = 0; v < 16; ++v)
+    {
+
+      //total += delay;
+      mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", delay, 0.0f));
+
+      delay -= 80;
+    }
+
+    //cout << total << endl;
+
+    for (int v = 0; v < 49; ++v)
+    {
+      mEventQueue.push_back(Event(EventTypeLights, "FIRE",    300, 0.0f));
+    }
+
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    500, 0.0f));
+
+    playMusic("five-hours.mp3");
+
   }
   else if (theOrderToMake.getDrinkKey() == "LEFTHANDEDSCREWDRIVER" ||
            theOrderToMake.getDrinkKey() == "GINADO" ||
@@ -1289,61 +1297,13 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
   else if (theOrderToMake.getDrinkKey() == "VODKAGIMLET" ||
            theOrderToMake.getDrinkKey() == "KAMIKAZE")
   {
-
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
-
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
-
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
-
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
-
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
-
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
-
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
-
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
-
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
-
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
-
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
-    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
+    for (int v = 0; v < 10; ++v)
+    {
+      mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+      mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+      mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+      mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
+    }
 
     mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
     mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
@@ -1351,6 +1311,26 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
     mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 1300, 0.0f));
 
     playMusic("shots.mp3");
+  }
+  else
+  {
+
+    // Initial lights routine
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 2500, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 2000, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    1500, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 1000, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 450, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 450, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 450, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 400, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    300, 0.0f));
+
+    playMusic("motion-study.mp3");
   }
 
   const vector<Ingredient> ingredients = theOrderToMake.getIngredients();
