@@ -111,6 +111,8 @@ class DrinkManager
 
     void fireTower(std::string ingredientKey, float amount);
 
+    void playMusic(std::string filename);
+
 };
 
 #endif // DRINK_MANAGER_HPP

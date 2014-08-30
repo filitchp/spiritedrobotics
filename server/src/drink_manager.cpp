@@ -11,6 +11,7 @@
 #include <errno.h>    // Error number definitions
 #include <stdio.h>    // Standard input/output definitions
 #include <string.h>   // String function definitions
+#include <sys/wait.h>
 
 #include <boost/bind.hpp>
 #include <boost/property_tree/ptree.hpp>
@@ -20,7 +21,6 @@
 #include <boost/exception/all.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
-
 #include <boost/lexical_cast.hpp>
 
 #include "utils/table_printer.hpp"
@@ -28,6 +28,8 @@
 using namespace boost::filesystem;
 using boost::property_tree::ptree;
 using namespace std;
+
+
 
 #define COM_LIGHT_MODE_PASSIVE 0x05
 #define COM_LIGHT_MODE_FIRE 0x06
@@ -1156,6 +1158,9 @@ void DrinkManager::timerOperationWindDown()
   mBusy = false;
   mCurrentEventIndex = 0;
   mEventQueue.clear();
+
+  cout << "STOPPED!" << endl;
+
 }
 
 //------------------------------------------------------------------------------
@@ -1203,10 +1208,22 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
   mCurrentEventIndex = 0;
   mEventQueue.clear();
 
+  // Figure out the routine
+
   // Initial lights routine
+  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 3000, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 2000, 0.0f));
   mEventQueue.push_back(Event(EventTypeLights, "FIRE",    1000, 0.0f));
-  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 1000, 0.0f));
-  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    1000, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 500, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    500, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 500, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    500, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 500, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    500, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    500, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 500, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    800, 0.0f));
+  playMusic("motion-study.mp3");
 
   const vector<Ingredient> ingredients = theOrderToMake.getIngredients();
 
@@ -1260,16 +1277,51 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
 
   mPendingOrders.erase(it);
 
-  // Make the lights look pretty to build suspense
-  //comSetLightsMode((unsigned char)COM_LIGHT_MODE_FIRE);
-
-  // Start the timer
+  // Start the timer (right now!)
   mTimer.expires_from_now(boost::posix_time::milliseconds(0));
 
+  // This is get us into the event processing loop
   mTimer.async_wait(boost::bind(&DrinkManager::timerEventOperation, this));
 
   return 1;
 
+}
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::playMusic(string filename)
+{
+  int fork_rv = fork();
+
+  if (fork_rv == 0)
+  {
+    fork_rv = fork();
+    if (fork_rv == 0)
+    {
+      // we're in the child
+      execl("/usr/bin/play", "play", filename.c_str(), "-q", 0);
+
+      // if execl fails
+      _exit(1);
+    }
+    else if (fork_rv == -1)
+    {
+      // fork fails
+      _exit(2);
+    }
+
+    _exit(0);
+  }
+  else if (fork_rv != -1)
+  {
+    // parent wait for the child (which will exit quickly)
+    int status;
+    waitpid(fork_rv, &status, 0);
+  }
+  else if (fork_rv == -1)
+  {
+    // error could not fork
+    cout << "Could not fork" << endl;
+  }
 }
 
 //------------------------------------------------------------------------------
