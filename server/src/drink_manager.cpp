@@ -1249,6 +1249,16 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
 
     playMusic("gin-n-juice.mp3");
   }
+  else if (theOrderToMake.getDrinkKey() == "BRASSMONKEY")
+  {
+
+    for (int v = 0; v < 25; ++v)
+    {
+      mEventQueue.push_back(Event(EventTypeLights, "FIRE", 500, 0.0f));
+    }
+
+    playMusic("brass-monkey.mp3");
+  }
 
   const vector<Ingredient> ingredients = theOrderToMake.getIngredients();
 
