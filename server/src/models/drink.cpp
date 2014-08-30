@@ -101,7 +101,7 @@ Drink::Drink(const ptree& pt)
   }
   catch (boost::exception& e)
   {
-    cerr << "ERROR: Could not read the drink image path" << endl;
+    cerr << "ERROR: Could not read the drink type" << endl;
     return;
   }
 
