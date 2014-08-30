@@ -1231,7 +1231,9 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
     playMusic("motion-study.mp3");
   }
   else if (theOrderToMake.getDrinkKey() == "LEFTHANDEDSCREWDRIVER" ||
-           theOrderToMake.getDrinkKey() == "GINADO")
+           theOrderToMake.getDrinkKey() == "GINADO" ||
+           theOrderToMake.getDrinkKey() == "GIMLET" ||
+           theOrderToMake.getDrinkKey() == "GINBUCK")
   {
     mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 900, 0.0f));
     mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 900, 0.0f));
@@ -1258,6 +1260,97 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
     }
 
     playMusic("brass-monkey.mp3");
+  }
+  else if (theOrderToMake.getDrinkKey() == "SOLARFLAURE" ||
+           theOrderToMake.getDrinkKey() == "COSMOPOLITAN" ||
+           theOrderToMake.getDrinkKey() == "REDPLANET" ||
+           theOrderToMake.getDrinkKey() == "VODKACRANBERRY")
+  {
+    for (int v = 0; v < 16; ++v)
+    {
+      mEventQueue.push_back(Event(EventTypeLights, "FIRE", 680, 0.0f));
+    }
+
+    playMusic("back-in-black.mp3");
+  }
+  else if (theOrderToMake.getDrinkKey() == "DARKANDSTORMY" ||
+           theOrderToMake.getDrinkKey() == "CAPECODDER" ||
+           theOrderToMake.getDrinkKey() == "KEYWESTSCREWDRIVER" ||
+           theOrderToMake.getDrinkKey() == "CUBANSCREWWITHDARKRUM" ||
+           theOrderToMake.getDrinkKey() == "DARKANDSTORMYWITHLIME")
+  {
+    for (int v = 0; v < 14; ++v)
+    {
+      mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 1000, 0.0f));
+    }
+
+    playMusic("on-a-boat.mp3");
+  }
+  else if (theOrderToMake.getDrinkKey() == "VODKAGIMLET" ||
+           theOrderToMake.getDrinkKey() == "KAMIKAZE")
+  {
+
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
+
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
+
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
+
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
+
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
+
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
+
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
+
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
+
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
+
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
+
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
+
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 1300, 0.0f));
+
+    playMusic("shots.mp3");
   }
 
   const vector<Ingredient> ingredients = theOrderToMake.getIngredients();
