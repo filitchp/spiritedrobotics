@@ -1123,8 +1123,8 @@ void DrinkManager::fireTower(string ingredientKey, float amount)
   unsigned j = 0;
   BOOST_FOREACH(unsigned char byteToSend, message)
   {
-    printf("  %d : %02X ", j, byteToSend);
-    cout << endl;
+    //printf("  %d : %02X ", j, byteToSend);
+    //cout << endl;
 
     msg[j] = byteToSend;
 
@@ -1211,18 +1211,20 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
   // Figure out the routine
 
   // Initial lights routine
-  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 3000, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 2500, 0.0f));
   mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 2000, 0.0f));
-  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    1000, 0.0f));
-  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 500, 0.0f));
-  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    500, 0.0f));
-  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 500, 0.0f));
-  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    500, 0.0f));
-  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 500, 0.0f));
-  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    500, 0.0f));
-  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    500, 0.0f));
-  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 500, 0.0f));
-  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    800, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    1500, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 1000, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 450, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 450, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 450, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 400, 0.0f));
+  mEventQueue.push_back(Event(EventTypeLights, "FIRE",    300, 0.0f));
+
   playMusic("motion-study.mp3");
 
   const vector<Ingredient> ingredients = theOrderToMake.getIngredients();

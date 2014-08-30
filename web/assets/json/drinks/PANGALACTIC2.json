@@ -21,7 +21,12 @@
     {
       "key" : "LIMEJUICE",
       "name" : "Lime Juice",
-      "amount" : "0.75"
+      "amount" : "0.50"
+    },
+    {
+      "key" : "ORANGELIQUEUR",
+      "name" : "Orange Liqueur",
+      "amount" : "0.50"
     },
     {
       "key" : "CRANBERRYJUICE",
