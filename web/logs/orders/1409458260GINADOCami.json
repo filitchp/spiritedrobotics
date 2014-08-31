@@ -1,0 +1,33 @@
+{
+  "key" : "GINADO",
+  "customer" : "Cami",
+  "date" : 1409458260,
+  "ingredients" : 
+  [
+    {
+      "key" : "GIN",
+      "name" : "Gin",
+      "amount" : 1.44
+    },
+    {
+      "key" : "ORANGELIQUEUR",
+      "name" : "Orange Liqueur",
+      "amount" : 0.479
+    },
+    {
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "amount" : 0.479
+    },
+    {
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
+      "amount" : 1.92
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : 1.44
+    }
+  ]
+}
