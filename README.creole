@@ -1,6 +1,6 @@
 = Spirited Robotics
 == Introduction
-This project contains the source and designs for Spirited Robotics robotic bartender named the [[http://youtu.be/Smgeb5rSSXo|Santa Barbot]].  
+This project contains the source and designs for Spirited Robotics robotic bartender named the [[https://www.youtube.com/watch?v=tBH-U5kRv-U|Santa Barbot]].  
 
 == System Diagram
 {{https://raw.github.com/wiki/filitchp/spiritedrobotics/img/systemDiagram.png | Santa BarBot System Diagram}}
