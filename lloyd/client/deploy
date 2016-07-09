@@ -1,0 +1,4 @@
+#!/bin/sh
+elm-make lloyd.elm --output=lloyd.html
+aws s3 cp lloyd.html s3://lloyd.spiritedrobotics.com --acl "public-read"
+aws s3 sync ./static s3://lloyd.spiritedrobotics.com/static --acl "public-read"
