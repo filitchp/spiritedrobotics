@@ -1,51 +1,48 @@
 {
   "key" : "PANGALACTIC2",
-  "name" : "Pan Galactic Gargle Blaster",
-  "ingredients" :
+  "customer" : "Pauldizzle",
+  "date" : 1409458443,
+  "ingredients" : 
   [
     {
       "key" : "DARKRUM",
       "name" : "Dark Rum",
-      "amount" : "1"
+      "amount" : 0.821
     },
     {
       "key" : "VODKA",
       "name" : "Vodka",
-      "amount" : "1"
+      "amount" : 0.821
     },
     {
       "key" : "GIN",
       "name" : "Gin",
-      "amount" : "1"
+      "amount" : 0.821
     },
     {
       "key" : "LIMEJUICE",
       "name" : "Lime Juice",
-      "amount" : "0.50"
+      "amount" : 0.411
     },
     {
       "key" : "ORANGELIQUEUR",
       "name" : "Orange Liqueur",
-      "amount" : "0.50"
+      "amount" : 0.411
     },
     {
       "key" : "CRANBERRYJUICE",
       "name" : "Cranberry Juice",
-      "amount" : "1"
+      "amount" : 0.821
     },
     {
       "key" : "ORANGEJUICE",
       "name" : "Orange Juice",
-      "amount" : "1"
+      "amount" : 0.821
     },
     {
       "key" : "GINGERBEER",
       "name" : "Gingerbeer",
-      "amount" : "1"
+      "amount" : 0.821
     }
-  ],
-  "categories" : ["COCKTAILS", "MANLYDRINKS", "NERDCRED", "SPACE", "ORIGINAL"],
-  "description" : "Like having your brains smashed out by a slice of lemon wrapped around a large gold brick.",
-  "imagePath" : "assets/img/drinks/clear-martini-splash.jpg",
-  "type" : "Highball"
+  ]
 }

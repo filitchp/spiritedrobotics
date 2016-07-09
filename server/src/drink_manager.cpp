@@ -11,6 +11,7 @@
 #include <errno.h>    // Error number definitions
 #include <stdio.h>    // Standard input/output definitions
 #include <string.h>   // String function definitions
+#include <sys/wait.h>
 
 #include <boost/bind.hpp>
 #include <boost/property_tree/ptree.hpp>
@@ -20,7 +21,6 @@
 #include <boost/exception/all.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/foreach.hpp>
-
 #include <boost/lexical_cast.hpp>
 
 #include "utils/table_printer.hpp"
@@ -28,6 +28,8 @@
 using namespace boost::filesystem;
 using boost::property_tree::ptree;
 using namespace std;
+
+
 
 #define COM_LIGHT_MODE_PASSIVE 0x05
 #define COM_LIGHT_MODE_FIRE 0x06
@@ -37,9 +39,9 @@ using namespace std;
 DrinkManager::DrinkManager(const string& rootPath, boost::asio::io_service& io, bool demoMode) :
   mRootPath(rootPath),
   mBusy(true),
-  mCurrentIngredientIndex(0),
   mTimer(io),
   mIngredientOffsetTimeMs(2000),
+  mWindDownOffsetTimeMs(0),
   mDemoMode(demoMode)
 {
 
@@ -1038,27 +1040,75 @@ int DrinkManager::comReadData(long msTimeout)
 // WARNING: only use this with mTimer and make sure the busy flag is set
 // before executing this method
 //------------------------------------------------------------------------------
-void DrinkManager::timerOperationIngredient()
+void DrinkManager::timerEventOperation()
 {
 
   // Just in case: make sure the current ingredient is set
-  if (mCurrentIngredientIndex >= mCurrentIngredients.size())
+  if (mCurrentEventIndex >= mEventQueue.size())
   {
     // Internal error... wind down the system immediately
     timerOperationWindDown();
     return;
   }
 
-  Ingredient i = mCurrentIngredients[mCurrentIngredientIndex];
+  Event currentEvent = mEventQueue[mCurrentEventIndex];
 
-  Tower t = mpBarbot->getTowerByIngredientKey(i.getKey());
+  switch (currentEvent.getType())
+  {
+    case EventTypeLights:
+      cout << "Lights Event " <<  currentEvent.getKey() << endl;
+
+      if (currentEvent.getKey() == "PASSIVE")
+      {
+        comSetLightsMode((unsigned char)COM_LIGHT_MODE_PASSIVE);
+      }
+      else if (currentEvent.getKey() == "FIRE")
+      {
+        comSetLightsMode((unsigned char)COM_LIGHT_MODE_FIRE);
+      }
+
+      break;
+    case EventTypeIngredient:
+        cout << "Ingredient Event " <<  currentEvent.getKey() << "  " << currentEvent.getAmount() << endl;
+
+        fireTower(currentEvent.getKey(), currentEvent.getAmount());
+      break;
+  }
+
+  mCurrentEventIndex++;
+
+  // Do we have more events?
+  if (mCurrentEventIndex == mEventQueue.size())
+  {
+    mTimer.expires_at(mTimer.expires_at() + boost::posix_time::milliseconds(mWindDownOffsetTimeMs));
+    cout << "Waiting for " << mWindDownOffsetTimeMs << " ms" << endl;
+
+    // No more events, wind down after the last delay
+    mTimer.async_wait(boost::bind(&DrinkManager::timerOperationWindDown, this));
+  }
+  else
+  {
+
+    mTimer.expires_at(mTimer.expires_at() + boost::posix_time::milliseconds(currentEvent.getDuration()));
+    cout << "Waiting for " << currentEvent.getDuration() << " ms" << endl;
+
+    // Keep going after timer expires, there are more events to process
+    mTimer.async_wait(boost::bind(&DrinkManager::timerEventOperation, this));
+  }
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::fireTower(string ingredientKey, float amount)
+{
+
+  Tower t = mpBarbot->getTowerByIngredientKey(ingredientKey);
 
   unsigned towerID = t.getTowerId();
   float flowRate = t.getFlowRate();
-  float amount = i.getAmount();
 
-  cout << "  Ingredient key = " << i.getKey() << endl;
-  cout << "  Ingredient amt = " << setprecision(3) << i.getAmount() << endl;
+  cout << "  Ingredient key = " << ingredientKey << endl;
+  cout << "  Ingredient amt = " << setprecision(3) << amount << endl;
 
   static unsigned char POUR_DRINK_COMMAND = 0x40;
 
@@ -1073,8 +1123,8 @@ void DrinkManager::timerOperationIngredient()
   unsigned j = 0;
   BOOST_FOREACH(unsigned char byteToSend, message)
   {
-    printf("  %d : %02X ", j, byteToSend);
-    cout << endl;
+    //printf("  %d : %02X ", j, byteToSend);
+    //cout << endl;
 
     msg[j] = byteToSend;
 
@@ -1096,24 +1146,6 @@ void DrinkManager::timerOperationIngredient()
       cout << "ERROR: Could not write any bytes" << endl;
     }
   }
-
-  mCurrentIngredientIndex++;
-
-  // Do we have more ingredients?
-  if (mCurrentIngredientIndex == mCurrentIngredients.size())
-  {
-    // No more ingredients, wind down after the last delay
-    mTimer.expires_at(mTimer.expires_at() + boost::posix_time::milliseconds(mLastIngredientWaitMs));
-    cout << "Waiting for " << mLastIngredientWaitMs << " ms" << endl;
-    mTimer.async_wait(boost::bind(&DrinkManager::timerOperationWindDown, this));
-  }
-  else
-  {
-    // Fire up the next ingredient after the delay
-    mTimer.expires_at(mTimer.expires_at() + boost::posix_time::milliseconds(mIngredientOffsetTimeMs));
-    cout << "Waiting for " << mIngredientOffsetTimeMs << " ms" << endl;
-    mTimer.async_wait(boost::bind(&DrinkManager::timerOperationIngredient, this));
-  }
 }
 
 //------------------------------------------------------------------------------
@@ -1124,8 +1156,11 @@ void DrinkManager::timerOperationWindDown()
 
   // We're done, clean-up
   mBusy = false;
-  mCurrentIngredientIndex = 0;
-  mCurrentIngredients.clear();
+  mCurrentEventIndex = 0;
+  mEventQueue.clear();
+
+  cout << "STOPPED!" << endl;
+
 }
 
 //------------------------------------------------------------------------------
@@ -1164,20 +1199,147 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
 
   cout << "Started making " << theOrderToMake.getDrinkKey() << endl;
 
-  mCurrentIngredients = theOrderToMake.getIngredients();
-  mCurrentIngredientIndex = 0;
-
   int lastEndTimeIndex = 0;
   int index = 0;
   float lastEndTimeMs = 0;
 
-  static const float estimatedTimeAmoutRatio = 4000.0f;
+  static const float estimatedTimeAmountRatio = 4000.0f;
 
-  // Figure out which ingredient will stop pouring last
-  BOOST_FOREACH(const Ingredient& i, mCurrentIngredients)
+  mCurrentEventIndex = 0;
+  mEventQueue.clear();
+
+  // Figure out the routine
+  if (theOrderToMake.getDrinkKey() == "PANGALACTIC" ||
+      theOrderToMake.getDrinkKey() == "PANGALACTIC1" ||
+      theOrderToMake.getDrinkKey() == "PANGALACTIC2")
   {
 
-    float endTimeMs = (float)(index*mIngredientOffsetTimeMs) + i.getAmount()*estimatedTimeAmoutRatio;
+    unsigned delay = 1510;
+    //unsigned total = 0;
+
+    for (int v = 0; v < 16; ++v)
+    {
+
+      //total += delay;
+      mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", delay, 0.0f));
+
+      delay -= 80;
+    }
+
+    //cout << total << endl;
+
+    for (int v = 0; v < 49; ++v)
+    {
+      mEventQueue.push_back(Event(EventTypeLights, "FIRE",    300, 0.0f));
+    }
+
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    500, 0.0f));
+
+    playMusic("five-hours.mp3");
+
+  }
+  else if (theOrderToMake.getDrinkKey() == "LEFTHANDEDSCREWDRIVER" ||
+           theOrderToMake.getDrinkKey() == "GINADO" ||
+           theOrderToMake.getDrinkKey() == "GIMLET" ||
+           theOrderToMake.getDrinkKey() == "GINBUCK")
+  {
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 900, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 900, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 900, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    900, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 900, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 900, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 900, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    900, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 900, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 900, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 900, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    2100, 0.0f));
+
+
+    playMusic("gin-n-juice.mp3");
+  }
+  else if (theOrderToMake.getDrinkKey() == "BRASSMONKEY")
+  {
+
+    for (int v = 0; v < 25; ++v)
+    {
+      mEventQueue.push_back(Event(EventTypeLights, "FIRE", 500, 0.0f));
+    }
+
+    playMusic("brass-monkey.mp3");
+  }
+  else if (theOrderToMake.getDrinkKey() == "SOLARFLAURE" ||
+           theOrderToMake.getDrinkKey() == "COSMOPOLITAN" ||
+           theOrderToMake.getDrinkKey() == "REDPLANET" ||
+           theOrderToMake.getDrinkKey() == "VODKACRANBERRY")
+  {
+    for (int v = 0; v < 16; ++v)
+    {
+      mEventQueue.push_back(Event(EventTypeLights, "FIRE", 680, 0.0f));
+    }
+
+    playMusic("back-in-black.mp3");
+  }
+  else if (theOrderToMake.getDrinkKey() == "DARKANDSTORMY" ||
+           theOrderToMake.getDrinkKey() == "CAPECODDER" ||
+           theOrderToMake.getDrinkKey() == "KEYWESTSCREWDRIVER" ||
+           theOrderToMake.getDrinkKey() == "CUBANSCREWWITHDARKRUM" ||
+           theOrderToMake.getDrinkKey() == "DARKANDSTORMYWITHLIME")
+  {
+    for (int v = 0; v < 14; ++v)
+    {
+      mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 1000, 0.0f));
+    }
+
+    playMusic("on-a-boat.mp3");
+  }
+  else if (theOrderToMake.getDrinkKey() == "VODKAGIMLET" ||
+           theOrderToMake.getDrinkKey() == "KAMIKAZE")
+  {
+    for (int v = 0; v < 10; ++v)
+    {
+      mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+      mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+      mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+      mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 600, 0.0f));
+    }
+
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    200, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 1300, 0.0f));
+
+    playMusic("shots.mp3");
+  }
+  else
+  {
+
+    // Initial lights routine
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 2500, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 2000, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    1500, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 1000, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 450, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 450, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 450, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    450, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", 400, 0.0f));
+    mEventQueue.push_back(Event(EventTypeLights, "FIRE",    300, 0.0f));
+
+    playMusic("motion-study.mp3");
+  }
+
+
+  const vector<Ingredient> ingredients = theOrderToMake.getIngredients();
+
+  BOOST_FOREACH(const Ingredient& i, ingredients)
+  {
+    // Figure out which ingredient will stop pouring last
+    float endTimeMs = (float)(index*mIngredientOffsetTimeMs) + i.getAmount()*estimatedTimeAmountRatio;
 
     if (endTimeMs >= lastEndTimeMs)
     {
@@ -1185,15 +1347,17 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
       lastEndTimeIndex = index;
     }
 
-    // DEBUG
-    //cout << i.getName() << "(" << i.getAmount() << " oz) " << endTimeMs << " ms"  << endl;
+    // Add the ingredient events (each event here corresponds to a tower firing)
+    mEventQueue.push_back(Event(EventTypeIngredient, i.getKey(), mIngredientOffsetTimeMs, i.getAmount()));
 
     ++index;
   }
 
-  mLastIngredientWaitMs = lastEndTimeMs - (mCurrentIngredients.size()-1)*mIngredientOffsetTimeMs;
+  mWindDownOffsetTimeMs = lastEndTimeMs - (ingredients.size()-1)*mIngredientOffsetTimeMs;
 
-  //cout << "mLastIngredientWaitMs = " << mLastIngredientWaitMs << " ms" << endl;
+  //mEventQueue.push_back(Event(EventTypeLights, "PASSIVE", lastIngredientWaitMs, 0.0f));
+
+  cout << "lastIngredientWaitMs = " << mWindDownOffsetTimeMs << " ms" << endl;
 
   //---------------
   // Log the drink
@@ -1222,16 +1386,51 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
 
   mPendingOrders.erase(it);
 
-  // Make the lights look pretty to build suspense
-  comSetLightsMode((unsigned char)COM_LIGHT_MODE_FIRE);
+  // Start the timer (right now!)
+  mTimer.expires_from_now(boost::posix_time::milliseconds(0));
 
-  // Start the timer
-  mTimer.expires_from_now(boost::posix_time::milliseconds(2800));
-
-  mTimer.async_wait(boost::bind(&DrinkManager::timerOperationIngredient, this));
+  // This is get us into the event processing loop
+  mTimer.async_wait(boost::bind(&DrinkManager::timerEventOperation, this));
 
   return 1;
 
+}
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void DrinkManager::playMusic(string filename)
+{
+  int fork_rv = fork();
+
+  if (fork_rv == 0)
+  {
+    fork_rv = fork();
+    if (fork_rv == 0)
+    {
+      // we're in the child
+      execl("/usr/bin/play", "play", filename.c_str(), "-q", 0);
+
+      // if execl fails
+      _exit(1);
+    }
+    else if (fork_rv == -1)
+    {
+      // fork fails
+      _exit(2);
+    }
+
+    _exit(0);
+  }
+  else if (fork_rv != -1)
+  {
+    // parent wait for the child (which will exit quickly)
+    int status;
+    waitpid(fork_rv, &status, 0);
+  }
+  else if (fork_rv == -1)
+  {
+    // error could not fork
+    cout << "Could not fork" << endl;
+  }
 }
 
 //------------------------------------------------------------------------------

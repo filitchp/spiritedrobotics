@@ -1,0 +1,28 @@
+{
+  "key" : "RUSSIANCOSMONAUT",
+  "customer" : "N",
+  "date" : 1409460235,
+  "ingredients" : 
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : 1.57
+    },
+    {
+      "key" : "ORANGEJUICE",
+      "name" : "Orange Juice",
+      "amount" : 0.523
+    },
+    {
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "amount" : 3.14
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : 0.523
+    }
+  ]
+}

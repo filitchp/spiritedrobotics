@@ -1,0 +1,23 @@
+{
+  "key" : "CAPECODDER",
+  "customer" : "Elke",
+  "date" : 1409458035,
+  "ingredients" : 
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : 2.01
+    },
+    {
+      "key" : "CRANBERRYJUICE",
+      "name" : "Cranberry Juice",
+      "amount" : 3.45
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : 0.287
+    }
+  ]
+}

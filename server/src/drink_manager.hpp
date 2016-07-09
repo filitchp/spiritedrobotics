@@ -10,7 +10,7 @@
 #include "models/drink.hpp"
 #include "models/order.hpp"
 #include "models/image.hpp"
-
+#include "models/event.hpp"
 
 #include <iostream>
 #include <boost/asio.hpp>
@@ -54,7 +54,7 @@ class DrinkManager
     bool sendPassiveLightsMessage();
 
     // Callback that starts pouring an ingredient after a timer has elapsed
-    void timerOperationIngredient();
+    void timerEventOperation();
 
     // Callback that gets run after all ingredients have been poured
     void timerOperationWindDown();
@@ -70,13 +70,12 @@ class DrinkManager
     // Determines if the system is currently busy (making a drink or performing a light show)
     bool mBusy;
 
-    // The current set of ingredients being served (when the system is busy making a drink these ingredients are used)
-    std::vector<Ingredient> mCurrentIngredients;
-    int mCurrentIngredientIndex;
+    std::vector<Event> mEventQueue;
+    int mCurrentEventIndex;
 
     // The number of milliseconds to wait to start the next pump
     const int mIngredientOffsetTimeMs;
-    int mLastIngredientWaitMs;
+    int mWindDownOffsetTimeMs;
 
     boost::asio::deadline_timer mTimer;
 
@@ -109,6 +108,10 @@ class DrinkManager
           float flowRate);
 
     bool comSetLightsMode(unsigned char mode);
+
+    void fireTower(std::string ingredientKey, float amount);
+
+    void playMusic(std::string filename);
 
 };
 

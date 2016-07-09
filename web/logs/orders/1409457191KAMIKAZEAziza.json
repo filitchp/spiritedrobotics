@@ -1,0 +1,23 @@
+{
+  "key" : "KAMIKAZE",
+  "customer" : "Aziza",
+  "date" : 1409457191,
+  "ingredients" : 
+  [
+    {
+      "key" : "VODKA",
+      "name" : "Vodka",
+      "amount" : 1.92
+    },
+    {
+      "key" : "ORANGELIQUEUR",
+      "name" : "Orange Liqueur",
+      "amount" : 1.92
+    },
+    {
+      "key" : "LIMEJUICE",
+      "name" : "Lime Juice",
+      "amount" : 1.92
+    }
+  ]
+}

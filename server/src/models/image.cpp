@@ -11,9 +11,6 @@
 using boost::property_tree::ptree;
 using namespace std;
 
-// Tower exception
-struct tower_error: virtual boost::exception { };
-
 //------------------------------------------------------------------------------
 // Constructor
 //------------------------------------------------------------------------------
