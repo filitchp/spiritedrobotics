@@ -71,9 +71,13 @@ void Set_Motor1_Velocity( int16_t  velocity)
 
 	// Max velocity is 255, we are going to limit it to 254
 	if(velocity > 254)
+    {
 		velocity = 254;
+    }
 	else if (velocity < -254)
+    {
 		velocity = -254;
+    }
 
 	if(velocity >= 0)
 	{
