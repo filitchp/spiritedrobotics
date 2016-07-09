@@ -1333,6 +1333,7 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
     playMusic("motion-study.mp3");
   }
 
+
   const vector<Ingredient> ingredients = theOrderToMake.getIngredients();
 
   BOOST_FOREACH(const Ingredient& i, ingredients)
