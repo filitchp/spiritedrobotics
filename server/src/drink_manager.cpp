@@ -29,8 +29,6 @@ using namespace boost::filesystem;
 using boost::property_tree::ptree;
 using namespace std;
 
-
-
 #define COM_LIGHT_MODE_PASSIVE 0x05
 #define COM_LIGHT_MODE_FIRE 0x06
 
@@ -41,6 +39,7 @@ DrinkManager::DrinkManager(const string& rootPath, boost::asio::io_service& io, 
   mBusy(true),
   mTimer(io),
   mIngredientOffsetTimeMs(2000),
+  mIntensity(100.0),
   mWindDownOffsetTimeMs(0),
   mDemoMode(demoMode)
 {
@@ -447,6 +446,63 @@ void DrinkManager::normalizeDrink(Drink& d, float normalizedAmount)
     float newAmount = percent*normalizedAmount;
 
     d.normalizeIngredient(i.getKey(), newAmount);
+  }
+}
+
+
+//------------------------------------------------------------------------------
+// This takes the original ingredient amounts and normalizes them to sum to
+// the desired total amount.
+// intensity - the new intensity
+//------------------------------------------------------------------------------
+void DrinkManager::adjustOrderIntensity(Order& o, float intensity)
+{
+  float totalAmount            = 0;
+  float alcoholicAmount        = 0;
+  float nonalcoholicAmount     = 0;
+
+  vector<Ingredient> ingredients = o.getIngredients();
+
+  BOOST_FOREACH(const Ingredient& i, ingredients)
+  {
+    totalAmount += i.getAmount();
+    if (i.isAlcoholic()) {
+      alcoholicAmount += i.getAmount();
+    } else {
+      nonalcoholicAmount += i.getAmount();
+    }
+  }
+
+  float newAlcoholicAmount = 0;
+  float newNonalcoholicAmount = 0;
+  if (intensity < 50){
+    float remove = ( ( 100 - (intensity*2) ) / 100) * alcoholicAmount;
+    newAlcoholicAmount = remove;
+    newNonalcoholicAmount = totalAmount - newAlcoholicAmount;
+  } else {
+    newAlcoholicAmount = (((2 * (intensity - 50)) / 100) + 1) * alcoholicAmount;
+    newNonalcoholicAmount = totalAmount - newAlcoholicAmount;
+  }
+
+  if (newNonalcoholicAmount < 0) newNonalcoholicAmount = 0;
+  if (newNonalcoholicAmount > totalAmount) newNonalcoholicAmount = 0;
+  if (newAlcoholicAmount < 0) newAlcoholicAmount = 0;
+  if (newAlcoholicAmount > totalAmount) newAlcoholicAmount = totalAmount;
+  
+    
+   
+  
+  BOOST_FOREACH(const Ingredient& i, ingredients)
+  {
+    if (i.isAlcoholic()){
+      float percent = i.getAmount()/alcoholicAmount;
+      float newAmount = percent*newAlcoholicAmount;
+      o.normalizeIngredient(i.getKey(), newAmount);
+    } else {
+      float percent = i.getAmount()/nonalcoholicAmount;
+      float newAmount = percent*newNonalcoholicAmount;
+      o.normalizeIngredient(i.getKey(), newAmount);
+    }
   }
 }
 
@@ -1179,7 +1235,7 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
     cout << "ERROR: The system is currently busy making a drink" << endl;
     return -1;
   }
-
+  
   map<string, Order>::iterator it = mPendingOrders.find(orderId);
 
   // If the order does not exist
@@ -1196,9 +1252,11 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
   mBusy = true;
 
   Order theOrderToMake = it->second;
-
+  adjustOrderIntensity(theOrderToMake, mIntensity);
+  
   cout << "Started making " << theOrderToMake.getDrinkKey() << endl;
-
+  cout << "With intensity " << mIntensity << endl;
+  
   int lastEndTimeIndex = 0;
   int index = 0;
   float lastEndTimeMs = 0;
@@ -1395,6 +1453,15 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
   return 1;
 
 }
+
+//------------------------------------------------------------------------------
+// Drink intensity is a float between 0 and 100... 0 is slightly alcoholic, 100 is slightly non-alcoholic
+//------------------------------------------------------------------------------
+void DrinkManager::setIntensity(float intensity)
+{
+  mIntensity = intensity;
+}
+
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 void DrinkManager::playMusic(string filename)

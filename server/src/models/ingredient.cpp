@@ -41,6 +41,15 @@ Ingredient::Ingredient(const ptree& pt)
     cout << "ERROR: Could not get the ingredient amount" << endl;
   }
 
+  try
+  {
+    mAlcoholic = pt.get<bool>("alcoholic");
+  }
+  catch (boost::exception& e)
+  {
+    cout << "ERROR: Could not get the alcohol status" << endl;
+  }
+  
   // DEBUG
 //  cout << "mName:   " << mName << endl;
 //  cout << "mKey:    " << mKey << endl;
@@ -74,6 +83,14 @@ const string& Ingredient::getKey() const
 {
   return mKey;
 }
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+const bool Ingredient::isAlcoholic() const
+{
+  return mAlcoholic;
+}
+
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------

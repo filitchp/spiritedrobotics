@@ -102,4 +102,13 @@ std::vector<unsigned int> Order::getTowerMessage()
   return mTowerMessage;
 }
 
-
+void Order::normalizeIngredient(string key, float amount)
+{
+  BOOST_FOREACH(Ingredient& i, mIngredients)
+    {
+      if (i.getKey() == key)
+        {
+          i.setAmount(amount);
+        }
+    }
+}    

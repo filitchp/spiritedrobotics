@@ -20,6 +20,8 @@ class Ingredient
     const std::string& getKey() const;
 
     float getAmount() const;
+  
+    const bool isAlcoholic() const;
 
     void output(std::ostream& s, unsigned indent = 0) const;
 
@@ -35,6 +37,9 @@ class Ingredient
 
     // The recipe ingredient amount in ounces
     float mAmount;
+
+    //Is this an alcoholic ingredient
+    bool mAlcoholic;
 
 };
 

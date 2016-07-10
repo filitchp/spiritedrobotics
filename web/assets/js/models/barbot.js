@@ -24,7 +24,8 @@ $(function()
       'click .click-to-test': 'test',
       'click .click-passive-lights': 'passiveLights',
       'click .click-fire-lights': 'fireLights',
-      'click .click-fire-tower' : 'testTower'
+      'click .click-fire-tower' : 'testTower',
+      'click .click-to-set-intensity' : 'setIntensity'
     },
     testTower: function(ev)
     {
@@ -48,6 +49,30 @@ $(function()
         error: function(data)
         {
           alert("test error");
+          console.log(data);
+        }
+      });
+    },
+    setIntensity: function()
+    {
+      $.ajax(
+      {
+        type: "GET",
+        url: "setIntensity",
+        data:
+        {
+          intensity: $("#intensity_number").val()
+        },
+        success: function(res)
+        {
+          if (res.result !== true)
+          {
+            alert("intensity error");
+          }
+        },
+        error: function(data)
+        {
+          alert("intensity error");
           console.log(data);
         }
       });

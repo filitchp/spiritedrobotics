@@ -37,10 +37,14 @@ class DrinkManager
 
     bool addOrder(std::string drinkKey, std::string customerName, unsigned timestamp);
     int approveOrder(std::string drinkKey, std::string customerName, unsigned timestamp);
+
+    void setIntensity(float intensity);
+  
     bool testTower(unsigned char towerId, float amount);
     bool setTowerReverseTime(unsigned char towerId, float amount);
 
     void normalizeDrink(Drink& d, float normalizedAmount);
+    void adjustOrderIntensity(Order& o, float normalizedAmount);
     void printAllDrinkIngredients(std::ostream& os) const;
 
     int comReadData(long msTimeout);
@@ -79,6 +83,9 @@ class DrinkManager
 
     boost::asio::deadline_timer mTimer;
 
+    //The fraction of the drink to make...
+    float mIntensity;
+  
     // The working path (all input/output files are relative to this path)
     std::string mRootPath;
 

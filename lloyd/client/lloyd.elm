@@ -1,4 +1,5 @@
 import AnimationFrame exposing (diffs)
+import Hash
 import Html exposing (div, node, text, video, Attribute, Html, h1, h2)
 import Html.App as App
 import Html.Attributes exposing (src, autoplay, loop, property, class, style, name, content, rel, poster)
@@ -14,9 +15,8 @@ import Window exposing (Size, resizes, size)
 import Bot as Bot exposing (BotState)
 import Video exposing (VideoModel)
 import Elements exposing (blinkenText, scrollinText, spinninText)
+import Quips exposing (quips)
 
-(<$>) = List.map
- 
 type Msg =  Tick Time | Anim Time | Resize Size | Update BotState | NoOp
 type Beat =  Upbeat | Downbeat
           
@@ -53,9 +53,9 @@ view model =
     Elements.css model.window,
     blinkenText (model.beat == Upbeat) ("Order Up: " ++ model.botstate.name),
     getVideo model.botstate,
-    scrollinText model.window (floor model.textPosition) model.botstate.drink
+    scrollinText model.window (floor model.textPosition) (getQuip model.botstate)
   ] ++ if (model.botstate.status == "WARMUP") then
-         [spinninText model.window (floor model.textPosition) ("THE WHEEL OF FATE IS TURNING")]
+            [spinninText model.window (floor model.textPosition)        ("THE WHEEL OF FATE IS TURNING")]
          ++ [spinninText model.window (floor model.textPosition + 1337) ("WHAT HAS BEEN WROUGHT CAN NOT BE UNDONE")]
        else [])
 
@@ -91,17 +91,20 @@ switchBeat model =
 
 getVideo : BotState -> Html msg                 
 getVideo botState =
+  let matchingStatus = List.filter (\v -> v.status == botState.status) in
     case botState.status == "WARMUP" && contains "PANGALACTIC" botState.drink of
     True -> Elements.videoElement <| Video.construct "pangalactic" "WARMUP"
-    _ -> Elements.videoElement <| rotatedVideo (botState.nonce) ( List.filter (\v -> v.status == botState.status) Video.videos )
+    _ -> Elements.videoElement <| Maybe.withDefault fallbackVideo <| rotated (botState.nonce) ( matchingStatus Video.videos )
 
-rotatedVideo : Int -> List VideoModel -> VideoModel
-rotatedVideo i vids =
-  let vid = List.head <| List.drop (i % (List.length vids)) vids in
-  case vid of
-    Just v -> v
-    Nothing -> { gif = "", mp4 = "", status = "" }
+getQuip : BotState -> String
+getQuip botState = Maybe.withDefault "DRINK SPEND DRINK SPEND DRINK" <| rotated ((Hash.hash botState.name) % List.length quips) quips
+         
+rotated : Int -> List a -> Maybe a
+rotated i list = List.head <| List.drop (i % (List.length list)) list
      
 progressTime : Model -> Time -> Model
 progressTime model time =
   { model | textPosition = (model.textPosition + (time / 1000) * 200) }
+
+fallbackVideo : VideoModel
+fallbackVideo = { gif = "", mp4 = "", status = "" }

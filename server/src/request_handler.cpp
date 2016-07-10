@@ -118,6 +118,7 @@ void request_handler::handle_request(const request& req, reply& rep)
   const string pending_orders_path("/pendingOrders");
   const string approved_orders_path("/approvedOrders");
   const string approve_order_path("/approveOrder");
+  const string set_intensity_path("/setIntensity");
   const string test_tower_path("/testTower");
   const string system_status_path("/systemStatus");
   const string init_addresses_path("/initTowers");
@@ -193,6 +194,14 @@ void request_handler::handle_request(const request& req, reply& rep)
     // Approve a pending drink
     //----------------------------------------
     handleApproveOrderRequest(queryMap,rep);
+  }
+  else if (path == set_intensity_path)
+  {
+    //----------------------------------------
+    // Set Drink Intensity
+    //----------------------------------------
+    handleSetIntensityRequest(queryMap, rep);
+
   }
   else if (path == test_tower_path)
   {
@@ -488,6 +497,52 @@ void request_handler::handleReverseTimeRequest(map<string, string>& queryMap, re
   rep.headers[1].value = "application/json";
 }
 
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void request_handler::handleSetIntensityRequest(map<string, string>& queryMap, reply& rep)
+{
+  bool success = false;
+  string message;
+
+  if (queryMap.size())
+  {
+    string intensity;
+
+    if (queryMap.find("intensity") != queryMap.end())
+    {
+      intensity = queryMap["intensity"];
+    }
+
+    // If we have a drink key, a customer name, and a timestamp
+    if (intensity.size()){
+      mDrinkManager.setIntensity(::atof(intensity.c_str()));
+      success = true;
+    }
+  }
+
+  if (success)
+  {
+    string successMessage = "{\"result\" : true}";
+    rep.content.append(successMessage.c_str(), successMessage.size());
+  }
+  else
+  {
+    stringstream oss(stringstream::out);
+    oss << "{\"result\" : false, \"message\" : \"" << message << "\"}";
+    string message = oss.str();
+    rep.content.append(message.c_str(), message.size());
+  }
+
+  rep.status = reply::ok;
+
+  rep.headers.resize(2);
+  rep.headers[0].name = "Content-Length";
+  rep.headers[0].value = boost::lexical_cast<string>(rep.content.size());
+  rep.headers[1].name = "Content-Type";
+  rep.headers[1].value = "application/json";
+
+}
+  
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 void request_handler::handleApproveOrderRequest(map<string, string>& queryMap, reply& rep)

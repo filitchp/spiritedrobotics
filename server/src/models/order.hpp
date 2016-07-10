@@ -46,6 +46,7 @@ class Order
     std::vector<unsigned int> getTowerMessage();
 
     void output(std::ostream& s, unsigned indent = 0) const;
+    void normalizeIngredient(std::string key, float amount);
 
   private:
 
