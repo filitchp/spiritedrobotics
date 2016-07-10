@@ -5,6 +5,7 @@ import Html.Attributes exposing (src, autoplay, loop, property, class, style, na
 import Http exposing (get)
 import Json.Encode exposing (float, string)
 import Json.Decode as Decode exposing ((:=))
+import String exposing (contains)
 import Platform.Sub exposing (batch)
 import Task exposing (perform, Task)
 import Time exposing (every, second, Time)
@@ -47,9 +48,10 @@ videos = [
  ,constructVideo "shining_boot2"  "WARMUP"
  ,constructVideo "max"            "IDLE"
  ,constructVideo "irobo"          "WARMUP"
- ,constructVideo "data"           "WARMUP"
+ ,constructVideo "data"           "IDLE"
  ,constructVideo "ironman"        "WARMUP"
  ,constructVideo "tinkles"        "WARMUP"
+ ,constructVideo "trump"          "WARMUP"
  ,constructVideo "whatllitbe"     "IDLE" ]
 
 botStateDecoder = Decode.object4
@@ -126,7 +128,9 @@ switchBeat model =
 
 getVideo : BotState -> Html msg                 
 getVideo botState =
-    decorateVideoUrl <| rotatedVideo (botState.nonce) ( List.filter (\v -> v.status == botState.status) videos )
+    case botState.status == "WARMUP" && contains "PANGALACTIC" botState.drink of
+    True -> decorateVideoUrl <| constructVideo "pangalactic" "WARMUP"
+    _ -> decorateVideoUrl <| rotatedVideo (botState.nonce) ( List.filter (\v -> v.status == botState.status) videos )
 
 rotatedVideo : Int -> List Video -> Video
 rotatedVideo i vids =
