@@ -11,8 +11,8 @@ import Time exposing (every, second, Time)
 import WebSocket exposing (listen)
 import Window exposing (Size, resizes, size)
 
---botstateEndpoint = "spiritedrobotics-lloyd.herokuapp.com"
-botstateEndpoint = "127.0.0.1:8080"
+botstateEndpoint = "spiritedrobotics-lloyd.herokuapp.com"
+--botstateEndpoint = "127.0.0.1:8080"
 (<$>) = List.map
  
 type Msg =  Tick Time | Anim Time | Resize Size | Update BotState | NoOp
@@ -28,10 +28,27 @@ type alias Model = {
 type alias BotState =  {
   name : String,
   message : String,
-  status : String
+  status : String,
+  nonce : Int
 }
 
-botStateDecoder = Decode.object3 BotState ("name" := Decode.string) ("message" := Decode.string) ("status" := Decode.string)
+type alias Video =  {
+  gif : String,
+  mp4  : String,
+  status : String
+}
+  
+videos = [
+  constructVideo "botbattle"      "WARMUP"
+ ,constructVideo "giant_cat"      "IDLE"
+ ,constructVideo "lloyd_chatter"  "IDLE"
+ ,constructVideo "lloyd_mixing"   "POURING"
+ ,constructVideo "shining_boot"   "WARMUP"
+ ,constructVideo "shining_boot2"  "WARMUP"
+ ,constructVideo "lloyd_mixing"   "IDLE"
+ ,constructVideo "whatllitbe"     "IDLE" ]
+
+botStateDecoder = Decode.object4 BotState ("name" := Decode.string) ("message" := Decode.string) ("status" := Decode.string) ("nonce" := Decode.int)
  
 main = App.program {
            init = init,
@@ -44,7 +61,8 @@ init = ({ beat = Upbeat,
           botstate = {
             name = "SantaBarbot",
             message = "DRINK SPEND DRINK SPEND DRINK",
-            status = "IDLE"
+            status = "IDLE",
+            nonce = 0
           },
           textPosition = 0,
           window = {width = 400, height = 400} } , Cmd.batch [
@@ -56,7 +74,7 @@ view model =
     meta,
     css model.window,
     blinkenText (model.beat == Upbeat) ("Order Up: " ++ model.botstate.name),
-    getVideo model.botstate.status,
+    getVideo model.botstate,
     scrollinText model.window (floor model.textPosition) model.botstate.message
   ] ++ if (model.botstate.status == "WARMUP") then
          [spinninText model.window (floor model.textPosition) ("THE WHEEL OF FATE IS TURNING")]
@@ -92,36 +110,36 @@ switchBeat model =
   case model.beat of
      Upbeat   -> { model | beat = Downbeat }
      Downbeat -> { model | beat = Upbeat   }
-                                      
-getVideo activity =
-  case activity of
-    "IDLE"   -> sillyExampleVideo
-    "WARMUP" -> secondExampleVideo
-    "MAKING" -> makingVideo
-    _ -> sillyExampleVideo
 
+getVideo : BotState -> Html msg                 
+getVideo botState =
+    decorateVideoUrl <| rotatedVideo (botState.nonce) ( List.filter (\v -> v.status == botState.status) videos )
+
+rotatedVideo : Int -> List Video -> Video
+rotatedVideo i vids =
+  let vid = List.head <| List.drop (i % (List.length vids)) vids in
+  case vid of
+    Just v -> v
+    Nothing -> { gif = "", mp4 = "", status = "" }
+                      
+constructVideo : String -> String -> Video
+constructVideo name show_status =
+  { gif = "static/" ++ name ++ ".gif",
+    mp4 = "static/" ++ name ++ "-compressed.mp4",
+    status = show_status }
+      
 progressTime : Model -> Time -> Model
 progressTime model time =
   { model | textPosition = (model.textPosition + (time / 1000) * 200) }
-                       
-sillyExampleVideo : Html msg
-sillyExampleVideo = decorateVideoUrl "static/giant_cat-compressed.mp4" "static/giant_cat.gif"
-  
-secondExampleVideo : Html msg
-secondExampleVideo = decorateVideoUrl "static/botbattle.mp4" "static/botbattle.gif"
-
-makingVideo : Html msg
-makingVideo = decorateVideoUrl "static/lloyd_mixing-compressed.mp4" "static/lloyd_mixing.gif"
-  
-                     
-decorateVideoUrl : String -> String -> Html msg
-decorateVideoUrl url post = video [
+                    
+decorateVideoUrl : Video -> Html msg
+decorateVideoUrl vid = video [
                      class "lloyd",
-                     src url,
+                     src vid.mp4,
                      autoplay True,
                      loop True,
                      style fullonVideoStyle,
-                     poster post
+                     poster vid.gif
                     ] []
   
 fullonVideoStyle = [
@@ -202,11 +220,30 @@ baseSpinninStyle = [
    ("white-space", "wrap")
  ]
 
-
-
 --Elm Clearfix...
 css window = node "style" [] [text ("
   html, head, body {overflow: hidden; height: 100%; margin: 0; perspective: " ++ (window.width |> toString) ++ "px;}
+  
+*::-webkit-media-controls-panel {
+  display: none!important;
+  -webkit-appearance: none;
+}
+
+/* Old shadow dom for play button */
+
+*::--webkit-media-controls-play-button {
+  display: none!important;
+  -webkit-appearance: none;
+}
+
+/* New shadow dom for play button */
+
+/* This one works */
+
+*::-webkit-media-controls-start-playback-button {
+  display: none!important;
+  -webkit-appearance: none;
+}
 ")]
 
 meta = node "meta" [ name "viewport", content "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, width=400" ] []
