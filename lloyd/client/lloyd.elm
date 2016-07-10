@@ -47,6 +47,7 @@ videos = [
  ,constructVideo "shining_boot2"  "WARMUP"
  ,constructVideo "max"            "IDLE"
  ,constructVideo "irobo"          "WARMUP"
+ ,constructVideo "data"           "WARMUP"
  ,constructVideo "ironman"        "WARMUP"
  ,constructVideo "tinkles"        "WARMUP"
  ,constructVideo "whatllitbe"     "IDLE" ]
