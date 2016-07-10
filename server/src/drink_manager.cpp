@@ -122,7 +122,7 @@ DrinkManager::DrinkManager(const string& rootPath, boost::asio::io_service& io, 
     //--------------------------------------------
     // DEBUG configuration (write to file)
     //--------------------------------------------
-    ofstream configLog;
+    boost::filesystem::ofstream configLog;
     stringstream configLogSS(stringstream::out);
 
     configLogSS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
@@ -140,7 +140,7 @@ DrinkManager::DrinkManager(const string& rootPath, boost::asio::io_service& io, 
     //--------------------------------------------
     // DEBUG all drink summary (write to file)
     //--------------------------------------------
-    ofstream allSummaryLog;
+    boost::filesystem::ofstream allSummaryLog;
     stringstream allDrinkSummarySS(stringstream::out);
 
     allDrinkSummarySS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
@@ -163,7 +163,7 @@ DrinkManager::DrinkManager(const string& rootPath, boost::asio::io_service& io, 
     allDrinkIngredientsSS << debugPathSS.str() << "/" << (unsigned) currentTime.tv_sec
         << "AllDrinkIngredients.txt";
 
-    ofstream allIngredientsLog;
+    boost::filesystem::ofstream allIngredientsLog;
     allIngredientsLog.open(allDrinkIngredientsSS.str().c_str());
     printAllDrinkIngredients(allIngredientsLog);
     allIngredientsLog.close();
@@ -1362,7 +1362,7 @@ int DrinkManager::approveOrder(string drinkKey, string customerName, unsigned ti
   //---------------
   // Log the drink
   //---------------
-  ofstream drinkRecord;
+  boost::filesystem::ofstream drinkRecord;
 
   stringstream orderPathSS(stringstream::out);
   orderPathSS << mRootPath << "/logs/orders/" << it->first;

@@ -4,3 +4,4 @@
 build
 **/elm-stuff
 
+*.o
