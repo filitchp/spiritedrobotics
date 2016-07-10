@@ -27,7 +27,7 @@ type alias Model = {
 
 type alias BotState =  {
   name : String,
-  message : String,
+  drink : String,
   status : String,
   nonce : Int
 }
@@ -45,10 +45,18 @@ videos = [
  ,constructVideo "lloyd_mixing"   "POURING"
  ,constructVideo "shining_boot"   "WARMUP"
  ,constructVideo "shining_boot2"  "WARMUP"
- ,constructVideo "lloyd_mixing"   "IDLE"
+ ,constructVideo "max"            "IDLE"
+ ,constructVideo "irobo"          "WARMUP"
+ ,constructVideo "ironman"        "WARMUP"
+ ,constructVideo "tinkles"        "WARMUP"
  ,constructVideo "whatllitbe"     "IDLE" ]
 
-botStateDecoder = Decode.object4 BotState ("name" := Decode.string) ("message" := Decode.string) ("status" := Decode.string) ("nonce" := Decode.int)
+botStateDecoder = Decode.object4
+                  BotState
+                    ("name"   := Decode.string)
+                    ("drink"  := Decode.string)
+                    ("status" := Decode.string)
+                    ("nonce"  := Decode.int)
  
 main = App.program {
            init = init,
@@ -60,7 +68,7 @@ main = App.program {
 init = ({ beat = Upbeat,
           botstate = {
             name = "SantaBarbot",
-            message = "DRINK SPEND DRINK SPEND DRINK",
+            drink = "GINANDTONIC",
             status = "IDLE",
             nonce = 0
           },
@@ -68,18 +76,21 @@ init = ({ beat = Upbeat,
           window = {width = 400, height = 400} } , Cmd.batch [
              perform (\x -> Resize { width = 400, height = 400 }) (\i -> Resize i) size,
              perform (\x -> NoOp) (\i -> Update i) fetchNewState ])
-       
+
+view : Model -> Html msg
 view model =
   div [style [("height", "100%"), ("top", "0px"), ("overflow", "hidden") ]] ([
     meta,
     css model.window,
     blinkenText (model.beat == Upbeat) ("Order Up: " ++ model.botstate.name),
     getVideo model.botstate,
-    scrollinText model.window (floor model.textPosition) model.botstate.message
+    scrollinText model.window (floor model.textPosition) model.botstate.drink
   ] ++ if (model.botstate.status == "WARMUP") then
          [spinninText model.window (floor model.textPosition) ("THE WHEEL OF FATE IS TURNING")]
+         ++ [spinninText model.window (floor model.textPosition + 1337) ("WHAT HAS BEEN WROUGHT CAN NOT BE UNDONE")]
        else [])
 
+update : Msg -> Model -> (Model, Cmd a)
 update msg model =
   case msg of
     Tick time ->   (switchBeat model, Cmd.none)
@@ -88,6 +99,7 @@ update msg model =
     Update state -> ({ model | botstate = state, textPosition = 0 }, Cmd.none)
     NoOp -> (model, Cmd.none)
 
+subscriptions : Model -> Sub Msg
 subscriptions model =
   batch [ every (second / 3) Tick,
           diffs (\t -> Anim t),
@@ -196,7 +208,7 @@ baseScrollinStyle = [
 
 spinninText : Size -> Int -> String -> Html msg
 spinninText window offset message =
-    let slow = (offset // 3) in
+    let slow = (offset // 7) in
     h1 [ style <| [("transform", ""
                    ++ " translateX(" ++ (toString ((abs (((slow * 3) % window.width * 2) - window.width)) - window.width // 2 )) ++ "px)"
                    ++ " translateY(" ++ (toString ((abs (((slow * 5) % window.height * 2) - window.height)) - window.height // 2 )) ++ "px)"
