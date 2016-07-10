@@ -11,7 +11,8 @@ enum
   EventTypeLights = 0,
   EventTypeMusicStart = 1,
   EventTypeMusicStop = 2,
-  EventTypeIngredient = 3
+  EventTypeIngredient = 3,
+  EventTypeLloyd = 4
 };
 
 //------------------------------------------------------------------------------
@@ -25,6 +26,8 @@ class Event
     Event(const boost::property_tree::ptree& pt);
 
     Event(unsigned type, std::string key, unsigned duration, float amount);
+  
+    Event(unsigned type, std::string name, std::string drink, std::string status);
 
     const unsigned getType() const;
 
@@ -34,6 +37,11 @@ class Event
     unsigned setDuration(unsigned duration);
 
     float getAmount() const;
+
+  
+  const std::string& getName() const;
+  const std::string& getDrink() const;
+  const std::string& getStatus() const;
 
   private:
 
@@ -50,6 +58,10 @@ class Event
     // The amount of the event (if applicable)
     float mAmount;
 
+    std::string mDrink;
+    std::string mStatus;
+    std::string mName;
+  
 };
 
 #endif // EVENT_HPP

@@ -27,6 +27,8 @@ class DrinkManager
     DrinkManager(const std::string& rootPath, boost::asio::io_service& io, bool demoMode);
     ~DrinkManager();
 
+    void updateLloyd(std::string name, std::string drink, std::string status);
+  
     void outputDrinkList(std::ostream& s, unsigned indent);
     void outputSystemStatus(std::ostream& s, unsigned indent);
 
