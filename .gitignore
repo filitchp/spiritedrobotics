@@ -2,4 +2,6 @@
 **/.swp
 **/build/*
 build
+**/elm-stuff
 
+*.o
