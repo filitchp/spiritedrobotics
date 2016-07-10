@@ -213,7 +213,7 @@ spinninText window offset message =
                    ++ " translateX(" ++ (toString ((abs (((slow * 3) % window.width * 2) - window.width)) - window.width // 2 )) ++ "px)"
                    ++ " translateY(" ++ (toString ((abs (((slow * 5) % window.height * 2) - window.height)) - window.height // 2 )) ++ "px)"
                    ++ " translateZ(" ++ (toString <| (abs ((offset % window.width) - window.width // 2)) - window.width // 4 ) ++ "px)"
-                   ++ " rotateY("    ++ (toString <| (offset // 3) % 360) ++ "deg)"
+                   ++ " rotateY("    ++ (toString ((abs (((slow * 3) % 340 ) - 170)) - 85)) ++ "deg)"
                )] ++ baseSpinninStyle ] [text message]
        
 baseSpinninStyle = [
